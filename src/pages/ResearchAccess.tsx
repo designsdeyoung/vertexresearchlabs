@@ -9,14 +9,13 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useCompliance, EligibilityType } from "@/contexts/ComplianceContext";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { 
-  Shield, 
-  FileCheck, 
-  AlertTriangle,
+  CheckCircle2,
   Building2,
   User,
   Building,
   ArrowRight,
-  FlaskConical
+  FlaskConical,
+  Sparkles
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -53,214 +52,202 @@ const ResearchAccess = () => {
     }));
   };
 
+  const acknowledgedCount = [
+    acknowledgments.researchUseOnly,
+    acknowledgments.notForMedicalUse,
+    acknowledgments.termsAccepted,
+    eligibility !== null
+  ].filter(Boolean).length;
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Header />
       
       <main className="flex-1 pt-24 pb-16">
-        <div className="container mx-auto px-6 max-w-3xl">
+        <div className="container mx-auto px-6 max-w-2xl">
           {/* Header */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 border border-primary/20 mb-6">
-              <Shield size={32} className="text-primary" />
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary/10 border border-primary/20 mb-5">
+              <FlaskConical size={28} className="text-primary" />
             </div>
-            <h1 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">
-              Research Access & Compliance Acknowledgment
+            <h1 className="text-2xl md:text-3xl font-semibold text-foreground mb-3">
+              Quick Verification
             </h1>
-            <p className="text-muted-foreground max-w-xl mx-auto">
-              Vertex Research Labs provides research-grade materials intended exclusively for laboratory research applications.
+            <p className="text-muted-foreground text-sm max-w-md mx-auto">
+              Confirm your research use to proceed with your order. This helps us ensure compliance with research material regulations.
             </p>
           </div>
 
-          {/* Important Notice */}
-          <div className="glass-card rounded-lg p-6 mb-8 border-l-4 border-l-primary">
-            <div className="flex items-start gap-4">
-              <AlertTriangle size={24} className="text-primary flex-shrink-0 mt-0.5" />
-              <div>
-                <h2 className="text-lg font-medium text-foreground mb-2">Important Notice</h2>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  All products sold by Vertex Research Labs are intended strictly for laboratory research purposes only. 
-                  Products are not for human consumption, veterinary use, or for use in any diagnostic, therapeutic, or 
-                  medical applications. By proceeding, you confirm your understanding of and agreement to these terms.
-                </p>
-              </div>
+          {/* Progress indicator */}
+          <div className="flex items-center justify-center gap-2 mb-8">
+            <div className="flex items-center gap-1.5">
+              {[1, 2, 3, 4].map((step) => (
+                <div
+                  key={step}
+                  className={`w-2 h-2 rounded-full transition-colors ${
+                    step <= acknowledgedCount ? "bg-primary" : "bg-border"
+                  }`}
+                />
+              ))}
             </div>
+            <span className="text-xs text-muted-foreground ml-2">
+              {acknowledgedCount} of 4 complete
+            </span>
           </div>
 
-          {/* Eligibility Selection */}
-          <div className="glass-card rounded-lg p-6 mb-8">
-            <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
-              <Building2 size={20} className="text-primary" />
-              Eligibility Type
-            </h2>
-            <p className="text-sm text-muted-foreground mb-6">
-              Please select the category that best describes your research capacity.
-            </p>
-            
-            <RadioGroup
-              value={eligibility || ""}
-              onValueChange={(value) => setEligibility(value as EligibilityType)}
-              className="space-y-3"
-            >
-              <div className={`flex items-center space-x-3 p-4 rounded-lg border transition-colors ${
-                eligibility === "individual" 
-                  ? "border-primary bg-primary/5" 
-                  : "border-border/50 bg-secondary/30 hover:border-border"
-              }`}>
-                <RadioGroupItem value="individual" id="individual" />
-                <Label htmlFor="individual" className="flex items-center gap-3 cursor-pointer flex-1">
-                  <User size={18} className="text-muted-foreground" />
-                  <div>
-                    <p className="font-medium text-foreground">Individual Researcher</p>
-                    <p className="text-xs text-muted-foreground">Independent research professional</p>
-                  </div>
-                </Label>
-              </div>
+          {/* Combined Card */}
+          <div className="glass-card rounded-xl p-6 md:p-8 mb-6">
+            {/* Eligibility Selection */}
+            <div className="mb-8">
+              <h2 className="text-sm font-medium text-foreground mb-4 flex items-center gap-2">
+                <Sparkles size={16} className="text-primary" />
+                I am ordering as...
+              </h2>
               
-              <div className={`flex items-center space-x-3 p-4 rounded-lg border transition-colors ${
-                eligibility === "laboratory" 
-                  ? "border-primary bg-primary/5" 
-                  : "border-border/50 bg-secondary/30 hover:border-border"
-              }`}>
-                <RadioGroupItem value="laboratory" id="laboratory" />
-                <Label htmlFor="laboratory" className="flex items-center gap-3 cursor-pointer flex-1">
-                  <FlaskConical size={18} className="text-muted-foreground" />
-                  <div>
-                    <p className="font-medium text-foreground">Laboratory or Institution</p>
-                    <p className="text-xs text-muted-foreground">Academic, research, or commercial laboratory</p>
+              <RadioGroup
+                value={eligibility || ""}
+                onValueChange={(value) => setEligibility(value as EligibilityType)}
+                className="grid gap-2"
+              >
+                {[
+                  { value: "individual", icon: User, label: "Individual Researcher" },
+                  { value: "laboratory", icon: FlaskConical, label: "Laboratory or Institution" },
+                  { value: "organization", icon: Building, label: "Research Organization" },
+                ].map(({ value, icon: Icon, label }) => (
+                  <div
+                    key={value}
+                    className={`flex items-center space-x-3 p-3 rounded-lg border cursor-pointer transition-all ${
+                      eligibility === value
+                        ? "border-primary bg-primary/5"
+                        : "border-border/50 hover:border-border hover:bg-secondary/30"
+                    }`}
+                    onClick={() => setEligibility(value as EligibilityType)}
+                  >
+                    <RadioGroupItem value={value} id={value} />
+                    <Label htmlFor={value} className="flex items-center gap-2.5 cursor-pointer flex-1">
+                      <Icon size={16} className="text-muted-foreground" />
+                      <span className="text-sm text-foreground">{label}</span>
+                    </Label>
+                    {eligibility === value && (
+                      <CheckCircle2 size={16} className="text-primary" />
+                    )}
                   </div>
-                </Label>
-              </div>
+                ))}
+              </RadioGroup>
+            </div>
+
+            {/* Divider */}
+            <div className="border-t border-border/50 my-6" />
+
+            {/* Acknowledgments */}
+            <div>
+              <h2 className="text-sm font-medium text-foreground mb-4">
+                Please confirm the following:
+              </h2>
               
-              <div className={`flex items-center space-x-3 p-4 rounded-lg border transition-colors ${
-                eligibility === "organization" 
-                  ? "border-primary bg-primary/5" 
-                  : "border-border/50 bg-secondary/30 hover:border-border"
-              }`}>
-                <RadioGroupItem value="organization" id="organization" />
-                <Label htmlFor="organization" className="flex items-center gap-3 cursor-pointer flex-1">
-                  <Building size={18} className="text-muted-foreground" />
-                  <div>
-                    <p className="font-medium text-foreground">Other Research Organization</p>
-                    <p className="text-xs text-muted-foreground">Pharmaceutical, biotech, or other research entity</p>
-                  </div>
-                </Label>
-              </div>
-            </RadioGroup>
-          </div>
+              <div className="space-y-3">
+                <label
+                  className={`flex items-start space-x-3 p-3 rounded-lg border cursor-pointer transition-all ${
+                    acknowledgments.researchUseOnly
+                      ? "border-primary/50 bg-primary/5"
+                      : "border-border/50 hover:border-border"
+                  }`}
+                >
+                  <Checkbox
+                    id="researchUseOnly"
+                    checked={acknowledgments.researchUseOnly}
+                    onCheckedChange={() => handleCheckboxChange("researchUseOnly")}
+                    className="mt-0.5"
+                  />
+                  <span className="text-sm text-foreground leading-relaxed">
+                    These materials are for <span className="font-medium">laboratory research use only</span>, not for human or veterinary use.
+                  </span>
+                </label>
 
-          {/* Required Acknowledgments */}
-          <div className="glass-card rounded-lg p-6 mb-8">
-            <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
-              <FileCheck size={20} className="text-primary" />
-              Required Acknowledgments
-            </h2>
-            <p className="text-sm text-muted-foreground mb-6">
-              Please review and confirm each acknowledgment to proceed.
-            </p>
-            
-            <div className="space-y-4">
-              <div className={`flex items-start space-x-3 p-4 rounded-lg border transition-colors ${
-                acknowledgments.researchUseOnly 
-                  ? "border-primary bg-primary/5" 
-                  : "border-border/50 bg-secondary/30"
-              }`}>
-                <Checkbox
-                  id="researchUseOnly"
-                  checked={acknowledgments.researchUseOnly}
-                  onCheckedChange={() => handleCheckboxChange("researchUseOnly")}
-                  className="mt-0.5"
-                />
-                <Label htmlFor="researchUseOnly" className="cursor-pointer leading-relaxed">
-                  <span className="font-medium text-foreground">Laboratory Research Use Only</span>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    I confirm that I am acquiring products from Vertex Research Labs for laboratory research use only 
-                    and not for human or veterinary use.
-                  </p>
-                </Label>
-              </div>
+                <label
+                  className={`flex items-start space-x-3 p-3 rounded-lg border cursor-pointer transition-all ${
+                    acknowledgments.notForMedicalUse
+                      ? "border-primary/50 bg-primary/5"
+                      : "border-border/50 hover:border-border"
+                  }`}
+                >
+                  <Checkbox
+                    id="notForMedicalUse"
+                    checked={acknowledgments.notForMedicalUse}
+                    onCheckedChange={() => handleCheckboxChange("notForMedicalUse")}
+                    className="mt-0.5"
+                  />
+                  <span className="text-sm text-foreground leading-relaxed">
+                    I understand these products are <span className="font-medium">not intended for medical use</span> or to diagnose, treat, or prevent any condition.
+                  </span>
+                </label>
 
-              <div className={`flex items-start space-x-3 p-4 rounded-lg border transition-colors ${
-                acknowledgments.notForMedicalUse 
-                  ? "border-primary bg-primary/5" 
-                  : "border-border/50 bg-secondary/30"
-              }`}>
-                <Checkbox
-                  id="notForMedicalUse"
-                  checked={acknowledgments.notForMedicalUse}
-                  onCheckedChange={() => handleCheckboxChange("notForMedicalUse")}
-                  className="mt-0.5"
-                />
-                <Label htmlFor="notForMedicalUse" className="cursor-pointer leading-relaxed">
-                  <span className="font-medium text-foreground">Not for Medical Use</span>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    I acknowledge that products are not intended to diagnose, treat, cure, mitigate, or prevent 
-                    any disease or medical condition.
-                  </p>
-                </Label>
-              </div>
-
-              <div className={`flex items-start space-x-3 p-4 rounded-lg border transition-colors ${
-                acknowledgments.termsAccepted 
-                  ? "border-primary bg-primary/5" 
-                  : "border-border/50 bg-secondary/30"
-              }`}>
-                <Checkbox
-                  id="termsAccepted"
-                  checked={acknowledgments.termsAccepted}
-                  onCheckedChange={() => handleCheckboxChange("termsAccepted")}
-                  className="mt-0.5"
-                />
-                <Label htmlFor="termsAccepted" className="cursor-pointer leading-relaxed">
-                  <span className="font-medium text-foreground">Terms & Conditions Agreement</span>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    I have read and agree to the{" "}
+                <label
+                  className={`flex items-start space-x-3 p-3 rounded-lg border cursor-pointer transition-all ${
+                    acknowledgments.termsAccepted
+                      ? "border-primary/50 bg-primary/5"
+                      : "border-border/50 hover:border-border"
+                  }`}
+                >
+                  <Checkbox
+                    id="termsAccepted"
+                    checked={acknowledgments.termsAccepted}
+                    onCheckedChange={() => handleCheckboxChange("termsAccepted")}
+                    className="mt-0.5"
+                  />
+                  <span className="text-sm text-foreground leading-relaxed">
+                    I agree to the{" "}
                     <Link to="/terms" className="text-primary hover:underline">Terms & Conditions</Link>
                     {" "}and{" "}
                     <Link to="/disclaimer" className="text-primary hover:underline">Disclaimer</Link>.
-                  </p>
-                </Label>
+                  </span>
+                </label>
               </div>
             </div>
           </div>
 
-          {/* Items Summary */}
+          {/* Items Summary - Compact */}
           {items.length > 0 && (
-            <div className="glass-card rounded-lg p-6 mb-8">
-              <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
-                <FlaskConical size={20} className="text-primary" />
-                Items in Your Request
-              </h2>
-              <div className="space-y-2">
-                {items.map(item => (
-                  <div key={item.product.id} className="flex justify-between items-center py-2 border-b border-border/30 last:border-0">
-                    <span className="text-sm text-foreground">{item.product.name}</span>
-                    <span className="text-sm text-muted-foreground">Qty: {item.quantity}</span>
-                  </div>
-                ))}
+            <div className="glass-card rounded-lg p-4 mb-6 bg-secondary/30">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <FlaskConical size={16} className="text-primary" />
+                  <span className="text-sm text-foreground font-medium">
+                    {items.reduce((sum, item) => sum + item.quantity, 0)} item{items.length !== 1 ? "s" : ""} in your order
+                  </span>
+                </div>
+                <button 
+                  onClick={() => navigate("/")}
+                  className="text-xs text-primary hover:underline"
+                >
+                  Add more
+                </button>
               </div>
             </div>
           )}
 
           {/* Proceed Button */}
-          <div className="flex flex-col items-center gap-4">
-            <Button
-              variant="hero"
-              size="xl"
-              className="w-full max-w-md"
-              disabled={!allAcknowledged}
-              onClick={handleProceed}
-            >
-              Proceed to Checkout
-              <ArrowRight size={18} />
-            </Button>
-            
-            {!allAcknowledged && (
-              <p className="text-sm text-muted-foreground text-center">
-                Please complete all acknowledgments and select your eligibility type to proceed.
-              </p>
-            )}
-          </div>
+          <Button
+            variant="hero"
+            size="xl"
+            className="w-full"
+            disabled={!allAcknowledged}
+            onClick={handleProceed}
+          >
+            Continue to Checkout
+            <ArrowRight size={18} />
+          </Button>
+          
+          {!allAcknowledged && (
+            <p className="text-xs text-muted-foreground text-center mt-3">
+              Complete all selections above to proceed
+            </p>
+          )}
+
+          {/* Trust note */}
+          <p className="text-xs text-muted-foreground/60 text-center mt-6">
+            Your information is secure. We verify research use to comply with industry regulations.
+          </p>
         </div>
       </main>
       

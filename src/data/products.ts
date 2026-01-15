@@ -3,6 +3,7 @@ import bpc157Image from "@/assets/products/bpc-157.png";
 import tb500Image from "@/assets/products/tb-500.png";
 import retatrutideImage from "@/assets/products/retatrutide.png";
 import ghkCuImage from "@/assets/products/ghk-cu.png";
+import semaxImage from "@/assets/products/semax.png";
 
 export interface Product {
   id: string;
@@ -59,16 +60,17 @@ export const products: Product[] = [
     category: "Copper Peptide"
   },
   {
-    id: "epithalon",
-    name: "Epithalon",
+    id: "semax",
+    name: "Semax",
     subtitle: "Research Grade",
-    description: "Tetrapeptide reference material supplied exclusively for laboratory research and analytical applications.",
+    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
-    category: "Tetrapeptide"
+    image: semaxImage,
+    category: "Peptide"
   },
   {
     id: "selank",

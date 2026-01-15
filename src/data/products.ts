@@ -12,6 +12,7 @@ import sermorelinImage from "@/assets/products/sermorelin.png";
 import tesamorelinImage from "@/assets/products/tesamorelin.png";
 import supp322Image from "@/assets/products/supp-322.png";
 import pt141Image from "@/assets/products/pt-141.png";
+import mt2Image from "@/assets/products/mt2.png";
 
 export interface Product {
   id: string;
@@ -195,6 +196,19 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     image: supp322Image,
+    category: "Peptide"
+  },
+  {
+    id: "mt2",
+    name: "MT2",
+    subtitle: "Melanotan II",
+    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: mt2Image,
     category: "Peptide"
   }
 ];

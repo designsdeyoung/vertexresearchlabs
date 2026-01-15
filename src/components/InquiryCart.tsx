@@ -1,61 +1,16 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Minus, Plus, Trash2, Send, FlaskConical } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { Minus, Plus, Trash2, FlaskConical, ShieldCheck, ArrowRight } from "lucide-react";
 
 const InquiryCart = () => {
   const { items, isOpen, closeCart, removeItem, updateQuantity, clearCart } = useInquiryCart();
-  const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    organization: "",
-    message: "",
-  });
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Build email body
-    const productList = items
-      .map(item => `• ${item.product.name} (Qty: ${item.quantity})`)
-      .join("\n");
-    
-    const emailBody = `
-Quote Request from ${formData.name}
-
-Organization: ${formData.organization || "Not specified"}
-Email: ${formData.email}
-
-Products Requested:
-${productList}
-
-Additional Notes:
-${formData.message || "None"}
-    `.trim();
-
-    // Create mailto link
-    const mailtoLink = `mailto:inquiries@vertexresearchlabs.com?subject=${encodeURIComponent(
-      "Quote Request - Vertex Research Labs"
-    )}&body=${encodeURIComponent(emailBody)}`;
-
-    window.open(mailtoLink, "_blank");
-
-    toast({
-      title: "Opening email client",
-      description: "Your inquiry is ready to send. Please complete in your email client.",
-    });
-
-    // Reset form
-    setFormData({ name: "", email: "", organization: "", message: "" });
-    setShowForm(false);
-    clearCart();
+  const handleProceedToAccess = () => {
     closeCart();
+    navigate("/research-access");
   };
 
   return (
@@ -64,7 +19,7 @@ ${formData.message || "None"}
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
             <FlaskConical size={20} className="text-primary" />
-            Inquiry List
+            Research Materials
           </SheetTitle>
         </SheetHeader>
 
@@ -73,85 +28,22 @@ ${formData.message || "None"}
             <div className="text-center text-muted-foreground">
               <FlaskConical size={48} className="mx-auto mb-4 opacity-30" />
               <p>Your inquiry list is empty</p>
-              <p className="text-sm mt-1">Add products to request a quote</p>
+              <p className="text-sm mt-1">Add products to request research access</p>
             </div>
           </div>
-        ) : showForm ? (
-          <form onSubmit={handleSubmit} className="flex-1 flex flex-col gap-4 mt-4">
-            <div className="space-y-4 flex-1">
-              <div className="space-y-2">
-                <Label htmlFor="name">Name *</Label>
-                <Input
-                  id="name"
-                  required
-                  maxLength={100}
-                  value={formData.name}
-                  onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                  placeholder="Your name"
-                  className="bg-secondary/50"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email *</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  required
-                  maxLength={255}
-                  value={formData.email}
-                  onChange={e => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                  placeholder="your@email.com"
-                  className="bg-secondary/50"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="organization">Organization</Label>
-                <Input
-                  id="organization"
-                  maxLength={200}
-                  value={formData.organization}
-                  onChange={e => setFormData(prev => ({ ...prev, organization: e.target.value }))}
-                  placeholder="Research institution or company"
-                  className="bg-secondary/50"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="message">Additional Notes</Label>
-                <Textarea
-                  id="message"
-                  maxLength={1000}
-                  value={formData.message}
-                  onChange={e => setFormData(prev => ({ ...prev, message: e.target.value }))}
-                  placeholder="Any specific requirements or questions..."
-                  className="bg-secondary/50 min-h-[100px]"
-                />
-              </div>
-
-              {/* Product summary */}
-              <div className="p-3 rounded-lg bg-secondary/30 border border-border/50">
-                <p className="text-xs text-muted-foreground mb-2">Products in inquiry:</p>
-                <ul className="text-sm space-y-1">
-                  {items.map(item => (
-                    <li key={item.product.id} className="text-foreground">
-                      {item.product.name} × {item.quantity}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            <div className="flex gap-2">
-              <Button type="button" variant="ghost" className="flex-1" onClick={() => setShowForm(false)}>
-                Back
-              </Button>
-              <Button type="submit" variant="hero" className="flex-1">
-                <Send size={16} />
-                Send Inquiry
-              </Button>
-            </div>
-          </form>
         ) : (
           <>
+            {/* Research Access Notice */}
+            <div className="p-3 rounded-lg bg-primary/5 border border-primary/20 mt-4">
+              <div className="flex items-center gap-2 mb-1">
+                <ShieldCheck size={16} className="text-primary" />
+                <span className="text-xs font-medium text-primary">Research Access Required</span>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Complete compliance acknowledgment to proceed with your order.
+              </p>
+            </div>
+
             <div className="flex-1 overflow-y-auto mt-4 space-y-3">
               {items.map(item => (
                 <div
@@ -203,8 +95,10 @@ ${formData.message || "None"}
                   {items.reduce((sum, item) => sum + item.quantity, 0)}
                 </span>
               </div>
-              <Button variant="hero" className="w-full" onClick={() => setShowForm(true)}>
-                Request Quote
+              <Button variant="hero" className="w-full" onClick={handleProceedToAccess}>
+                <ShieldCheck size={16} />
+                Proceed to Research Access
+                <ArrowRight size={16} />
               </Button>
               <Button variant="ghost" size="sm" className="w-full text-xs" onClick={clearCart}>
                 Clear All

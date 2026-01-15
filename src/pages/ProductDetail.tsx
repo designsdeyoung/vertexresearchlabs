@@ -10,7 +10,7 @@ import {
   Download, 
   FlaskConical, 
   Shield, 
-  ShieldCheck, 
+  Plus, 
   AlertTriangle,
   CheckCircle2
 } from "lucide-react";
@@ -18,7 +18,7 @@ import {
 const ProductDetail = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
-  const { addItem } = useInquiryCart();
+  const { addItem, openCart } = useInquiryCart();
   
   const product = products.find(p => p.id === productId);
   
@@ -42,13 +42,13 @@ const ProductDetail = () => {
 
   const { name, subtitle, description, purity, testing, documentation, intendedUse, disclaimer, image, category } = product;
 
-  const handleRequestAccess = () => {
+  const handleAddToCart = () => {
     addItem(product);
     toast({
       title: "Added to inquiry",
-      description: `${name} has been added. Complete research access to proceed.`,
+      description: `${name} has been added to your list.`,
     });
-    navigate("/research-access");
+    openCart();
   };
 
   return (
@@ -121,19 +121,6 @@ const ProductDetail = () => {
                 {description}
               </p>
 
-              {/* Research Access Notice */}
-              <div className="glass-card rounded-lg p-4 mb-6 border-l-4 border-l-primary">
-                <div className="flex items-center gap-3">
-                  <ShieldCheck size={20} className="text-primary flex-shrink-0" />
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Research Access Required</p>
-                    <p className="text-xs text-muted-foreground">
-                      Compliance acknowledgment required before ordering
-                    </p>
-                  </div>
-                </div>
-              </div>
-
               {/* Specifications Card */}
               <div className="glass-card rounded-lg p-6 mb-6">
                 <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
@@ -171,10 +158,10 @@ const ProductDetail = () => {
                   variant="hero" 
                   size="lg" 
                   className="flex-1"
-                  onClick={handleRequestAccess}
+                  onClick={handleAddToCart}
                 >
-                  <ShieldCheck size={18} />
-                  Request Access
+                  <Plus size={18} />
+                  Add to Inquiry
                 </Button>
                 <Button variant="heroOutline" size="lg" className="flex-1">
                   <Download size={18} />

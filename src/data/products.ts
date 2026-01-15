@@ -5,6 +5,7 @@ import retatrutideImage from "@/assets/products/retatrutide.png";
 import ghkCuImage from "@/assets/products/ghk-cu.png";
 import semaxImage from "@/assets/products/semax.png";
 import selankImage from "@/assets/products/selank.png";
+import nadPlusImage from "@/assets/products/nad-plus.png";
 
 export interface Product {
   id: string;
@@ -96,6 +97,7 @@ export const products: Product[] = [
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
+    image: nadPlusImage,
     category: "Coenzyme"
   },
   {

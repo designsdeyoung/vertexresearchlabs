@@ -7,6 +7,7 @@ import semaxImage from "@/assets/products/semax.png";
 import selankImage from "@/assets/products/selank.png";
 import nadPlusImage from "@/assets/products/nad-plus.png";
 import motsCImage from "@/assets/products/mots-c.png";
+import kisspeptinImage from "@/assets/products/kisspeptin.png";
 
 export interface Product {
   id: string;
@@ -149,6 +150,19 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     image: motsCImage,
+    category: "Peptide"
+  },
+  {
+    id: "kisspeptin",
+    name: "Kisspeptin",
+    subtitle: "Research Grade",
+    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: kisspeptinImage,
     category: "Peptide"
   }
 ];

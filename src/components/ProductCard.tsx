@@ -1,5 +1,6 @@
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FileText, ExternalLink, FlaskConical, Info } from "lucide-react";
+import { FileText, ExternalLink, FlaskConical } from "lucide-react";
 import type { Product } from "@/data/products";
 
 interface ProductCardProps {
@@ -104,9 +105,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
             <FileText size={14} />
             COA
           </Button>
-          <Button variant="catalog" size="sm" className="flex-1 text-xs">
-            <ExternalLink size={14} />
-            Details
+          <Button variant="catalog" size="sm" className="flex-1 text-xs" asChild>
+            <Link to={`/product/${product.id}`}>
+              <ExternalLink size={14} />
+              Details
+            </Link>
           </Button>
         </div>
       </div>

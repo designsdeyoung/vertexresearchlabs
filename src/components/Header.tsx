@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import logo from "@/assets/logo.png";
+import CartButton from "./CartButton";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -47,6 +48,7 @@ const Header = () => {
                 {link.label}
               </a>
             ))}
+            <CartButton />
             <Button variant="catalog" size="sm">
               Browse Catalog
             </Button>
@@ -75,9 +77,12 @@ const Header = () => {
                   {link.label}
                 </a>
               ))}
-              <Button variant="catalog" size="sm" className="w-fit mt-2">
-                Browse Catalog
-              </Button>
+              <div className="flex items-center gap-3 mt-2">
+                <CartButton />
+                <Button variant="catalog" size="sm" className="w-fit">
+                  Browse Catalog
+                </Button>
+              </div>
             </nav>
           </div>
         )}

@@ -27,8 +27,8 @@ const App = () => (
         <InquiryCartProvider>
           <Toaster />
           <Sonner />
-          <InquiryCart />
           <BrowserRouter>
+            <InquiryCart />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/product/:productId" element={<ProductDetail />} />

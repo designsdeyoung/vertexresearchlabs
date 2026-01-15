@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FileText, ExternalLink, FlaskConical } from "lucide-react";
+import { FileText, ExternalLink, FlaskConical, Plus } from "lucide-react";
+import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import type { Product } from "@/data/products";
+import { toast } from "@/hooks/use-toast";
 
 interface ProductCardProps {
   product: Product;
@@ -9,6 +11,15 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const { name, subtitle, description, purity, testing, documentation, intendedUse, disclaimer, image, category } = product;
+  const { addItem } = useInquiryCart();
+
+  const handleAddToInquiry = () => {
+    addItem(product);
+    toast({
+      title: "Added to inquiry",
+      description: `${name} has been added to your inquiry list.`,
+    });
+  };
 
   return (
     <div className="glass-card glass-card-hover rounded-lg overflow-hidden flex flex-col h-full group">
@@ -101,15 +112,20 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
         {/* Actions */}
         <div className="flex items-center gap-2 mt-4">
-          <Button variant="ghost" size="sm" className="flex-1 text-xs">
-            <FileText size={14} />
-            COA
-          </Button>
-          <Button variant="catalog" size="sm" className="flex-1 text-xs" asChild>
+          <Button variant="ghost" size="sm" className="flex-1 text-xs" asChild>
             <Link to={`/product/${product.id}`}>
               <ExternalLink size={14} />
               Details
             </Link>
+          </Button>
+          <Button 
+            variant="catalog" 
+            size="sm" 
+            className="flex-1 text-xs"
+            onClick={handleAddToInquiry}
+          >
+            <Plus size={14} />
+            Add to Inquiry
           </Button>
         </div>
       </div>

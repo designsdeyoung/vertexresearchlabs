@@ -3,12 +3,14 @@ import { products } from "@/data/products";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { useInquiryCart } from "@/contexts/InquiryCartContext";
+import { toast } from "@/hooks/use-toast";
 import { 
   ArrowLeft, 
   Download, 
   FlaskConical, 
   Shield, 
-  FileText, 
+  Plus, 
   AlertTriangle,
   CheckCircle2
 } from "lucide-react";
@@ -16,6 +18,7 @@ import {
 const ProductDetail = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
+  const { addItem, openCart } = useInquiryCart();
   
   const product = products.find(p => p.id === productId);
   
@@ -142,13 +145,25 @@ const ProductDetail = () => {
 
               {/* Actions */}
               <div className="flex flex-col sm:flex-row gap-3 mb-6">
-                <Button variant="hero" size="lg" className="flex-1">
-                  <Download size={18} />
-                  Download COA
+                <Button 
+                  variant="hero" 
+                  size="lg" 
+                  className="flex-1"
+                  onClick={() => {
+                    addItem(product);
+                    toast({
+                      title: "Added to inquiry",
+                      description: `${name} has been added to your inquiry list.`,
+                    });
+                    openCart();
+                  }}
+                >
+                  <Plus size={18} />
+                  Add to Inquiry
                 </Button>
                 <Button variant="heroOutline" size="lg" className="flex-1">
-                  <FileText size={18} />
-                  Request Quote
+                  <Download size={18} />
+                  Download COA
                 </Button>
               </div>
 

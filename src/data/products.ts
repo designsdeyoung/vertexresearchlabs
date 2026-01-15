@@ -1,5 +1,6 @@
 // Import product images
 import bpc157Image from "@/assets/products/bpc-157.png";
+import tb500Image from "@/assets/products/tb-500.png";
 
 export interface Product {
   id: string;
@@ -31,7 +32,7 @@ export const products: Product[] = [
   },
   {
     id: "tb-500",
-    name: "TB-500",
+    name: "TB-500 / Thymosin Beta-4 Acetate",
     subtitle: "Research Grade",
     description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
@@ -39,6 +40,7 @@ export const products: Product[] = [
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
+    image: tb500Image,
     category: "Peptide"
   },
   {

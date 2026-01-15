@@ -1,0 +1,116 @@
+export interface Product {
+  id: string;
+  name: string;
+  subtitle?: string;
+  description: string;
+  purity: string;
+  testing: string;
+  documentation: string;
+  intendedUse: string;
+  disclaimer: string;
+  image?: string;
+  category: string;
+}
+
+// Import product images
+import bpc157Image from "@/assets/products/bpc-157.png";
+
+export const products: Product[] = [
+  {
+    id: "bpc-157",
+    name: "BPC-157",
+    subtitle: "Research Grade",
+    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: bpc157Image,
+    category: "Peptide"
+  },
+  {
+    id: "tb-500",
+    name: "TB-500",
+    subtitle: "Research Grade",
+    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    category: "Peptide"
+  },
+  {
+    id: "ghk-cu",
+    name: "GHK-Cu",
+    subtitle: "Research Grade",
+    description: "Copper peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥98%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    category: "Copper Peptide"
+  },
+  {
+    id: "epithalon",
+    name: "Epithalon",
+    subtitle: "Research Grade",
+    description: "Tetrapeptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    category: "Tetrapeptide"
+  },
+  {
+    id: "selank",
+    name: "Selank",
+    subtitle: "Research Grade",
+    description: "Heptapeptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥98%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    category: "Heptapeptide"
+  },
+  {
+    id: "nad-plus",
+    name: "NAD+",
+    subtitle: "Research Grade",
+    description: "Coenzyme reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    category: "Coenzyme"
+  },
+  {
+    id: "ll-37",
+    name: "LL-37",
+    subtitle: "Research Grade",
+    description: "Antimicrobial peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥95%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    category: "Antimicrobial Peptide"
+  },
+  {
+    id: "kpv",
+    name: "KPV",
+    subtitle: "Research Grade",
+    description: "Tripeptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    category: "Tripeptide"
+  }
+];

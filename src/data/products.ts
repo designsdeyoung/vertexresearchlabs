@@ -200,8 +200,8 @@ export const products: Product[] = [
   },
   {
     id: "mt2",
-    name: "MT2",
-    subtitle: "Melanotan II",
+    name: "MT2 (Melanotan II)",
+    subtitle: "Research Grade",
     description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",

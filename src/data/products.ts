@@ -11,6 +11,7 @@ import kisspeptinImage from "@/assets/products/kisspeptin.png";
 import sermorelinImage from "@/assets/products/sermorelin.png";
 import tesamorelinImage from "@/assets/products/tesamorelin.png";
 import supp322Image from "@/assets/products/supp-322.png";
+import pt141Image from "@/assets/products/pt-141.png";
 
 export interface Product {
   id: string;
@@ -106,28 +107,17 @@ export const products: Product[] = [
     category: "Coenzyme"
   },
   {
-    id: "ll-37",
-    name: "LL-37",
+    id: "pt-141",
+    name: "PT-141",
     subtitle: "Research Grade",
-    description: "Antimicrobial peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥95%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    category: "Antimicrobial Peptide"
-  },
-  {
-    id: "kpv",
-    name: "KPV",
-    subtitle: "Research Grade",
-    description: "Tripeptide reference material supplied exclusively for laboratory research and analytical applications.",
+    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
-    category: "Tripeptide"
+    image: pt141Image,
+    category: "Peptide"
   },
   {
     id: "retatrutide",

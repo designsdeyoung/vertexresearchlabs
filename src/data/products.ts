@@ -4,6 +4,7 @@ import tb500Image from "@/assets/products/tb-500.png";
 import retatrutideImage from "@/assets/products/retatrutide.png";
 import ghkCuImage from "@/assets/products/ghk-cu.png";
 import semaxImage from "@/assets/products/semax.png";
+import selankImage from "@/assets/products/selank.png";
 
 export interface Product {
   id: string;
@@ -77,11 +78,12 @@ export const products: Product[] = [
     name: "Selank",
     subtitle: "Research Grade",
     description: "Heptapeptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥98%",
+    purity: "≥99%",
     testing: "Independent analytical verification",
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
+    image: selankImage,
     category: "Heptapeptide"
   },
   {

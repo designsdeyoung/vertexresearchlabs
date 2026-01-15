@@ -1,3 +1,5 @@
+import logo from "@/assets/logo.png";
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
@@ -8,13 +10,8 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center">
-                <span className="text-primary font-bold text-sm">V</span>
-              </div>
-              <span className="font-semibold text-foreground tracking-tight">
-                Vertex<span className="text-primary">Research</span>Labs
-              </span>
+            <div className="mb-4">
+              <img src={logo} alt="Vertex Research Labs" className="h-12 w-auto" />
             </div>
             <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
               High-purity peptide reference materials for laboratory research applications. 

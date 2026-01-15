@@ -1,6 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FileText, ExternalLink, FlaskConical, ShieldCheck } from "lucide-react";
+import { FileText, ExternalLink, FlaskConical, Plus } from "lucide-react";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import type { Product } from "@/data/products";
 import { toast } from "@/hooks/use-toast";
@@ -11,16 +11,15 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const { name, subtitle, description, purity, testing, documentation, intendedUse, disclaimer, image, category } = product;
-  const { addItem } = useInquiryCart();
-  const navigate = useNavigate();
+  const { addItem, openCart } = useInquiryCart();
 
-  const handleRequestAccess = () => {
+  const handleAddToCart = () => {
     addItem(product);
     toast({
       title: "Added to inquiry",
-      description: `${name} has been added. Complete research access to proceed.`,
+      description: `${name} has been added to your list.`,
     });
-    navigate("/research-access");
+    openCart();
   };
 
   return (
@@ -124,10 +123,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
             variant="catalog" 
             size="sm" 
             className="flex-1 text-xs"
-            onClick={handleRequestAccess}
+            onClick={handleAddToCart}
           >
-            <ShieldCheck size={14} />
-            Request Access
+            <Plus size={14} />
+            Add to Inquiry
           </Button>
         </div>
       </div>

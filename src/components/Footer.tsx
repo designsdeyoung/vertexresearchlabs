@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 
 const Footer = () => {
@@ -11,7 +12,9 @@ const Footer = () => {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="mb-4">
-              <img src={logo} alt="Vertex Research Labs" className="h-12 w-auto" />
+              <Link to="/">
+                <img src={logo} alt="Vertex Research Labs" className="h-12 w-auto" />
+              </Link>
             </div>
             <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
               High-purity peptide reference materials for laboratory research applications. 
@@ -24,17 +27,22 @@ const Footer = () => {
             <h4 className="text-sm font-medium text-foreground mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#products" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a href="/#products" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Products
                 </a>
               </li>
               <li>
-                <a href="#quality" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Quality
-                </a>
+                <Link to="/quality" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Quality & COA
+                </Link>
               </li>
               <li>
-                <a href="#contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/shipping" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Shipping & Returns
+                </Link>
+              </li>
+              <li>
+                <a href="/#contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Contact
                 </a>
               </li>
@@ -46,19 +54,19 @@ const Footer = () => {
             <h4 className="text-sm font-medium text-foreground mb-4">Legal</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Terms of Service
-                </a>
+                <Link to="/disclaimer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Disclaimer
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Terms & Conditions
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Research Use Policy
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

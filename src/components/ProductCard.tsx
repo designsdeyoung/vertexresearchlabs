@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { FileText, ExternalLink, FlaskConical, AlertTriangle } from "lucide-react";
+import { FileText, ExternalLink, FlaskConical, Info } from "lucide-react";
 import type { Product } from "@/data/products";
 
 interface ProductCardProps {
@@ -93,9 +93,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
         {/* Disclaimer */}
         <div className="mt-auto pt-4 border-t border-border/50">
-          <div className="flex items-start gap-2 p-3 rounded-md bg-destructive/5 border border-destructive/20">
-            <AlertTriangle size={14} className="text-destructive shrink-0 mt-0.5" />
-            <p className="text-xs text-destructive/80">{disclaimer}</p>
+          <div className="flex items-start gap-2 p-3 rounded-md bg-muted/50 border border-border">
+            <Info size={14} className="text-muted-foreground shrink-0 mt-0.5" />
+            <p className="text-xs text-muted-foreground">{disclaimer}</p>
           </div>
         </div>
 

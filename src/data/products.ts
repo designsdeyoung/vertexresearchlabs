@@ -1,3 +1,6 @@
+// Import product images
+import bpc157Image from "@/assets/products/bpc-157.png";
+
 export interface Product {
   id: string;
   name: string;
@@ -11,9 +14,6 @@ export interface Product {
   image?: string;
   category: string;
 }
-
-// Import product images
-import bpc157Image from "@/assets/products/bpc-157.png";
 
 export const products: Product[] = [
   {

@@ -1,6 +1,7 @@
 // Import product images
 import bpc157Image from "@/assets/products/bpc-157.png";
 import tb500Image from "@/assets/products/tb-500.png";
+import retatrutideImage from "@/assets/products/retatrutide.png";
 
 export interface Product {
   id: string;
@@ -114,5 +115,18 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     category: "Tripeptide"
+  },
+  {
+    id: "retatrutide",
+    name: "Retatrutide",
+    subtitle: "Research Grade",
+    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: retatrutideImage,
+    category: "Peptide"
   }
 ];

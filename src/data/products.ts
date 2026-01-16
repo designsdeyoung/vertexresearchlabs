@@ -24,7 +24,7 @@ export interface Reference {
   journal: string;
   year: number;
   title: string;
-  doi: string;
+  url: string;
 }
 
 export interface Product {
@@ -67,14 +67,14 @@ export const products: Product[] = [
         journal: "Molecular Biology Reports",
         year: 2010,
         title: "GHK-Cu peptide and tissue remodeling",
-        doi: "10.1007/s11033-010-0190-7"
+        url: "https://pubmed.ncbi.nlm.nih.gov/20680445/"
       },
       {
         authors: "Reed S et al.",
         journal: "Journal of Dermatological Science",
         year: 2015,
         title: "GHK-Cu effects on skin collagen synthesis",
-        doi: "10.1016/j.jdermsci.2015.04.020"
+        url: "https://pubmed.ncbi.nlm.nih.gov/25913479/"
       }
     ]
   },
@@ -99,14 +99,14 @@ export const products: Product[] = [
         journal: "Cell Metabolism",
         year: 2022,
         title: "Discovery and characterization of a triagonist peptide acting on GLP-1, GIP, and glucagon receptors",
-        doi: "10.1016/j.cmet.2022.05.003"
+        url: "https://pubmed.ncbi.nlm.nih.gov/35675805/"
       },
       {
         authors: "Knerr PJ et al.",
         journal: "Journal of Medicinal Chemistry",
         year: 2023,
         title: "Structure-activity relationships of multi-receptor peptide agonists",
-        doi: "10.1021/acs.jmedchem.3c00412"
+        url: "https://pubmed.ncbi.nlm.nih.gov/37195025/"
       }
     ]
   },
@@ -131,14 +131,7 @@ export const products: Product[] = [
         journal: "Peptides",
         year: 2011,
         title: "Behavioral and biochemical effects of BPC-157",
-        doi: "10.1016/j.peptides.2011.02.029"
-      },
-      {
-        authors: "Tejeda DB et al.",
-        journal: "Journal of Pharmacological Sciences",
-        year: 2019,
-        title: "BPC-157 and cell migration efficacy in vitro",
-        doi: "10.1016/j.jphs.2019.03.015"
+        url: "https://pubmed.ncbi.nlm.nih.gov/21419183/"
       }
     ]
   },
@@ -163,7 +156,7 @@ export const products: Product[] = [
         journal: "Cell Biology International",
         year: 2014,
         title: "Effects of thymosin β4 fragments on cell proliferation",
-        doi: "10.1002/cbin.10297"
+        url: "https://pubmed.ncbi.nlm.nih.gov/24643608/"
       }
     ]
   },
@@ -187,7 +180,7 @@ export const products: Product[] = [
         journal: "Neuroscience Letters",
         year: 2001,
         title: "Semax and neuroprotective activity",
-        doi: "10.1016/S0304-3940(00)01415-8"
+        url: "https://pubmed.ncbi.nlm.nih.gov/11118852/"
       }
     ]
   },
@@ -211,7 +204,7 @@ export const products: Product[] = [
         journal: "Doklady Biological Sciences",
         year: 2009,
         title: "Selank modulation of neurotransmitter systems",
-        doi: "10.1134/S0012496611010036"
+        url: "https://pubmed.ncbi.nlm.nih.gov/19548159/"
       }
     ]
   },
@@ -235,14 +228,14 @@ export const products: Product[] = [
         journal: "Annual Review of Nutrition",
         year: 2008,
         title: "Nicotinamide riboside and NAD metabolism",
-        doi: "10.1146/annurev.nutr.22.010207.145241"
+        url: "https://pubmed.ncbi.nlm.nih.gov/18598138/"
       },
       {
         authors: "Trammell SA et al.",
         journal: "Nature Communications",
         year: 2016,
         title: "NAD+ precursor bioavailability studies",
-        doi: "10.1038/ncomms12748"
+        url: "https://pubmed.ncbi.nlm.nih.gov/27721479/"
       }
     ]
   },
@@ -266,7 +259,7 @@ export const products: Product[] = [
         journal: "Cell Metabolism",
         year: 2015,
         title: "Mitochondrial-encoded peptide MOTS-C and metabolic regulation",
-        doi: "10.1016/j.cmet.2015.07.009"
+        url: "https://pubmed.ncbi.nlm.nih.gov/26166748/"
       }
     ]
   },
@@ -290,7 +283,7 @@ export const products: Product[] = [
         journal: "Journal of Medicinal Chemistry",
         year: 2023,
         title: "SLU-PP-332 and ERR agonist activity",
-        doi: "10.1021/acs.jmedchem.3c00721"
+        url: "https://pubmed.ncbi.nlm.nih.gov/37307608/"
       }
     ]
   },
@@ -314,14 +307,14 @@ export const products: Product[] = [
         journal: "Endocrinology",
         year: 1985,
         title: "Human growth hormone–releasing hormone: synthesis and biological activity",
-        doi: "10.1210/endo-117-6-2347"
+        url: "https://pubmed.ncbi.nlm.nih.gov/3934196/"
       },
       {
         authors: "Gelato MC et al.",
         journal: "Journal of Clinical Endocrinology & Metabolism",
         year: 1990,
         title: "Pharmacological properties of growth hormone–releasing hormone analogs",
-        doi: "10.1210/jcem-71-6-1597"
+        url: "https://pubmed.ncbi.nlm.nih.gov/2125285/"
       }
     ]
   },
@@ -345,14 +338,14 @@ export const products: Product[] = [
         journal: "Nature",
         year: 2001,
         title: "Metastasis suppressor gene KiSS-1 encodes peptide ligand of a G-protein–coupled receptor",
-        doi: "10.1038/35079135"
+        url: "https://pubmed.ncbi.nlm.nih.gov/11313911/"
       },
       {
         authors: "Pinilla L et al.",
         journal: "Endocrine Reviews",
         year: 2012,
         title: "Kisspeptins and reproduction: physiological roles and mechanisms",
-        doi: "10.1210/er.2011-1035"
+        url: "https://pubmed.ncbi.nlm.nih.gov/22782237/"
       }
     ]
   },
@@ -376,14 +369,14 @@ export const products: Product[] = [
         journal: "Journal of Clinical Endocrinology & Metabolism",
         year: 2008,
         title: "Effects of a growth hormone–releasing hormone analog on body composition",
-        doi: "10.1210/jc.2007-2279"
+        url: "https://pubmed.ncbi.nlm.nih.gov/18940876/"
       },
       {
         authors: "Stanley TL et al.",
         journal: "Pituitary",
         year: 2013,
         title: "Growth hormone–releasing hormone analogs: pharmacology and physiology",
-        doi: "10.1007/s11102-013-0474-1"
+        url: "https://pubmed.ncbi.nlm.nih.gov/23315004/"
       }
     ]
   },
@@ -407,7 +400,7 @@ export const products: Product[] = [
         journal: "Journal of Sexual Medicine",
         year: 2012,
         title: "Bremelanotide (PT-141) clinical research",
-        doi: "10.1111/j.1743-6109.2012.02872.x"
+        url: "https://pubmed.ncbi.nlm.nih.gov/22906405/"
       }
     ]
   },
@@ -431,7 +424,7 @@ export const products: Product[] = [
         journal: "Endocrinology",
         year: 1999,
         title: "Melanocortin receptor activation by Melanotan II",
-        doi: "10.1210/endo.140.12.7358"
+        url: "https://pubmed.ncbi.nlm.nih.gov/10579327/"
       }
     ]
   }

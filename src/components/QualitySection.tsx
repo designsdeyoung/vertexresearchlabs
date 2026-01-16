@@ -83,16 +83,20 @@ const QualitySection = () => {
                 
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Product ID</span>
-                    <span className="text-sm font-mono text-foreground">VRL-BPC157-001</span>
+                    <span className="text-sm text-muted-foreground">Accession Number</span>
+                    <span className="text-sm font-mono text-foreground">2509180004</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Batch</span>
-                    <span className="text-sm font-mono text-foreground">2024-1215-A</span>
+                    <span className="text-sm text-muted-foreground">Product</span>
+                    <span className="text-sm font-mono text-foreground">GHK-Cu/TB-500/BPC-157</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">Lot</span>
+                    <span className="text-sm font-mono text-foreground">CGM-003</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">HPLC Purity</span>
-                    <span className="text-sm font-mono text-primary">99.2%</span>
+                    <span className="text-sm font-mono text-primary">99.62%</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">MS Confirmed</span>
@@ -103,13 +107,13 @@ const QualitySection = () => {
                 {/* Visual bar representation */}
                 <div className="pt-4 border-t border-border/50">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs text-muted-foreground">Purity Analysis</span>
-                    <span className="text-xs text-primary">99.2%</span>
+                    <span className="text-xs text-muted-foreground">Purity Analysis (HPLC-MS)</span>
+                    <span className="text-xs text-primary">99.62%</span>
                   </div>
                   <div className="h-2 bg-secondary rounded-full overflow-hidden">
                     <div 
                       className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all duration-1000"
-                      style={{ width: '99.2%' }}
+                      style={{ width: '99.62%' }}
                     />
                   </div>
                 </div>

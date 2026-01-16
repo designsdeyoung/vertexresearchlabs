@@ -14,7 +14,8 @@ import {
   Plus, 
   AlertTriangle,
   CheckCircle2,
-  X
+  BookOpen,
+  ExternalLink
 } from "lucide-react";
 import {
   Dialog,
@@ -49,7 +50,7 @@ const ProductDetail = () => {
     );
   }
 
-  const { name, subtitle, description, purity, testing, documentation, intendedUse, disclaimer, image, category, coa } = product;
+  const { name, subtitle, description, purity, testing, documentation, intendedUse, disclaimer, image, category, coa, references } = product;
 
   const handleAddToCart = () => {
     addItem(product);
@@ -207,6 +208,46 @@ const ProductDetail = () => {
               </div>
             </div>
           </div>
+
+          {/* Peer-reviewed Publications Section */}
+          {references && references.length > 0 && (
+            <div className="mt-16">
+              <div className="glass-card rounded-xl p-8">
+                <h2 className="text-lg font-semibold text-foreground mb-6 flex items-center gap-2">
+                  <BookOpen size={20} className="text-primary" />
+                  Peer-reviewed Publications
+                </h2>
+                <p className="text-sm text-muted-foreground mb-6">
+                  The following peer-reviewed research articles are provided for informational purposes only. 
+                  These publications discuss the compound in scientific contexts and do not constitute endorsement or medical claims.
+                </p>
+                <div className="space-y-4">
+                  {references.map((ref, index) => (
+                    <div 
+                      key={index}
+                      className="p-4 rounded-lg bg-secondary/30 border border-border/50 hover:border-primary/30 transition-colors"
+                    >
+                      <h3 className="text-sm font-medium text-foreground mb-1">
+                        {ref.title}
+                      </h3>
+                      <p className="text-xs text-muted-foreground mb-2">
+                        {ref.authors} • <span className="text-primary">{ref.journal}</span> ({ref.year})
+                      </p>
+                      <a 
+                        href={`https://doi.org/${ref.doi}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline"
+                      >
+                        <span>DOI: {ref.doi}</span>
+                        <ExternalLink size={12} />
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </main>
       

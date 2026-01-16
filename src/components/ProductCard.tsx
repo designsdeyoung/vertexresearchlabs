@@ -10,8 +10,15 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const { name, subtitle, description, purity, testing, documentation, intendedUse, disclaimer, image, category } = product;
+  const { name, subtitle, size, price, description, purity, testing, documentation, intendedUse, disclaimer, image, category } = product;
   const { addItem, openCart } = useInquiryCart();
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(price);
+  };
 
   const handleAddToCart = () => {
     addItem(product);
@@ -67,9 +74,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
               {name}
             </h3>
           </div>
-          {subtitle && (
-            <span className="text-xs text-muted-foreground">({subtitle})</span>
-          )}
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-muted-foreground">{size} • {subtitle}</span>
+            <span className="text-lg font-semibold text-primary">{formatPrice(price)}</span>
+          </div>
         </div>
 
         {/* Description */}

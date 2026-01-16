@@ -2,15 +2,33 @@ import { useNavigate } from "react-router-dom";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, Trash2, FlaskConical, ShieldCheck, ArrowRight } from "lucide-react";
+import { Minus, Plus, Trash2, FlaskConical, ShieldCheck, ArrowRight, Truck } from "lucide-react";
+import { FREE_SHIPPING_THRESHOLD } from "@/data/products";
 
 const InquiryCart = () => {
-  const { items, isOpen, closeCart, removeItem, updateQuantity, clearCart } = useInquiryCart();
+  const { 
+    items, 
+    isOpen, 
+    closeCart, 
+    removeItem, 
+    updateQuantity, 
+    clearCart,
+    subtotal,
+    qualifiesForFreeShipping,
+    amountToFreeShipping
+  } = useInquiryCart();
   const navigate = useNavigate();
 
   const handleProceedToAccess = () => {
     closeCart();
     navigate("/research-access");
+  };
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(price);
   };
 
   return (
@@ -33,8 +51,28 @@ const InquiryCart = () => {
           </div>
         ) : (
           <>
+            {/* Free Shipping Progress */}
+            <div className="p-3 rounded-lg bg-secondary/30 border border-border/50 mt-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Truck size={16} className={qualifiesForFreeShipping ? "text-primary" : "text-muted-foreground"} />
+                {qualifiesForFreeShipping ? (
+                  <span className="text-sm font-medium text-primary">Free US Shipping Unlocked!</span>
+                ) : (
+                  <span className="text-sm text-muted-foreground">
+                    Add {formatPrice(amountToFreeShipping)} more for free US shipping
+                  </span>
+                )}
+              </div>
+              <div className="w-full h-1.5 bg-secondary rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-primary transition-all duration-300"
+                  style={{ width: `${Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100)}%` }}
+                />
+              </div>
+            </div>
+
             {/* Research Access Notice */}
-            <div className="p-3 rounded-lg bg-primary/5 border border-primary/20 mt-4">
+            <div className="p-3 rounded-lg bg-primary/5 border border-primary/20 mt-3">
               <div className="flex items-center gap-2 mb-1">
                 <ShieldCheck size={16} className="text-primary" />
                 <span className="text-xs font-medium text-primary">Research Access Required</span>
@@ -61,7 +99,8 @@ const InquiryCart = () => {
                     <p className="text-sm font-medium text-foreground truncate">
                       {item.product.name}
                     </p>
-                    <p className="text-xs text-muted-foreground">{item.product.category}</p>
+                    <p className="text-xs text-muted-foreground">{item.product.size}</p>
+                    <p className="text-sm font-medium text-primary">{formatPrice(item.product.price)}</p>
                   </div>
                   <div className="flex items-center gap-1">
                     <button
@@ -90,11 +129,15 @@ const InquiryCart = () => {
 
             <div className="pt-4 border-t border-border/50 space-y-3">
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Total items</span>
-                <span className="text-foreground font-medium">
-                  {items.reduce((sum, item) => sum + item.quantity, 0)}
-                </span>
+                <span className="text-muted-foreground">Subtotal</span>
+                <span className="text-foreground font-semibold text-lg">{formatPrice(subtotal)}</span>
               </div>
+              {qualifiesForFreeShipping && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">US Shipping</span>
+                  <span className="text-primary font-medium">FREE</span>
+                </div>
+              )}
               <Button variant="hero" className="w-full" onClick={handleProceedToAccess}>
                 <ShieldCheck size={16} />
                 Proceed to Research Access

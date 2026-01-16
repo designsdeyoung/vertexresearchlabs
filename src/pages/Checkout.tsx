@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useCompliance } from "@/contexts/ComplianceContext";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
+import { FREE_SHIPPING_THRESHOLD } from "@/data/products";
 import { toast } from "@/hooks/use-toast";
 import { 
   Shield, 
@@ -25,7 +26,14 @@ import { Link } from "react-router-dom";
 const Checkout = () => {
   const navigate = useNavigate();
   const { hasAcknowledged, eligibilityType, resetCompliance } = useCompliance();
-  const { items, clearCart } = useInquiryCart();
+  const { items, clearCart, subtotal, qualifiesForFreeShipping } = useInquiryCart();
+  
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(price);
+  };
   
   const [formData, setFormData] = useState({
     fullName: "",
@@ -114,8 +122,13 @@ const Checkout = () => {
       items: items.map(item => ({
         productId: item.product.id,
         productName: item.product.name,
+        size: item.product.size,
+        price: item.product.price,
         quantity: item.quantity,
+        lineTotal: item.product.price * item.quantity,
       })),
+      subtotal,
+      shipping: qualifiesForFreeShipping ? 0 : "TBD",
       acknowledgedAt: new Date().toISOString(),
       submittedAt: new Date().toISOString(),
     };
@@ -123,7 +136,7 @@ const Checkout = () => {
     // Simulate order submission (in production, this would go to a backend)
     // For now, we'll create a mailto link with the order details
     const productList = items
-      .map(item => `• ${item.product.name} (Qty: ${item.quantity})`)
+      .map(item => `• ${item.product.name} (${item.product.size}) x${item.quantity} - ${formatPrice(item.product.price * item.quantity)}`)
       .join("\n");
 
     const emailBody = `
@@ -144,6 +157,10 @@ ${productList}
 Additional Notes:
 ${formData.notes || "None"}
 
+Order Summary:
+Subtotal: ${formatPrice(subtotal)}
+Shipping: ${qualifiesForFreeShipping ? "FREE (US)" : "To be calculated"}
+
 ---
 Research Use Confirmation: CONFIRMED
 Terms & Conditions: ACCEPTED
@@ -151,7 +168,7 @@ Submitted: ${new Date().toLocaleString()}
     `.trim();
 
     const mailtoLink = `mailto:orders@vertexresearchlabs.com?subject=${encodeURIComponent(
-      "Order Request - Vertex Research Labs"
+      `Order Request - ${formatPrice(subtotal)} - Vertex Research Labs`
     )}&body=${encodeURIComponent(emailBody)}`;
 
     window.open(mailtoLink, "_blank");
@@ -348,23 +365,30 @@ Submitted: ${new Date().toLocaleString()}
                     <div key={item.product.id} className="flex justify-between items-start py-2 border-b border-border/30 last:border-0">
                       <div className="flex-1">
                         <p className="text-sm font-medium text-foreground">{item.product.name}</p>
-                        <p className="text-xs text-muted-foreground">{item.product.category}</p>
+                        <p className="text-xs text-muted-foreground">{item.product.size} × {item.quantity}</p>
                       </div>
-                      <span className="text-sm text-muted-foreground">×{item.quantity}</span>
+                      <span className="text-sm font-medium text-foreground">{formatPrice(item.product.price * item.quantity)}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="pt-4 border-t border-border/50">
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="text-muted-foreground">Total Items</span>
-                    <span className="text-foreground font-medium">
-                      {items.reduce((sum, item) => sum + item.quantity, 0)}
-                    </span>
+                <div className="pt-4 border-t border-border/50 space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Subtotal</span>
+                    <span className="text-foreground font-medium">{formatPrice(subtotal)}</span>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-4">
-                    Pricing and availability will be confirmed after order review.
-                  </p>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">US Shipping</span>
+                    {qualifiesForFreeShipping ? (
+                      <span className="text-primary font-medium">FREE</span>
+                    ) : (
+                      <span className="text-muted-foreground text-xs">Free over ${FREE_SHIPPING_THRESHOLD}</span>
+                    )}
+                  </div>
+                  <div className="flex justify-between text-base pt-2 border-t border-border/30">
+                    <span className="font-medium text-foreground">Total</span>
+                    <span className="font-semibold text-foreground">{formatPrice(subtotal)}</span>
+                  </div>
                 </div>
 
                 {/* Compliance Badge */}

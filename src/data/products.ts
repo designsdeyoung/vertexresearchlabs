@@ -23,6 +23,8 @@ export interface Product {
   id: string;
   name: string;
   subtitle?: string;
+  size: string;
+  price: number;
   description: string;
   purity: string;
   testing: string;
@@ -36,9 +38,43 @@ export interface Product {
 
 export const products: Product[] = [
   {
+    id: "ghk-cu",
+    name: "GHK-Cu",
+    subtitle: "Research Grade",
+    size: "50mg",
+    price: 44,
+    description: "Copper peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: ghkCuImage,
+    category: "Copper Peptide",
+    coa: ghkCuCoa
+  },
+  {
+    id: "retatrutide",
+    name: "Retatrutide",
+    subtitle: "Research Grade",
+    size: "10mg",
+    price: 98,
+    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: retatrutideImage,
+    category: "Peptide",
+    coa: retatrutideCoa
+  },
+  {
     id: "bpc-157",
     name: "BPC-157",
     subtitle: "Research Grade",
+    size: "10mg",
+    price: 60,
     description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",
@@ -53,6 +89,8 @@ export const products: Product[] = [
     id: "tb-500",
     name: "TB-500 / Thymosin Beta-4 Acetate",
     subtitle: "Research Grade",
+    size: "10mg",
+    price: 68,
     description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",
@@ -64,23 +102,11 @@ export const products: Product[] = [
     coa: tb500Coa
   },
   {
-    id: "ghk-cu",
-    name: "GHK-Cu",
-    subtitle: "Research Grade",
-    description: "Copper peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: ghkCuImage,
-    category: "Copper Peptide",
-    coa: ghkCuCoa
-  },
-  {
     id: "semax",
     name: "Semax",
     subtitle: "Research Grade",
+    size: "5mg",
+    price: 33,
     description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",
@@ -94,6 +120,8 @@ export const products: Product[] = [
     id: "selank",
     name: "Selank",
     subtitle: "Research Grade",
+    size: "5mg",
+    price: 33,
     description: "Heptapeptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",
@@ -107,6 +135,8 @@ export const products: Product[] = [
     id: "nad-plus",
     name: "NAD+",
     subtitle: "Research Grade",
+    size: "100mg",
+    price: 75,
     description: "Coenzyme reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",
@@ -117,36 +147,11 @@ export const products: Product[] = [
     category: "Coenzyme"
   },
   {
-    id: "pt-141",
-    name: "PT-141",
-    subtitle: "Research Grade",
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: pt141Image,
-    category: "Peptide"
-  },
-  {
-    id: "retatrutide",
-    name: "Retatrutide",
-    subtitle: "Research Grade",
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: retatrutideImage,
-    category: "Peptide",
-    coa: retatrutideCoa
-  },
-  {
     id: "mots-c",
     name: "MOTS-C",
     subtitle: "Research Grade",
+    size: "10mg",
+    price: 55,
     description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",
@@ -157,48 +162,11 @@ export const products: Product[] = [
     category: "Peptide"
   },
   {
-    id: "kisspeptin",
-    name: "Kisspeptin",
-    subtitle: "Research Grade",
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: kisspeptinImage,
-    category: "Peptide"
-  },
-  {
-    id: "sermorelin",
-    name: "Sermorelin",
-    subtitle: "Research Grade",
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: sermorelinImage,
-    category: "Peptide"
-  },
-  {
-    id: "tesamorelin",
-    name: "Tesamorelin",
-    subtitle: "Research Grade",
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: tesamorelinImage,
-    category: "Peptide"
-  },
-  {
     id: "supp-322",
     name: "SUPP-322",
     subtitle: "Research Grade",
+    size: "10mg",
+    price: 322,
     description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",
@@ -209,9 +177,71 @@ export const products: Product[] = [
     category: "Peptide"
   },
   {
+    id: "sermorelin",
+    name: "Sermorelin",
+    subtitle: "Research Grade",
+    size: "10mg",
+    price: 75,
+    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: sermorelinImage,
+    category: "Peptide"
+  },
+  {
+    id: "kisspeptin",
+    name: "Kisspeptin",
+    subtitle: "Research Grade",
+    size: "10mg",
+    price: 60,
+    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: kisspeptinImage,
+    category: "Peptide"
+  },
+  {
+    id: "tesamorelin",
+    name: "Tesamorelin",
+    subtitle: "Research Grade",
+    size: "10mg",
+    price: 75,
+    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: tesamorelinImage,
+    category: "Peptide"
+  },
+  {
+    id: "pt-141",
+    name: "PT-141",
+    subtitle: "Research Grade",
+    size: "10mg",
+    price: 55,
+    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: pt141Image,
+    category: "Peptide"
+  },
+  {
     id: "mt2",
     name: "MT2 (Melanotan II)",
     subtitle: "Research Grade",
+    size: "10mg",
+    price: 45,
     description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",
@@ -222,3 +252,5 @@ export const products: Product[] = [
     category: "Peptide"
   }
 ];
+
+export const FREE_SHIPPING_THRESHOLD = 99;

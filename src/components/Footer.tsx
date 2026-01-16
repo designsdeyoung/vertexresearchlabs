@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Mail, Phone } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const Footer = () => {
@@ -87,6 +87,15 @@ const Footer = () => {
                   <Phone size={14} />
                   (727) 295-1338
                 </a>
+              </li>
+              <li>
+                <div className="text-sm text-muted-foreground flex items-start gap-2">
+                  <MapPin size={14} className="mt-0.5 flex-shrink-0" />
+                  <span>
+                    1444 S Belcher RD STE C-103<br />
+                    Clearwater, FL 33764
+                  </span>
+                </div>
               </li>
             </ul>
           </div>

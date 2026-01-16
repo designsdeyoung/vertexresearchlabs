@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Mail, MessageSquare, Loader2, Phone } from "lucide-react";
+import { Mail, MessageSquare, Loader2, Phone, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface FormData {
@@ -133,6 +133,10 @@ ${formData.message}`;
               <Phone size={16} className="text-primary" />
               (727) 295-1338
             </a>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <MapPin size={16} className="text-primary" />
+              1444 S Belcher RD STE C-103, Clearwater, FL 33764
+            </div>
           </div>
 
           <div className="glass-card rounded-xl p-8 text-left">

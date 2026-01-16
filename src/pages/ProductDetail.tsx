@@ -218,8 +218,9 @@ const ProductDetail = () => {
                   Peer-reviewed Publications
                 </h2>
                 <p className="text-sm text-muted-foreground mb-6">
-                  The following peer-reviewed research articles are provided for informational purposes only. 
-                  These publications discuss the compound in scientific contexts and do not constitute endorsement or medical claims.
+                  The following peer-reviewed publications are provided for general scientific context. 
+                  Vertex Research Labs does not claim or imply any specific use, outcome, or application of these compounds. 
+                  All materials are supplied for laboratory research use only.
                 </p>
                 <div className="space-y-4">
                   {references.map((ref, index) => (

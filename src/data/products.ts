@@ -4,6 +4,7 @@ import bpc157Image from "@/assets/products/bpc-157.png";
 // Import COA images
 import ghkCuCoa from "@/assets/coa/ghk-cu-coa.jpg";
 import retatrutideCoa from "@/assets/coa/retatrutide-coa.jpg";
+import tb500Coa from "@/assets/coa/tb-500-coa.jpg";
 import tb500Image from "@/assets/products/tb-500.png";
 import retatrutideImage from "@/assets/products/retatrutide.png";
 import ghkCuImage from "@/assets/products/ghk-cu.png";
@@ -58,7 +59,8 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     image: tb500Image,
-    category: "Peptide"
+    category: "Peptide",
+    coa: tb500Coa
   },
   {
     id: "ghk-cu",

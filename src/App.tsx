@@ -7,6 +7,7 @@ import { ThemeProvider } from "next-themes";
 import { InquiryCartProvider } from "@/contexts/InquiryCartContext";
 import { ComplianceProvider } from "@/contexts/ComplianceContext";
 import InquiryCart from "@/components/InquiryCart";
+import ScrollToTop from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import ProductDetail from "./pages/ProductDetail";
 import ResearchAccess from "./pages/ResearchAccess";
@@ -33,6 +34,7 @@ const App = () => (
             <Toaster />
             <Sonner />
             <BrowserRouter>
+              <ScrollToTop />
               <InquiryCart />
               <Routes>
                 <Route path="/" element={<Index />} />

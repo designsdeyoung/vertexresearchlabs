@@ -24,6 +24,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const ProductDetail = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -209,44 +215,47 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {/* Peer-reviewed Publications Section */}
+          {/* Selected Research & References Section */}
           {references && references.length > 0 && (
             <div className="mt-16">
-              <div className="glass-card rounded-xl p-8">
-                <h2 className="text-lg font-semibold text-foreground mb-6 flex items-center gap-2">
-                  <BookOpen size={20} className="text-primary" />
-                  Peer-reviewed Publications
-                </h2>
-                <p className="text-sm text-muted-foreground mb-6">
-                  The following peer-reviewed publications are provided for general scientific context. 
-                  Vertex Research Labs does not claim or imply any specific use, outcome, or application of these compounds. 
-                  All materials are supplied for laboratory research use only.
-                </p>
-                <div className="space-y-4">
-                  {references.map((ref, index) => (
-                    <div 
-                      key={index}
-                      className="p-4 rounded-lg bg-secondary/30 border border-border/50 hover:border-primary/30 transition-colors"
-                    >
-                      <h3 className="text-sm font-medium text-foreground mb-1">
-                        {ref.title}
-                      </h3>
-                      <p className="text-xs text-muted-foreground mb-2">
-                        {ref.authors} • <span className="text-primary">{ref.journal}</span> ({ref.year})
-                      </p>
-                      <a 
-                        href={ref.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline cursor-pointer"
-                      >
-                        <span>View on PubMed</span>
-                        <ExternalLink size={12} />
-                      </a>
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="references" className="glass-card rounded-xl border-border/50">
+                  <AccordionTrigger className="px-6 py-4 hover:no-underline">
+                    <div className="flex items-center gap-2">
+                      <BookOpen size={20} className="text-primary" />
+                      <span className="text-lg font-semibold text-foreground">Selected Research & References</span>
                     </div>
-                  ))}
-                </div>
-              </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="px-6 pb-6">
+                    <p className="text-sm text-muted-foreground mb-6 p-4 rounded-lg bg-secondary/30 border border-border/50">
+                      The following peer-reviewed publications are provided for general scientific reference only. 
+                      These citations are not endorsements, claims, or recommendations. All materials supplied by 
+                      Vertex Research Labs are intended strictly for laboratory research use.
+                    </p>
+                    <div className="space-y-3">
+                      {references.map((ref, index) => (
+                        <div 
+                          key={index}
+                          className="p-4 rounded-lg bg-secondary/20 border border-border/30"
+                        >
+                          <p className="text-sm text-foreground mb-2">
+                            {ref.authors}, <span className="text-muted-foreground">{ref.journal}</span> ({ref.year})
+                          </p>
+                          <a 
+                            href={ref.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline"
+                          >
+                            <span>{ref.url}</span>
+                            <ExternalLink size={14} />
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </div>
           )}
         </div>

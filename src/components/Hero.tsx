@@ -1,24 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
-
 const Hero = () => {
-  return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background gradient */}
-      <div 
-        className="absolute inset-0 opacity-60"
-        style={{ background: "var(--gradient-hero)" }}
-      />
+      <div className="absolute inset-0 opacity-60" style={{
+      background: "var(--gradient-hero)"
+    }} />
       
       {/* Subtle grid pattern */}
-      <div 
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: `linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
+      <div className="absolute inset-0 opacity-[0.03]" style={{
+      backgroundImage: `linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
                            linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)`,
-          backgroundSize: "60px 60px"
-        }}
-      />
+      backgroundSize: "60px 60px"
+    }} />
 
       {/* Glow effect */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[120px]" />
@@ -36,7 +30,7 @@ const Hero = () => {
           {/* Main heading */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground leading-tight tracking-tight mb-6 animate-fade-up opacity-0 stagger-1">
             High-Purity Peptide
-            <span className="block gradient-text">Reference Materials</span>
+            <span className="block gradient-text">Research Materials</span>
           </h1>
 
           {/* Subheading */}
@@ -57,18 +51,13 @@ const Hero = () => {
 
           {/* Scroll indicator */}
           <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-fade-in opacity-0 stagger-5">
-            <a 
-              href="#products"
-              className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-            >
+            <a href="#products" className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
               <span className="text-xs tracking-wide uppercase">Explore</span>
               <ArrowDown size={16} className="animate-bounce" />
             </a>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;

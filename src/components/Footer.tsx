@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Mail, Phone } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const Footer = () => {
@@ -8,7 +9,7 @@ const Footer = () => {
     <footer className="border-t border-border/50 py-12">
       <div className="container mx-auto px-6">
         {/* Main footer content */}
-        <div className="grid md:grid-cols-4 gap-8 mb-12">
+        <div className="grid md:grid-cols-5 gap-8 mb-12">
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="mb-4">
@@ -67,6 +68,25 @@ const Footer = () => {
                 <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Privacy Policy
                 </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="text-sm font-medium text-foreground mb-4">Contact</h4>
+            <ul className="space-y-2">
+              <li>
+                <a href="mailto:info@vertexresearchlabs.com" className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
+                  <Mail size={14} />
+                  info@vertexresearchlabs.com
+                </a>
+              </li>
+              <li>
+                <a href="tel:727-295-1338" className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
+                  <Phone size={14} />
+                  (727) 295-1338
+                </a>
               </li>
             </ul>
           </div>

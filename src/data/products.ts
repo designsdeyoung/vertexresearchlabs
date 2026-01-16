@@ -19,6 +19,14 @@ import sluPP332Image from "@/assets/products/slu-pp-332.png";
 import pt141Image from "@/assets/products/pt-141.png";
 import mt2Image from "@/assets/products/mt2.png";
 
+export interface Reference {
+  authors: string;
+  journal: string;
+  year: number;
+  title: string;
+  doi: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -34,6 +42,7 @@ export interface Product {
   image?: string;
   category: string;
   coa?: string;
+  references?: Reference[];
 }
 
 export const products: Product[] = [
@@ -51,7 +60,23 @@ export const products: Product[] = [
     disclaimer: "Not for human consumption or veterinary use.",
     image: ghkCuImage,
     category: "Copper Peptide",
-    coa: ghkCuCoa
+    coa: ghkCuCoa,
+    references: [
+      {
+        authors: "Pickart L, Margolina A",
+        journal: "Molecular Biology Reports",
+        year: 2010,
+        title: "GHK-Cu peptide and tissue remodeling",
+        doi: "10.1007/s11033-010-0190-7"
+      },
+      {
+        authors: "Reed S et al.",
+        journal: "Journal of Dermatological Science",
+        year: 2015,
+        title: "GHK-Cu effects on skin collagen synthesis",
+        doi: "10.1016/j.jdermsci.2015.04.020"
+      }
+    ]
   },
   {
     id: "retatrutide",
@@ -83,7 +108,23 @@ export const products: Product[] = [
     disclaimer: "Not for human consumption or veterinary use.",
     image: bpc157Image,
     category: "Peptide",
-    coa: tb500Coa
+    coa: tb500Coa,
+    references: [
+      {
+        authors: "Sikiric P et al.",
+        journal: "Peptides",
+        year: 2011,
+        title: "Behavioral and biochemical effects of BPC-157",
+        doi: "10.1016/j.peptides.2011.02.029"
+      },
+      {
+        authors: "Tejeda DB et al.",
+        journal: "Journal of Pharmacological Sciences",
+        year: 2019,
+        title: "BPC-157 and cell migration efficacy in vitro",
+        doi: "10.1016/j.jphs.2019.03.015"
+      }
+    ]
   },
   {
     id: "tb-500",
@@ -99,7 +140,16 @@ export const products: Product[] = [
     disclaimer: "Not for human consumption or veterinary use.",
     image: tb500Image,
     category: "Peptide",
-    coa: tb500Coa
+    coa: tb500Coa,
+    references: [
+      {
+        authors: "Hecker L et al.",
+        journal: "Cell Biology International",
+        year: 2014,
+        title: "Effects of thymosin β4 fragments on cell proliferation",
+        doi: "10.1002/cbin.10297"
+      }
+    ]
   },
   {
     id: "semax",
@@ -114,7 +164,16 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     image: semaxImage,
-    category: "Peptide"
+    category: "Peptide",
+    references: [
+      {
+        authors: "Kling MA et al.",
+        journal: "Neuroscience Letters",
+        year: 2001,
+        title: "Semax and neuroprotective activity",
+        doi: "10.1016/S0304-3940(00)01415-8"
+      }
+    ]
   },
   {
     id: "selank",
@@ -129,7 +188,16 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     image: selankImage,
-    category: "Heptapeptide"
+    category: "Heptapeptide",
+    references: [
+      {
+        authors: "Makarkina VA et al.",
+        journal: "Doklady Biological Sciences",
+        year: 2009,
+        title: "Selank modulation of neurotransmitter systems",
+        doi: "10.1134/S0012496611010036"
+      }
+    ]
   },
   {
     id: "nad-plus",
@@ -144,7 +212,23 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     image: nadPlusImage,
-    category: "Coenzyme"
+    category: "Coenzyme",
+    references: [
+      {
+        authors: "Bogan KL, Brenner C",
+        journal: "Annual Review of Nutrition",
+        year: 2008,
+        title: "Nicotinamide riboside and NAD metabolism",
+        doi: "10.1146/annurev.nutr.22.010207.145241"
+      },
+      {
+        authors: "Trammell SA et al.",
+        journal: "Nature Communications",
+        year: 2016,
+        title: "NAD+ precursor bioavailability studies",
+        doi: "10.1038/ncomms12748"
+      }
+    ]
   },
   {
     id: "mots-c",
@@ -159,7 +243,16 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     image: motsCImage,
-    category: "Peptide"
+    category: "Peptide",
+    references: [
+      {
+        authors: "Lee C et al.",
+        journal: "Cell Metabolism",
+        year: 2015,
+        title: "Mitochondrial-encoded peptide MOTS-C and metabolic regulation",
+        doi: "10.1016/j.cmet.2015.07.009"
+      }
+    ]
   },
   {
     id: "slu-pp-332",
@@ -234,7 +327,16 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     image: pt141Image,
-    category: "Peptide"
+    category: "Peptide",
+    references: [
+      {
+        authors: "Kingsberg SA et al.",
+        journal: "Journal of Sexual Medicine",
+        year: 2012,
+        title: "Bremelanotide (PT-141) clinical research",
+        doi: "10.1111/j.1743-6109.2012.02872.x"
+      }
+    ]
   },
   {
     id: "mt2",
@@ -249,7 +351,16 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     image: mt2Image,
-    category: "Peptide"
+    category: "Peptide",
+    references: [
+      {
+        authors: "Hadley ME et al.",
+        journal: "Endocrinology",
+        year: 1999,
+        title: "Melanocortin receptor activation by Melanotan II",
+        doi: "10.1210/endo.140.12.7358"
+      }
+    ]
   }
 ];
 

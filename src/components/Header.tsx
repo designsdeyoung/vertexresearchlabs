@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, Truck } from "lucide-react";
 import logo from "@/assets/logo.png";
 import CartButton from "./CartButton";
 import ThemeToggle from "./ThemeToggle";
@@ -46,6 +46,14 @@ const Header = () => {
           : "bg-transparent"
       }`}
     >
+      {/* Free Shipping Banner */}
+      <div className="bg-primary text-primary-foreground py-1.5 px-4 text-center text-xs font-medium">
+        <div className="container flex items-center justify-center gap-2">
+          <Truck className="h-3.5 w-3.5" />
+          <span>Free US Shipping on Orders Over $99</span>
+        </div>
+      </div>
+      
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}

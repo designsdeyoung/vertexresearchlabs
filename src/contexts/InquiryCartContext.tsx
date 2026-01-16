@@ -1,5 +1,6 @@
-import { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, ReactNode, useMemo } from "react";
 import type { Product } from "@/data/products";
+import { FREE_SHIPPING_THRESHOLD } from "@/data/products";
 
 interface CartItem {
   product: Product;
@@ -17,6 +18,9 @@ interface InquiryCartContextType {
   closeCart: () => void;
   toggleCart: () => void;
   itemCount: number;
+  subtotal: number;
+  qualifiesForFreeShipping: boolean;
+  amountToFreeShipping: number;
 }
 
 const InquiryCartContext = createContext<InquiryCartContextType | undefined>(undefined);
@@ -64,6 +68,14 @@ export const InquiryCartProvider = ({ children }: { children: ReactNode }) => {
   const toggleCart = useCallback(() => setIsOpen(prev => !prev), []);
 
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  
+  const subtotal = useMemo(() => 
+    items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0),
+    [items]
+  );
+  
+  const qualifiesForFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
+  const amountToFreeShipping = qualifiesForFreeShipping ? 0 : FREE_SHIPPING_THRESHOLD - subtotal;
 
   return (
     <InquiryCartContext.Provider
@@ -78,6 +90,9 @@ export const InquiryCartProvider = ({ children }: { children: ReactNode }) => {
         closeCart,
         toggleCart,
         itemCount,
+        subtotal,
+        qualifiesForFreeShipping,
+        amountToFreeShipping,
       }}
     >
       {children}

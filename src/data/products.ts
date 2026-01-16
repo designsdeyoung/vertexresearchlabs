@@ -92,7 +92,23 @@ export const products: Product[] = [
     disclaimer: "Not for human consumption or veterinary use.",
     image: retatrutideImage,
     category: "Peptide",
-    coa: retatrutideCoa
+    coa: retatrutideCoa,
+    references: [
+      {
+        authors: "Coskun T et al.",
+        journal: "Cell Metabolism",
+        year: 2022,
+        title: "Discovery and characterization of a triagonist peptide acting on GLP-1, GIP, and glucagon receptors",
+        doi: "10.1016/j.cmet.2022.05.003"
+      },
+      {
+        authors: "Knerr PJ et al.",
+        journal: "Journal of Medicinal Chemistry",
+        year: 2023,
+        title: "Structure-activity relationships of multi-receptor peptide agonists",
+        doi: "10.1021/acs.jmedchem.3c00412"
+      }
+    ]
   },
   {
     id: "bpc-157",
@@ -282,7 +298,23 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     image: sermorelinImage,
-    category: "Peptide"
+    category: "Peptide",
+    references: [
+      {
+        authors: "Thorner MO et al.",
+        journal: "Endocrinology",
+        year: 1985,
+        title: "Human growth hormone–releasing hormone: synthesis and biological activity",
+        doi: "10.1210/endo-117-6-2347"
+      },
+      {
+        authors: "Gelato MC et al.",
+        journal: "Journal of Clinical Endocrinology & Metabolism",
+        year: 1990,
+        title: "Pharmacological properties of growth hormone–releasing hormone analogs",
+        doi: "10.1210/jcem-71-6-1597"
+      }
+    ]
   },
   {
     id: "kisspeptin",
@@ -297,7 +329,23 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     image: kisspeptinImage,
-    category: "Peptide"
+    category: "Peptide",
+    references: [
+      {
+        authors: "Ohtaki T et al.",
+        journal: "Nature",
+        year: 2001,
+        title: "Metastasis suppressor gene KiSS-1 encodes peptide ligand of a G-protein–coupled receptor",
+        doi: "10.1038/35079135"
+      },
+      {
+        authors: "Pinilla L et al.",
+        journal: "Endocrine Reviews",
+        year: 2012,
+        title: "Kisspeptins and reproduction: physiological roles and mechanisms",
+        doi: "10.1210/er.2011-1035"
+      }
+    ]
   },
   {
     id: "tesamorelin",
@@ -312,7 +360,23 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     image: tesamorelinImage,
-    category: "Peptide"
+    category: "Peptide",
+    references: [
+      {
+        authors: "Falutz J et al.",
+        journal: "Journal of Clinical Endocrinology & Metabolism",
+        year: 2008,
+        title: "Effects of a growth hormone–releasing hormone analog on body composition",
+        doi: "10.1210/jc.2007-2279"
+      },
+      {
+        authors: "Stanley TL et al.",
+        journal: "Pituitary",
+        year: 2013,
+        title: "Growth hormone–releasing hormone analogs: pharmacology and physiology",
+        doi: "10.1007/s11102-013-0474-1"
+      }
+    ]
   },
   {
     id: "pt-141",

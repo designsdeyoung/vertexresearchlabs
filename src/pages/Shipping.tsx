@@ -1,5 +1,15 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { 
+  Truck, 
+  Package, 
+  FileText, 
+  RotateCcw, 
+  AlertTriangle,
+  FlaskConical,
+  Clock,
+  ShieldCheck
+} from "lucide-react";
 
 const Shipping = () => {
   return (
@@ -12,40 +22,104 @@ const Shipping = () => {
             Shipping and Returns
           </h1>
           
-          <div className="prose prose-invert max-w-none space-y-8 text-muted-foreground">
-            <section>
-              <h2 className="text-xl font-semibold text-foreground mb-3">Shipping</h2>
-              <p>
-                Vertex Research Labs ships research materials to eligible customers in accordance with applicable regulations. Shipping methods, timelines, and availability may vary based on location and product type.
-              </p>
+          <div className="space-y-8">
+            {/* Shipping */}
+            <section className="glass-card rounded-xl p-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-primary/10">
+                  <Truck size={24} className="text-primary" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-semibold text-foreground mb-3">Shipping</h2>
+                  <div className="space-y-4 text-muted-foreground">
+                    <p>
+                      Vertex Research Labs ships laboratory research materials to eligible customers in compliance with applicable laws and regulations. Available shipping methods, transit times, and service options may vary based on destination, product type, and order volume.
+                    </p>
+                    <p>
+                      Orders are processed during normal business hours. Once an order has shipped, tracking information will be provided when available. Delivery timelines are estimates only and are not guaranteed.
+                    </p>
+                    <p>
+                      Vertex Research Labs is not responsible for delays caused by carriers, weather conditions, customs processing, or other circumstances outside our control.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </section>
             
-            <section>
-              <h2 className="text-xl font-semibold text-foreground mb-3">Documentation</h2>
-              <p>
-                Certificates of Analysis and relevant documentation are available upon request.
-              </p>
+            {/* Packaging and Handling */}
+            <section className="glass-card rounded-xl p-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-primary/10">
+                  <Package size={24} className="text-primary" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-semibold text-foreground mb-3">Packaging and Handling</h2>
+                  <p className="text-muted-foreground">
+                    All products are packaged using industry-standard materials intended to preserve integrity during transit. Temperature-sensitive items may be shipped with appropriate protective materials when required, depending on product specifications and destination.
+                  </p>
+                </div>
+              </div>
             </section>
             
-            <section>
-              <h2 className="text-xl font-semibold text-foreground mb-3">Returns</h2>
-              <p>
-                Due to the nature of research materials, all sales are final unless otherwise agreed upon in writing.
-              </p>
+            {/* Documentation */}
+            <section className="glass-card rounded-xl p-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-primary/10">
+                  <FileText size={24} className="text-primary" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-semibold text-foreground mb-3">Documentation</h2>
+                  <p className="text-muted-foreground">
+                    Certificates of Analysis and related quality documentation are provided electronically or made available upon request. Documentation is issued for research reference purposes only and corresponds to the specific lot shipped.
+                  </p>
+                </div>
+              </div>
             </section>
             
-            <section>
-              <h2 className="text-xl font-semibold text-foreground mb-3">Damaged or Incorrect Orders</h2>
-              <p>
-                If an order arrives damaged or incorrect, please contact us promptly so we can review the issue.
-              </p>
+            {/* Returns and Refunds */}
+            <section className="glass-card rounded-xl p-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-primary/10">
+                  <RotateCcw size={24} className="text-primary" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-semibold text-foreground mb-3">Returns and Refunds</h2>
+                  <p className="text-muted-foreground">
+                    Due to the specialized nature of laboratory research materials, all sales are final. Returns, refunds, or exchanges are not accepted unless explicitly approved in writing by Vertex Research Labs prior to shipment.
+                  </p>
+                </div>
+              </div>
             </section>
             
-            <section>
-              <h2 className="text-xl font-semibold text-foreground mb-3">Compliance</h2>
-              <p>
-                Customers are responsible for ensuring compliance with all applicable local, state, and federal regulations related to receipt and use of research materials.
-              </p>
+            {/* Damaged or Incorrect Orders */}
+            <section className="glass-card rounded-xl p-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-primary/10">
+                  <ShieldCheck size={24} className="text-primary" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-semibold text-foreground mb-3">Damaged or Incorrect Orders</h2>
+                  <div className="space-y-4 text-muted-foreground">
+                    <p>
+                      If an order arrives damaged, incomplete, or incorrect, you must notify Vertex Research Labs within 48 hours of delivery. To assist with review, customers may be required to provide photographs of the packaging, shipping label, and affected items.
+                    </p>
+                    <p>
+                      Approved issues may result in replacement, credit, or other resolution at our discretion. Claims submitted outside the stated timeframe may not be eligible for review.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+            
+            {/* Research Use Disclaimer */}
+            <section className="flex items-start gap-3 p-4 rounded-lg bg-destructive/5 border border-destructive/20">
+              <AlertTriangle size={18} className="text-destructive/70 mt-0.5 flex-shrink-0" />
+              <div>
+                <h2 className="text-sm font-semibold text-foreground mb-1">Research Use Disclaimer</h2>
+                <p className="text-sm text-muted-foreground">
+                  All products sold by Vertex Research Labs are intended for laboratory research use only and are not for human or veterinary consumption. By placing an order, the purchaser acknowledges and agrees to these terms.
+                </p>
+              </div>
             </section>
           </div>
         </div>

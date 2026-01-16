@@ -1,5 +1,8 @@
 // Import product images
 import bpc157Image from "@/assets/products/bpc-157.png";
+
+// Import COA images
+import ghkCuCoa from "@/assets/coa/ghk-cu-coa.jpg";
 import tb500Image from "@/assets/products/tb-500.png";
 import retatrutideImage from "@/assets/products/retatrutide.png";
 import ghkCuImage from "@/assets/products/ghk-cu.png";
@@ -26,6 +29,7 @@ export interface Product {
   disclaimer: string;
   image?: string;
   category: string;
+  coa?: string;
 }
 
 export const products: Product[] = [
@@ -66,7 +70,8 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     image: ghkCuImage,
-    category: "Copper Peptide"
+    category: "Copper Peptide",
+    coa: ghkCuCoa
   },
   {
     id: "semax",

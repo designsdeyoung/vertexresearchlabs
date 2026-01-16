@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { products } from "@/data/products";
 import Header from "@/components/Header";
@@ -7,13 +8,21 @@ import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { toast } from "@/hooks/use-toast";
 import { 
   ArrowLeft, 
-  Download, 
+  FileText, 
   FlaskConical, 
   Shield, 
   Plus, 
   AlertTriangle,
-  CheckCircle2
+  CheckCircle2,
+  X
 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const ProductDetail = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -40,7 +49,7 @@ const ProductDetail = () => {
     );
   }
 
-  const { name, subtitle, description, purity, testing, documentation, intendedUse, disclaimer, image, category } = product;
+  const { name, subtitle, description, purity, testing, documentation, intendedUse, disclaimer, image, category, coa } = product;
 
   const handleAddToCart = () => {
     addItem(product);
@@ -163,10 +172,32 @@ const ProductDetail = () => {
                   <Plus size={18} />
                   Add to Inquiry
                 </Button>
-                <Button variant="heroOutline" size="lg" className="flex-1">
-                  <Download size={18} />
-                  Download COA
-                </Button>
+                
+                {coa && (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="heroOutline" size="lg" className="flex-1">
+                        <FileText size={18} />
+                        View COA
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-4xl max-h-[90vh] overflow-auto">
+                      <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                          <FileText size={20} className="text-primary" />
+                          Certificate of Analysis - {name}
+                        </DialogTitle>
+                      </DialogHeader>
+                      <div className="mt-4">
+                        <img 
+                          src={coa} 
+                          alt={`Certificate of Analysis for ${name}`}
+                          className="w-full h-auto rounded-lg border border-border"
+                        />
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                )}
               </div>
 
               {/* Disclaimer */}

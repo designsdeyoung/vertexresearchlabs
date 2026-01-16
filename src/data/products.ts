@@ -15,7 +15,7 @@ import motsCImage from "@/assets/products/mots-c.png";
 import kisspeptinImage from "@/assets/products/kisspeptin.png";
 import sermorelinImage from "@/assets/products/sermorelin.png";
 import tesamorelinImage from "@/assets/products/tesamorelin.png";
-import supp322Image from "@/assets/products/supp-322.png";
+import sluPP332Image from "@/assets/products/slu-pp-332.png";
 import pt141Image from "@/assets/products/pt-141.png";
 import mt2Image from "@/assets/products/mt2.png";
 
@@ -162,18 +162,18 @@ export const products: Product[] = [
     category: "Peptide"
   },
   {
-    id: "supp-322",
-    name: "SUPP-322",
+    id: "slu-pp-332",
+    name: "SLU-PP-332",
     subtitle: "Research Grade",
-    size: "10mg",
-    price: 322,
+    size: "5mg",
+    price: 80,
     description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
-    image: supp322Image,
+    image: sluPP332Image,
     category: "Peptide"
   },
   {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Mail, MessageSquare, Loader2 } from "lucide-react";
+import { Mail, MessageSquare, Loader2, Phone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface FormData {
@@ -112,10 +112,28 @@ ${formData.message}`;
           <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">
             Contact Our Team
           </h2>
-          <p className="text-muted-foreground mb-8">
+          <p className="text-muted-foreground mb-6">
             For product inquiries, bulk orders, or documentation requests,
             reach out to our research support team.
           </p>
+
+          {/* Direct Contact Info */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 mb-8">
+            <a 
+              href="mailto:info@vertexresearchlabs.com" 
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              <Mail size={16} className="text-primary" />
+              info@vertexresearchlabs.com
+            </a>
+            <a 
+              href="tel:727-295-1338" 
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              <Phone size={16} className="text-primary" />
+              (727) 295-1338
+            </a>
+          </div>
 
           <div className="glass-card rounded-xl p-8 text-left">
             <form className="space-y-6">

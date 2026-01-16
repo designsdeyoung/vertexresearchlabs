@@ -6,9 +6,9 @@ import {
   FileText, 
   RotateCcw, 
   AlertTriangle,
-  FlaskConical,
-  Clock,
-  ShieldCheck
+  ShieldCheck,
+  Mail,
+  Phone
 } from "lucide-react";
 
 const Shipping = () => {
@@ -119,6 +119,30 @@ const Shipping = () => {
                 <p className="text-sm text-muted-foreground">
                   All products sold by Vertex Research Labs are intended for laboratory research use only and are not for human or veterinary consumption. By placing an order, the purchaser acknowledges and agrees to these terms.
                 </p>
+              </div>
+            </section>
+
+            {/* Contact Section */}
+            <section className="glass-card rounded-xl p-6">
+              <h2 className="text-xl font-semibold text-foreground mb-4">Shipping Questions?</h2>
+              <p className="text-muted-foreground mb-4">
+                For questions about shipping, tracking, or delivery, please contact us:
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-8">
+                <a 
+                  href="mailto:info@vertexresearchlabs.com" 
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Mail size={18} className="text-primary" />
+                  info@vertexresearchlabs.com
+                </a>
+                <a 
+                  href="tel:727-295-1338" 
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Phone size={18} className="text-primary" />
+                  (727) 295-1338
+                </a>
               </div>
             </section>
           </div>

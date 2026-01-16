@@ -8,7 +8,8 @@ import {
   Mail,
   FileText,
   AlertTriangle,
-  Home
+  Home,
+  Phone
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -104,12 +105,22 @@ const OrderConfirmation = () => {
               <p className="text-sm text-muted-foreground mb-4">
                 If you have any questions about your order, please contact us:
               </p>
-              <p className="text-sm">
-                <span className="text-muted-foreground">Email: </span>
-                <a href="mailto:orders@vertexresearchlabs.com" className="text-primary hover:underline">
-                  orders@vertexresearchlabs.com
-                </a>
-              </p>
+              <div className="space-y-2">
+                <p className="text-sm flex items-center gap-2">
+                  <Mail size={14} className="text-primary" />
+                  <span className="text-muted-foreground">Email: </span>
+                  <a href="mailto:orders@vertexresearchlabs.com" className="text-primary hover:underline">
+                    orders@vertexresearchlabs.com
+                  </a>
+                </p>
+                <p className="text-sm flex items-center gap-2">
+                  <Phone size={14} className="text-primary" />
+                  <span className="text-muted-foreground">Phone: </span>
+                  <a href="tel:727-295-1338" className="text-primary hover:underline">
+                    (727) 295-1338
+                  </a>
+                </p>
+              </div>
             </div>
 
             {/* Disclaimer */}

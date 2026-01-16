@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Mail, MapPin } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 
 const Privacy = () => {
   return (
@@ -182,6 +182,12 @@ const Privacy = () => {
                     <Mail size={18} className="text-primary" />
                     <a href="mailto:info@vertexresearchlabs.com" className="hover:text-foreground transition-colors">
                       info@vertexresearchlabs.com
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-3 text-muted-foreground">
+                    <Phone size={18} className="text-primary" />
+                    <a href="tel:727-295-1338" className="hover:text-foreground transition-colors">
+                      (727) 295-1338
                     </a>
                   </div>
                   <div className="flex items-start gap-3 text-muted-foreground">

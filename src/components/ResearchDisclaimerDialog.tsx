@@ -8,7 +8,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useCompliance } from "@/contexts/ComplianceContext";
-import { FlaskConical } from "lucide-react";
+import logoFull from "@/assets/logo-full.png";
 
 const ResearchDisclaimerDialog = () => {
   const { hasAcknowledged, completeAcknowledgment } = useCompliance();
@@ -17,8 +17,8 @@ const ResearchDisclaimerDialog = () => {
     <AlertDialog open={!hasAcknowledged}>
       <AlertDialogContent className="max-w-md">
         <AlertDialogHeader className="space-y-4">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-            <FlaskConical className="h-6 w-6 text-primary" />
+          <div className="mx-auto">
+            <img src={logoFull} alt="Vertex Research Labs" className="h-24 w-auto" />
           </div>
           <AlertDialogTitle className="text-center text-xl">
             Research Use Only

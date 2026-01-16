@@ -78,8 +78,8 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <a href="mailto:info@vertexresearchlabs.com" className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
-                  <Mail size={14} />
-                  info@vertexresearchlabs.com
+                  <Mail size={14} className="flex-shrink-0" />
+                  <span>info@vertexresearchlabs.com</span>
                 </a>
               </li>
               <li>

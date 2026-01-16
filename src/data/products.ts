@@ -46,7 +46,8 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     image: bpc157Image,
-    category: "Peptide"
+    category: "Peptide",
+    coa: tb500Coa
   },
   {
     id: "tb-500",

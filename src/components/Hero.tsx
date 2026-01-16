@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, FlaskConical, FileCheck, Shield, Microscope, Package } from "lucide-react";
 
 const Hero = () => {
   return (
@@ -63,6 +63,32 @@ const Hero = () => {
             >
               <a href="#quality">Quality Standards</a>
             </Button>
+          </div>
+
+          {/* Trust Indicators */}
+          <div className="mt-10 sm:mt-14 animate-fade-up opacity-0 stagger-4">
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 sm:gap-x-8">
+              <div className="flex items-center gap-2 text-muted-foreground/70">
+                <Microscope size={14} className="text-muted-foreground/50" />
+                <span className="text-xs tracking-wide">Independent Analytical Testing</span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground/70">
+                <FileCheck size={14} className="text-muted-foreground/50" />
+                <span className="text-xs tracking-wide">Certificates of Analysis</span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground/70">
+                <FlaskConical size={14} className="text-muted-foreground/50" />
+                <span className="text-xs tracking-wide">Research Use Only</span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground/70">
+                <Shield size={14} className="text-muted-foreground/50" />
+                <span className="text-xs tracking-wide">Quality-Controlled Supply</span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground/70">
+                <Package size={14} className="text-muted-foreground/50" />
+                <span className="text-xs tracking-wide">Secure & Discreet Shipping</span>
+              </div>
+            </div>
           </div>
 
           {/* Scroll indicator - hidden on very small screens */}

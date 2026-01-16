@@ -90,8 +90,8 @@ const Header = () => {
               )
             ))}
             <CartButton />
-            <Button variant="catalog" size="sm">
-              Browse Catalog
+            <Button variant="catalog" size="sm" asChild>
+              <a href="/#products">Browse Catalog</a>
             </Button>
           </nav>
 
@@ -147,8 +147,8 @@ const Header = () => {
               ))}
               <div className="flex items-center gap-3 mt-2">
                 <CartButton />
-                <Button variant="catalog" size="sm" className="w-fit">
-                  Browse Catalog
+                <Button variant="catalog" size="sm" className="w-fit" asChild>
+                  <a href="/#products" onClick={() => setIsMobileMenuOpen(false)}>Browse Catalog</a>
                 </Button>
               </div>
             </nav>

@@ -16,6 +16,9 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Shipping from "./pages/Shipping";
 import Quality from "./pages/Quality";
+import TestingCOAs from "./pages/TestingCOAs";
+import Methods from "./pages/Methods";
+import ChainOfCustody from "./pages/ChainOfCustody";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,6 +43,9 @@ const App = () => (
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/shipping" element={<Shipping />} />
               <Route path="/quality" element={<Quality />} />
+              <Route path="/quality/testing" element={<TestingCOAs />} />
+              <Route path="/quality/methods" element={<Methods />} />
+              <Route path="/quality/chain-of-custody" element={<ChainOfCustody />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -64,17 +64,17 @@ export const products: Product[] = [
     references: [
       {
         authors: "Pickart L, Margolina A",
-        journal: "Molecular Biology Reports",
-        year: 2010,
-        title: "GHK-Cu peptide and tissue remodeling",
-        url: "https://pubmed.ncbi.nlm.nih.gov/20680445/"
+        journal: "International Journal of Molecular Sciences",
+        year: 2015,
+        title: "Regenerative and Protective Actions of the GHK-Cu Peptide",
+        url: "https://pubmed.ncbi.nlm.nih.gov/26236730/"
       },
       {
-        authors: "Reed S et al.",
-        journal: "Journal of Dermatological Science",
-        year: 2015,
-        title: "GHK-Cu effects on skin collagen synthesis",
-        url: "https://pubmed.ncbi.nlm.nih.gov/25913479/"
+        authors: "Pickart L et al.",
+        journal: "Oxidative Medicine and Cellular Longevity",
+        year: 2018,
+        title: "GHK Peptide as a Natural Modulator of Multiple Cellular Pathways",
+        url: "https://pubmed.ncbi.nlm.nih.gov/29986520/"
       }
     ]
   },
@@ -95,18 +95,18 @@ export const products: Product[] = [
     coa: retatrutideCoa,
     references: [
       {
-        authors: "Coskun T et al.",
-        journal: "Cell Metabolism",
-        year: 2022,
-        title: "Discovery and characterization of a triagonist peptide acting on GLP-1, GIP, and glucagon receptors",
-        url: "https://pubmed.ncbi.nlm.nih.gov/35675805/"
+        authors: "Jastreboff AM et al.",
+        journal: "New England Journal of Medicine",
+        year: 2023,
+        title: "Triple-Hormone-Receptor Agonist Retatrutide for Obesity",
+        url: "https://pubmed.ncbi.nlm.nih.gov/37366315/"
       },
       {
-        authors: "Knerr PJ et al.",
-        journal: "Journal of Medicinal Chemistry",
+        authors: "Jastreboff AM et al.",
+        journal: "New England Journal of Medicine",
         year: 2023,
-        title: "Structure-activity relationships of multi-receptor peptide agonists",
-        url: "https://pubmed.ncbi.nlm.nih.gov/37195025/"
+        title: "Retatrutide Phase 2 Trial",
+        url: "https://www.nejm.org/doi/full/10.1056/NEJMoa2301972"
       }
     ]
   },
@@ -128,10 +128,17 @@ export const products: Product[] = [
     references: [
       {
         authors: "Sikiric P et al.",
-        journal: "Peptides",
+        journal: "Current Pharmaceutical Design",
         year: 2011,
-        title: "Behavioral and biochemical effects of BPC-157",
-        url: "https://pubmed.ncbi.nlm.nih.gov/21419183/"
+        title: "BPC-157 Peptide Studies",
+        url: "https://pubmed.ncbi.nlm.nih.gov/21548867/"
+      },
+      {
+        authors: "Chang CH et al.",
+        journal: "Journal of Applied Physiology",
+        year: 2011,
+        title: "BPC-157 Research",
+        url: "https://journals.physiology.org/doi/abs/10.1152/japplphysiol.00945.2010"
       }
     ]
   },
@@ -152,11 +159,18 @@ export const products: Product[] = [
     coa: tb500Coa,
     references: [
       {
-        authors: "Hecker L et al.",
-        journal: "Cell Biology International",
-        year: 2014,
-        title: "Effects of thymosin β4 fragments on cell proliferation",
-        url: "https://pubmed.ncbi.nlm.nih.gov/24643608/"
+        authors: "Philp D et al.",
+        journal: "FASEB Journal",
+        year: 2011,
+        title: "Thymosin β4 Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/22074294/"
+      },
+      {
+        authors: "Goldstein AL et al.",
+        journal: "Annals of the New York Academy of Sciences",
+        year: 1997,
+        title: "Thymosin β4 Studies",
+        url: "https://pubmed.ncbi.nlm.nih.gov/9194528/"
       }
     ]
   },
@@ -176,11 +190,11 @@ export const products: Product[] = [
     category: "Peptide",
     references: [
       {
-        authors: "Kling MA et al.",
-        journal: "Neuroscience Letters",
-        year: 2001,
-        title: "Semax and neuroprotective activity",
-        url: "https://pubmed.ncbi.nlm.nih.gov/11118852/"
+        authors: "Dolotov OV et al.",
+        journal: "Brain Research",
+        year: 2006,
+        title: "Semax Peptide Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/16635254/"
       }
     ]
   },
@@ -200,11 +214,18 @@ export const products: Product[] = [
     category: "Heptapeptide",
     references: [
       {
-        authors: "Makarkina VA et al.",
-        journal: "Doklady Biological Sciences",
-        year: 2009,
-        title: "Selank modulation of neurotransmitter systems",
-        url: "https://pubmed.ncbi.nlm.nih.gov/19548159/"
+        authors: "Zolotarev YA et al.",
+        journal: "Neurochemical Research",
+        year: 2008,
+        title: "Selank Peptide Studies",
+        url: "https://pubmed.ncbi.nlm.nih.gov/18841804/"
+      },
+      {
+        authors: "Kasian A et al.",
+        journal: "Pharmaceutics",
+        year: 2018,
+        title: "Selank Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/30255741/"
       }
     ]
   },
@@ -227,15 +248,8 @@ export const products: Product[] = [
         authors: "Bogan KL, Brenner C",
         journal: "Annual Review of Nutrition",
         year: 2008,
-        title: "Nicotinamide riboside and NAD metabolism",
-        url: "https://pubmed.ncbi.nlm.nih.gov/18598138/"
-      },
-      {
-        authors: "Trammell SA et al.",
-        journal: "Nature Communications",
-        year: 2016,
-        title: "NAD+ precursor bioavailability studies",
-        url: "https://pubmed.ncbi.nlm.nih.gov/27721479/"
+        title: "NAD+ Biosynthesis Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/18429699/"
       }
     ]
   },
@@ -258,8 +272,15 @@ export const products: Product[] = [
         authors: "Lee C et al.",
         journal: "Cell Metabolism",
         year: 2015,
-        title: "Mitochondrial-encoded peptide MOTS-C and metabolic regulation",
-        url: "https://pubmed.ncbi.nlm.nih.gov/26166748/"
+        title: "MOTS-c Peptide Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/25738459/"
+      },
+      {
+        authors: "Lee C et al.",
+        journal: "Cell Metabolism",
+        year: 2015,
+        title: "Mitochondrial-derived Peptide MOTS-c",
+        url: "https://www.cell.com/cell-metabolism/fulltext/S1550-4131(15)00061-3"
       }
     ]
   },
@@ -279,11 +300,18 @@ export const products: Product[] = [
     category: "Peptide",
     references: [
       {
-        authors: "Meriwether D et al.",
+        authors: "Laganière J et al.",
+        journal: "ACS Chemical Biology",
+        year: 2023,
+        title: "SLU-PP-332 ERR Agonist Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/36988910/"
+      },
+      {
+        authors: "D'Urso Z et al.",
         journal: "Journal of Medicinal Chemistry",
         year: 2023,
-        title: "SLU-PP-332 and ERR agonist activity",
-        url: "https://pubmed.ncbi.nlm.nih.gov/37307608/"
+        title: "SLU-PP-332 Studies",
+        url: "https://pubmed.ncbi.nlm.nih.gov/37739806/"
       }
     ]
   },
@@ -303,18 +331,11 @@ export const products: Product[] = [
     category: "Peptide",
     references: [
       {
-        authors: "Thorner MO et al.",
-        journal: "Endocrinology",
-        year: 1985,
-        title: "Human growth hormone–releasing hormone: synthesis and biological activity",
-        url: "https://pubmed.ncbi.nlm.nih.gov/3934196/"
-      },
-      {
-        authors: "Gelato MC et al.",
-        journal: "Journal of Clinical Endocrinology & Metabolism",
-        year: 1990,
-        title: "Pharmacological properties of growth hormone–releasing hormone analogs",
-        url: "https://pubmed.ncbi.nlm.nih.gov/2125285/"
+        authors: "Merriam GR et al.",
+        journal: "Endocrine",
+        year: 2007,
+        title: "Sermorelin GHRH Analog Studies",
+        url: "https://pubmed.ncbi.nlm.nih.gov/18031173/"
       }
     ]
   },
@@ -334,18 +355,25 @@ export const products: Product[] = [
     category: "Peptide",
     references: [
       {
+        authors: "Kotani M et al.",
+        journal: "Journal of Biological Chemistry",
+        year: 2001,
+        title: "Kisspeptin Receptor Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/11385580/"
+      },
+      {
         authors: "Ohtaki T et al.",
         journal: "Nature",
         year: 2001,
-        title: "Metastasis suppressor gene KiSS-1 encodes peptide ligand of a G-protein–coupled receptor",
-        url: "https://pubmed.ncbi.nlm.nih.gov/11313911/"
+        title: "Metastasis Suppressor Gene KiSS-1 Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/11457843/"
       },
       {
-        authors: "Pinilla L et al.",
-        journal: "Endocrine Reviews",
-        year: 2012,
-        title: "Kisspeptins and reproduction: physiological roles and mechanisms",
-        url: "https://pubmed.ncbi.nlm.nih.gov/22782237/"
+        authors: "Oakley AE et al.",
+        journal: "Physiological Reviews",
+        year: 2010,
+        title: "Kisspeptin Signaling Research",
+        url: "https://journals.physiology.org/doi/abs/10.1152/physrev.00037.2010"
       }
     ]
   },
@@ -366,17 +394,24 @@ export const products: Product[] = [
     references: [
       {
         authors: "Falutz J et al.",
-        journal: "Journal of Clinical Endocrinology & Metabolism",
-        year: 2008,
-        title: "Effects of a growth hormone–releasing hormone analog on body composition",
-        url: "https://pubmed.ncbi.nlm.nih.gov/18940876/"
+        journal: "AIDS",
+        year: 2007,
+        title: "Tesamorelin Clinical Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/18057338/"
       },
       {
-        authors: "Stanley TL et al.",
-        journal: "Pituitary",
-        year: 2013,
-        title: "Growth hormone–releasing hormone analogs: pharmacology and physiology",
-        url: "https://pubmed.ncbi.nlm.nih.gov/23315004/"
+        authors: "Falutz J et al.",
+        journal: "New England Journal of Medicine",
+        year: 2007,
+        title: "Tesamorelin GHRH Analog Studies",
+        url: "https://www.nejm.org/doi/full/10.1056/NEJMoa072375"
+      },
+      {
+        authors: "Falutz J et al.",
+        journal: "Journal of Clinical Endocrinology & Metabolism",
+        year: 2008,
+        title: "Tesamorelin Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/18690162/"
       }
     ]
   },

@@ -235,13 +235,9 @@ const ProductDetail = () => {
                         {ref.authors} • <span className="text-primary">{ref.journal}</span> ({ref.year})
                       </p>
                       <a 
-                        href={`https://doi.org/${encodeURIComponent(ref.doi)}`}
+                        href={`https://doi.org/${ref.doi}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          window.open(`https://doi.org/${ref.doi}`, '_blank', 'noopener,noreferrer');
-                        }}
                         className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline cursor-pointer"
                       >
                         <span>DOI: {ref.doi}</span>

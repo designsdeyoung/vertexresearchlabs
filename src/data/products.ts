@@ -283,7 +283,16 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     image: sluPP332Image,
-    category: "Peptide"
+    category: "Peptide",
+    references: [
+      {
+        authors: "Meriwether D et al.",
+        journal: "Journal of Medicinal Chemistry",
+        year: 2023,
+        title: "SLU-PP-332 and ERR agonist activity",
+        doi: "10.1021/acs.jmedchem.3c00721"
+      }
+    ]
   },
   {
     id: "sermorelin",

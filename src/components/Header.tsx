@@ -1,9 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import logo from "@/assets/logo.png";
 import CartButton from "./CartButton";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -17,9 +23,16 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const qualitySubLinks = [
+    { label: "Quality Hub", href: "/quality" },
+    { label: "Testing & COAs", href: "/quality/testing" },
+    { label: "Testing Methods", href: "/quality/methods" },
+    { label: "Chain of Custody", href: "/quality/chain-of-custody" },
+  ];
+
   const navLinks = [
     { label: "Products", href: "/#products" },
-    { label: "Quality & COA", href: "/quality" },
+    { label: "Quality", href: "/quality", hasDropdown: true },
     { label: "Shipping", href: "/shipping" },
     { label: "Contact", href: "/#contact" },
   ];
@@ -42,7 +55,23 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              link.href.startsWith("/") && !link.href.includes("#") ? (
+              link.hasDropdown ? (
+                <DropdownMenu key={link.label}>
+                  <DropdownMenuTrigger className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 outline-none">
+                    {link.label}
+                    <ChevronDown size={14} />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-48">
+                    {qualitySubLinks.map((subLink) => (
+                      <DropdownMenuItem key={subLink.href} asChild>
+                        <Link to={subLink.href} className="cursor-pointer">
+                          {subLink.label}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : link.href.startsWith("/") && !link.href.includes("#") ? (
                 <Link
                   key={link.label}
                   to={link.href}
@@ -78,9 +107,25 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-border/50 animate-fade-in">
-            <nav className="flex flex-col gap-4">
+            <nav className="flex flex-col gap-2">
               {navLinks.map((link) => (
-                link.href.startsWith("/") && !link.href.includes("#") ? (
+                link.hasDropdown ? (
+                  <div key={link.label} className="py-2">
+                    <span className="text-muted-foreground font-medium">{link.label}</span>
+                    <div className="ml-4 mt-2 flex flex-col gap-2">
+                      {qualitySubLinks.map((subLink) => (
+                        <Link
+                          key={subLink.href}
+                          to={subLink.href}
+                          className="text-muted-foreground hover:text-foreground transition-colors py-1 text-sm"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {subLink.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ) : link.href.startsWith("/") && !link.href.includes("#") ? (
                   <Link
                     key={link.label}
                     to={link.href}

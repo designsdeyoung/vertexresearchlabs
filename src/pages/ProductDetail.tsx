@@ -176,15 +176,6 @@ const ProductDetail = () => {
               </div>
             </div>
           </div>
-
-          {/* Research Use Disclaimer */}
-          <div className="mt-16 pt-8 border-t border-border/30">
-            <div className="max-w-3xl mx-auto text-center">
-              <p className="text-xs text-muted-foreground/70 leading-relaxed">
-                <span className="font-medium text-muted-foreground">Research Use Only:</span> All products supplied by Vertex Research Labs are intended exclusively for laboratory research purposes. These materials are not intended for human or veterinary use, diagnostic applications, therapeutic purposes, or any form of consumption. By purchasing or using our products, you agree to use them solely for legitimate research activities.
-              </p>
-            </div>
-          </div>
         </div>
       </main>
       

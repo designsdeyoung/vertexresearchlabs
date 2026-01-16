@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useCallback, ReactNode, useMemo } from "react";
 import type { Product } from "@/data/products";
-import { FREE_SHIPPING_THRESHOLD } from "@/data/products";
+
+const FREE_SHIPPING_THRESHOLD = 99;
 
 interface CartItem {
   product: Product;

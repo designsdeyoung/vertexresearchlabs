@@ -43,6 +43,7 @@ export interface Product {
   category: string;
   coa?: string;
   references?: Reference[];
+  isNew?: boolean;
 }
 
 export const products: Product[] = [

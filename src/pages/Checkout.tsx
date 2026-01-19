@@ -11,6 +11,7 @@ import { useCompliance } from "@/contexts/ComplianceContext";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { FREE_SHIPPING_THRESHOLD } from "@/data/products";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import { 
   Shield, 
   CreditCard,
@@ -129,57 +130,42 @@ const Checkout = () => {
       })),
       subtotal,
       shipping: qualifiesForFreeShipping ? 0 : "TBD",
-      acknowledgedAt: new Date().toISOString(),
-      submittedAt: new Date().toISOString(),
     };
 
-    // Simulate order submission (in production, this would go to a backend)
-    // For now, we'll create a mailto link with the order details
-    const productList = items
-      .map(item => `• ${item.product.name} (${item.product.size}) x${item.quantity} - ${formatPrice(item.product.price * item.quantity)}`)
-      .join("\n");
+    try {
+      // Send order confirmation email via edge function
+      const { data, error } = await supabase.functions.invoke('send-order-confirmation', {
+        body: orderData,
+      });
 
-    const emailBody = `
-ORDER REQUEST - Vertex Research Labs
+      if (error) {
+        console.error('Error sending order confirmation:', error);
+        toast({
+          title: "Order Submitted",
+          description: "Your order was submitted but we couldn't send a confirmation email. We'll still process your order.",
+        });
+      } else {
+        console.log('Order confirmation sent:', data);
+        toast({
+          title: "Order Submitted",
+          description: "A confirmation email has been sent to your inbox.",
+        });
+      }
 
-Customer Information:
-Name: ${formData.fullName}
-Email: ${formData.email}
-Organization: ${formData.organization}
-Eligibility Type: ${eligibilityLabels[eligibilityType || ""] || eligibilityType}
-
-Shipping Address:
-${formData.address}
-
-Products Requested:
-${productList}
-
-Additional Notes:
-${formData.notes || "None"}
-
-Order Summary:
-Subtotal: ${formatPrice(subtotal)}
-Shipping: ${qualifiesForFreeShipping ? "FREE (US)" : "To be calculated"}
-
----
-Research Use Confirmation: CONFIRMED
-Terms & Conditions: ACCEPTED
-Submitted: ${new Date().toLocaleString()}
-    `.trim();
-
-    const mailtoLink = `mailto:orders@vertexresearchlabs.com?subject=${encodeURIComponent(
-      `Order Request - ${formatPrice(subtotal)} - Vertex Research Labs`
-    )}&body=${encodeURIComponent(emailBody)}`;
-
-    window.open(mailtoLink, "_blank");
-
-    // Navigate to confirmation
-    setTimeout(() => {
+      // Clear cart and navigate to confirmation
       clearCart();
       resetCompliance();
       navigate("/order-confirmation");
+    } catch (err) {
+      console.error('Error submitting order:', err);
+      toast({
+        title: "Error",
+        description: "There was a problem submitting your order. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 500);
+    }
   };
 
   const isFormValid = 

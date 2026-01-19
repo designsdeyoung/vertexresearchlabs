@@ -12,8 +12,8 @@ const Index = () => {
       <Header />
       <main>
         <Hero />
-        <PeptidePeriodicTable />
         <ProductCatalog />
+        <PeptidePeriodicTable />
         <QualitySection />
         <ContactSection />
       </main>

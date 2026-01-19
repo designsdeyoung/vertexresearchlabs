@@ -462,6 +462,52 @@ export const products: Product[] = [
         url: "https://pubmed.ncbi.nlm.nih.gov/10579327/"
       }
     ]
+  },
+  {
+    id: "dsip",
+    name: "DSIP (Delta Sleep-Inducing Peptide)",
+    subtitle: "Research Grade",
+    size: "5mg",
+    price: 42,
+    description: "Nonapeptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    category: "Peptide",
+    references: [
+      {
+        authors: "Graf MV, Kastin AJ",
+        journal: "Peptides",
+        year: 1984,
+        title: "Delta Sleep-Inducing Peptide (DSIP) Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/6438537/"
+      }
+    ]
+  },
+  {
+    id: "epithalon",
+    name: "Epithalon (Epitalon)",
+    subtitle: "Research Grade",
+    size: "10mg",
+    price: 65,
+    description: "Tetrapeptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    category: "Peptide",
+    references: [
+      {
+        authors: "Khavinson VK et al.",
+        journal: "Bulletin of Experimental Biology and Medicine",
+        year: 2003,
+        title: "Epithalon Peptide Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/12937682/"
+      }
+    ]
   }
 ];
 

@@ -9,6 +9,7 @@ import { ComplianceProvider } from "@/contexts/ComplianceContext";
 import InquiryCart from "@/components/InquiryCart";
 import ScrollToTop from "@/components/ScrollToTop";
 import ResearchDisclaimerDialog from "@/components/ResearchDisclaimerDialog";
+import ChatWidget from "@/components/ChatWidget";
 import Index from "./pages/Index";
 import ProductDetail from "./pages/ProductDetail";
 import ResearchAccess from "./pages/ResearchAccess";
@@ -38,6 +39,7 @@ const App = () => (
             <BrowserRouter>
               <ScrollToTop />
               <InquiryCart />
+              <ChatWidget />
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/product/:productId" element={<ProductDetail />} />

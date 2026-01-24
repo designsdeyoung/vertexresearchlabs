@@ -1,11 +1,13 @@
-import { useRef } from "react";
+import { useRef, lazy, Suspense } from "react";
 import { motion, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, FlaskConical, FileCheck, Shield, Microscope, Package } from "lucide-react";
 import { useScrollProgress } from "./hero/useScrollProgress";
-import HeroVialScene from "./hero/HeroVialScene";
 import MolecularLines from "./hero/MolecularLines";
 import PurityDisplay from "./hero/PurityDisplay";
+
+// Lazy load the 3D scene for better initial load
+const Hero3DScene = lazy(() => import("./hero/Hero3DScene"));
 
 const Hero = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -15,11 +17,14 @@ const Hero = () => {
   const backgroundOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0.6, 0.8]);
   
   // Content opacity - fade out as we enter the purity zoom stage
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 1, 0]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.25, 0.45], [1, 1, 0]);
   
   // Content scale and blur during transition
-  const contentScale = useTransform(scrollYProgress, [0.3, 0.5], [1, 0.95]);
-  const contentBlur = useTransform(scrollYProgress, [0.35, 0.5], [0, 8]);
+  const contentScale = useTransform(scrollYProgress, [0.25, 0.45], [1, 0.95]);
+  const contentBlur = useTransform(scrollYProgress, [0.3, 0.45], [0, 10]);
+
+  // 3D scene opacity - always visible but dims during purity focus
+  const sceneOpacity = useTransform(scrollYProgress, [0.5, 0.7], [1, 0.3]);
 
   return (
     <section
@@ -68,11 +73,30 @@ const Hero = () => {
         {/* Molecular background lines */}
         <MolecularLines scrollProgress={scrollYProgress} />
 
-        {/* Main content container - uses flexbox to stack content and vial */}
-        <div className="relative z-30 h-full flex flex-col">
+        {/* 3D Vial Scene */}
+        <motion.div
+          className="absolute inset-0 z-10"
+          style={{ opacity: sceneOpacity }}
+        >
+          <Suspense
+            fallback={
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
+              </div>
+            }
+          >
+            <Hero3DScene scrollProgress={scrollYProgress} />
+          </Suspense>
+        </motion.div>
+
+        {/* Purity Display - overlays during focus stage */}
+        <PurityDisplay scrollProgress={scrollYProgress} />
+
+        {/* Main content container */}
+        <div className="relative z-30 h-full flex flex-col pointer-events-none">
           {/* Text content - positioned at top */}
           <motion.div
-            className="flex-shrink-0 pt-20 sm:pt-28"
+            className="flex-shrink-0 pt-20 sm:pt-28 pointer-events-auto"
             style={{
               opacity: contentOpacity,
               scale: contentScale,
@@ -149,12 +173,6 @@ const Hero = () => {
               </div>
             </div>
           </motion.div>
-
-          {/* Vial scene - positioned below content */}
-          <div className="flex-1 relative min-h-[300px]">
-            <HeroVialScene scrollProgress={scrollYProgress} />
-            <PurityDisplay scrollProgress={scrollYProgress} />
-          </div>
         </div>
 
         {/* Scroll indicator - visible only at start */}

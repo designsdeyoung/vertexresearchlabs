@@ -37,15 +37,14 @@ const VialShowcase = () => {
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"],
+    offset: ["start 0.8", "end 0.2"],
   });
 
   // Update active vial based on scroll position
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    // Map scroll progress (0.2 to 0.8) to vial indices
-    // This gives a nice range where the rotation happens as the section is in view
-    const adjustedProgress = Math.max(0, Math.min(1, (latest - 0.15) / 0.7));
-    const newIndex = Math.floor(adjustedProgress * vials.length);
+    // Cycle through all 3 vials as section scrolls through viewport
+    // Divide the scroll into 3 equal parts
+    const newIndex = Math.floor(latest * vials.length);
     const clampedIndex = Math.max(0, Math.min(vials.length - 1, newIndex));
     
     if (clampedIndex !== activeIndex) {
@@ -54,7 +53,7 @@ const VialShowcase = () => {
   });
 
   // Simple parallax for the whole carousel
-  const carouselY = useTransform(scrollYProgress, [0, 1], [80, -80]);
+  const carouselY = useTransform(scrollYProgress, [0, 1], [40, -40]);
 
   // Calculate position for each vial based on its offset from active
   const getVialPosition = (index: number) => {

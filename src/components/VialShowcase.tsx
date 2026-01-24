@@ -2,6 +2,8 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Shield, FileCheck, Microscope } from "lucide-react";
 import ghkVial from "@/assets/showcase/ghk-vial.png";
+import bpcVial from "@/assets/showcase/bpc-vial.png";
+import tbVial from "@/assets/showcase/tb-vial.png";
 import FloatingParticles from "./FloatingParticles";
 import ScientificMeters from "./ScientificMeters";
 
@@ -55,24 +57,61 @@ const VialShowcase = () => {
         {/* Top section - Vial + Bullet Points */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-20">
           
-          {/* Left side - Vial Image */}
+          {/* Left side - Vial Images with depth */}
           <motion.div
-            className="relative flex items-center justify-center"
+            className="relative flex items-center justify-center h-[450px] md:h-[550px] lg:h-[600px]"
             style={{
               y: imageY,
-              scale: imageScale,
-              opacity: imageOpacity,
             }}
           >
-            {/* Glow effect */}
-            <div className="absolute inset-0 flex items-center justify-center">
+            {/* Background vial - TB-500 (left back) */}
+            <motion.div
+              className="absolute"
+              style={{
+                left: '5%',
+                top: '10%',
+                scale: imageScale,
+                opacity: useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 0.7, 0.7, 0.3]),
+              }}
+            >
+              <img
+                src={tbVial}
+                alt="TB-500 Peptide Research Vial"
+                className="w-auto h-[280px] md:h-[350px] lg:h-[400px] object-contain drop-shadow-xl blur-[1px] opacity-70"
+              />
+            </motion.div>
+
+            {/* Background vial - BPC-157 (right back) */}
+            <motion.div
+              className="absolute"
+              style={{
+                right: '5%',
+                top: '8%',
+                scale: imageScale,
+                opacity: useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 0.7, 0.7, 0.3]),
+              }}
+            >
+              <img
+                src={bpcVial}
+                alt="BPC-157 Peptide Research Vial"
+                className="w-auto h-[300px] md:h-[370px] lg:h-[420px] object-contain drop-shadow-xl blur-[1px] opacity-70"
+              />
+            </motion.div>
+
+            {/* Glow effect behind main vial */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="w-48 h-48 md:w-64 md:h-64 bg-primary/20 rounded-full blur-3xl animate-pulse" />
             </div>
             
-            <img
+            {/* Main vial - GHK-Cu (front center) */}
+            <motion.img
               src={ghkVial}
               alt="GHK-Cu Copper Peptide Research Vial"
-              className="relative w-auto h-[400px] md:h-[500px] lg:h-[550px] object-contain drop-shadow-2xl"
+              className="relative z-10 w-auto h-[380px] md:h-[480px] lg:h-[530px] object-contain drop-shadow-2xl"
+              style={{
+                scale: imageScale,
+                opacity: imageOpacity,
+              }}
             />
           </motion.div>
 

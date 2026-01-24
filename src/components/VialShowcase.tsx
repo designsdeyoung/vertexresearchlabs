@@ -1,5 +1,5 @@
-import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { Shield, FileCheck, Microscope } from "lucide-react";
 import ghkVial from "@/assets/showcase/ghk-vial.png";
 import bpcVial from "@/assets/showcase/bpc-vial.png";
@@ -40,13 +40,18 @@ const VialShowcase = () => {
     offset: ["start end", "end start"],
   });
 
-  // Auto-rotate every 3 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % vials.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+  // Update active vial based on scroll position
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    // Map scroll progress (0.2 to 0.8) to vial indices
+    // This gives a nice range where the rotation happens as the section is in view
+    const adjustedProgress = Math.max(0, Math.min(1, (latest - 0.15) / 0.7));
+    const newIndex = Math.floor(adjustedProgress * vials.length);
+    const clampedIndex = Math.max(0, Math.min(vials.length - 1, newIndex));
+    
+    if (clampedIndex !== activeIndex) {
+      setActiveIndex(clampedIndex);
+    }
+  });
 
   // Simple parallax for the whole carousel
   const carouselY = useTransform(scrollYProgress, [0, 1], [80, -80]);

@@ -66,7 +66,6 @@ const VialShowcase = () => {
         z: 100,
         scale: 1,
         opacity: 1,
-        blur: 0,
         rotateY: 0,
       };
     } else if (offset === 1) {
@@ -74,8 +73,7 @@ const VialShowcase = () => {
         x: 120,
         z: -50,
         scale: 0.75,
-        opacity: 0.6,
-        blur: 2,
+        opacity: 1,
         rotateY: 25,
       };
     } else {
@@ -83,8 +81,7 @@ const VialShowcase = () => {
         x: -120,
         z: -50,
         scale: 0.75,
-        opacity: 0.6,
-        blur: 2,
+        opacity: 1,
         rotateY: -25,
       };
     }
@@ -160,7 +157,6 @@ const VialShowcase = () => {
                       className="w-auto object-contain drop-shadow-2xl"
                       style={{
                         height: isFront ? "clamp(380px, 50vw, 530px)" : "clamp(280px, 40vw, 420px)",
-                        filter: `blur(${pos.blur}px)`,
                       }}
                       animate={isFront ? {
                         y: [0, -10, 0],

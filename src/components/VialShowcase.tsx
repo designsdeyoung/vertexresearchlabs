@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Shield, FileCheck, Microscope } from "lucide-react";
 import ghkVial from "@/assets/showcase/ghk-vial.png";
 import bpcVial from "@/assets/showcase/bpc-vial.png";
@@ -25,18 +25,66 @@ const bulletPoints = [
   },
 ];
 
+const vials = [
+  { src: ghkVial, alt: "GHK-Cu Copper Peptide Research Vial", name: "GHK-Cu" },
+  { src: bpcVial, alt: "BPC-157 Peptide Research Vial", name: "BPC-157" },
+  { src: tbVial, alt: "TB-500 Peptide Research Vial", name: "TB-500" },
+];
+
 const VialShowcase = () => {
   const containerRef = useRef<HTMLElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
 
-  // Simple, smooth animations
-  const imageY = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.95]);
-  const imageOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0.5]);
+  // Auto-rotate every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % vials.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Simple parallax for the whole carousel
+  const carouselY = useTransform(scrollYProgress, [0, 1], [80, -80]);
+
+  // Calculate position for each vial based on its offset from active
+  const getVialPosition = (index: number) => {
+    const offset = (index - activeIndex + vials.length) % vials.length;
+    
+    // Positions: 0 = front, 1 = right-back, 2 = left-back
+    if (offset === 0) {
+      return {
+        x: 0,
+        z: 100,
+        scale: 1,
+        opacity: 1,
+        blur: 0,
+        rotateY: 0,
+      };
+    } else if (offset === 1) {
+      return {
+        x: 120,
+        z: -50,
+        scale: 0.75,
+        opacity: 0.6,
+        blur: 2,
+        rotateY: 25,
+      };
+    } else {
+      return {
+        x: -120,
+        z: -50,
+        scale: 0.75,
+        opacity: 0.6,
+        blur: 2,
+        rotateY: -25,
+      };
+    }
+  };
 
   return (
     <section
@@ -57,62 +105,105 @@ const VialShowcase = () => {
         {/* Top section - Vial + Bullet Points */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-20">
           
-          {/* Left side - Vial Images with depth */}
+          {/* Left side - Revolver Carousel */}
           <motion.div
             className="relative flex items-center justify-center h-[450px] md:h-[550px] lg:h-[600px]"
-            style={{
-              y: imageY,
-            }}
+            style={{ y: carouselY, perspective: 1000 }}
           >
-            {/* Background vial - TB-500 (left back) */}
-            <motion.div
-              className="absolute"
-              style={{
-                left: '5%',
-                top: '10%',
-                scale: imageScale,
-                opacity: useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 0.7, 0.7, 0.3]),
-              }}
-            >
-              <img
-                src={tbVial}
-                alt="TB-500 Peptide Research Vial"
-                className="w-auto h-[280px] md:h-[350px] lg:h-[400px] object-contain drop-shadow-xl blur-[1px] opacity-70"
-              />
-            </motion.div>
-
-            {/* Background vial - BPC-157 (right back) */}
-            <motion.div
-              className="absolute"
-              style={{
-                right: '5%',
-                top: '8%',
-                scale: imageScale,
-                opacity: useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 0.7, 0.7, 0.3]),
-              }}
-            >
-              <img
-                src={bpcVial}
-                alt="BPC-157 Peptide Research Vial"
-                className="w-auto h-[300px] md:h-[370px] lg:h-[420px] object-contain drop-shadow-xl blur-[1px] opacity-70"
-              />
-            </motion.div>
-
             {/* Glow effect behind main vial */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-48 h-48 md:w-64 md:h-64 bg-primary/20 rounded-full blur-3xl animate-pulse" />
+              <motion.div 
+                className="w-48 h-48 md:w-64 md:h-64 bg-primary/20 rounded-full blur-3xl"
+                animate={{ 
+                  scale: [1, 1.2, 1],
+                  opacity: [0.3, 0.5, 0.3]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
             </div>
-            
-            {/* Main vial - GHK-Cu (front center) */}
-            <motion.img
-              src={ghkVial}
-              alt="GHK-Cu Copper Peptide Research Vial"
-              className="relative z-10 w-auto h-[380px] md:h-[480px] lg:h-[530px] object-contain drop-shadow-2xl"
-              style={{
-                scale: imageScale,
-                opacity: imageOpacity,
-              }}
-            />
+
+            {/* Rotating vials */}
+            <div className="relative w-full h-full flex items-center justify-center" style={{ transformStyle: "preserve-3d" }}>
+              {vials.map((vial, index) => {
+                const pos = getVialPosition(index);
+                const isFront = (index - activeIndex + vials.length) % vials.length === 0;
+                
+                return (
+                  <motion.div
+                    key={vial.name}
+                    className="absolute cursor-pointer"
+                    animate={{
+                      x: pos.x,
+                      scale: pos.scale,
+                      opacity: pos.opacity,
+                      rotateY: pos.rotateY,
+                      zIndex: pos.z,
+                    }}
+                    transition={{
+                      duration: 0.8,
+                      ease: [0.4, 0, 0.2, 1],
+                    }}
+                    onClick={() => setActiveIndex(index)}
+                    whileHover={!isFront ? { scale: pos.scale * 1.05, opacity: pos.opacity + 0.1 } : {}}
+                  >
+                    <motion.img
+                      src={vial.src}
+                      alt={vial.alt}
+                      className="w-auto object-contain drop-shadow-2xl"
+                      style={{
+                        height: isFront ? "clamp(380px, 50vw, 530px)" : "clamp(280px, 40vw, 420px)",
+                        filter: `blur(${pos.blur}px)`,
+                      }}
+                      animate={isFront ? {
+                        y: [0, -10, 0],
+                      } : {}}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                    />
+                    
+                    {/* Product label for front vial */}
+                    <AnimatePresence>
+                      {isFront && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.4, delay: 0.2 }}
+                          className="absolute -bottom-4 left-1/2 -translate-x-1/2 text-center"
+                        >
+                          <span className="text-lg md:text-xl font-semibold text-primary">
+                            {vial.name}
+                          </span>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            {/* Carousel indicators */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
+              {vials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveIndex(index)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    index === activeIndex 
+                      ? "bg-primary w-6" 
+                      : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                  }`}
+                  aria-label={`View ${vials[index].name}`}
+                />
+              ))}
+            </div>
           </motion.div>
 
           {/* Right side - Content */}

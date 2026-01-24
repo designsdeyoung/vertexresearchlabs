@@ -1,11 +1,10 @@
-import { useRef, lazy, Suspense } from "react";
+import { useRef } from "react";
 import { motion, useTransform } from "framer-motion";
 import { Shield, FileCheck, Microscope } from "lucide-react";
 import { useScrollProgress } from "./hero/useScrollProgress";
 import MolecularLines from "./hero/MolecularLines";
 import PurityDisplay from "./hero/PurityDisplay";
-
-const Hero3DScene = lazy(() => import("./hero/Hero3DScene"));
+import ghkVial from "@/assets/showcase/ghk-vial.png";
 
 const bulletPoints = [
   {
@@ -32,8 +31,10 @@ const VialShowcase = () => {
   // Background transition
   const backgroundOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0.6, 0.8]);
 
-  // 3D scene opacity
-  const sceneOpacity = useTransform(scrollYProgress, [0.5, 0.7], [1, 0.3]);
+  // Image animation
+  const imageScale = useTransform(scrollYProgress, [0, 0.3], [0.9, 1]);
+  const imageOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
+  const imageY = useTransform(scrollYProgress, [0, 0.3], [50, 0]);
 
   // Bullet points stagger animation
   const bulletOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
@@ -89,21 +90,21 @@ const VialShowcase = () => {
         {/* Main content layout */}
         <div className="relative z-20 h-full flex items-center">
           <div className="container mx-auto px-4 sm:px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-              {/* Left side - 3D Vial */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+              {/* Left side - Vial Image */}
               <motion.div
-                className="relative h-[50vh] lg:h-[70vh] order-1"
-                style={{ opacity: sceneOpacity }}
+                className="relative flex items-center justify-center order-1"
+                style={{
+                  opacity: imageOpacity,
+                  scale: imageScale,
+                  y: imageY,
+                }}
               >
-                <Suspense
-                  fallback={
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-12 h-12 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
-                    </div>
-                  }
-                >
-                  <Hero3DScene scrollProgress={scrollYProgress} />
-                </Suspense>
+                <img
+                  src={ghkVial}
+                  alt="GHK-Cu Copper Peptide Research Vial"
+                  className="w-auto h-[50vh] lg:h-[70vh] max-h-[600px] object-contain drop-shadow-2xl"
+                />
               </motion.div>
 
               {/* Right side - Bullet Points */}

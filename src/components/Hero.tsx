@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { ArrowDown, FlaskConical, FileCheck, Shield, Microscope, Package } from "lucide-react";
+import FloatingParticles from "./FloatingParticles";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex flex-col">
+    <section className="relative min-h-screen flex flex-col overflow-hidden">
       {/* Background gradient */}
       <div
         className="absolute inset-0"
@@ -12,6 +13,9 @@ const Hero = () => {
           opacity: 0.6,
         }}
       />
+
+      {/* Floating particles */}
+      <FloatingParticles count={60} />
 
       {/* Subtle grid pattern */}
       <div

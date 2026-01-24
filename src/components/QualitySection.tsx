@@ -1,4 +1,5 @@
 import { CheckCircle, FileCheck, Microscope, Shield } from "lucide-react";
+import FloatingParticles from "./FloatingParticles";
 
 const qualityPoints = [
   {
@@ -25,8 +26,11 @@ const qualityPoints = [
 
 const QualitySection = () => {
   return (
-    <section id="quality" className="py-24 relative">
-      <div className="container mx-auto px-6">
+    <section id="quality" className="py-24 relative overflow-hidden">
+      {/* Floating particles */}
+      <FloatingParticles count={25} />
+      
+      <div className="container mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left content */}
           <div>

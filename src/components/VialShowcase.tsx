@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Shield, FileCheck, Microscope } from "lucide-react";
 import ghkVial from "@/assets/showcase/ghk-vial.png";
 import FloatingParticles from "./FloatingParticles";
+import ScientificMeters from "./ScientificMeters";
 
 const bulletPoints = [
   {
@@ -47,11 +48,12 @@ const VialShowcase = () => {
       <FloatingParticles count={40} />
 
       {/* Subtle glow behind vial */}
-      <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[100px]" />
+      <div className="absolute top-1/3 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[100px]" />
 
       {/* Main content */}
       <div className="relative z-10 container mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        {/* Top section - Vial + Bullet Points */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-20">
           
           {/* Left side - Vial Image */}
           <motion.div
@@ -124,6 +126,11 @@ const VialShowcase = () => {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* Bottom section - Scientific Meters */}
+        <div className="glass-card rounded-2xl p-8 md:p-12 border border-border/50">
+          <ScientificMeters />
         </div>
       </div>
     </section>

@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import VialShowcase from "@/components/VialShowcase";
 import PeptidePeriodicTable from "@/components/PeptidePeriodicTable";
 import ProductCatalog from "@/components/ProductCatalog";
 import QualitySection from "@/components/QualitySection";
@@ -12,6 +13,9 @@ const Index = () => {
       <Header />
       <main>
         <Hero />
+        <section id="showcase">
+          <VialShowcase />
+        </section>
         <ProductCatalog />
         <PeptidePeriodicTable />
         <QualitySection />

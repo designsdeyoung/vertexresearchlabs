@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Mail, MessageSquare, Loader2, Phone, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import FloatingParticles from "./FloatingParticles";
 
 interface FormData {
   name: string;
@@ -100,9 +101,12 @@ ${formData.message}`;
   };
 
   return (
-    <section id="contact" className="py-24 relative">
+    <section id="contact" className="py-24 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/10 to-background" />
+      
+      {/* Floating particles */}
+      <FloatingParticles count={20} />
 
       <div className="container relative z-10 mx-auto px-6">
         <div className="max-w-2xl mx-auto text-center">

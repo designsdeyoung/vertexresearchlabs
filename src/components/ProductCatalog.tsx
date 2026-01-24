@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { products } from "@/data/products";
 import { Search, X } from "lucide-react";
+import FloatingParticles from "./FloatingParticles";
+
 const ProductCatalog = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -27,9 +29,12 @@ const ProductCatalog = () => {
     setSelectedCategory(null);
   };
   const hasActiveFilters = searchQuery !== "" || selectedCategory !== null;
-  return <section id="products" className="py-24 relative">
+  return <section id="products" className="py-24 relative overflow-hidden">
       {/* Background accent */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background" />
+      
+      {/* Floating particles */}
+      <FloatingParticles count={30} />
       
       <div className="container relative z-10 mx-auto px-6">
         {/* Section header */}

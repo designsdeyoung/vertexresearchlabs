@@ -37,14 +37,15 @@ const VialShowcase = () => {
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start 0.8", "end 0.2"],
+    offset: ["start end", "end start"],
   });
 
   // Update active vial based on scroll position
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    // Cycle through all 3 vials as section scrolls through viewport
-    // Divide the scroll into 3 equal parts
-    const newIndex = Math.floor(latest * vials.length);
+    // Map scroll progress (0.2 to 0.8) to vial indices
+    // This gives a nice range where the rotation happens as the section is in view
+    const adjustedProgress = Math.max(0, Math.min(1, (latest - 0.15) / 0.7));
+    const newIndex = Math.floor(adjustedProgress * vials.length);
     const clampedIndex = Math.max(0, Math.min(vials.length - 1, newIndex));
     
     if (clampedIndex !== activeIndex) {
@@ -53,7 +54,7 @@ const VialShowcase = () => {
   });
 
   // Simple parallax for the whole carousel
-  const carouselY = useTransform(scrollYProgress, [0, 1], [40, -40]);
+  const carouselY = useTransform(scrollYProgress, [0, 1], [80, -80]);
 
   // Calculate position for each vial based on its offset from active
   const getVialPosition = (index: number) => {
@@ -66,6 +67,7 @@ const VialShowcase = () => {
         z: 100,
         scale: 1,
         opacity: 1,
+        blur: 0,
         rotateY: 0,
       };
     } else if (offset === 1) {
@@ -73,7 +75,8 @@ const VialShowcase = () => {
         x: 120,
         z: -50,
         scale: 0.75,
-        opacity: 1,
+        opacity: 0.6,
+        blur: 2,
         rotateY: 25,
       };
     } else {
@@ -81,7 +84,8 @@ const VialShowcase = () => {
         x: -120,
         z: -50,
         scale: 0.75,
-        opacity: 1,
+        opacity: 0.6,
+        blur: 2,
         rotateY: -25,
       };
     }
@@ -157,6 +161,7 @@ const VialShowcase = () => {
                       className="w-auto object-contain drop-shadow-2xl"
                       style={{
                         height: isFront ? "clamp(380px, 50vw, 530px)" : "clamp(280px, 40vw, 420px)",
+                        filter: `blur(${pos.blur}px)`,
                       }}
                       animate={isFront ? {
                         y: [0, -10, 0],

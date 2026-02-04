@@ -97,6 +97,8 @@ export const InquiryCartProvider = ({ children }: { children: ReactNode }) => {
         toggleCart,
         itemCount,
         subtotal,
+        shippingCost,
+        total,
         qualifiesForFreeShipping,
         amountToFreeShipping,
       }}

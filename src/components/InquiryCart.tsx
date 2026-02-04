@@ -14,6 +14,8 @@ const InquiryCart = () => {
     updateQuantity, 
     clearCart,
     subtotal,
+    shippingCost,
+    total,
     qualifiesForFreeShipping,
     amountToFreeShipping
   } = useInquiryCart();

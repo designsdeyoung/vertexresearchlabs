@@ -80,6 +80,8 @@ export const InquiryCartProvider = ({ children }: { children: ReactNode }) => {
   
   const qualifiesForFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
   const amountToFreeShipping = qualifiesForFreeShipping ? 0 : FREE_SHIPPING_THRESHOLD - subtotal;
+  const shippingCost = qualifiesForFreeShipping ? 0 : FLAT_RATE_SHIPPING;
+  const total = subtotal + shippingCost;
 
   return (
     <InquiryCartContext.Provider

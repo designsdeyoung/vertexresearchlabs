@@ -27,7 +27,7 @@ import { Link } from "react-router-dom";
 const Checkout = () => {
   const navigate = useNavigate();
   const { hasAcknowledged, eligibilityType, resetCompliance } = useCompliance();
-  const { items, clearCart, subtotal, qualifiesForFreeShipping } = useInquiryCart();
+  const { items, clearCart, subtotal, shippingCost, total, qualifiesForFreeShipping } = useInquiryCart();
   
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {

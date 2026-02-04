@@ -444,12 +444,15 @@ const Checkout = () => {
                     {qualifiesForFreeShipping ? (
                       <span className="text-primary font-medium">FREE</span>
                     ) : (
-                      <span className="text-muted-foreground text-xs">Free over ${FREE_SHIPPING_THRESHOLD}</span>
+                      <span className="text-foreground font-medium">{formatPrice(FLAT_RATE_SHIPPING)}</span>
                     )}
                   </div>
+                  {!qualifiesForFreeShipping && (
+                    <p className="text-xs text-muted-foreground">Free shipping on orders over ${FREE_SHIPPING_THRESHOLD}</p>
+                  )}
                   <div className="flex justify-between text-base pt-2 border-t border-border/30">
                     <span className="font-medium text-foreground">Total</span>
-                    <span className="font-semibold text-foreground">{formatPrice(subtotal)}</span>
+                    <span className="font-semibold text-foreground">{formatPrice(total)}</span>
                   </div>
                 </div>
 

@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useCompliance } from "@/contexts/ComplianceContext";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
-import { FREE_SHIPPING_THRESHOLD } from "@/data/products";
+import { FREE_SHIPPING_THRESHOLD, FLAT_RATE_SHIPPING } from "@/contexts/InquiryCartContext";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { 

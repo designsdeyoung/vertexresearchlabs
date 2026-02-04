@@ -40,7 +40,12 @@ const Checkout = () => {
     fullName: "",
     email: "",
     organization: "",
-    address: "",
+    addressLine1: "",
+    addressLine2: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    country: "United States",
     notes: "",
   });
   
@@ -171,8 +176,11 @@ const Checkout = () => {
   const isFormValid = 
     formData.fullName.trim() !== "" &&
     formData.email.trim() !== "" &&
-    formData.organization.trim() !== "" &&
-    formData.address.trim() !== "" &&
+    formData.addressLine1.trim() !== "" &&
+    formData.city.trim() !== "" &&
+    formData.state.trim() !== "" &&
+    formData.zipCode.trim() !== "" &&
+    formData.country.trim() !== "" &&
     finalConfirmation;
 
   return (
@@ -244,10 +252,9 @@ const Checkout = () => {
                   
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="organization">Organization / Institution *</Label>
+                      <Label htmlFor="organization">Organization / University (Optional)</Label>
                       <Input
                         id="organization"
-                        required
                         maxLength={200}
                         value={formData.organization}
                         onChange={e => setFormData(prev => ({ ...prev, organization: e.target.value }))}
@@ -265,24 +272,92 @@ const Checkout = () => {
                   </div>
                 </div>
 
-                {/* Shipping */}
+                {/* Shipping Address */}
                 <div className="glass-card rounded-lg p-6">
                   <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
                     <Mail size={20} className="text-primary" />
                     Shipping Address
                   </h2>
                   
-                  <div className="space-y-2">
-                    <Label htmlFor="address">Full Address *</Label>
-                    <Textarea
-                      id="address"
-                      required
-                      maxLength={500}
-                      value={formData.address}
-                      onChange={e => setFormData(prev => ({ ...prev, address: e.target.value }))}
-                      placeholder="Laboratory address including building, room number, city, state/province, postal code, and country"
-                      className="bg-secondary/50 min-h-[100px]"
-                    />
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="addressLine1">Address Line 1 *</Label>
+                      <Input
+                        id="addressLine1"
+                        required
+                        maxLength={200}
+                        value={formData.addressLine1}
+                        onChange={e => setFormData(prev => ({ ...prev, addressLine1: e.target.value }))}
+                        placeholder="123 Research Drive, Building A"
+                        className="bg-secondary/50"
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="addressLine2">Address Line 2 (Optional)</Label>
+                      <Input
+                        id="addressLine2"
+                        maxLength={200}
+                        value={formData.addressLine2}
+                        onChange={e => setFormData(prev => ({ ...prev, addressLine2: e.target.value }))}
+                        placeholder="Suite 100, Room 205"
+                        className="bg-secondary/50"
+                      />
+                    </div>
+                    
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="space-y-2">
+                        <Label htmlFor="city">City *</Label>
+                        <Input
+                          id="city"
+                          required
+                          maxLength={100}
+                          value={formData.city}
+                          onChange={e => setFormData(prev => ({ ...prev, city: e.target.value }))}
+                          placeholder="San Francisco"
+                          className="bg-secondary/50"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="state">State / Province *</Label>
+                        <Input
+                          id="state"
+                          required
+                          maxLength={100}
+                          value={formData.state}
+                          onChange={e => setFormData(prev => ({ ...prev, state: e.target.value }))}
+                          placeholder="California"
+                          className="bg-secondary/50"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="space-y-2">
+                        <Label htmlFor="zipCode">ZIP / Postal Code *</Label>
+                        <Input
+                          id="zipCode"
+                          required
+                          maxLength={20}
+                          value={formData.zipCode}
+                          onChange={e => setFormData(prev => ({ ...prev, zipCode: e.target.value }))}
+                          placeholder="94102"
+                          className="bg-secondary/50"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="country">Country *</Label>
+                        <Input
+                          id="country"
+                          required
+                          maxLength={100}
+                          value={formData.country}
+                          onChange={e => setFormData(prev => ({ ...prev, country: e.target.value }))}
+                          placeholder="United States"
+                          className="bg-secondary/50"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
 

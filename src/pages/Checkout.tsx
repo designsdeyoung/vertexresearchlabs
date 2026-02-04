@@ -134,7 +134,8 @@ const Checkout = () => {
         lineTotal: item.product.price * item.quantity,
       })),
       subtotal,
-      shipping: qualifiesForFreeShipping ? 0 : "TBD",
+      shipping: shippingCost,
+      total,
     };
 
     try {

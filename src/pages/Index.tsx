@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import VialShowcase from "@/components/VialShowcase";
+import MoleculeBuilder from "@/components/MoleculeBuilder";
 import PeptidePeriodicTable from "@/components/PeptidePeriodicTable";
 import ProductCatalog from "@/components/ProductCatalog";
 import QualitySection from "@/components/QualitySection";
@@ -16,6 +17,7 @@ const Index = () => {
         <section id="showcase">
           <VialShowcase />
         </section>
+        <MoleculeBuilder />
         <ProductCatalog />
         <PeptidePeriodicTable />
         <QualitySection />

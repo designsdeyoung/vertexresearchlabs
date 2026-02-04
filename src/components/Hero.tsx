@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowDown, FlaskConical, FileCheck, Shield, Microscope, Package } from "lucide-react";
 import FloatingParticles from "./FloatingParticles";
+import DNAHelix from "./DNAHelix";
 
 const Hero = () => {
   return (
@@ -16,6 +17,9 @@ const Hero = () => {
 
       {/* Floating particles */}
       <FloatingParticles count={60} />
+
+      {/* DNA Helix background decoration */}
+      <DNAHelix className="opacity-20 md:opacity-30" />
 
       {/* Subtle grid pattern */}
       <div

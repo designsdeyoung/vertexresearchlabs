@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useCompliance } from "@/contexts/ComplianceContext";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
-import { FREE_SHIPPING_THRESHOLD } from "@/data/products";
+import { FREE_SHIPPING_THRESHOLD, FLAT_RATE_SHIPPING } from "@/contexts/InquiryCartContext";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { 
@@ -27,7 +27,7 @@ import { Link } from "react-router-dom";
 const Checkout = () => {
   const navigate = useNavigate();
   const { hasAcknowledged, eligibilityType, resetCompliance } = useCompliance();
-  const { items, clearCart, subtotal, qualifiesForFreeShipping } = useInquiryCart();
+  const { items, clearCart, subtotal, shippingCost, total, qualifiesForFreeShipping } = useInquiryCart();
   
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -134,7 +134,8 @@ const Checkout = () => {
         lineTotal: item.product.price * item.quantity,
       })),
       subtotal,
-      shipping: qualifiesForFreeShipping ? 0 : "TBD",
+      shipping: shippingCost,
+      total,
     };
 
     try {
@@ -443,12 +444,15 @@ const Checkout = () => {
                     {qualifiesForFreeShipping ? (
                       <span className="text-primary font-medium">FREE</span>
                     ) : (
-                      <span className="text-muted-foreground text-xs">Free over ${FREE_SHIPPING_THRESHOLD}</span>
+                      <span className="text-foreground font-medium">{formatPrice(FLAT_RATE_SHIPPING)}</span>
                     )}
                   </div>
+                  {!qualifiesForFreeShipping && (
+                    <p className="text-xs text-muted-foreground">Free shipping on orders over ${FREE_SHIPPING_THRESHOLD}</p>
+                  )}
                   <div className="flex justify-between text-base pt-2 border-t border-border/30">
                     <span className="font-medium text-foreground">Total</span>
-                    <span className="font-semibold text-foreground">{formatPrice(subtotal)}</span>
+                    <span className="font-semibold text-foreground">{formatPrice(total)}</span>
                   </div>
                 </div>
 

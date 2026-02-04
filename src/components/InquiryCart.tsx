@@ -3,7 +3,7 @@ import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2, FlaskConical, ShieldCheck, ArrowRight, Truck } from "lucide-react";
-import { FREE_SHIPPING_THRESHOLD } from "@/data/products";
+import { FREE_SHIPPING_THRESHOLD, FLAT_RATE_SHIPPING } from "@/contexts/InquiryCartContext";
 
 const InquiryCart = () => {
   const { 

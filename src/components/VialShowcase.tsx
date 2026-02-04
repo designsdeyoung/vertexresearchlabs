@@ -6,6 +6,7 @@ import bpcVial from "@/assets/showcase/bpc-vial.png";
 import tbVial from "@/assets/showcase/tb-vial.png";
 import FloatingParticles from "./FloatingParticles";
 import ScientificMeters from "./ScientificMeters";
+import PurityDial from "./PurityDial";
 
 const bulletPoints = [
   {
@@ -258,9 +259,26 @@ const VialShowcase = () => {
           </div>
         </div>
 
-        {/* Bottom section - Scientific Meters */}
+        {/* Bottom section - Purity Dial + Scientific Meters */}
         <div className="glass-card rounded-2xl p-8 md:p-12 border border-border/50">
-          <ScientificMeters />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-center">
+            {/* Purity Dial */}
+            <div className="flex flex-col items-center justify-center">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5 }}
+              >
+                <PurityDial value={99.62} label="HPLC Purity" size="lg" />
+              </motion.div>
+            </div>
+            
+            {/* Scientific Meters - spans 2 columns on lg */}
+            <div className="lg:col-span-2">
+              <ScientificMeters />
+            </div>
+          </div>
         </div>
       </div>
     </section>

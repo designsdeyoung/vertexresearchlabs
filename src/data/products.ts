@@ -18,7 +18,8 @@ import tesamorelinImage from "@/assets/products/tesamorelin.png";
 import sluPP332Image from "@/assets/products/slu-pp-332.png";
 import pt141Image from "@/assets/products/pt-141.png";
 import mt2Image from "@/assets/products/mt2.png";
-import bacWaterImage from "@/assets/products/bac-water.png";
+import bacWater3mlImage from "@/assets/products/bac-water-3ml.png";
+import bacWater10mlImage from "@/assets/products/bac-water-10ml.png";
 
 export interface Reference {
   authors: string;
@@ -523,7 +524,7 @@ export const products: Product[] = [
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
-    image: bacWaterImage,
+    image: bacWater3mlImage,
     category: "Diluent"
   },
   {
@@ -538,7 +539,7 @@ export const products: Product[] = [
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
-    image: bacWaterImage,
+    image: bacWater10mlImage,
     category: "Diluent"
   }
 ];

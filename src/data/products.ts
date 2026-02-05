@@ -524,7 +524,7 @@ export const products: Product[] = [
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
-    image: bacWaterImage,
+    image: bacWater3mlImage,
     category: "Diluent"
   },
   {
@@ -539,7 +539,7 @@ export const products: Product[] = [
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
-    image: bacWaterImage,
+    image: bacWater10mlImage,
     category: "Diluent"
   }
 ];

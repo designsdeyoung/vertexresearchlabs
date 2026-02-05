@@ -18,6 +18,7 @@ import tesamorelinImage from "@/assets/products/tesamorelin.png";
 import sluPP332Image from "@/assets/products/slu-pp-332.png";
 import pt141Image from "@/assets/products/pt-141.png";
 import mt2Image from "@/assets/products/mt2.png";
+import bacWaterImage from "@/assets/products/bac-water.png";
 
 export interface Reference {
   authors: string;
@@ -509,6 +510,36 @@ export const products: Product[] = [
         url: "https://pubmed.ncbi.nlm.nih.gov/12937682/"
       }
     ]
+  },
+  {
+    id: "bac-water-3ml",
+    name: "BAC Water",
+    subtitle: "Research Grade",
+    size: "3mL",
+    price: 8,
+    description: "Sterile bacteriostatic diluent supplied exclusively for laboratory research and analytical applications.",
+    purity: "USP Grade",
+    testing: "Sterility tested",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: bacWaterImage,
+    category: "Diluent"
+  },
+  {
+    id: "bac-water-10ml",
+    name: "BAC Water",
+    subtitle: "Research Grade",
+    size: "10mL",
+    price: 15,
+    description: "Sterile bacteriostatic diluent supplied exclusively for laboratory research and analytical applications.",
+    purity: "USP Grade",
+    testing: "Sterility tested",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: bacWaterImage,
+    category: "Diluent"
   }
 ];
 

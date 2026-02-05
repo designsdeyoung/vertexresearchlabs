@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+const LOGO_URL = "https://jpwkbeywurvrrwgxkvop.supabase.co/storage/v1/object/public/email-assets/logo.png?v=1";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -76,10 +77,10 @@ const handler = async (req: Request): Promise<Response> => {
     const productListHtml = items
       .map(item => `
         <tr>
-          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">${item.productName}</td>
-          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">${item.size}</td>
-          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">${item.quantity}</td>
-          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: right;">${formatPrice(item.lineTotal)}</td>
+          <td style="padding: 12px; border-bottom: 1px solid rgba(0, 180, 216, 0.1); color: #e2e8f0;">${item.productName}</td>
+          <td style="padding: 12px; border-bottom: 1px solid rgba(0, 180, 216, 0.1); color: #94a3b8;">${item.size}</td>
+          <td style="padding: 12px; border-bottom: 1px solid rgba(0, 180, 216, 0.1); text-align: center; color: #94a3b8;">${item.quantity}</td>
+          <td style="padding: 12px; border-bottom: 1px solid rgba(0, 180, 216, 0.1); text-align: right; color: #00b4d8; font-weight: 500;">${formatPrice(item.lineTotal)}</td>
         </tr>
       `)
       .join("");
@@ -92,35 +93,37 @@ const handler = async (req: Request): Promise<Response> => {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
       </head>
-      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f9fafb; margin: 0; padding: 40px 20px;">
-        <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #0a0a0f; margin: 0; padding: 40px 20px;">
+        <div style="max-width: 600px; margin: 0 auto; background: linear-gradient(180deg, #0f1419 0%, #0a0a0f 100%); border-radius: 16px; overflow: hidden; border: 1px solid rgba(0, 180, 216, 0.15); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
           
-          <!-- Header -->
-          <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 32px; text-align: center;">
-            <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 600;">Vertex Research Labs</h1>
-            <p style="color: #94a3b8; margin: 8px 0 0 0; font-size: 14px;">Order Request Confirmation</p>
+          <!-- Header with Logo -->
+          <div style="background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 50%, #0f1419 100%); padding: 40px 32px; text-align: center; border-bottom: 1px solid rgba(0, 180, 216, 0.1);">
+            <img src="${LOGO_URL}" alt="Vertex Research Labs" style="height: 60px; width: auto; margin-bottom: 16px;" />
+            <div style="display: inline-block; background: linear-gradient(90deg, rgba(0, 180, 216, 0.1) 0%, rgba(0, 180, 216, 0.05) 100%); padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(0, 180, 216, 0.2);">
+              <p style="color: #00b4d8; margin: 0; font-size: 13px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase;">Order Request Confirmed</p>
+            </div>
           </div>
 
           <!-- Content -->
           <div style="padding: 32px;">
-            <p style="color: #374151; font-size: 16px; margin: 0 0 24px 0;">
+            <p style="color: #e2e8f0; font-size: 16px; margin: 0 0 24px 0;">
               Dear ${customer.fullName},
             </p>
-            <p style="color: #374151; font-size: 16px; margin: 0 0 24px 0;">
+            <p style="color: #94a3b8; font-size: 15px; line-height: 1.6; margin: 0 0 24px 0;">
               Thank you for your order request. We have received your inquiry and our team will review it shortly. You will receive a follow-up email with payment instructions and shipping details.
             </p>
 
             <!-- Order Details -->
-            <div style="background: #f8fafc; border-radius: 8px; padding: 24px; margin: 24px 0;">
-              <h2 style="color: #1e293b; font-size: 18px; margin: 0 0 16px 0;">Order Details</h2>
+            <div style="background: linear-gradient(135deg, rgba(0, 180, 216, 0.05) 0%, rgba(0, 180, 216, 0.02) 100%); border-radius: 12px; padding: 24px; margin: 24px 0; border: 1px solid rgba(0, 180, 216, 0.1);">
+              <h2 style="color: #00b4d8; font-size: 14px; margin: 0 0 16px 0; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">Order Details</h2>
               
               <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
                 <thead>
-                  <tr style="background: #e2e8f0;">
-                    <th style="padding: 12px; text-align: left; color: #475569;">Product</th>
-                    <th style="padding: 12px; text-align: left; color: #475569;">Size</th>
-                    <th style="padding: 12px; text-align: center; color: #475569;">Qty</th>
-                    <th style="padding: 12px; text-align: right; color: #475569;">Total</th>
+                  <tr style="background: rgba(0, 180, 216, 0.1);">
+                    <th style="padding: 12px; text-align: left; color: #00b4d8; font-weight: 500; border-radius: 6px 0 0 6px;">Product</th>
+                    <th style="padding: 12px; text-align: left; color: #00b4d8; font-weight: 500;">Size</th>
+                    <th style="padding: 12px; text-align: center; color: #00b4d8; font-weight: 500;">Qty</th>
+                    <th style="padding: 12px; text-align: right; color: #00b4d8; font-weight: 500; border-radius: 0 6px 6px 0;">Total</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -128,49 +131,49 @@ const handler = async (req: Request): Promise<Response> => {
                 </tbody>
               </table>
 
-              <div style="margin-top: 16px; padding-top: 16px; border-top: 2px solid #e2e8f0;">
-                <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px;">
-                  <span style="color: #64748b;">Subtotal:</span>
-                  <span style="color: #1e293b; font-weight: 500;">${formatPrice(subtotal)}</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 14px;">
-                  <span style="color: #64748b;">Shipping:</span>
-                  <span style="color: ${shipping === 0 ? '#10b981' : '#1e293b'}; font-weight: 500;">
-                    ${shipping === 0 ? 'FREE (US)' : 'To be calculated'}
-                  </span>
-                </div>
+              <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(0, 180, 216, 0.15);">
+                <table style="width: 100%; font-size: 14px;">
+                  <tr>
+                    <td style="padding: 4px 0; color: #64748b;">Subtotal:</td>
+                    <td style="padding: 4px 0; text-align: right; color: #e2e8f0; font-weight: 500;">${formatPrice(subtotal)}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 4px 0; color: #64748b;">Shipping:</td>
+                    <td style="padding: 4px 0; text-align: right; color: ${shipping === 0 ? '#10b981' : '#94a3b8'}; font-weight: 500;">${shipping === 0 ? 'FREE (US)' : 'To be calculated'}</td>
+                  </tr>
+                </table>
               </div>
             </div>
 
             <!-- Shipping Address -->
-            <div style="background: #f8fafc; border-radius: 8px; padding: 24px; margin: 24px 0;">
-              <h3 style="color: #1e293b; font-size: 16px; margin: 0 0 12px 0;">Shipping Address</h3>
-              <p style="color: #475569; font-size: 14px; margin: 0; white-space: pre-line;">${formatAddress(customer)}</p>
+            <div style="background: rgba(30, 41, 59, 0.5); border-radius: 12px; padding: 24px; margin: 24px 0; border: 1px solid rgba(100, 116, 139, 0.2);">
+              <h3 style="color: #00b4d8; font-size: 14px; margin: 0 0 12px 0; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">Shipping Address</h3>
+              <p style="color: #e2e8f0; font-size: 14px; margin: 0; white-space: pre-line; line-height: 1.6;">${formatAddress(customer)}</p>
             </div>
 
             <!-- Research Notice -->
-            <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 16px; margin: 24px 0;">
-              <p style="color: #92400e; font-size: 14px; margin: 0; font-weight: 500;">
-                ⚠️ For Laboratory Research Use Only
-              </p>
-              <p style="color: #92400e; font-size: 13px; margin: 8px 0 0 0;">
-                These products are not intended for human or veterinary use.
-              </p>
+            <div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%); border-left: 3px solid #f59e0b; border-radius: 0 12px 12px 0; padding: 16px 20px; margin: 24px 0;">
+              <p style="color: #fbbf24; font-size: 14px; margin: 0; font-weight: 600;">🔬 Laboratory Research Use Only</p>
+              <p style="color: #d97706; font-size: 13px; margin: 6px 0 0 0; line-height: 1.5;">These products are not intended for human or veterinary use.</p>
             </div>
 
-            <p style="color: #64748b; font-size: 14px; margin: 24px 0 0 0;">
-              If you have any questions, please reply to this email or contact us at info@vertexresearchlabs.com
+            <p style="color: #64748b; font-size: 14px; margin: 24px 0 0 0; line-height: 1.6;">
+              Questions? Reply to this email or contact us at <a href="mailto:info@vertexresearchlabs.com" style="color: #00b4d8; text-decoration: none;">info@vertexresearchlabs.com</a>
             </p>
           </div>
 
           <!-- Footer -->
-          <div style="background: #f1f5f9; padding: 24px; text-align: center;">
-            <p style="color: #64748b; font-size: 12px; margin: 0;">
+          <div style="background: linear-gradient(180deg, rgba(0, 180, 216, 0.05) 0%, transparent 100%); padding: 32px; text-align: center; border-top: 1px solid rgba(0, 180, 216, 0.1);">
+            <img src="${LOGO_URL}" alt="Vertex Research Labs" style="height: 32px; width: auto; margin-bottom: 16px; opacity: 0.7;" />
+            <p style="color: #475569; font-size: 12px; margin: 0;">
               © ${new Date().getFullYear()} Vertex Research Labs. All rights reserved.
             </p>
-            <p style="color: #94a3b8; font-size: 11px; margin: 8px 0 0 0;">
+            <p style="color: #334155; font-size: 11px; margin: 12px 0 0 0;">
               This email confirms your order request. It is not a confirmation of shipment.
             </p>
+            <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(100, 116, 139, 0.2);">
+              <a href="https://vertexresearchlabs.lovable.app" style="color: #00b4d8; font-size: 12px; text-decoration: none;">vertexresearchlabs.com</a>
+            </div>
           </div>
         </div>
       </body>

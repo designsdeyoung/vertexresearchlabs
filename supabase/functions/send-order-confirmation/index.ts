@@ -22,7 +22,12 @@ interface OrderRequest {
     fullName: string;
     email: string;
     organization: string;
-    address: string;
+    addressLine1: string;
+    addressLine2: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
     notes: string;
   };
   eligibilityType: string;
@@ -30,6 +35,16 @@ interface OrderRequest {
   subtotal: number;
   shipping: number | string;
 }
+
+const formatAddress = (customer: OrderRequest['customer']): string => {
+  const lines = [customer.addressLine1];
+  if (customer.addressLine2) {
+    lines.push(customer.addressLine2);
+  }
+  lines.push(`${customer.city}, ${customer.state} ${customer.zipCode}`);
+  lines.push(customer.country);
+  return lines.join('\n');
+};
 
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat('en-US', {
@@ -129,7 +144,7 @@ const handler = async (req: Request): Promise<Response> => {
             <!-- Shipping Address -->
             <div style="background: #f8fafc; border-radius: 8px; padding: 24px; margin: 24px 0;">
               <h3 style="color: #1e293b; font-size: 16px; margin: 0 0 12px 0;">Shipping Address</h3>
-              <p style="color: #475569; font-size: 14px; margin: 0; white-space: pre-line;">${customer.address}</p>
+              <p style="color: #475569; font-size: 14px; margin: 0; white-space: pre-line;">${formatAddress(customer)}</p>
             </div>
 
             <!-- Research Notice -->
@@ -143,7 +158,7 @@ const handler = async (req: Request): Promise<Response> => {
             </div>
 
             <p style="color: #64748b; font-size: 14px; margin: 24px 0 0 0;">
-              If you have any questions, please reply to this email or contact us at orders@vertexresearchlabs.com
+              If you have any questions, please reply to this email or contact us at info@vertexresearchlabs.com
             </p>
           </div>
 
@@ -163,7 +178,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send customer confirmation email
     const customerEmailResponse = await resend.emails.send({
-      from: "Vertex Research Labs <onboarding@resend.dev>",
+      from: "Vertex Research Labs <info@vertexresearchlabs.com>",
       to: [customer.email],
       subject: `Order Request Received - ${formatPrice(subtotal)}`,
       html: customerEmailHtml,
@@ -194,7 +209,7 @@ const handler = async (req: Request): Promise<Response> => {
         </ul>
 
         <h2 style="color: #475569;">Shipping Address</h2>
-        <pre style="background: #f1f5f9; padding: 16px; border-radius: 8px;">${customer.address}</pre>
+        <pre style="background: #f1f5f9; padding: 16px; border-radius: 8px;">${formatAddress(customer)}</pre>
 
         <h2 style="color: #475569;">Products</h2>
         <pre style="background: #f1f5f9; padding: 16px; border-radius: 8px;">${productListText}</pre>
@@ -219,8 +234,8 @@ const handler = async (req: Request): Promise<Response> => {
     // Note: Using onboarding@resend.dev as sender for now
     // You can update this to your verified domain later
     const internalEmailResponse = await resend.emails.send({
-      from: "Vertex Research Labs <onboarding@resend.dev>",
-      to: ["orders@vertexresearchlabs.com"],
+      from: "Vertex Research Labs <info@vertexresearchlabs.com>",
+      to: ["info@vertexresearchlabs.com"],
       reply_to: customer.email,
       subject: `🔬 New Order Request - ${customer.fullName} - ${formatPrice(subtotal)}`,
       html: internalEmailHtml,

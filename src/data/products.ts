@@ -18,6 +18,7 @@ import tesamorelinImage from "@/assets/products/tesamorelin.png";
 import sluPP332Image from "@/assets/products/slu-pp-332.png";
 import pt141Image from "@/assets/products/pt-141.png";
 import mt2Image from "@/assets/products/mt2.png";
+import bacWaterImage from "@/assets/products/bac-water.png";
 
 export interface Reference {
   authors: string;

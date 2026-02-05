@@ -21,6 +21,7 @@ interface OrderRequest {
   customer: {
     fullName: string;
     email: string;
+    phoneNumber: string;
     organization: string;
     addressLine1: string;
     addressLine2: string;
@@ -204,6 +205,7 @@ const handler = async (req: Request): Promise<Response> => {
         <ul>
           <li><strong>Name:</strong> ${customer.fullName}</li>
           <li><strong>Email:</strong> ${customer.email}</li>
+          <li><strong>Phone:</strong> ${customer.phoneNumber}</li>
           <li><strong>Organization:</strong> ${customer.organization}</li>
           <li><strong>Eligibility:</strong> ${eligibilityLabels[eligibilityType] || eligibilityType}</li>
         </ul>

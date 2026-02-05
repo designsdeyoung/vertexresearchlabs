@@ -39,6 +39,7 @@ const Checkout = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
+      phoneNumber: "",
     organization: "",
     addressLine1: "",
     addressLine2: "",
@@ -177,6 +178,7 @@ const Checkout = () => {
   const isFormValid = 
     formData.fullName.trim() !== "" &&
     formData.email.trim() !== "" &&
+    formData.phoneNumber.trim() !== "" &&
     formData.addressLine1.trim() !== "" &&
     formData.city.trim() !== "" &&
     formData.state.trim() !== "" &&
@@ -238,6 +240,19 @@ const Checkout = () => {
                         value={formData.email}
                         onChange={e => setFormData(prev => ({ ...prev, email: e.target.value }))}
                         placeholder="jane.smith@research.edu"
+                        className="bg-secondary/50"
+                      />
+                    </div>
+                    <div className="space-y-2 sm:col-span-2">
+                      <Label htmlFor="phoneNumber">Phone Number *</Label>
+                      <Input
+                        id="phoneNumber"
+                        type="tel"
+                        required
+                        maxLength={30}
+                        value={formData.phoneNumber}
+                        onChange={e => setFormData(prev => ({ ...prev, phoneNumber: e.target.value }))}
+                        placeholder="(555) 123-4567"
                         className="bg-secondary/50"
                       />
                     </div>

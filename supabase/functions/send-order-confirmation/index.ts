@@ -36,6 +36,7 @@ interface OrderRequest {
   items: OrderItem[];
   subtotal: number;
   shipping: number | string;
+   total: number;
 }
 
 const formatAddress = (customer: OrderRequest['customer']): string => {
@@ -71,7 +72,7 @@ const handler = async (req: Request): Promise<Response> => {
     const orderData: OrderRequest = await req.json();
     console.log("Received order request:", JSON.stringify(orderData, null, 2));
 
-    const { customer, eligibilityType, items, subtotal, shipping } = orderData;
+    const { customer, eligibilityType, items, subtotal, shipping, total } = orderData;
 
     // Build product list HTML
     const productListHtml = items
@@ -93,33 +94,33 @@ const handler = async (req: Request): Promise<Response> => {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
       </head>
-      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #0a0a0f; margin: 0; padding: 40px 20px;">
-        <div style="max-width: 600px; margin: 0 auto; background: linear-gradient(180deg, #0f1419 0%, #0a0a0f 100%); border-radius: 16px; overflow: hidden; border: 1px solid rgba(0, 180, 216, 0.15); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+       <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #1a1f2e; margin: 0; padding: 40px 20px;">
+         <div style="max-width: 600px; margin: 0 auto; background: linear-gradient(180deg, #1e293b 0%, #1a1f2e 100%); border-radius: 16px; overflow: hidden; border: 1px solid rgba(0, 180, 216, 0.2); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
           
           <!-- Header with Logo -->
-          <div style="background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 50%, #0f1419 100%); padding: 40px 32px; text-align: center; border-bottom: 1px solid rgba(0, 180, 216, 0.1);">
+           <div style="background: linear-gradient(135deg, #1e293b 0%, #2d3a4f 50%, #1e293b 100%); padding: 40px 32px; text-align: center; border-bottom: 1px solid rgba(0, 180, 216, 0.15);">
             <img src="${LOGO_URL}" alt="Vertex Research Labs" style="height: 60px; width: auto; margin-bottom: 16px;" />
-            <div style="display: inline-block; background: linear-gradient(90deg, rgba(0, 180, 216, 0.1) 0%, rgba(0, 180, 216, 0.05) 100%); padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(0, 180, 216, 0.2);">
+             <div style="display: inline-block; background: linear-gradient(90deg, rgba(0, 180, 216, 0.15) 0%, rgba(0, 180, 216, 0.08) 100%); padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(0, 180, 216, 0.25);">
               <p style="color: #00b4d8; margin: 0; font-size: 13px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase;">Order Request Confirmed</p>
             </div>
           </div>
 
           <!-- Content -->
           <div style="padding: 32px;">
-            <p style="color: #e2e8f0; font-size: 16px; margin: 0 0 24px 0;">
+             <p style="color: #f1f5f9; font-size: 16px; margin: 0 0 24px 0;">
               Dear ${customer.fullName},
             </p>
-            <p style="color: #94a3b8; font-size: 15px; line-height: 1.6; margin: 0 0 24px 0;">
+             <p style="color: #cbd5e1; font-size: 15px; line-height: 1.6; margin: 0 0 24px 0;">
               Thank you for your order request. We have received your inquiry and our team will review it shortly. You will receive a follow-up email with payment instructions and shipping details.
             </p>
 
             <!-- Order Details -->
-            <div style="background: linear-gradient(135deg, rgba(0, 180, 216, 0.05) 0%, rgba(0, 180, 216, 0.02) 100%); border-radius: 12px; padding: 24px; margin: 24px 0; border: 1px solid rgba(0, 180, 216, 0.1);">
+             <div style="background: linear-gradient(135deg, rgba(0, 180, 216, 0.08) 0%, rgba(0, 180, 216, 0.04) 100%); border-radius: 12px; padding: 24px; margin: 24px 0; border: 1px solid rgba(0, 180, 216, 0.15);">
               <h2 style="color: #00b4d8; font-size: 14px; margin: 0 0 16px 0; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">Order Details</h2>
               
               <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
                 <thead>
-                  <tr style="background: rgba(0, 180, 216, 0.1);">
+                   <tr style="background: rgba(0, 180, 216, 0.12);">
                     <th style="padding: 12px; text-align: left; color: #00b4d8; font-weight: 500; border-radius: 6px 0 0 6px;">Product</th>
                     <th style="padding: 12px; text-align: left; color: #00b4d8; font-weight: 500;">Size</th>
                     <th style="padding: 12px; text-align: center; color: #00b4d8; font-weight: 500;">Qty</th>
@@ -131,24 +132,28 @@ const handler = async (req: Request): Promise<Response> => {
                 </tbody>
               </table>
 
-              <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(0, 180, 216, 0.15);">
+               <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(0, 180, 216, 0.2);">
                 <table style="width: 100%; font-size: 14px;">
                   <tr>
-                    <td style="padding: 4px 0; color: #64748b;">Subtotal:</td>
-                    <td style="padding: 4px 0; text-align: right; color: #e2e8f0; font-weight: 500;">${formatPrice(subtotal)}</td>
+                     <td style="padding: 4px 0; color: #94a3b8;">Subtotal:</td>
+                     <td style="padding: 4px 0; text-align: right; color: #f1f5f9; font-weight: 500;">${formatPrice(subtotal)}</td>
                   </tr>
                   <tr>
-                    <td style="padding: 4px 0; color: #64748b;">Shipping:</td>
-                    <td style="padding: 4px 0; text-align: right; color: ${shipping === 0 ? '#10b981' : '#94a3b8'}; font-weight: 500;">${shipping === 0 ? 'FREE (US)' : 'To be calculated'}</td>
+                     <td style="padding: 4px 0; color: #94a3b8;">Shipping (US):</td>
+                     <td style="padding: 4px 0; text-align: right; color: ${shipping === 0 ? '#10b981' : '#f1f5f9'}; font-weight: 500;">${shipping === 0 ? 'FREE' : formatPrice(Number(shipping))}</td>
+                   </tr>
+                   <tr style="border-top: 1px solid rgba(0, 180, 216, 0.15);">
+                     <td style="padding: 12px 0 4px 0; color: #00b4d8; font-weight: 600; font-size: 15px;">Total:</td>
+                     <td style="padding: 12px 0 4px 0; text-align: right; color: #00b4d8; font-weight: 600; font-size: 15px;">${formatPrice(total)}</td>
                   </tr>
                 </table>
               </div>
             </div>
 
             <!-- Shipping Address -->
-            <div style="background: rgba(30, 41, 59, 0.5); border-radius: 12px; padding: 24px; margin: 24px 0; border: 1px solid rgba(100, 116, 139, 0.2);">
+             <div style="background: rgba(51, 65, 85, 0.4); border-radius: 12px; padding: 24px; margin: 24px 0; border: 1px solid rgba(100, 116, 139, 0.3);">
               <h3 style="color: #00b4d8; font-size: 14px; margin: 0 0 12px 0; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">Shipping Address</h3>
-              <p style="color: #e2e8f0; font-size: 14px; margin: 0; white-space: pre-line; line-height: 1.6;">${formatAddress(customer)}</p>
+               <p style="color: #f1f5f9; font-size: 14px; margin: 0; white-space: pre-line; line-height: 1.6;">${formatAddress(customer)}</p>
             </div>
 
             <!-- Research Notice -->
@@ -157,21 +162,21 @@ const handler = async (req: Request): Promise<Response> => {
               <p style="color: #d97706; font-size: 13px; margin: 6px 0 0 0; line-height: 1.5;">These products are not intended for human or veterinary use.</p>
             </div>
 
-            <p style="color: #64748b; font-size: 14px; margin: 24px 0 0 0; line-height: 1.6;">
+             <p style="color: #94a3b8; font-size: 14px; margin: 24px 0 0 0; line-height: 1.6;">
               Questions? Reply to this email or contact us at <a href="mailto:info@vertexresearchlabs.com" style="color: #00b4d8; text-decoration: none;">info@vertexresearchlabs.com</a>
             </p>
           </div>
 
           <!-- Footer -->
-          <div style="background: linear-gradient(180deg, rgba(0, 180, 216, 0.05) 0%, transparent 100%); padding: 32px; text-align: center; border-top: 1px solid rgba(0, 180, 216, 0.1);">
+           <div style="background: linear-gradient(180deg, rgba(0, 180, 216, 0.08) 0%, transparent 100%); padding: 32px; text-align: center; border-top: 1px solid rgba(0, 180, 216, 0.15);">
             <img src="${LOGO_URL}" alt="Vertex Research Labs" style="height: 32px; width: auto; margin-bottom: 16px; opacity: 0.7;" />
-            <p style="color: #475569; font-size: 12px; margin: 0;">
+             <p style="color: #64748b; font-size: 12px; margin: 0;">
               © ${new Date().getFullYear()} Vertex Research Labs. All rights reserved.
             </p>
-            <p style="color: #334155; font-size: 11px; margin: 12px 0 0 0;">
+             <p style="color: #475569; font-size: 11px; margin: 12px 0 0 0;">
               This email confirms your order request. It is not a confirmation of shipment.
             </p>
-            <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(100, 116, 139, 0.2);">
+             <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(100, 116, 139, 0.3);">
               <a href="https://vertexresearchlabs.lovable.app" style="color: #00b4d8; font-size: 12px; text-decoration: none;">vertexresearchlabs.com</a>
             </div>
           </div>
@@ -221,7 +226,8 @@ const handler = async (req: Request): Promise<Response> => {
 
         <h2 style="color: #475569;">Order Summary</h2>
         <p><strong>Subtotal:</strong> ${formatPrice(subtotal)}</p>
-        <p><strong>Shipping:</strong> ${shipping === 0 ? 'FREE (US)' : 'To be calculated'}</p>
+         <p><strong>Shipping (US):</strong> ${shipping === 0 ? 'FREE' : formatPrice(Number(shipping))}</p>
+         <p><strong>Total:</strong> ${formatPrice(total)}</p>
 
         ${customer.notes ? `
           <h2 style="color: #475569;">Additional Notes</h2>

@@ -510,6 +510,36 @@ export const products: Product[] = [
         url: "https://pubmed.ncbi.nlm.nih.gov/12937682/"
       }
     ]
+  },
+  {
+    id: "bac-water-3ml",
+    name: "BAC Water",
+    subtitle: "Research Grade",
+    size: "3mL",
+    price: 8,
+    description: "Sterile bacteriostatic diluent supplied exclusively for laboratory research and analytical applications.",
+    purity: "USP Grade",
+    testing: "Sterility tested",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: bacWaterImage,
+    category: "Diluent"
+  },
+  {
+    id: "bac-water-10ml",
+    name: "BAC Water",
+    subtitle: "Research Grade",
+    size: "10mL",
+    price: 15,
+    description: "Sterile bacteriostatic diluent supplied exclusively for laboratory research and analytical applications.",
+    purity: "USP Grade",
+    testing: "Sterility tested",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: bacWaterImage,
+    category: "Diluent"
   }
 ];
 

@@ -26,7 +26,7 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { email, fullName, pointsEarned, orderNumber, scheduledAt }: WelcomeRequest = await req.json();
+    const { email, fullName, pointsEarned, orderNumber, referralCode, scheduledAt }: WelcomeRequest = await req.json();
     console.log("Sending welcome email to:", email, scheduledAt ? `(scheduled: ${scheduledAt})` : "(immediate)");
 
     if (!email || !fullName) {

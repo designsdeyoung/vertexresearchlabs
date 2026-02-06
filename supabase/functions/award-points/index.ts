@@ -188,7 +188,66 @@ const handler = async (req: Request): Promise<Response> => {
       console.log(`Awarded ${pointsEarned} points to profile ${profile.id}`);
     }
 
-    // Schedule the rewards activation email (delayed) for new accounts
+    // Handle referral attribution
+    if (referrerCode && profile) {
+      try {
+        // Find the referrer profile by referral_code
+        const { data: referrerProfile } = await supabaseAdmin
+          .from("profiles")
+          .select("id, user_id, email")
+          .eq("referral_code", referrerCode)
+          .maybeSingle();
+
+        if (referrerProfile) {
+          // Block self-referrals (same email or same profile)
+          const isSelfReferral = referrerProfile.email === customerEmail || referrerProfile.id === profile.id;
+
+          if (!isSelfReferral) {
+            // Check for duplicate referral (same referred email)
+            const { data: existingReferral } = await supabaseAdmin
+              .from("referrals")
+              .select("id")
+              .eq("referrer_id", referrerProfile.id)
+              .eq("referred_email", customerEmail)
+              .maybeSingle();
+
+            if (!existingReferral) {
+              // Create pending referral record (points awarded after shipment)
+              const { error: refError } = await supabaseAdmin
+                .from("referrals")
+                .insert({
+                  referrer_id: referrerProfile.id,
+                  referred_email: customerEmail,
+                  referred_profile_id: profile.id,
+                  status: "pending",
+                  points_awarded: 0,
+                });
+
+              if (refError) {
+                console.error("Error creating referral:", refError);
+              } else {
+                console.log(`Referral created: ${referrerProfile.id} referred ${customerEmail}`);
+              }
+
+              // Store referred_by on the new profile
+              await supabaseAdmin
+                .from("profiles")
+                .update({ referred_by: referrerProfile.id })
+                .eq("id", profile.id);
+            } else {
+              console.log("Duplicate referral blocked:", customerEmail);
+            }
+          } else {
+            console.log("Self-referral blocked:", customerEmail);
+          }
+        } else {
+          console.log("Referrer code not found:", referrerCode);
+        }
+      } catch (refErr) {
+        console.error("Error processing referral:", refErr);
+      }
+    }
+
     if (isNewAccount) {
       // Schedule 4 minutes from now using Resend's scheduledAt
       const scheduledAt = new Date(Date.now() + 4 * 60 * 1000).toISOString();

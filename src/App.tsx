@@ -10,6 +10,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import InquiryCart from "@/components/InquiryCart";
 import ScrollToTop from "@/components/ScrollToTop";
 import ResearchDisclaimerDialog from "@/components/ResearchDisclaimerDialog";
+import ReferralCapture from "@/components/ReferralCapture";
 import ChatWidget from "@/components/ChatWidget";
 import Index from "./pages/Index";
 import ProductDetail from "./pages/ProductDetail";

@@ -50,7 +50,7 @@ const OrderHistory = ({ orders }: OrderHistoryProps) => {
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs text-muted-foreground font-mono">
-                  {order.id.slice(0, 8)}
+                  {order.order_number || order.id.slice(0, 8)}
                 </span>
                 <span
                   className={`text-[10px] font-medium px-2 py-0.5 rounded-full capitalize ${

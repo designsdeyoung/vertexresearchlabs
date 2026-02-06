@@ -198,7 +198,7 @@ const OrderConfirmation = () => {
             <div className="glass-card rounded-lg p-6 bg-secondary/30">
               <h2 className="text-lg font-medium text-foreground mb-4">Questions?</h2>
               <p className="text-sm text-muted-foreground mb-4">
-                If you have any questions about your order, please contact us:
+                If you have any questions about your order, please contact us{orderNumber ? ` with your order number (${orderNumber}) for faster help` : ''}:
               </p>
               <div className="space-y-2">
                 <p className="text-sm flex items-center gap-2">

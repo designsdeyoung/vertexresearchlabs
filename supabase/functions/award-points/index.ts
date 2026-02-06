@@ -130,7 +130,7 @@ const handler = async (req: Request): Promise<Response> => {
     const { data: order, error: orderError } = await supabaseAdmin
       .from("orders")
       .insert(orderData)
-      .select("id")
+      .select("id, order_number")
       .single();
 
     if (orderError) {

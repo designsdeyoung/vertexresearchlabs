@@ -15,6 +15,7 @@ interface WelcomeRequest {
   email: string;
   fullName: string;
   pointsEarned: number;
+  orderNumber?: string;
   scheduledAt?: string; // ISO timestamp for delayed send
 }
 

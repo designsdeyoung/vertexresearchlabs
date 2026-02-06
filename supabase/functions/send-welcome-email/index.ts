@@ -16,7 +16,8 @@ interface WelcomeRequest {
   fullName: string;
   pointsEarned: number;
   orderNumber?: string;
-  scheduledAt?: string; // ISO timestamp for delayed send
+  referralCode?: string;
+  scheduledAt?: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {

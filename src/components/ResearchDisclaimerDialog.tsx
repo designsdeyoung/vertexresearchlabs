@@ -10,11 +10,17 @@ import {
 import { useCompliance } from "@/contexts/ComplianceContext";
 import logoFull from "@/assets/logo-full.png";
 
+const SUPPRESS_ROUTES = ["/order-confirmation", "/dashboard", "/auth"];
+
 const ResearchDisclaimerDialog = () => {
   const { hasAcknowledged, completeAcknowledgment } = useCompliance();
 
+  // Don't show on post-checkout or account routes
+  const currentPath = typeof window !== "undefined" ? window.location.pathname : "/";
+  const isSuppressed = SUPPRESS_ROUTES.some((r) => currentPath.startsWith(r));
+
   return (
-    <AlertDialog open={!hasAcknowledged}>
+    <AlertDialog open={!hasAcknowledged && !isSuppressed}>
       <AlertDialogContent className="max-w-md">
         <AlertDialogHeader className="space-y-4">
           <div className="mx-auto">

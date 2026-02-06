@@ -252,6 +252,17 @@ const handler = async (req: Request): Promise<Response> => {
       // Schedule 4 minutes from now using Resend's scheduledAt
       const scheduledAt = new Date(Date.now() + 4 * 60 * 1000).toISOString();
       
+      // Get the user's referral code for the email
+      let userReferralCode = "";
+      if (profile) {
+        const { data: freshProfile } = await supabaseAdmin
+          .from("profiles")
+          .select("referral_code")
+          .eq("id", profile.id)
+          .maybeSingle();
+        userReferralCode = freshProfile?.referral_code || "";
+      }
+      
       try {
         const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
         const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;

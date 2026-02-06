@@ -104,6 +104,13 @@ const handler = async (req: Request): Promise<Response> => {
              <div style="display: inline-block; background: linear-gradient(90deg, rgba(0, 180, 216, 0.15) 0%, rgba(0, 180, 216, 0.08) 100%); padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(0, 180, 216, 0.25);">
               <p style="color: #00b4d8; margin: 0; font-size: 13px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase;">Order Request Confirmed</p>
             </div>
+            ${orderNumber ? `
+            <div style="margin-top: 12px;">
+              <p style="color: #f1f5f9; font-size: 20px; font-weight: 700; margin: 0; letter-spacing: 1px;">${orderNumber}</p>
+              <p style="color: #64748b; font-size: 11px; margin: 4px 0 0 0;">Keep this for your records</p>
+            </div>
+            ` : ''}
+            </div>
           </div>
 
           <!-- Content -->

@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown, Truck } from "lucide-react";
+import { Menu, X, ChevronDown, Truck, Sparkles, User } from "lucide-react";
 import logo from "@/assets/logo.png";
 import CartButton from "./CartButton";
 import ThemeToggle from "./ThemeToggle";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +16,7 @@ import {
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, profile } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -100,6 +102,24 @@ const Header = () => {
             ))}
             <ThemeToggle />
             <CartButton />
+            {user ? (
+              <Link
+                to="/dashboard"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 hover:bg-primary/20 transition-colors"
+              >
+                <Sparkles size={14} className="text-primary" />
+                <span className="text-xs font-medium text-primary">
+                  {profile?.points_balance?.toLocaleString() || 0} pts
+                </span>
+              </Link>
+            ) : (
+              <Button variant="ghost" size="sm" asChild>
+                <Link to="/auth">
+                  <User size={16} />
+                  Sign In
+                </Link>
+              </Button>
+            )}
             <Button variant="catalog" size="sm" asChild>
               <a href="/#products">Browse Catalog</a>
             </Button>
@@ -158,6 +178,25 @@ const Header = () => {
               <div className="flex items-center gap-3 mt-2">
                 <ThemeToggle />
                 <CartButton />
+                {user ? (
+                  <Link
+                    to="/dashboard"
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <Sparkles size={14} className="text-primary" />
+                    <span className="text-xs font-medium text-primary">
+                      {profile?.points_balance?.toLocaleString() || 0} pts
+                    </span>
+                  </Link>
+                ) : (
+                  <Button variant="ghost" size="sm" asChild>
+                    <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
+                      <User size={14} />
+                      Sign In
+                    </Link>
+                  </Button>
+                )}
                 <Button variant="catalog" size="sm" className="w-fit" asChild>
                   <a href="/#products" onClick={() => setIsMobileMenuOpen(false)}>Browse Catalog</a>
                 </Button>

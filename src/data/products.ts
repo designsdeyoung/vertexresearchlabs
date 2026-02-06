@@ -18,6 +18,8 @@ import tesamorelinImage from "@/assets/products/tesamorelin.png";
 import sluPP332Image from "@/assets/products/slu-pp-332.png";
 import pt141Image from "@/assets/products/pt-141.png";
 import mt2Image from "@/assets/products/mt2.png";
+import bacWater3mlImage from "@/assets/products/bac-water-3ml.png";
+import bacWater10mlImage from "@/assets/products/bac-water-10ml.png";
 
 export interface Reference {
   authors: string;
@@ -115,8 +117,8 @@ export const products: Product[] = [
     id: "bpc-157",
     name: "BPC-157",
     subtitle: "Research Grade",
-    size: "10mg",
-    price: 60,
+    size: "5mg",
+    price: 38,
     description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",
@@ -147,8 +149,8 @@ export const products: Product[] = [
     id: "tb-500",
     name: "TB-500 / Thymosin Beta-4 Acetate",
     subtitle: "Research Grade",
-    size: "10mg",
-    price: 68,
+    size: "5mg",
+    price: 38,
     description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",
@@ -234,8 +236,8 @@ export const products: Product[] = [
     id: "nad-plus",
     name: "NAD+",
     subtitle: "Research Grade",
-    size: "100mg",
-    price: 75,
+    size: "500mg",
+    price: 60,
     description: "Coenzyme reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",
@@ -258,8 +260,8 @@ export const products: Product[] = [
     id: "mots-c",
     name: "MOTS-C",
     subtitle: "Research Grade",
-    size: "10mg",
-    price: 55,
+    size: "5mg",
+    price: 38,
     description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",
@@ -344,8 +346,8 @@ export const products: Product[] = [
     id: "kisspeptin",
     name: "Kisspeptin",
     subtitle: "Research Grade",
-    size: "10mg",
-    price: 60,
+    size: "5mg",
+    price: 38,
     description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",
@@ -382,8 +384,8 @@ export const products: Product[] = [
     id: "tesamorelin",
     name: "Tesamorelin",
     subtitle: "Research Grade",
-    size: "10mg",
-    price: 75,
+    size: "2mg",
+    price: 38,
     description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",
@@ -509,6 +511,36 @@ export const products: Product[] = [
         url: "https://pubmed.ncbi.nlm.nih.gov/12937682/"
       }
     ]
+  },
+  {
+    id: "bac-water-3ml",
+    name: "BAC Water",
+    subtitle: "Research Grade",
+    size: "3mL",
+    price: 8,
+    description: "Sterile bacteriostatic diluent supplied exclusively for laboratory research and analytical applications.",
+    purity: "USP Grade",
+    testing: "Sterility tested",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: bacWater3mlImage,
+    category: "Diluent"
+  },
+  {
+    id: "bac-water-10ml",
+    name: "BAC Water",
+    subtitle: "Research Grade",
+    size: "10mL",
+    price: 15,
+    description: "Sterile bacteriostatic diluent supplied exclusively for laboratory research and analytical applications.",
+    purity: "USP Grade",
+    testing: "Sterility tested",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: bacWater10mlImage,
+    category: "Diluent"
   }
 ];
 

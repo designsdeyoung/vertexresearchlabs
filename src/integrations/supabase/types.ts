@@ -14,7 +14,260 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      credits: {
+        Row: {
+          amount: number
+          created_at: string
+          expires_at: string
+          id: string
+          max_percent: number
+          min_cart: number
+          points_cost: number
+          profile_id: string
+          status: string
+          used_on_order: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          expires_at?: string
+          id?: string
+          max_percent: number
+          min_cart: number
+          points_cost: number
+          profile_id: string
+          status?: string
+          used_on_order?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          expires_at?: string
+          id?: string
+          max_percent?: number
+          min_cart?: number
+          points_cost?: number
+          profile_id?: string
+          status?: string
+          used_on_order?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credits_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          created_at: string
+          credit_applied: number | null
+          id: string
+          is_autoship: boolean
+          items: Json
+          points_earned: number
+          profile_id: string | null
+          shipping: number
+          status: string
+          subtotal: number
+          total: number
+        }
+        Insert: {
+          created_at?: string
+          credit_applied?: number | null
+          id?: string
+          is_autoship?: boolean
+          items?: Json
+          points_earned?: number
+          profile_id?: string | null
+          shipping?: number
+          status?: string
+          subtotal: number
+          total: number
+        }
+        Update: {
+          created_at?: string
+          credit_applied?: number | null
+          id?: string
+          is_autoship?: boolean
+          items?: Json
+          points_earned?: number
+          profile_id?: string | null
+          shipping?: number
+          status?: string
+          subtotal?: number
+          total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      points_transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          description: string | null
+          id: string
+          order_reference: string | null
+          profile_id: string
+          type: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          order_reference?: string | null
+          profile_id: string
+          type: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          order_reference?: string | null
+          profile_id?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "points_transactions_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          address_line1: string | null
+          address_line2: string | null
+          autoship_active: boolean
+          city: string | null
+          country: string | null
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          lifetime_points: number
+          organization: string | null
+          phone_number: string | null
+          points_balance: number
+          referral_code: string | null
+          referred_by: string | null
+          state: string | null
+          updated_at: string
+          user_id: string
+          zip_code: string | null
+        }
+        Insert: {
+          address_line1?: string | null
+          address_line2?: string | null
+          autoship_active?: boolean
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id?: string
+          lifetime_points?: number
+          organization?: string | null
+          phone_number?: string | null
+          points_balance?: number
+          referral_code?: string | null
+          referred_by?: string | null
+          state?: string | null
+          updated_at?: string
+          user_id: string
+          zip_code?: string | null
+        }
+        Update: {
+          address_line1?: string | null
+          address_line2?: string | null
+          autoship_active?: boolean
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          lifetime_points?: number
+          organization?: string | null
+          phone_number?: string | null
+          points_balance?: number
+          referral_code?: string | null
+          referred_by?: string | null
+          state?: string | null
+          updated_at?: string
+          user_id?: string
+          zip_code?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_referred_by_fkey"
+            columns: ["referred_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      referrals: {
+        Row: {
+          created_at: string
+          id: string
+          points_awarded: number
+          referred_email: string
+          referred_profile_id: string | null
+          referrer_id: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          points_awarded?: number
+          referred_email: string
+          referred_profile_id?: string | null
+          referrer_id: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          points_awarded?: number
+          referred_email?: string
+          referred_profile_id?: string | null
+          referrer_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referrals_referred_profile_id_fkey"
+            columns: ["referred_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referrals_referrer_id_fkey"
+            columns: ["referrer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

@@ -2,8 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, Trash2, FlaskConical, ShieldCheck, ArrowRight, Truck } from "lucide-react";
-import { FREE_SHIPPING_THRESHOLD } from "@/data/products";
+import { Minus, Plus, Trash2, FlaskConical, ShieldCheck, ArrowRight, Truck, Sparkles } from "lucide-react";
+import { FREE_SHIPPING_THRESHOLD, FLAT_RATE_SHIPPING } from "@/contexts/InquiryCartContext";
+import { calculatePointsForPrice } from "@/hooks/useRewards";
 
 const InquiryCart = () => {
   const { 
@@ -14,6 +15,8 @@ const InquiryCart = () => {
     updateQuantity, 
     clearCart,
     subtotal,
+    shippingCost,
+    total,
     qualifiesForFreeShipping,
     amountToFreeShipping
   } = useInquiryCart();
@@ -128,16 +131,32 @@ const InquiryCart = () => {
             </div>
 
             <div className="pt-4 border-t border-border/50 space-y-3">
+              {/* Points earned preview */}
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground flex items-center gap-1">
+                  <Sparkles size={12} className="text-primary" />
+                  Points you'll earn
+                </span>
+                <span className="text-primary font-medium">
+                  +{calculatePointsForPrice(subtotal)} pts
+                </span>
+              </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Subtotal</span>
-                <span className="text-foreground font-semibold text-lg">{formatPrice(subtotal)}</span>
+                <span className="text-foreground font-medium">{formatPrice(subtotal)}</span>
               </div>
-              {qualifiesForFreeShipping && (
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">US Shipping</span>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">US Shipping</span>
+                {qualifiesForFreeShipping ? (
                   <span className="text-primary font-medium">FREE</span>
-                </div>
-              )}
+                ) : (
+                  <span className="text-foreground font-medium">{formatPrice(FLAT_RATE_SHIPPING)}</span>
+                )}
+              </div>
+              <div className="flex justify-between text-base pt-2 border-t border-border/30">
+                <span className="font-medium text-foreground">Total</span>
+                <span className="font-semibold text-foreground text-lg">{formatPrice(total)}</span>
+              </div>
               <Button variant="hero" className="w-full" onClick={handleProceedToAccess}>
                 <ShieldCheck size={16} />
                 Proceed to Research Access

@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FileText, ExternalLink, FlaskConical, Plus } from "lucide-react";
+import { FileText, ExternalLink, FlaskConical, Plus, Sparkles } from "lucide-react";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
+import { calculatePointsForPrice } from "@/hooks/useRewards";
 import type { Product } from "@/data/products";
 import { toast } from "@/hooks/use-toast";
 
@@ -77,6 +78,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground">{size} • {subtitle}</span>
             <span className="text-lg font-semibold text-primary">{formatPrice(price)}</span>
+          </div>
+          <div className="flex items-center gap-1 mt-1">
+            <Sparkles size={10} className="text-primary/70" />
+            <span className="text-[10px] text-primary/70 font-medium">
+              Earn {calculatePointsForPrice(price)} pts
+            </span>
           </div>
         </div>
 

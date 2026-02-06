@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FileText, ExternalLink, FlaskConical, Plus } from "lucide-react";
+import { FileText, ExternalLink, FlaskConical, Plus, Sparkles } from "lucide-react";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
+import { calculatePointsForPrice } from "@/hooks/useRewards";
 import type { Product } from "@/data/products";
 import { toast } from "@/hooks/use-toast";
 

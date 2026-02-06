@@ -178,6 +178,25 @@ const Header = () => {
               <div className="flex items-center gap-3 mt-2">
                 <ThemeToggle />
                 <CartButton />
+                {user ? (
+                  <Link
+                    to="/dashboard"
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <Sparkles size={14} className="text-primary" />
+                    <span className="text-xs font-medium text-primary">
+                      {profile?.points_balance?.toLocaleString() || 0} pts
+                    </span>
+                  </Link>
+                ) : (
+                  <Button variant="ghost" size="sm" asChild>
+                    <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
+                      <User size={14} />
+                      Sign In
+                    </Link>
+                  </Button>
+                )}
                 <Button variant="catalog" size="sm" className="w-fit" asChild>
                   <a href="/#products" onClick={() => setIsMobileMenuOpen(false)}>Browse Catalog</a>
                 </Button>

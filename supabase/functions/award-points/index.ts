@@ -130,7 +130,7 @@ const handler = async (req: Request): Promise<Response> => {
     const { data: order, error: orderError } = await supabaseAdmin
       .from("orders")
       .insert(orderData)
-      .select("id")
+      .select("id, order_number")
       .single();
 
     if (orderError) {
@@ -206,6 +206,7 @@ const handler = async (req: Request): Promise<Response> => {
             email: customerEmail,
             fullName: customerName,
             pointsEarned,
+            orderNumber: order.order_number,
             scheduledAt,
           }),
         });
@@ -221,6 +222,7 @@ const handler = async (req: Request): Promise<Response> => {
       JSON.stringify({
         success: true,
         orderId: order.id,
+        orderNumber: order.order_number,
         pointsEarned,
         profileFound: !!profile,
         accountCreated: isNewAccount,

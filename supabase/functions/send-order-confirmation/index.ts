@@ -36,7 +36,8 @@ interface OrderRequest {
   items: OrderItem[];
   subtotal: number;
   shipping: number | string;
-   total: number;
+  total: number;
+  orderNumber?: string;
 }
 
 const formatAddress = (customer: OrderRequest['customer']): string => {
@@ -72,7 +73,7 @@ const handler = async (req: Request): Promise<Response> => {
     const orderData: OrderRequest = await req.json();
     console.log("Received order request:", JSON.stringify(orderData, null, 2));
 
-    const { customer, eligibilityType, items, subtotal, shipping, total } = orderData;
+    const { customer, eligibilityType, items, subtotal, shipping, total, orderNumber } = orderData;
 
     // Build product list HTML
     const productListHtml = items
@@ -102,6 +103,13 @@ const handler = async (req: Request): Promise<Response> => {
             <img src="${LOGO_URL}" alt="Vertex Research Labs" style="height: 60px; width: auto; margin-bottom: 16px;" />
              <div style="display: inline-block; background: linear-gradient(90deg, rgba(0, 180, 216, 0.15) 0%, rgba(0, 180, 216, 0.08) 100%); padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(0, 180, 216, 0.25);">
               <p style="color: #00b4d8; margin: 0; font-size: 13px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase;">Order Request Confirmed</p>
+            </div>
+            ${orderNumber ? `
+            <div style="margin-top: 12px;">
+              <p style="color: #f1f5f9; font-size: 20px; font-weight: 700; margin: 0; letter-spacing: 1px;">${orderNumber}</p>
+              <p style="color: #64748b; font-size: 11px; margin: 4px 0 0 0;">Keep this for your records</p>
+            </div>
+            ` : ''}
             </div>
           </div>
 
@@ -189,7 +197,7 @@ const handler = async (req: Request): Promise<Response> => {
     const customerEmailResponse = await resend.emails.send({
       from: "Vertex Research Labs <info@vertexresearchlabs.com>",
       to: [customer.email],
-      subject: `Order Request Received - ${formatPrice(subtotal)}`,
+      subject: orderNumber ? `${orderNumber} — Order Confirmed` : `Order Request Received - ${formatPrice(subtotal)}`,
       html: customerEmailHtml,
     });
 
@@ -207,7 +215,7 @@ const handler = async (req: Request): Promise<Response> => {
         <meta charset="utf-8">
       </head>
       <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 20px;">
-        <h1 style="color: #1e293b;">New Order Request</h1>
+        <h1 style="color: #1e293b;">New Order Request${orderNumber ? ` — ${orderNumber}` : ''}</h1>
         
         <h2 style="color: #475569;">Customer Information</h2>
         <ul>
@@ -248,7 +256,7 @@ const handler = async (req: Request): Promise<Response> => {
       from: "Vertex Research Labs <info@vertexresearchlabs.com>",
       to: ["info@vertexresearchlabs.com"],
       reply_to: customer.email,
-      subject: `🔬 New Order Request - ${customer.fullName} - ${formatPrice(subtotal)}`,
+      subject: `🔬 ${orderNumber || 'New Order'} - ${customer.fullName} - ${formatPrice(subtotal)}`,
       html: internalEmailHtml,
     });
 

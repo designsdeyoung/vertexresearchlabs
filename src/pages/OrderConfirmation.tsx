@@ -21,9 +21,10 @@ const OrderConfirmation = () => {
   const location = useLocation();
   const { user } = useAuth();
 
-  const state = location.state as { pointsEarned?: number; creditApplied?: number; total?: number } | null;
+  const state = location.state as { pointsEarned?: number; creditApplied?: number; total?: number; orderNumber?: string } | null;
   const pointsEarned = state?.pointsEarned || 0;
   const creditApplied = state?.creditApplied || 0;
+  const orderNumber = state?.orderNumber || null;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -49,6 +50,27 @@ const OrderConfirmation = () => {
             >
               Order Request Submitted
             </motion.h1>
+            {orderNumber && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 }}
+                className="inline-flex items-center gap-2 bg-secondary/50 border border-border/50 rounded-lg px-4 py-2 mb-4"
+              >
+                <span className="text-xs text-muted-foreground">Order</span>
+                <span className="text-base font-mono font-semibold text-foreground tracking-wider">{orderNumber}</span>
+              </motion.div>
+            )}
+            {orderNumber && (
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.28 }}
+                className="text-xs text-muted-foreground mb-2"
+              >
+                Keep this for your records
+              </motion.p>
+            )}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -176,7 +198,7 @@ const OrderConfirmation = () => {
             <div className="glass-card rounded-lg p-6 bg-secondary/30">
               <h2 className="text-lg font-medium text-foreground mb-4">Questions?</h2>
               <p className="text-sm text-muted-foreground mb-4">
-                If you have any questions about your order, please contact us:
+                If you have any questions about your order, please contact us{orderNumber ? ` with your order number (${orderNumber}) for faster help` : ''}:
               </p>
               <div className="space-y-2">
                 <p className="text-sm flex items-center gap-2">

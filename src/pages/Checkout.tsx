@@ -162,27 +162,11 @@ const Checkout = () => {
       lineTotal: item.product.price * item.quantity,
     }));
 
-    // Build order data for email
-    const orderData = {
-      customer: formData,
-      eligibilityType,
-      items: orderItems,
-      subtotal,
-      shipping: shippingCost,
-      total: finalTotal,
-    };
+    // Build order data for email (will be re-sent with orderNumber after award-points)
+    const orderItems2 = orderItems;
 
     try {
-      // Send order confirmation email
-      const { error: emailError } = await supabase.functions.invoke("send-order-confirmation", {
-        body: orderData,
-      });
-
-      if (emailError) {
-        console.error("Error sending order confirmation:", emailError);
-      }
-
-      // Award points via edge function
+      // Award points via edge function FIRST to get order number
       const { data: awardData, error: awardError } = await supabase.functions.invoke("award-points", {
         body: {
           customerEmail: formData.email,
@@ -202,6 +186,27 @@ const Checkout = () => {
         console.log("Points awarded:", awardData);
       }
 
+      const orderNumber = awardData?.orderNumber || null;
+
+      // Build order data for email with order number
+      const orderData = {
+        customer: formData,
+        eligibilityType,
+        items: orderItems2,
+        subtotal,
+        shipping: shippingCost,
+        total: finalTotal,
+        orderNumber,
+      };
+      // Send order confirmation email with order number
+      const { error: emailError } = await supabase.functions.invoke("send-order-confirmation", {
+        body: orderData,
+      });
+
+      if (emailError) {
+        console.error("Error sending order confirmation:", emailError);
+      }
+
       // Welcome email is now triggered automatically by the award-points function
       // for new accounts (delayed 4 minutes via Resend scheduled send)
 
@@ -217,6 +222,7 @@ const Checkout = () => {
           pointsEarned: awardData?.pointsEarned || pointsEarned,
           creditApplied: creditDiscount,
           total: finalTotal,
+          orderNumber,
         },
       });
     } catch (err) {

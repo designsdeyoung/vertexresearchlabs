@@ -215,7 +215,7 @@ const handler = async (req: Request): Promise<Response> => {
         <meta charset="utf-8">
       </head>
       <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 20px;">
-        <h1 style="color: #1e293b;">New Order Request</h1>
+        <h1 style="color: #1e293b;">New Order Request${orderNumber ? ` — ${orderNumber}` : ''}</h1>
         
         <h2 style="color: #475569;">Customer Information</h2>
         <ul>

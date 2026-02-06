@@ -27,6 +27,7 @@ interface AwardPointsRequest {
   total: number;
   creditApplied?: number;
   creditId?: string;
+  referrerCode?: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {

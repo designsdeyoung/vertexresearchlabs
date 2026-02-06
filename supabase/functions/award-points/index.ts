@@ -221,6 +221,7 @@ const handler = async (req: Request): Promise<Response> => {
       JSON.stringify({
         success: true,
         orderId: order.id,
+        orderNumber: order.order_number,
         pointsEarned,
         profileFound: !!profile,
         accountCreated: isNewAccount,

@@ -256,7 +256,7 @@ const handler = async (req: Request): Promise<Response> => {
       from: "Vertex Research Labs <info@vertexresearchlabs.com>",
       to: ["info@vertexresearchlabs.com"],
       reply_to: customer.email,
-      subject: `🔬 New Order Request - ${customer.fullName} - ${formatPrice(subtotal)}`,
+      subject: `🔬 ${orderNumber || 'New Order'} - ${customer.fullName} - ${formatPrice(subtotal)}`,
       html: internalEmailHtml,
     });
 

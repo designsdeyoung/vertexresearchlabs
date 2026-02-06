@@ -267,6 +267,7 @@ const handler = async (req: Request): Promise<Response> => {
             fullName: customerName,
             pointsEarned,
             orderNumber: order.order_number,
+            referralCode: userReferralCode,
             scheduledAt,
           }),
         });

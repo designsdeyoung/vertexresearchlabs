@@ -2,6 +2,7 @@ import { Package, Sparkles } from "lucide-react";
 
 interface Order {
   id: string;
+  order_number: string | null;
   items: any;
   subtotal: number;
   total: number;

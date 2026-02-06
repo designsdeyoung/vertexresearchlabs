@@ -36,7 +36,8 @@ interface OrderRequest {
   items: OrderItem[];
   subtotal: number;
   shipping: number | string;
-   total: number;
+  total: number;
+  orderNumber?: string;
 }
 
 const formatAddress = (customer: OrderRequest['customer']): string => {

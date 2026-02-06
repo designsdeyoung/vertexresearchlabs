@@ -50,6 +50,27 @@ const OrderConfirmation = () => {
             >
               Order Request Submitted
             </motion.h1>
+            {orderNumber && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 }}
+                className="inline-flex items-center gap-2 bg-secondary/50 border border-border/50 rounded-lg px-4 py-2 mb-4"
+              >
+                <span className="text-xs text-muted-foreground">Order</span>
+                <span className="text-base font-mono font-semibold text-foreground tracking-wider">{orderNumber}</span>
+              </motion.div>
+            )}
+            {orderNumber && (
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.28 }}
+                className="text-xs text-muted-foreground mb-2"
+              >
+                Keep this for your records
+              </motion.p>
+            )}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

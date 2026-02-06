@@ -198,33 +198,13 @@ const Checkout = () => {
         total: finalTotal,
         orderNumber,
       };
-      // Send order confirmation email
+      // Send order confirmation email with order number
       const { error: emailError } = await supabase.functions.invoke("send-order-confirmation", {
         body: orderData,
       });
 
       if (emailError) {
         console.error("Error sending order confirmation:", emailError);
-      }
-
-      // Award points via edge function
-      const { data: awardData, error: awardError } = await supabase.functions.invoke("award-points", {
-        body: {
-          customerEmail: formData.email,
-          customerName: formData.fullName,
-          items: orderItems,
-          subtotal,
-          shipping: shippingCost,
-          total: finalTotal,
-          creditApplied: creditDiscount,
-          creditId: selectedCredit?.id || null,
-        },
-      });
-
-      if (awardError) {
-        console.error("Error awarding points:", awardError);
-      } else {
-        console.log("Points awarded:", awardData);
       }
 
       // Welcome email is now triggered automatically by the award-points function

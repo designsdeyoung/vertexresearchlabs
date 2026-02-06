@@ -131,6 +131,16 @@ const InquiryCart = () => {
             </div>
 
             <div className="pt-4 border-t border-border/50 space-y-3">
+              {/* Points earned preview */}
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground flex items-center gap-1">
+                  <Sparkles size={12} className="text-primary" />
+                  Points you'll earn
+                </span>
+                <span className="text-primary font-medium">
+                  +{calculatePointsForPrice(subtotal)} pts
+                </span>
+              </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Subtotal</span>
                 <span className="text-foreground font-medium">{formatPrice(subtotal)}</span>

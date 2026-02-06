@@ -18,10 +18,12 @@ import { Link } from "react-router-dom";
 
 const OrderConfirmation = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useAuth();
 
-  // Estimate points earned (we don't have the exact order here, so show general messaging)
-  const estimatedPoints = 0; // Will be populated from actual order data in future
+  const state = location.state as { pointsEarned?: number; creditApplied?: number; total?: number } | null;
+  const pointsEarned = state?.pointsEarned || 0;
+  const creditApplied = state?.creditApplied || 0;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">

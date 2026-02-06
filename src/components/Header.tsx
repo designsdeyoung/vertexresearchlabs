@@ -102,6 +102,24 @@ const Header = () => {
             ))}
             <ThemeToggle />
             <CartButton />
+            {user ? (
+              <Link
+                to="/dashboard"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 hover:bg-primary/20 transition-colors"
+              >
+                <Sparkles size={14} className="text-primary" />
+                <span className="text-xs font-medium text-primary">
+                  {profile?.points_balance?.toLocaleString() || 0} pts
+                </span>
+              </Link>
+            ) : (
+              <Button variant="ghost" size="sm" asChild>
+                <Link to="/auth">
+                  <User size={16} />
+                  Sign In
+                </Link>
+              </Button>
+            )}
             <Button variant="catalog" size="sm" asChild>
               <a href="/#products">Browse Catalog</a>
             </Button>

@@ -202,21 +202,8 @@ const Checkout = () => {
         console.log("Points awarded:", awardData);
       }
 
-      // Send welcome email with magic link for non-authenticated users
-      if (!user) {
-        const { error: welcomeError } = await supabase.functions.invoke("send-welcome-email", {
-          body: {
-            email: formData.email,
-            fullName: formData.fullName,
-            pointsEarned: awardData?.pointsEarned || pointsEarned,
-          },
-        });
-        if (welcomeError) {
-          console.error("Error sending welcome email:", welcomeError);
-        } else {
-          console.log("Welcome email sent to:", formData.email);
-        }
-      }
+      // Welcome email is now triggered automatically by the award-points function
+      // for new accounts (delayed 4 minutes via Resend scheduled send)
 
       toast({
         title: "Order Submitted",

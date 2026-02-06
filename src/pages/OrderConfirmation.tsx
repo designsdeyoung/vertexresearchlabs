@@ -72,10 +72,27 @@ const OrderConfirmation = () => {
                 <Sparkles size={20} className="text-primary" />
                 <h2 className="text-lg font-medium text-foreground">Vertex Rewards</h2>
               </div>
-              <p className="text-sm text-muted-foreground mb-4">
-                Points will be added to your account once your order is confirmed.
-                Earn <span className="text-primary font-medium">3 points per $1</span> on every order.
-              </p>
+
+              {pointsEarned > 0 && (
+                <div className="flex items-center gap-3 mb-4 p-3 rounded-lg bg-primary/10 border border-primary/20">
+                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Sparkles size={20} className="text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-primary">
+                      +<CountUp end={pointsEarned} duration={1.5} /> pts
+                    </p>
+                    <p className="text-xs text-muted-foreground">earned on this order</p>
+                  </div>
+                </div>
+              )}
+
+              {!pointsEarned && (
+                <p className="text-sm text-muted-foreground mb-4">
+                  Points will be added to your account once your order is confirmed.
+                  Earn <span className="text-primary font-medium">3 points per $1</span> on every order.
+                </p>
+              )}
 
               {!user && (
                 <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">

@@ -1,10 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
-import { calculatePointsForPrice } from "@/hooks/useRewards";
 import { motion } from "framer-motion";
+import { CountUp } from "@/components/checkout/CountUp";
 import {
   CheckCircle2,
   Mail,

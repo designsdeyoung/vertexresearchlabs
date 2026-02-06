@@ -68,6 +68,7 @@ export type Database = {
           id: string
           is_autoship: boolean
           items: Json
+          order_number: string | null
           points_earned: number
           profile_id: string | null
           shipping: number
@@ -81,6 +82,7 @@ export type Database = {
           id?: string
           is_autoship?: boolean
           items?: Json
+          order_number?: string | null
           points_earned?: number
           profile_id?: string | null
           shipping?: number
@@ -94,6 +96,7 @@ export type Database = {
           id?: string
           is_autoship?: boolean
           items?: Json
+          order_number?: string | null
           points_earned?: number
           profile_id?: string | null
           shipping?: number

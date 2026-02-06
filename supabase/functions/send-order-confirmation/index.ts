@@ -197,7 +197,7 @@ const handler = async (req: Request): Promise<Response> => {
     const customerEmailResponse = await resend.emails.send({
       from: "Vertex Research Labs <info@vertexresearchlabs.com>",
       to: [customer.email],
-      subject: `Order Request Received - ${formatPrice(subtotal)}`,
+      subject: orderNumber ? `${orderNumber} — Order Confirmed` : `Order Request Received - ${formatPrice(subtotal)}`,
       html: customerEmailHtml,
     });
 

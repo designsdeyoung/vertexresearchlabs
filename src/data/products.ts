@@ -13,9 +13,7 @@ import selankImage from "@/assets/products/selank.png";
 import nadPlusImage from "@/assets/products/nad-plus.png";
 import motsCImage from "@/assets/products/mots-c.png";
 import kisspeptinImage from "@/assets/products/kisspeptin.png";
-import sermorelinImage from "@/assets/products/sermorelin.png";
 import tesamorelinImage from "@/assets/products/tesamorelin.png";
-import sluPP332Image from "@/assets/products/slu-pp-332.png";
 import pt141Image from "@/assets/products/pt-141.png";
 import mt2Image from "@/assets/products/mt2.png";
 import bacWater3mlImage from "@/assets/products/bac-water-3ml.png";
@@ -284,61 +282,6 @@ export const products: Product[] = [
         year: 2015,
         title: "Mitochondrial-derived Peptide MOTS-c",
         url: "https://www.cell.com/cell-metabolism/fulltext/S1550-4131(15)00061-3"
-      }
-    ]
-  },
-  {
-    id: "slu-pp-332",
-    name: "SLU-PP-332",
-    subtitle: "Research Grade",
-    size: "5mg",
-    price: 80,
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: sluPP332Image,
-    category: "Peptide",
-    references: [
-      {
-        authors: "Laganière J et al.",
-        journal: "ACS Chemical Biology",
-        year: 2023,
-        title: "SLU-PP-332 ERR Agonist Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/36988910/"
-      },
-      {
-        authors: "D'Urso Z et al.",
-        journal: "Journal of Medicinal Chemistry",
-        year: 2023,
-        title: "SLU-PP-332 Studies",
-        url: "https://pubmed.ncbi.nlm.nih.gov/37739806/"
-      }
-    ]
-  },
-  {
-    id: "sermorelin",
-    name: "Sermorelin",
-    subtitle: "Research Grade",
-    size: "10mg",
-    price: 75,
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: sermorelinImage,
-    category: "Peptide",
-    references: [
-      {
-        authors: "Merriam GR et al.",
-        journal: "Endocrine",
-        year: 2007,
-        title: "Sermorelin GHRH Analog Studies",
-        url: "https://pubmed.ncbi.nlm.nih.gov/18031173/"
       }
     ]
   },

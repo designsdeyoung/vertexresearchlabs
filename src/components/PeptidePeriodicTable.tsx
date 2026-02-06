@@ -37,8 +37,6 @@ const peptideElements = [
   { id: "selank", symbol: "SLK", category: "neuroactive", researchFocus: "Tuftsin analog studies" },
   { id: "nad-plus", symbol: "NAD", category: "metabolic", researchFocus: "Coenzyme metabolism research" },
   { id: "mots-c", symbol: "MOT", category: "metabolic", researchFocus: "Mitochondrial-derived peptide studies" },
-  { id: "slu-pp-332", symbol: "SLU", category: "metabolic", researchFocus: "ERR agonist compound research" },
-  { id: "sermorelin", symbol: "SRM", category: "hormonal", researchFocus: "GHRH analog studies" },
   { id: "kisspeptin", symbol: "KSP", category: "hormonal", researchFocus: "GPR54 ligand research" },
   { id: "tesamorelin", symbol: "TSM", category: "hormonal", researchFocus: "GHRH analog peptide analysis" },
   { id: "pt-141", symbol: "PT1", category: "melanocortin", researchFocus: "Melanocortin receptor studies" },

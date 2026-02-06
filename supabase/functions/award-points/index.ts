@@ -206,6 +206,7 @@ const handler = async (req: Request): Promise<Response> => {
             email: customerEmail,
             fullName: customerName,
             pointsEarned,
+            orderNumber: order.order_number,
             scheduledAt,
           }),
         });

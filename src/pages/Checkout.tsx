@@ -222,6 +222,7 @@ const Checkout = () => {
           pointsEarned: awardData?.pointsEarned || pointsEarned,
           creditApplied: creditDiscount,
           total: finalTotal,
+          orderNumber,
         },
       });
     } catch (err) {

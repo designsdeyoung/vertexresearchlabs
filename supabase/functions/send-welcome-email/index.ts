@@ -78,7 +78,7 @@ const handler = async (req: Request): Promise<Response> => {
             ` : `
             <h1 style="color: #f1f5f9; font-size: 28px; margin: 0 0 4px 0; font-weight: 700;">Your Vertex Rewards Are Ready</h1>
             `}
-            <p style="color: #94a3b8; font-size: 14px; margin: 8px 0 0 0;">from your recent order</p>
+            <p style="color: #94a3b8; font-size: 14px; margin: 8px 0 0 0;">${orderNumber ? `Order ${orderNumber} · ` : ''}from your recent order</p>
           </div>
 
           <!-- Content -->

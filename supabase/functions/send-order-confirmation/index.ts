@@ -73,7 +73,7 @@ const handler = async (req: Request): Promise<Response> => {
     const orderData: OrderRequest = await req.json();
     console.log("Received order request:", JSON.stringify(orderData, null, 2));
 
-    const { customer, eligibilityType, items, subtotal, shipping, total } = orderData;
+    const { customer, eligibilityType, items, subtotal, shipping, total, orderNumber } = orderData;
 
     // Build product list HTML
     const productListHtml = items

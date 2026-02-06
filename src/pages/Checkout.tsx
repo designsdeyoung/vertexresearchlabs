@@ -202,6 +202,22 @@ const Checkout = () => {
         console.log("Points awarded:", awardData);
       }
 
+      // Send welcome email with magic link for non-authenticated users
+      if (!user) {
+        const { error: welcomeError } = await supabase.functions.invoke("send-welcome-email", {
+          body: {
+            email: formData.email,
+            fullName: formData.fullName,
+            pointsEarned: awardData?.pointsEarned || pointsEarned,
+          },
+        });
+        if (welcomeError) {
+          console.error("Error sending welcome email:", welcomeError);
+        } else {
+          console.log("Welcome email sent to:", formData.email);
+        }
+      }
+
       toast({
         title: "Order Submitted",
         description: "A confirmation email has been sent to your inbox.",

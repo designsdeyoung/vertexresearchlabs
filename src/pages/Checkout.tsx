@@ -14,6 +14,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { calculatePointsForPrice } from "@/hooks/useRewards";
+import { getStoredReferralCode } from "@/hooks/useReferralCapture";
 import CreditRedemption from "@/components/checkout/CreditRedemption";
 import {
   Shield,
@@ -167,6 +168,7 @@ const Checkout = () => {
 
     try {
       // Award points via edge function FIRST to get order number
+      const referralCode = getStoredReferralCode();
       const { data: awardData, error: awardError } = await supabase.functions.invoke("award-points", {
         body: {
           customerEmail: formData.email,
@@ -177,6 +179,7 @@ const Checkout = () => {
           total: finalTotal,
           creditApplied: creditDiscount,
           creditId: selectedCredit?.id || null,
+          referrerCode: referralCode,
         },
       });
 

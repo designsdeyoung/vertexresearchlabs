@@ -49,15 +49,70 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error("Missing required fields: customerEmail, items");
     }
 
-    // Find or note the profile (profile may not exist yet if user hasn't signed up)
-    const { data: profile } = await supabaseAdmin
-      .from("profiles")
-      .select("id, user_id, points_balance, lifetime_points")
-      .eq("email", customerEmail)
-      .maybeSingle();
-
     // Calculate points earned
     const pointsEarned = Math.floor(subtotal * POINTS_PER_DOLLAR);
+
+    // Check if user already exists
+    const { data: existingUsers } = await supabaseAdmin.auth.admin.listUsers();
+    const existingUser = existingUsers?.users?.find(u => u.email === customerEmail);
+
+    let userId: string | null = null;
+    let isNewAccount = false;
+
+    if (existingUser) {
+      userId = existingUser.id;
+      console.log(`Existing auth user found: ${userId}`);
+    } else {
+      // Silently create user account — no password, no confirmation email
+      const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
+        email: customerEmail,
+        email_confirm: true, // Mark email as confirmed (they just used it to order)
+        user_metadata: { full_name: customerName },
+      });
+
+      if (createError) {
+        console.error("Error creating user account:", createError.message);
+      } else if (newUser?.user) {
+        userId = newUser.user.id;
+        isNewAccount = true;
+        console.log(`Silent account created for ${customerEmail}: ${userId}`);
+      }
+    }
+
+    // Find or create profile
+    let profile = null;
+
+    if (userId) {
+      const { data: existingProfile } = await supabaseAdmin
+        .from("profiles")
+        .select("id, user_id, points_balance, lifetime_points")
+        .eq("user_id", userId)
+        .maybeSingle();
+
+      if (existingProfile) {
+        profile = existingProfile;
+      } else {
+        // Create profile
+        const { data: newProfile, error: profileError } = await supabaseAdmin
+          .from("profiles")
+          .insert({
+            user_id: userId,
+            email: customerEmail,
+            full_name: customerName,
+            points_balance: 0,
+            lifetime_points: 0,
+          })
+          .select("id, user_id, points_balance, lifetime_points")
+          .single();
+
+        if (profileError) {
+          console.error("Error creating profile:", profileError.message);
+        } else {
+          profile = newProfile;
+          console.log(`Profile created: ${profile?.id}`);
+        }
+      }
+    }
 
     // Create order record
     const orderData = {
@@ -85,9 +140,8 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Order created:", order.id);
 
-    // If profile exists, award points and handle credit
+    // Award points if profile exists
     if (profile) {
-      // Award points
       const { error: txError } = await supabaseAdmin
         .from("points_transactions")
         .insert({
@@ -102,7 +156,6 @@ const handler = async (req: Request): Promise<Response> => {
         console.error("Error recording points transaction:", txError);
       }
 
-      // Update profile balance
       const { error: updateError } = await supabaseAdmin
         .from("profiles")
         .update({
@@ -115,7 +168,7 @@ const handler = async (req: Request): Promise<Response> => {
         console.error("Error updating profile points:", updateError);
       }
 
-      // Mark credit as used if one was applied
+      // Mark credit as used
       if (creditId && creditApplied && creditApplied > 0) {
         const { error: creditError } = await supabaseAdmin
           .from("credits")
@@ -132,8 +185,36 @@ const handler = async (req: Request): Promise<Response> => {
       }
 
       console.log(`Awarded ${pointsEarned} points to profile ${profile.id}`);
-    } else {
-      console.log(`No profile found for ${customerEmail}. Points (${pointsEarned}) will be awarded when they create an account.`);
+    }
+
+    // Schedule the rewards activation email (delayed) for new accounts
+    if (isNewAccount) {
+      // Schedule 4 minutes from now using Resend's scheduledAt
+      const scheduledAt = new Date(Date.now() + 4 * 60 * 1000).toISOString();
+      
+      try {
+        const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+        const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
+        
+        const welcomeResponse = await fetch(`${supabaseUrl}/functions/v1/send-welcome-email`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${supabaseAnonKey}`,
+          },
+          body: JSON.stringify({
+            email: customerEmail,
+            fullName: customerName,
+            pointsEarned,
+            scheduledAt,
+          }),
+        });
+
+        const welcomeResult = await welcomeResponse.json();
+        console.log("Welcome email scheduled:", welcomeResult);
+      } catch (welcomeErr) {
+        console.error("Error scheduling welcome email:", welcomeErr);
+      }
     }
 
     return new Response(
@@ -142,6 +223,7 @@ const handler = async (req: Request): Promise<Response> => {
         orderId: order.id,
         pointsEarned,
         profileFound: !!profile,
+        accountCreated: isNewAccount,
       }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );

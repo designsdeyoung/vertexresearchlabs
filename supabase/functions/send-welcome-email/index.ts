@@ -15,6 +15,7 @@ interface WelcomeRequest {
   email: string;
   fullName: string;
   pointsEarned: number;
+  scheduledAt?: string; // ISO timestamp for delayed send
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -23,8 +24,8 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { email, fullName, pointsEarned }: WelcomeRequest = await req.json();
-    console.log("Sending welcome email to:", email);
+    const { email, fullName, pointsEarned, scheduledAt }: WelcomeRequest = await req.json();
+    console.log("Sending welcome email to:", email, scheduledAt ? `(scheduled: ${scheduledAt})` : "(immediate)");
 
     if (!email || !fullName) {
       throw new Error("Missing required fields: email and fullName");
@@ -53,6 +54,11 @@ const handler = async (req: Request): Promise<Response> => {
       console.warn("Could not generate magic link, falling back to auth page:", linkError?.message);
     }
 
+    // Dynamic subject line based on points
+    const subjectLine = pointsEarned > 0
+      ? `You just earned +${pointsEarned} Vertex Points`
+      : "Your Vertex rewards are ready";
+
     const emailHtml = `
       <!DOCTYPE html>
       <html>
@@ -66,10 +72,12 @@ const handler = async (req: Request): Promise<Response> => {
           <!-- Header -->
           <div style="background: linear-gradient(135deg, #1e293b 0%, #2d3a4f 50%, #1e293b 100%); padding: 40px 32px; text-align: center; border-bottom: 1px solid rgba(0, 180, 216, 0.15);">
             <img src="${LOGO_URL}" alt="Vertex Research Labs" style="height: 60px; width: auto; margin-bottom: 20px;" />
-            <h1 style="color: #f1f5f9; font-size: 24px; margin: 0 0 8px 0; font-weight: 700;">Your Account Is Ready</h1>
-            <div style="display: inline-block; background: linear-gradient(90deg, rgba(0, 180, 216, 0.15) 0%, rgba(0, 180, 216, 0.08) 100%); padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(0, 180, 216, 0.25); margin-top: 8px;">
-              <p style="color: #00b4d8; margin: 0; font-size: 13px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase;">Welcome to Vertex Rewards</p>
-            </div>
+            ${pointsEarned > 0 ? `
+            <h1 style="color: #f1f5f9; font-size: 28px; margin: 0 0 4px 0; font-weight: 700;">You just earned +${pointsEarned} Points</h1>
+            ` : `
+            <h1 style="color: #f1f5f9; font-size: 28px; margin: 0 0 4px 0; font-weight: 700;">Your Vertex Rewards Are Ready</h1>
+            `}
+            <p style="color: #94a3b8; font-size: 14px; margin: 8px 0 0 0;">from your recent order</p>
           </div>
 
           <!-- Content -->
@@ -77,33 +85,36 @@ const handler = async (req: Request): Promise<Response> => {
             <p style="color: #f1f5f9; font-size: 16px; margin: 0 0 20px 0;">
               Hi ${fullName},
             </p>
-            <p style="color: #cbd5e1; font-size: 15px; line-height: 1.6; margin: 0 0 24px 0;">
-              Thank you for your order! We've created a Vertex Rewards account for you. Sign in to track your orders, earn points on every purchase, and redeem exclusive rewards.
+            <p style="color: #cbd5e1; font-size: 15px; line-height: 1.7; margin: 0 0 8px 0;">
+              Your account has already been created using the email from your order.
+            </p>
+            <p style="color: #cbd5e1; font-size: 15px; line-height: 1.7; margin: 0 0 24px 0;">
+              Activate it now to track rewards, unlock credits, and earn free product faster.
             </p>
 
             <!-- Points Earned Banner -->
             ${pointsEarned > 0 ? `
-            <div style="background: linear-gradient(135deg, rgba(0, 180, 216, 0.12) 0%, rgba(0, 180, 216, 0.06) 100%); border-radius: 12px; padding: 24px; margin: 0 0 24px 0; border: 1px solid rgba(0, 180, 216, 0.2); text-align: center;">
-              <p style="color: #94a3b8; font-size: 13px; margin: 0 0 8px 0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">Points Earned On This Order</p>
-              <p style="color: #00b4d8; font-size: 42px; margin: 0; font-weight: 700; line-height: 1;">${pointsEarned}</p>
-              <p style="color: #64748b; font-size: 12px; margin: 8px 0 0 0;">Sign in to claim your points and start earning rewards</p>
+            <div style="background: linear-gradient(135deg, rgba(0, 180, 216, 0.12) 0%, rgba(0, 180, 216, 0.06) 100%); border-radius: 12px; padding: 28px; margin: 0 0 28px 0; border: 1px solid rgba(0, 180, 216, 0.2); text-align: center;">
+              <p style="color: #94a3b8; font-size: 12px; margin: 0 0 8px 0; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Points Earned</p>
+              <p style="color: #00b4d8; font-size: 52px; margin: 0; font-weight: 800; line-height: 1; letter-spacing: -1px;">+${pointsEarned}</p>
+              <p style="color: #64748b; font-size: 13px; margin: 10px 0 0 0;">Waiting in your account</p>
             </div>
             ` : ''}
 
             <!-- Magic Link CTA -->
             <div style="text-align: center; margin: 32px 0;">
-              <a href="${magicLinkUrl}" style="display: inline-block; background: linear-gradient(135deg, #00b4d8 0%, #0284c7 100%); color: #ffffff; padding: 16px 40px; border-radius: 10px; text-decoration: none; font-size: 16px; font-weight: 600; letter-spacing: 0.3px; box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);">
-                Sign In to Your Account →
+              <a href="${magicLinkUrl}" style="display: inline-block; background: linear-gradient(135deg, #00b4d8 0%, #0284c7 100%); color: #ffffff; padding: 18px 48px; border-radius: 10px; text-decoration: none; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; box-shadow: 0 4px 20px rgba(0, 180, 216, 0.35);">
+                Activate My Account →
               </a>
             </div>
 
             <p style="color: #64748b; font-size: 13px; text-align: center; margin: 0 0 32px 0;">
-              This link will sign you in instantly — no password needed.
+              Takes less than 10 seconds. No re-entering your email.
             </p>
 
             <!-- Rewards Info -->
             <div style="background: rgba(51, 65, 85, 0.4); border-radius: 12px; padding: 24px; margin: 0 0 24px 0; border: 1px solid rgba(100, 116, 139, 0.3);">
-              <h3 style="color: #00b4d8; font-size: 14px; margin: 0 0 16px 0; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">How Vertex Rewards Works</h3>
+              <h3 style="color: #00b4d8; font-size: 14px; margin: 0 0 16px 0; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">What You Unlock</h3>
               
               <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
                 <tr>
@@ -113,7 +124,7 @@ const handler = async (req: Request): Promise<Response> => {
                   <td style="padding: 10px 12px; color: #f1f5f9; border-bottom: 1px solid rgba(100, 116, 139, 0.2);">🎁 Redeem 500 pts for $20 credit</td>
                 </tr>
                 <tr>
-                  <td style="padding: 10px 12px; color: #f1f5f9; border-bottom: 1px solid rgba(100, 116, 139, 0.2);">🔄 Autoship members earn 6x points</td>
+                  <td style="padding: 10px 12px; color: #f1f5f9; border-bottom: 1px solid rgba(100, 116, 139, 0.2);">🚀 Activate Autoship to earn 2x points</td>
                 </tr>
                 <tr>
                   <td style="padding: 10px 12px; color: #f1f5f9;">🤝 Refer a colleague, earn 200 points</td>
@@ -144,14 +155,21 @@ const handler = async (req: Request): Promise<Response> => {
       </html>
     `;
 
-    const emailResponse = await resend.emails.send({
+    // Build send options — use scheduledAt for delayed delivery if provided
+    const sendOptions: any = {
       from: "Vertex Research Labs <info@vertexresearchlabs.com>",
       to: [email],
-      subject: "🧬 Your Vertex Rewards Account Is Ready — Claim Your Points",
+      subject: subjectLine,
       html: emailHtml,
-    });
+    };
 
-    console.log("Welcome email sent:", emailResponse);
+    if (scheduledAt) {
+      sendOptions.scheduledAt = scheduledAt;
+      console.log(`Email scheduled for: ${scheduledAt}`);
+    }
+
+    const emailResponse = await resend.emails.send(sendOptions);
+    console.log("Welcome email sent/scheduled:", emailResponse);
 
     return new Response(
       JSON.stringify({ success: true, data: emailResponse }),

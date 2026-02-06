@@ -96,18 +96,15 @@ const OrderConfirmation = () => {
 
               {!user && (
                 <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
-                  <p className="text-sm text-foreground font-medium mb-2">
-                    Create your account to start earning rewards
+                  <div className="flex items-center gap-2 mb-2">
+                    <Mail size={16} className="text-primary" />
+                    <p className="text-sm text-foreground font-medium">
+                      Check your email to activate your account
+                    </p>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    We'll send a rewards activation email shortly with a magic link — no passwords, no re-entering your email. Just one click to claim your points.
                   </p>
-                  <p className="text-xs text-muted-foreground mb-3">
-                    Sign in with the email you used at checkout to claim your points.
-                  </p>
-                  <Button variant="hero" size="sm" asChild>
-                    <Link to="/auth">
-                      Set Up Your Account
-                      <ArrowRight size={14} />
-                    </Link>
-                  </Button>
                 </div>
               )}
 
@@ -208,9 +205,9 @@ const OrderConfirmation = () => {
             </Button>
             {!user && (
               <Button variant="heroOutline" size="lg" asChild>
-                <Link to="/auth">
+                <Link to="/dashboard">
                   <Sparkles size={16} />
-                  Create Account
+                  View Rewards
                 </Link>
               </Button>
             )}

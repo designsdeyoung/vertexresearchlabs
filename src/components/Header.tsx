@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown, Truck } from "lucide-react";
+import { Menu, X, ChevronDown, Truck, Sparkles, User } from "lucide-react";
 import logo from "@/assets/logo.png";
 import CartButton from "./CartButton";
 import ThemeToggle from "./ThemeToggle";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   DropdownMenu,
   DropdownMenuContent,

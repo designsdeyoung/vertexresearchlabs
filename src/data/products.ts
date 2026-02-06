@@ -286,61 +286,6 @@ export const products: Product[] = [
     ]
   },
   {
-    id: "slu-pp-332",
-    name: "SLU-PP-332",
-    subtitle: "Research Grade",
-    size: "5mg",
-    price: 80,
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: sluPP332Image,
-    category: "Peptide",
-    references: [
-      {
-        authors: "Laganière J et al.",
-        journal: "ACS Chemical Biology",
-        year: 2023,
-        title: "SLU-PP-332 ERR Agonist Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/36988910/"
-      },
-      {
-        authors: "D'Urso Z et al.",
-        journal: "Journal of Medicinal Chemistry",
-        year: 2023,
-        title: "SLU-PP-332 Studies",
-        url: "https://pubmed.ncbi.nlm.nih.gov/37739806/"
-      }
-    ]
-  },
-  {
-    id: "sermorelin",
-    name: "Sermorelin",
-    subtitle: "Research Grade",
-    size: "10mg",
-    price: 75,
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: sermorelinImage,
-    category: "Peptide",
-    references: [
-      {
-        authors: "Merriam GR et al.",
-        journal: "Endocrine",
-        year: 2007,
-        title: "Sermorelin GHRH Analog Studies",
-        url: "https://pubmed.ncbi.nlm.nih.gov/18031173/"
-      }
-    ]
-  },
-  {
     id: "kisspeptin",
     name: "Kisspeptin",
     subtitle: "Research Grade",

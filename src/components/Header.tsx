@@ -16,6 +16,7 @@ import {
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, profile } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {

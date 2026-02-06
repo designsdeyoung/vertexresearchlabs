@@ -44,7 +44,7 @@ const handler = async (req: Request): Promise<Response> => {
     const body: AwardPointsRequest = await req.json();
     console.log("Award points request:", JSON.stringify(body, null, 2));
 
-    const { customerEmail, customerName, items, subtotal, shipping, total, creditApplied, creditId } = body;
+    const { customerEmail, customerName, items, subtotal, shipping, total, creditApplied, creditId, referrerCode } = body;
 
     if (!customerEmail || !items || items.length === 0) {
       throw new Error("Missing required fields: customerEmail, items");

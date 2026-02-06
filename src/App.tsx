@@ -41,8 +41,9 @@ const App = () => (
               <Toaster />
               <Sonner />
               <ResearchDisclaimerDialog />
-              <BrowserRouter>
+                <BrowserRouter>
                 <ScrollToTop />
+                <ReferralCapture />
                 <InquiryCart />
                 <ChatWidget />
                 <Routes>

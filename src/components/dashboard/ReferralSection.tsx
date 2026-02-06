@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { Copy, Users, Check, Share2 } from "lucide-react";
+import { Copy, Users, Check, Share2, MessageSquare, Mail } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 interface ReferralSectionProps {
@@ -33,7 +33,7 @@ const ReferralSection = ({ referralCode, profileId }: ReferralSectionProps) => {
       });
   }, [profileId]);
 
-  const referralLink = `${window.location.origin}?ref=${referralCode}`;
+  const referralLink = `https://vertexresearchlabs.lovable.app?ref=${referralCode}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(referralLink);
@@ -42,8 +42,24 @@ const ReferralSection = ({ referralCode, profileId }: ReferralSectionProps) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleShareSMS = () => {
+    const msg = encodeURIComponent(
+      `Check out Vertex Research Labs — get $15 off your first order: ${referralLink}`
+    );
+    window.open(`sms:?body=${msg}`, "_blank");
+  };
+
+  const handleShareEmail = () => {
+    const subject = encodeURIComponent("$15 off Vertex Research Labs");
+    const body = encodeURIComponent(
+      `Hey, I've been using Vertex Research Labs for research peptides and thought you'd be interested.\n\nUse my link to get $15 off your first order:\n${referralLink}\n\nThe link is tracked automatically — no code needed.`
+    );
+    window.open(`mailto:?subject=${subject}&body=${body}`, "_blank");
+  };
+
   const totalEarned = referrals.reduce((sum, r) => sum + r.points_awarded, 0);
   const pendingCount = referrals.filter((r) => r.status === "pending" || r.status === "signed_up").length;
+  const completedCount = referrals.filter((r) => r.status === "completed").length;
 
   return (
     <div className="glass-card rounded-xl p-6">
@@ -60,20 +76,39 @@ const ReferralSection = ({ referralCode, profileId }: ReferralSectionProps) => {
       </p>
 
       {/* Referral Link */}
-      <div className="flex items-center gap-2 mb-6">
-        <div className="flex-1 px-3 py-2 rounded-lg bg-secondary/50 border border-border/50 text-xs text-muted-foreground truncate font-mono">
-          {referralLink}
+      <div className="mb-3">
+        <p className="text-[10px] text-muted-foreground mb-1.5 uppercase tracking-wider font-medium">Your personal referral link</p>
+        <div className="flex items-center gap-2">
+          <div className="flex-1 px-3 py-2 rounded-lg bg-secondary/50 border border-border/50 text-xs text-muted-foreground truncate font-mono">
+            {referralLink}
+          </div>
+          <Button variant="outline" size="sm" onClick={handleCopy} className="flex-shrink-0">
+            {copied ? <Check size={14} /> : <Copy size={14} />}
+          </Button>
         </div>
-        <Button variant="outline" size="sm" onClick={handleCopy} className="flex-shrink-0">
-          {copied ? <Check size={14} /> : <Copy size={14} />}
+      </div>
+
+      {/* Share Buttons */}
+      <div className="flex gap-2 mb-2">
+        <Button variant="outline" size="sm" className="flex-1 text-xs" onClick={handleShareSMS}>
+          <MessageSquare size={13} />
+          Share via SMS
+        </Button>
+        <Button variant="outline" size="sm" className="flex-1 text-xs" onClick={handleShareEmail}>
+          <Mail size={13} />
+          Share via Email
         </Button>
       </div>
+
+      <p className="text-[10px] text-muted-foreground mb-5">
+        Tracked automatically — your friends don't need a code.
+      </p>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3 mb-4">
         <div className="text-center p-3 rounded-lg bg-secondary/30">
           <p className="text-lg font-semibold text-foreground">{referrals.length}</p>
-          <p className="text-[10px] text-muted-foreground">Referrals</p>
+          <p className="text-[10px] text-muted-foreground">Clicks</p>
         </div>
         <div className="text-center p-3 rounded-lg bg-secondary/30">
           <p className="text-lg font-semibold text-foreground">{pendingCount}</p>

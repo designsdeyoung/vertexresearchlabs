@@ -205,9 +205,9 @@ const OrderConfirmation = () => {
             </Button>
             {!user && (
               <Button variant="heroOutline" size="lg" asChild>
-                <Link to="/auth">
+                <Link to="/dashboard">
                   <Sparkles size={16} />
-                  Create Account
+                  View Rewards
                 </Link>
               </Button>
             )}

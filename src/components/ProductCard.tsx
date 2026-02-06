@@ -79,6 +79,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
             <span className="text-xs text-muted-foreground">{size} • {subtitle}</span>
             <span className="text-lg font-semibold text-primary">{formatPrice(price)}</span>
           </div>
+          <div className="flex items-center gap-1 mt-1">
+            <Sparkles size={10} className="text-primary/70" />
+            <span className="text-[10px] text-primary/70 font-medium">
+              Earn {calculatePointsForPrice(price)} pts
+            </span>
+          </div>
         </div>
 
         {/* Description */}

@@ -2,42 +2,114 @@ import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { 
-  CheckCircle2, 
-  FlaskConical,
+import { useAuth } from "@/contexts/AuthContext";
+import { calculatePointsForPrice } from "@/hooks/useRewards";
+import { motion } from "framer-motion";
+import {
+  CheckCircle2,
   Mail,
   FileText,
-  AlertTriangle,
   Home,
-  Phone
+  Sparkles,
+  ArrowRight,
+  Phone,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const OrderConfirmation = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  // Estimate points earned (we don't have the exact order here, so show general messaging)
+  const estimatedPoints = 0; // Will be populated from actual order data in future
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Header />
-      
+
       <main className="flex-1 pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-2xl">
           {/* Success Header */}
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 border border-primary/20 mb-6 animate-scale-in">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 200, damping: 15 }}
+              className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 border border-primary/20 mb-6"
+            >
               <CheckCircle2 size={40} className="text-primary" />
-            </div>
-            <h1 className="text-3xl md:text-4xl font-semibold text-foreground mb-4 animate-fade-up">
+            </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-3xl md:text-4xl font-semibold text-foreground mb-4"
+            >
               Order Request Submitted
-            </h1>
-            <p className="text-muted-foreground max-w-md mx-auto animate-fade-up stagger-1">
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="text-muted-foreground max-w-md mx-auto"
+            >
               Thank you for your research materials inquiry. Your request has been received.
-            </p>
+            </motion.p>
           </div>
 
-          {/* Confirmation Details */}
-          <div className="space-y-6 animate-fade-up stagger-2">
-            {/* What's Next */}
+          {/* Rewards Earned Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="glass-card rounded-xl p-6 mb-6 border-primary/20 relative overflow-hidden"
+          >
+            <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/5 rounded-full blur-2xl" />
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-3">
+                <Sparkles size={20} className="text-primary" />
+                <h2 className="text-lg font-medium text-foreground">Vertex Rewards</h2>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                Points will be added to your account once your order is confirmed.
+                Earn <span className="text-primary font-medium">3 points per $1</span> on every order.
+              </p>
+
+              {!user && (
+                <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
+                  <p className="text-sm text-foreground font-medium mb-2">
+                    Create your account to start earning rewards
+                  </p>
+                  <p className="text-xs text-muted-foreground mb-3">
+                    Sign in with the email you used at checkout to claim your points.
+                  </p>
+                  <Button variant="hero" size="sm" asChild>
+                    <Link to="/auth">
+                      Set Up Your Account
+                      <ArrowRight size={14} />
+                    </Link>
+                  </Button>
+                </div>
+              )}
+
+              {user && (
+                <Button variant="hero" size="sm" asChild>
+                  <Link to="/dashboard">
+                    <Sparkles size={14} />
+                    View Your Dashboard
+                  </Link>
+                </Button>
+              )}
+            </div>
+          </motion.div>
+
+          {/* What's Next */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="space-y-6"
+          >
             <div className="glass-card rounded-lg p-6">
               <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
                 <Mail size={20} className="text-primary" />
@@ -84,21 +156,6 @@ const OrderConfirmation = () => {
               </ul>
             </div>
 
-            {/* Research Use Reminder */}
-            <div className="glass-card rounded-lg p-6 border-l-4 border-l-primary">
-              <div className="flex items-start gap-4">
-                <FlaskConical size={24} className="text-primary flex-shrink-0 mt-0.5" />
-                <div>
-                  <h2 className="text-lg font-medium text-foreground mb-2">Laboratory Research Use Only</h2>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    All products supplied by Vertex Research Labs are intended for laboratory research use only. 
-                    Products are not for human consumption, veterinary use, or for diagnostic, therapeutic, or 
-                    medical applications.
-                  </p>
-                </div>
-              </div>
-            </div>
-
             {/* Contact Information */}
             <div className="glass-card rounded-lg p-6 bg-secondary/30">
               <h2 className="text-lg font-medium text-foreground mb-4">Questions?</h2>
@@ -122,19 +179,7 @@ const OrderConfirmation = () => {
                 </p>
               </div>
             </div>
-
-            {/* Disclaimer */}
-            <div className="flex items-start gap-3 p-4 rounded-lg bg-destructive/5 border border-destructive/20">
-              <AlertTriangle size={16} className="text-destructive/70 mt-0.5 flex-shrink-0" />
-              <p className="text-xs text-muted-foreground">
-                By completing this order, you have confirmed that all materials will be used exclusively for 
-                laboratory research purposes in accordance with our{" "}
-                <Link to="/terms" className="text-primary hover:underline">Terms & Conditions</Link>
-                {" "}and{" "}
-                <Link to="/disclaimer" className="text-primary hover:underline">Disclaimer</Link>.
-              </p>
-            </div>
-          </div>
+          </motion.div>
 
           {/* Actions */}
           <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
@@ -142,15 +187,25 @@ const OrderConfirmation = () => {
               <Home size={18} />
               Return to Home
             </Button>
-            <Button variant="heroOutline" size="lg" asChild>
-              <Link to="/quality">
-                View Quality Standards
-              </Link>
-            </Button>
+            {!user && (
+              <Button variant="heroOutline" size="lg" asChild>
+                <Link to="/auth">
+                  <Sparkles size={16} />
+                  Create Account
+                </Link>
+              </Button>
+            )}
+            {user && (
+              <Button variant="heroOutline" size="lg" asChild>
+                <Link to="/dashboard">
+                  View Dashboard
+                </Link>
+              </Button>
+            )}
           </div>
         </div>
       </main>
-      
+
       <Footer />
     </div>
   );

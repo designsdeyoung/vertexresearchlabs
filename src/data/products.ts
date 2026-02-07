@@ -445,6 +445,7 @@ export const products: Product[] = [
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
+    image: epithalonImage,
     category: "Peptide",
     references: [
       {

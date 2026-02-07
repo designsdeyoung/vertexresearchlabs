@@ -18,6 +18,7 @@ import pt141Image from "@/assets/products/pt-141.png";
 import mt2Image from "@/assets/products/mt2.png";
 import bacWater3mlImage from "@/assets/products/bac-water-3ml.png";
 import bacWater10mlImage from "@/assets/products/bac-water-10ml.png";
+import epithalonImage from "@/assets/products/epithalon.png";
 
 export interface Reference {
   authors: string;
@@ -444,6 +445,7 @@ export const products: Product[] = [
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
+    image: epithalonImage,
     category: "Peptide",
     references: [
       {

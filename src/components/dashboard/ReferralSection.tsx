@@ -44,15 +44,15 @@ const ReferralSection = ({ referralCode, profileId }: ReferralSectionProps) => {
 
   const handleShareSMS = () => {
     const msg = encodeURIComponent(
-      `Check out Vertex Research Labs — get $15 off your first order: ${referralLink}`
+      `Use my code ${referralCode} at Vertex Research Labs for 10% off your order! ${referralLink}`
     );
     window.open(`sms:?body=${msg}`, "_blank");
   };
 
   const handleShareEmail = () => {
-    const subject = encodeURIComponent("$15 off Vertex Research Labs");
+    const subject = encodeURIComponent("10% off Vertex Research Labs");
     const body = encodeURIComponent(
-      `Hey, I've been using Vertex Research Labs for research peptides and thought you'd be interested.\n\nUse my link to get $15 off your first order:\n${referralLink}\n\nThe link is tracked automatically — no code needed.`
+      `Hey, I've been using Vertex Research Labs for research peptides and thought you'd be interested.\n\nUse my code ${referralCode} at checkout for 10% off your order.\n\nOr use this link: ${referralLink}`
     );
     window.open(`mailto:?subject=${subject}&body=${body}`, "_blank");
   };

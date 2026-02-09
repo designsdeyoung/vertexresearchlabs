@@ -72,22 +72,19 @@ const Checkout = () => {
     setDiscountLoading(true);
     setDiscountValid(null);
     try {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("id, email")
-        .eq("referral_code", discountCode.trim().toUpperCase())
-        .maybeSingle();
+      const { data, error } = await supabase.functions.invoke("validate-discount", {
+        body: {
+          code: discountCode.trim(),
+          customerEmail: formData.email,
+        },
+      });
 
-      if (error || !data) {
-        setDiscountValid(false);
-        setDiscountReferrerId(null);
-      } else if (data.email === formData.email || data.id === profile?.id) {
-        // Block self-referral
+      if (error || !data?.valid) {
         setDiscountValid(false);
         setDiscountReferrerId(null);
       } else {
         setDiscountValid(true);
-        setDiscountReferrerId(data.id);
+        setDiscountReferrerId(data.referrerId);
       }
     } catch {
       setDiscountValid(false);

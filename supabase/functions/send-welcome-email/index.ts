@@ -75,7 +75,7 @@ const handler = async (req: Request): Promise<Response> => {
           <div style="background: linear-gradient(135deg, #1e293b 0%, #2d3a4f 50%, #1e293b 100%); padding: 40px 32px; text-align: center; border-bottom: 1px solid rgba(0, 180, 216, 0.15);">
             <img src="${LOGO_URL}" alt="Vertex Research Labs" style="height: 60px; width: auto; margin-bottom: 20px;" />
             ${pointsEarned > 0 ? `
-            <h1 style="color: #f1f5f9; font-size: 28px; margin: 0 0 4px 0; font-weight: 700;">You just earned +${pointsEarned} Points</h1>
+            <h1 style="color: #f1f5f9; font-size: 28px; margin: 0 0 4px 0; font-weight: 700;">${pointsEarned} Rewards Points Added</h1>
             ` : `
             <h1 style="color: #f1f5f9; font-size: 28px; margin: 0 0 4px 0; font-weight: 700;">Your Vertex Rewards Are Ready</h1>
             `}

@@ -325,6 +325,17 @@ const handler = async (req: Request): Promise<Response> => {
       }
     }
 
+    // Fetch the customer's referral code for the confirmation page
+    let customerReferralCode: string | null = null;
+    if (profile) {
+      const { data: freshProfile } = await supabaseAdmin
+        .from("profiles")
+        .select("referral_code")
+        .eq("id", profile.id)
+        .maybeSingle();
+      customerReferralCode = freshProfile?.referral_code || null;
+    }
+
     return new Response(
       JSON.stringify({
         success: true,
@@ -333,6 +344,7 @@ const handler = async (req: Request): Promise<Response> => {
         pointsEarned,
         profileFound: !!profile,
         accountCreated: isNewAccount,
+        referralCode: customerReferralCode,
       }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );

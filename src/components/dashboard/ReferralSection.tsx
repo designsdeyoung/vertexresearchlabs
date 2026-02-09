@@ -119,7 +119,7 @@ const ReferralSection = ({ referralCode, profileId }: ReferralSectionProps) => {
       </div>
 
       <p className="text-[10px] text-muted-foreground mb-5">
-        Tracked automatically — your friends don't need a code.
+        Friends enter your code at checkout or use the link — both work.
       </p>
 
       {/* Stats */}

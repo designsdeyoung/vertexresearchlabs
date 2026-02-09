@@ -110,7 +110,7 @@ const CreditRedemption = ({ profileId, cartTotal, selectedCredit, onSelectCredit
       )}
 
       <p className="text-[10px] text-muted-foreground/60 mt-3">
-        Credits cannot stack. Max {selectedCredit ? selectedCredit.max_percent : ""}% of cart value.
+        Credits cannot stack.{selectedCredit ? ` Max ${selectedCredit.max_percent}% of cart value.` : ""}
       </p>
     </div>
   );

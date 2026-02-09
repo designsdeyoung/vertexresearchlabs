@@ -2,8 +2,8 @@ import { useMemo } from "react";
 
 export const POINTS_PER_DOLLAR = 3;
 export const AUTOSHIP_POINTS_PER_DOLLAR = 6;
-export const REFERRAL_POINTS = 750;
-export const REFERRAL_AUTOSHIP_POINTS = 1250;
+export const REFERRAL_POINTS_MULTIPLIER = 3; // 3x order subtotal
+export const REFERRAL_DISCOUNT_PERCENT = 10; // 10% off for code user
 export const SOCIAL_POST_POINTS = 250;
 export const PHOTO_REVIEW_POINTS = 200;
 

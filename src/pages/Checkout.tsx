@@ -509,6 +509,16 @@ const Checkout = () => {
                   </div>
                   {!qualifiesForFreeShipping && <p className="text-xs text-muted-foreground">Free shipping on orders over ${FREE_SHIPPING_THRESHOLD}</p>}
 
+                  {discountAmount > 0 && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-primary flex items-center gap-1">
+                        <Sparkles size={12} />
+                        Discount ({discountCode})
+                      </span>
+                      <span className="text-primary font-medium">-{formatPrice(discountAmount)}</span>
+                    </div>
+                  )}
+
                   {creditDiscount > 0 && (
                     <div className="flex justify-between text-sm">
                       <span className="text-primary flex items-center gap-1">

@@ -233,7 +233,35 @@ const handler = async (req: Request): Promise<Response> => {
               if (refError) {
                 console.error("Error creating referral:", refError);
               } else {
-                console.log(`Referral created: ${referrerProfile.id} referred ${customerEmail}`);
+                console.log(`Referral created: ${referrerProfile.id} referred ${customerEmail}, awarded ${referralPointsAwarded} pts`);
+
+                // Award 3x points to referrer immediately
+                const { data: referrerProfileData } = await supabaseAdmin
+                  .from("profiles")
+                  .select("id, points_balance, lifetime_points")
+                  .eq("id", referrerProfile.id)
+                  .single();
+
+                if (referrerProfileData) {
+                  await supabaseAdmin
+                    .from("points_transactions")
+                    .insert({
+                      profile_id: referrerProfile.id,
+                      amount: referralPointsAwarded,
+                      type: "referral",
+                      description: `Referral bonus: ${customerEmail} (3× on $${subtotal})`,
+                    });
+
+                  await supabaseAdmin
+                    .from("profiles")
+                    .update({
+                      points_balance: referrerProfileData.points_balance + referralPointsAwarded,
+                      lifetime_points: referrerProfileData.lifetime_points + referralPointsAwarded,
+                    })
+                    .eq("id", referrerProfile.id);
+
+                  console.log(`Awarded ${referralPointsAwarded} referral points to ${referrerProfile.id}`);
+                }
               }
 
               // Store referred_by on the new profile

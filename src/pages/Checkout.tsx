@@ -44,6 +44,10 @@ const Checkout = () => {
   const { user, profile } = useAuth();
 
   const [selectedCredit, setSelectedCredit] = useState<ActiveCredit | null>(null);
+  const [discountCode, setDiscountCode] = useState("");
+  const [discountValid, setDiscountValid] = useState<boolean | null>(null);
+  const [discountLoading, setDiscountLoading] = useState(false);
+  const [discountReferrerId, setDiscountReferrerId] = useState<string | null>(null);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -52,12 +56,45 @@ const Checkout = () => {
     }).format(price);
   };
 
+  // Apply discount code (10% off subtotal)
+  const discountAmount = discountValid ? subtotal * 0.1 : 0;
+
   // Calculate discount from credit
   const creditDiscount = selectedCredit
     ? Math.min(selectedCredit.amount, total * (selectedCredit.max_percent / 100))
     : 0;
-  const finalTotal = total - creditDiscount;
+  const finalTotal = total - creditDiscount - discountAmount;
   const pointsEarned = calculatePointsForPrice(subtotal);
+
+  const handleApplyDiscount = async () => {
+    if (!discountCode.trim()) return;
+    setDiscountLoading(true);
+    setDiscountValid(null);
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("id, email")
+        .eq("referral_code", discountCode.trim().toUpperCase())
+        .maybeSingle();
+
+      if (error || !data) {
+        setDiscountValid(false);
+        setDiscountReferrerId(null);
+      } else if (data.email === formData.email || data.id === profile?.id) {
+        // Block self-referral
+        setDiscountValid(false);
+        setDiscountReferrerId(null);
+      } else {
+        setDiscountValid(true);
+        setDiscountReferrerId(data.id);
+      }
+    } catch {
+      setDiscountValid(false);
+      setDiscountReferrerId(null);
+    } finally {
+      setDiscountLoading(false);
+    }
+  };
 
   const [formData, setFormData] = useState({
     fullName: "",

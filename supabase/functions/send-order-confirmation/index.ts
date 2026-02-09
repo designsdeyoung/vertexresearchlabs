@@ -118,7 +118,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Build shareable referral link
     const shareableLink = referralCode
-      ? `https://vertexresearchlabs.lovable.app?ref=${referralCode}&discount=${referralCode}`
+      ? `https://vertexresearchlabs.com?ref=${referralCode}&discount=${referralCode}`
       : "";
 
     // Customer confirmation email — merged with rewards + activation

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -39,6 +39,7 @@ interface ActiveCredit {
 
 const Checkout = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { hasAcknowledged, eligibilityType, resetCompliance } = useCompliance();
   const { items, clearCart, subtotal, shippingCost, total, qualifiesForFreeShipping } = useInquiryCart();
   const { user, profile } = useAuth();
@@ -122,6 +123,27 @@ const Checkout = () => {
       }));
     }
   }, [profile]);
+
+  // Auto-apply discount code from URL param
+  const [autoApplyDone, setAutoApplyDone] = useState(false);
+  useEffect(() => {
+    const discountParam = searchParams.get("discount");
+    if (discountParam && !autoApplyDone) {
+      const code = discountParam.trim().toUpperCase();
+      setDiscountCode(code);
+      // Clean param from URL
+      searchParams.delete("discount");
+      setSearchParams(searchParams, { replace: true });
+      setAutoApplyDone(true);
+    }
+  }, [searchParams, setSearchParams, autoApplyDone]);
+
+  // Trigger validation once discount code is set from URL and email is available
+  useEffect(() => {
+    if (autoApplyDone && discountCode && discountValid === null && !discountLoading && formData.email) {
+      handleApplyDiscount();
+    }
+  }, [autoApplyDone, discountCode, discountValid, discountLoading, formData.email]);
 
   const [finalConfirmation, setFinalConfirmation] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -266,6 +288,7 @@ const Checkout = () => {
           creditApplied: creditDiscount,
           total: finalTotal,
           orderNumber,
+          referralCode: awardData?.referralCode || null,
         },
       });
     } catch (err) {

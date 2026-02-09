@@ -9,6 +9,7 @@ import mt2Vial from "@/assets/showcase/mt2-png.png";
 import tesamorelinVial from "@/assets/showcase/tesamorelin-png.png";
 import tb500Vial from "@/assets/showcase/tb-500-png.png";
 import nadVial from "@/assets/showcase/nad-plus-png.png";
+import dsipVial from "@/assets/showcase/dsip-png.png";
 import FloatingParticles from "./FloatingParticles";
 import ScientificMeters from "./ScientificMeters";
 import PurityDial from "./PurityDial";
@@ -40,6 +41,7 @@ const vials = [
   { src: tesamorelinVial, alt: "Tesamorelin Peptide Research Vial", name: "Tesamorelin" },
   { src: tb500Vial, alt: "TB-500 Peptide Research Vial", name: "TB-500" },
   { src: nadVial, alt: "NAD+ Research Vial", name: "NAD+" },
+  { src: dsipVial, alt: "DSIP Peptide Research Vial", name: "DSIP" },
 ];
 
 const VialShowcase = () => {

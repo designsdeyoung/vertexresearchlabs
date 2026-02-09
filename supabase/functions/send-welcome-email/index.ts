@@ -126,10 +126,10 @@ const handler = async (req: Request): Promise<Response> => {
                   <td style="padding: 10px 12px; color: #f1f5f9; border-bottom: 1px solid rgba(100, 116, 139, 0.2);">🎁 Redeem 500 pts for $20 credit</td>
                 </tr>
                 <tr>
-                  <td style="padding: 10px 12px; color: #f1f5f9; border-bottom: 1px solid rgba(100, 116, 139, 0.2);">🚀 Activate Autoship to earn 2x points</td>
+                  <td style="padding: 10px 12px; color: #f1f5f9; border-bottom: 1px solid rgba(100, 116, 139, 0.2);">🚀 Activate Autoship to earn 6 pts per $1</td>
                 </tr>
                 <tr>
-                  <td style="padding: 10px 12px; color: #f1f5f9;">🤝 Refer a colleague, earn 200 points</td>
+                  <td style="padding: 10px 12px; color: #f1f5f9;">🤝 Share your code — friends get 10% off, you earn 3× points</td>
                 </tr>
               </table>
             </div>

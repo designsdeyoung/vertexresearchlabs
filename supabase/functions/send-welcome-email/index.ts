@@ -56,10 +56,10 @@ const handler = async (req: Request): Promise<Response> => {
       console.warn("Could not generate magic link, falling back to auth page:", linkError?.message);
     }
 
-    // Dynamic subject line based on points
+    // Dynamic subject line — avoid spam triggers (no ALL CAPS, no exclamation, no "free"/"earn")
     const subjectLine = pointsEarned > 0
-      ? `You just earned +${pointsEarned} Vertex Points`
-      : "Your Vertex rewards are ready";
+      ? `Your Vertex Rewards Summary — ${pointsEarned} points added`
+      : "Your Vertex Rewards account is ready";
 
     const emailHtml = `
       <!DOCTYPE html>

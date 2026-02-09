@@ -124,6 +124,27 @@ const Checkout = () => {
     }
   }, [profile]);
 
+  // Auto-apply discount code from URL param
+  const [autoApplyDone, setAutoApplyDone] = useState(false);
+  useEffect(() => {
+    const discountParam = searchParams.get("discount");
+    if (discountParam && !autoApplyDone) {
+      const code = discountParam.trim().toUpperCase();
+      setDiscountCode(code);
+      // Clean param from URL
+      searchParams.delete("discount");
+      setSearchParams(searchParams, { replace: true });
+      setAutoApplyDone(true);
+    }
+  }, [searchParams, setSearchParams, autoApplyDone]);
+
+  // Trigger validation once discount code is set from URL and email is available
+  useEffect(() => {
+    if (autoApplyDone && discountCode && discountValid === null && !discountLoading && formData.email) {
+      handleApplyDiscount();
+    }
+  }, [autoApplyDone, discountCode, discountValid, discountLoading, formData.email]);
+
   const [finalConfirmation, setFinalConfirmation] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 

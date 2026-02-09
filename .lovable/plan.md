@@ -1,77 +1,62 @@
 
 
-# Personalized Discount Codes (NAME10 System)
+# Shareable Order Confirmation with Auto-Apply Discount Link
+
+## Overview
+
+After placing an order, customers will see a new "Share & Save" section on the order confirmation page with a pre-built shareable URL that includes their discount code. When someone clicks that link, the code auto-applies at checkout. The section also reinforces the email activation CTA for claiming rewards.
 
 ## What Changes
 
-Replace the current auto-generated referral codes (e.g., `VX-5088CF`) with personalized codes based on the user's first name + "10" (e.g., `ADAM10`, `LAURYN10`).
+### 1. Pass the customer's referral code to the Order Confirmation page
 
-**New referral/discount behavior:**
-- The person using the code gets **10% off** their order (replaces the current flat $15 off)
-- The code owner (referrer) earns **3x points** on the referred order's subtotal value (replaces the current flat 750 points)
+- In `Checkout.tsx`, after the order is placed, fetch the customer's `referral_code` from the `award-points` response (it already returns profile data) or query it, and pass it via `navigate()` state to the confirmation page.
+- The `award-points` edge function will be updated to include `referralCode` in its response payload so the confirmation page has it immediately.
 
----
+### 2. Auto-apply discount code at Checkout from URL
 
-## How It Works
+- In `Checkout.tsx`, read a `?code=` (or `?discount=`) query parameter on mount.
+- If present, auto-fill the discount code input and trigger validation automatically, so the 10% off is applied without the user having to type anything.
+- This works alongside the existing `?ref=` capture for cookie-based tracking.
 
-**Example:** Adam shares his code `ADAM10`. His friend places a $200 order.
-- Friend gets 10% off = **$20 discount**
-- Adam earns 3x points on $200 = **600 points**
+### 3. New "Share & Earn" section on Order Confirmation page
 
-On a $400 order:
-- Friend saves **$40**
-- Adam earns **1,200 points**
+Add a prominent, shareable card between the Rewards card and "What Happens Next" with:
 
-This scales naturally -- bigger orders reward both parties more.
+- **Shareable URL**: `https://vertexresearchlabs.lovable.app?ref=CODE&discount=CODE` -- pre-built with their personal code so it both captures the referral cookie AND auto-applies the discount at checkout.
+- **Copy link button** and **Share via SMS / Email** buttons with pre-written messages like: "Use my code ADAM10 for 10% off at Vertex Research Labs!"
+- **Explanation text**: "Share your code with friends -- they get 10% off, you earn 3x points on their order."
+- The code displayed prominently in a copyable badge.
 
----
+### 4. Strengthen the email activation CTA
 
-## Technical Changes
-
-### 1. Database: Update referral code generation trigger
-
-Replace the `generate_referral_code()` function to build codes from the user's first name:
-- Extract first name from `full_name`, uppercase it, append `10`
-- Handle duplicates by adding a number suffix (e.g., `ADAM10`, `ADAM102`, `ADAM103`)
-- Fallback to `VX-XXXXXX` format if no name is available
-
-Update existing profiles to regenerate codes in the new format.
-
-### 2. Checkout: Add discount code input field
-
-- Add a "Discount Code" text input on the checkout page
-- When a code is entered, validate it against the `profiles.referral_code` column
-- If valid, apply 10% off the subtotal and display the discount in the order summary
-- The code can work alongside OR replace the current `?ref=` URL-based capture (both paths feed into the same logic)
-
-### 3. Edge Function (award-points): Update referral reward logic
-
-- Instead of awarding a flat 750 points to the referrer, calculate **3x the referred order's subtotal** (e.g., $200 order = 600 points)
-- Apply the 10% discount to the order total when a valid code is used
-- Record the discount amount on the order
-
-### 4. Dashboard Referral Section: Update messaging
-
-- Change the share text from "$15 off" to "10% off"
-- Display the personalized code prominently (e.g., "Your code: ADAM10")
-- Update SMS/email share templates with the new discount language
-
-### 5. Referral Capture: Support both URL and manual code entry
-
-- Keep the existing `?ref=CODE` URL capture for link sharing
-- Add manual code entry at checkout for people who received the code verbally or via text
-- Both methods feed into the same validation and discount logic
-
----
+- Make the "Check your email to activate your account" section more prominent with a slightly larger callout.
+- Add text: "Activate your account to unlock your rewards dashboard and track your referral earnings."
 
 ## Files to Modify
 
 | File | Change |
 |---|---|
-| Database migration | New `generate_referral_code()` trigger + update existing codes |
-| `src/pages/Checkout.tsx` | Add discount code input, validate against DB, apply 10% off |
-| `supabase/functions/award-points/index.ts` | 3x points for referrer instead of flat 750; handle discount |
-| `src/components/dashboard/ReferralSection.tsx` | Update copy: "10% off" instead of "$15 off", show code prominently |
-| `src/hooks/useRewards.ts` | Update `REFERRAL_POINTS` constant and add referral multiplier |
-| `src/components/checkout/CreditRedemption.tsx` | Fix empty percentage display bug |
+| `supabase/functions/award-points/index.ts` | Return `referralCode` in the response payload |
+| `src/pages/Checkout.tsx` | Read `?discount=` param on mount, auto-fill and auto-validate the discount code field; pass `referralCode` to order confirmation |
+| `src/pages/OrderConfirmation.tsx` | Add shareable referral section with copy link, SMS/email share buttons, and the customer's discount code; strengthen email activation CTA |
 
+## Technical Details
+
+**Shareable URL format:**
+```
+https://vertexresearchlabs.lovable.app?ref=ADAM10&discount=ADAM10
+```
+- `ref=ADAM10` -- captured by the existing `useReferralCapture` hook (stored in cookie/localStorage for 30 days)
+- `discount=ADAM10` -- new param, read by Checkout on mount to auto-fill the discount code input and trigger validation
+
+**Auto-apply flow in Checkout:**
+- On mount, check `URLSearchParams` for `discount` param
+- If found, set `discountCode` state and call `handleApplyDiscount()` after form email is available (needed for self-referral check)
+- Show a toast: "Discount code ADAM10 applied!"
+
+**Order Confirmation share section:**
+- Only shown when the customer has a referral code (passed from checkout or fetched)
+- Includes copy-to-clipboard for both the code and the full link
+- SMS and email share buttons with pre-written messages
+- Animated entry matching the existing page style

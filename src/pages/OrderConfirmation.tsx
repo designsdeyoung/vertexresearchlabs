@@ -147,6 +147,9 @@ const OrderConfirmation = () => {
             </div>
           </motion.div>
 
+          {/* Share & Earn Section */}
+          {referralCode && <ShareAndEarn referralCode={referralCode} />}
+
           {/* What's Next */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}

@@ -17,7 +17,7 @@ const Index = () => {
         <section id="showcase">
           <VialShowcase />
         </section>
-        <MoleculeBuilder />
+        
         <ProductCatalog />
         <PeptidePeriodicTable />
         <QualitySection />

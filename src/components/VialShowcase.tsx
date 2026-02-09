@@ -1,9 +1,9 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Shield, FileCheck, Microscope } from "lucide-react";
-import ghkVial from "@/assets/showcase/ghk-vial.png";
-import bpcVial from "@/assets/showcase/bpc-vial.png";
-import tbVial from "@/assets/showcase/tb-vial.png";
+import ghkVial from "@/assets/products/ghk-cu.png";
+import bpcVial from "@/assets/products/bpc-157.png";
+import tbVial from "@/assets/products/tb-500.png";
 import FloatingParticles from "./FloatingParticles";
 import ScientificMeters from "./ScientificMeters";
 import PurityDial from "./PurityDial";

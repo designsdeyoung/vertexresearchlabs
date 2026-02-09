@@ -303,6 +303,9 @@ const handler = async (req: Request): Promise<Response> => {
       to: [customer.email],
       subject: subjectLine,
       html: customerEmailHtml,
+      headers: {
+        "List-Unsubscribe": "<mailto:info@vertexresearchlabs.com?subject=unsubscribe>",
+      },
     });
 
     console.log("Customer email sent:", customerEmailResponse);

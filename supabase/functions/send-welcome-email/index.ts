@@ -181,6 +181,9 @@ const handler = async (req: Request): Promise<Response> => {
       to: [email],
       subject: subjectLine,
       html: emailHtml,
+      headers: {
+        "List-Unsubscribe": "<mailto:info@vertexresearchlabs.com?subject=unsubscribe>",
+      },
     };
 
     if (scheduledAt) {

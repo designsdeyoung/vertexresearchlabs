@@ -118,7 +118,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     // Create order record
-    const orderData = {
+    const orderData: Record<string, unknown> = {
       profile_id: profile?.id || null,
       items: JSON.stringify(items),
       subtotal,
@@ -128,6 +128,8 @@ const handler = async (req: Request): Promise<Response> => {
       points_earned: pointsEarned,
       status: "pending",
       is_autoship: false,
+      discount_code: discountCode || null,
+      discount_amount: discountAmount || 0,
     };
 
     const { data: order, error: orderError } = await supabaseAdmin

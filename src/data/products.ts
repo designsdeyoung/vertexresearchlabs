@@ -19,6 +19,7 @@ import mt2Image from "@/assets/products/mt2.png";
 import bacWater3mlImage from "@/assets/products/bac-water-3ml.png";
 import bacWater10mlImage from "@/assets/products/bac-water-10ml.png";
 import epithalonImage from "@/assets/products/epithalon.png";
+import dsipImage from "@/assets/products/dsip.png";
 
 export interface Reference {
   authors: string;

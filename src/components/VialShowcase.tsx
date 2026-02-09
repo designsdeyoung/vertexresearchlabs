@@ -9,7 +9,6 @@ import mt2Vial from "@/assets/showcase/mt2-png.png";
 import tesamorelinVial from "@/assets/showcase/tesamorelin-png.png";
 import tb500Vial from "@/assets/showcase/tb-500-png.png";
 import nadVial from "@/assets/showcase/nad-plus-png.png";
-import dsipVial from "@/assets/showcase/dsip-png.png";
 import FloatingParticles from "./FloatingParticles";
 import ScientificMeters from "./ScientificMeters";
 import PurityDial from "./PurityDial";

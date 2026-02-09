@@ -40,7 +40,6 @@ const vials = [
   { src: tesamorelinVial, alt: "Tesamorelin Peptide Research Vial", name: "Tesamorelin" },
   { src: tb500Vial, alt: "TB-500 Peptide Research Vial", name: "TB-500" },
   { src: nadVial, alt: "NAD+ Research Vial", name: "NAD+" },
-  { src: dsipVial, alt: "DSIP Peptide Research Vial", name: "DSIP" },
 ];
 
 const VialShowcase = () => {

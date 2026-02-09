@@ -292,9 +292,10 @@ const handler = async (req: Request): Promise<Response> => {
     `;
 
     // Dynamic subject line
-    const subjectLine = pointsEarned && pointsEarned > 0
-      ? `${orderNumber || 'Order'} Confirmed — +${pointsEarned} pts earned`
-      : orderNumber ? `${orderNumber} — Order Confirmed` : `Order Request Received - ${formatPrice(subtotal)}`;
+    // Subject line — professional, no spam triggers
+    const subjectLine = orderNumber
+      ? `${orderNumber} — Your Order Summary`
+      : `Your Vertex Research Labs Order Summary`;
 
     // Send customer confirmation email
     const customerEmailResponse = await resend.emails.send({

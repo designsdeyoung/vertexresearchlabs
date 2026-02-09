@@ -16,7 +16,7 @@ interface ShareAndEarnProps {
   referralCode: string;
 }
 
-const SITE_URL = "https://vertexresearchlabs.lovable.app";
+const SITE_URL = "https://vertexresearchlabs.com";
 
 const ShareAndEarn = ({ referralCode }: ShareAndEarnProps) => {
   const [copied, setCopied] = useState<"code" | "link" | null>(null);

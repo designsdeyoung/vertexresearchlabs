@@ -167,7 +167,7 @@ const handler = async (req: Request): Promise<Response> => {
               For laboratory research use only. Not for human or veterinary use.
             </p>
             <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(100, 116, 139, 0.3);">
-              <a href="https://vertexresearchlabs.lovable.app" style="color: #00b4d8; font-size: 12px; text-decoration: none;">vertexresearchlabs.com</a>
+              <a href="https://vertexresearchlabs.com" style="color: #00b4d8; font-size: 12px; text-decoration: none;">vertexresearchlabs.com</a>
             </div>
           </div>
         </div>

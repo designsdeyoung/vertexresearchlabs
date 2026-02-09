@@ -205,7 +205,8 @@ const Checkout = () => {
 
     try {
       // Award points via edge function FIRST to get order number
-      const referralCode = getStoredReferralCode();
+      // Use discount code as referrer if applied, otherwise fall back to URL-captured code
+      const referralCode = discountValid ? discountCode.trim().toUpperCase() : getStoredReferralCode();
       const { data: awardData, error: awardError } = await supabase.functions.invoke("award-points", {
         body: {
           customerEmail: formData.email,
@@ -217,6 +218,8 @@ const Checkout = () => {
           creditApplied: creditDiscount,
           creditId: selectedCredit?.id || null,
           referrerCode: referralCode,
+          discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
+          discountAmount: discountAmount,
         },
       });
 

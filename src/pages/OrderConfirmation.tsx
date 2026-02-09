@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import { CountUp } from "@/components/checkout/CountUp";
+import ShareAndEarn from "@/components/checkout/ShareAndEarn";
 import {
   CheckCircle2,
   Mail,
@@ -13,6 +14,7 @@ import {
   Sparkles,
   ArrowRight,
   Phone,
+  ShieldCheck,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 

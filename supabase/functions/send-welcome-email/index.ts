@@ -139,7 +139,7 @@ const handler = async (req: Request): Promise<Response> => {
             <div style="background: linear-gradient(135deg, rgba(0, 180, 216, 0.08) 0%, rgba(0, 180, 216, 0.04) 100%); border-radius: 12px; padding: 24px; margin: 0 0 24px 0; border: 1px solid rgba(0, 180, 216, 0.2);">
               <h3 style="color: #00b4d8; font-size: 14px; margin: 0 0 12px 0; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">Your Referral Link</h3>
               <p style="color: #cbd5e1; font-size: 14px; line-height: 1.6; margin: 0 0 16px 0;">
-                Share with colleagues — they get <span style="color: #f1f5f9; font-weight: 600;">$15 off</span>, you earn <span style="color: #00b4d8; font-weight: 600;">750 points</span>.
+                Share with colleagues — they get <span style="color: #f1f5f9; font-weight: 600;">10% off</span>, you earn <span style="color: #00b4d8; font-weight: 600;">3× points</span> on their order.
               </p>
               <div style="background: rgba(15, 23, 42, 0.6); border-radius: 8px; padding: 14px 16px; margin: 0 0 16px 0; border: 1px solid rgba(100, 116, 139, 0.3);">
                 <p style="color: #00b4d8; font-size: 14px; margin: 0; font-family: monospace; word-break: break-all;">

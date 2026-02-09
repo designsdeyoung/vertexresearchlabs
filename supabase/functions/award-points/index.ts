@@ -283,48 +283,6 @@ const handler = async (req: Request): Promise<Response> => {
       }
     }
 
-    if (isNewAccount) {
-      // Schedule 4 minutes from now using Resend's scheduledAt
-      const scheduledAt = new Date(Date.now() + 4 * 60 * 1000).toISOString();
-      
-      // Get the user's referral code for the email
-      let userReferralCode = "";
-      if (profile) {
-        const { data: freshProfile } = await supabaseAdmin
-          .from("profiles")
-          .select("referral_code")
-          .eq("id", profile.id)
-          .maybeSingle();
-        userReferralCode = freshProfile?.referral_code || "";
-      }
-      
-      try {
-        const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-        const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
-        
-        const welcomeResponse = await fetch(`${supabaseUrl}/functions/v1/send-welcome-email`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${supabaseAnonKey}`,
-          },
-          body: JSON.stringify({
-            email: customerEmail,
-            fullName: customerName,
-            pointsEarned,
-            orderNumber: order.order_number,
-            referralCode: userReferralCode,
-            scheduledAt,
-          }),
-        });
-
-        const welcomeResult = await welcomeResponse.json();
-        console.log("Welcome email scheduled:", welcomeResult);
-      } catch (welcomeErr) {
-        console.error("Error scheduling welcome email:", welcomeErr);
-      }
-    }
-
     // Fetch the customer's referral code for the confirmation page
     let customerReferralCode: string | null = null;
     if (profile) {

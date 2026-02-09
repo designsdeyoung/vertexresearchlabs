@@ -170,10 +170,10 @@ const VialShowcase = () => {
                     <motion.img
                       src={vial.src}
                       alt={vial.alt}
-                      className="w-auto object-contain drop-shadow-2xl"
+                      className="w-auto object-contain"
                       style={{
-                        height: isFront ? "clamp(380px, 50vw, 530px)" : "clamp(280px, 40vw, 420px)",
-                        filter: `blur(${pos.blur}px)`,
+                        height: isFront ? "clamp(380px, 50vw, 530px)" : "clamp(240px, 35vw, 380px)",
+                        filter: `blur(${pos.blur}px) drop-shadow(0 20px 40px rgba(0, 0, 0, ${isFront ? '0.7' : '0.4'})) drop-shadow(0 0 60px rgba(0, 180, 216, ${isFront ? '0.15' : '0'}))`,
                       }}
                       animate={isFront ? {
                         y: [0, -10, 0],

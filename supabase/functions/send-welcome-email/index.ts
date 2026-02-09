@@ -43,11 +43,11 @@ const handler = async (req: Request): Promise<Response> => {
       type: "magiclink",
       email,
       options: {
-        redirectTo: `${Deno.env.get("SUPABASE_URL")?.replace('.supabase.co', '.lovable.app') || 'https://vertexresearchlabs.lovable.app'}/dashboard`,
+        redirectTo: "https://vertexresearchlabs.com/dashboard",
       },
     });
 
-    let magicLinkUrl = "https://vertexresearchlabs.lovable.app/auth";
+    let magicLinkUrl = "https://vertexresearchlabs.com/auth";
 
     if (linkData?.properties?.action_link && !linkError) {
       magicLinkUrl = linkData.properties.action_link;
@@ -56,10 +56,10 @@ const handler = async (req: Request): Promise<Response> => {
       console.warn("Could not generate magic link, falling back to auth page:", linkError?.message);
     }
 
-    // Dynamic subject line based on points
+    // Dynamic subject line — avoid spam triggers (no ALL CAPS, no exclamation, no "free"/"earn")
     const subjectLine = pointsEarned > 0
-      ? `You just earned +${pointsEarned} Vertex Points`
-      : "Your Vertex rewards are ready";
+      ? `Your Vertex Rewards Summary — ${pointsEarned} points added`
+      : "Your Vertex Rewards account is ready";
 
     const emailHtml = `
       <!DOCTYPE html>
@@ -75,7 +75,7 @@ const handler = async (req: Request): Promise<Response> => {
           <div style="background: linear-gradient(135deg, #1e293b 0%, #2d3a4f 50%, #1e293b 100%); padding: 40px 32px; text-align: center; border-bottom: 1px solid rgba(0, 180, 216, 0.15);">
             <img src="${LOGO_URL}" alt="Vertex Research Labs" style="height: 60px; width: auto; margin-bottom: 20px;" />
             ${pointsEarned > 0 ? `
-            <h1 style="color: #f1f5f9; font-size: 28px; margin: 0 0 4px 0; font-weight: 700;">You just earned +${pointsEarned} Points</h1>
+            <h1 style="color: #f1f5f9; font-size: 28px; margin: 0 0 4px 0; font-weight: 700;">${pointsEarned} Rewards Points Added</h1>
             ` : `
             <h1 style="color: #f1f5f9; font-size: 28px; margin: 0 0 4px 0; font-weight: 700;">Your Vertex Rewards Are Ready</h1>
             `}
@@ -143,7 +143,7 @@ const handler = async (req: Request): Promise<Response> => {
               </p>
               <div style="background: rgba(15, 23, 42, 0.6); border-radius: 8px; padding: 14px 16px; margin: 0 0 16px 0; border: 1px solid rgba(100, 116, 139, 0.3);">
                 <p style="color: #00b4d8; font-size: 14px; margin: 0; font-family: monospace; word-break: break-all;">
-                  https://vertexresearchlabs.lovable.app?ref=${referralCode}
+                  https://vertexresearchlabs.com?ref=${referralCode}
                 </p>
               </div>
               <p style="color: #64748b; font-size: 12px; margin: 0;">
@@ -167,7 +167,7 @@ const handler = async (req: Request): Promise<Response> => {
               For laboratory research use only. Not for human or veterinary use.
             </p>
             <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(100, 116, 139, 0.3);">
-              <a href="https://vertexresearchlabs.lovable.app" style="color: #00b4d8; font-size: 12px; text-decoration: none;">vertexresearchlabs.com</a>
+              <a href="https://vertexresearchlabs.com" style="color: #00b4d8; font-size: 12px; text-decoration: none;">vertexresearchlabs.com</a>
             </div>
           </div>
         </div>
@@ -181,6 +181,9 @@ const handler = async (req: Request): Promise<Response> => {
       to: [email],
       subject: subjectLine,
       html: emailHtml,
+      headers: {
+        "List-Unsubscribe": "<mailto:info@vertexresearchlabs.com?subject=unsubscribe>",
+      },
     };
 
     if (scheduledAt) {

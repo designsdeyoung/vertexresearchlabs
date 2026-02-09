@@ -92,7 +92,7 @@ const handler = async (req: Request): Promise<Response> => {
           type: "magiclink",
           email: customer.email,
           options: {
-            redirectTo: "https://vertexresearchlabs.lovable.app/dashboard",
+            redirectTo: "https://vertexresearchlabs.com/dashboard",
           },
         });
         if (linkData?.properties?.action_link && !linkError) {
@@ -118,7 +118,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Build shareable referral link
     const shareableLink = referralCode
-      ? `https://vertexresearchlabs.lovable.app?ref=${referralCode}&discount=${referralCode}`
+      ? `https://vertexresearchlabs.com?ref=${referralCode}&discount=${referralCode}`
       : "";
 
     // Customer confirmation email — merged with rewards + activation
@@ -283,7 +283,7 @@ const handler = async (req: Request): Promise<Response> => {
               This email confirms your order request. It is not a confirmation of shipment.
             </p>
             <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(100, 116, 139, 0.3);">
-              <a href="https://vertexresearchlabs.lovable.app" style="color: #00b4d8; font-size: 12px; text-decoration: none;">vertexresearchlabs.com</a>
+              <a href="https://vertexresearchlabs.com" style="color: #00b4d8; font-size: 12px; text-decoration: none;">vertexresearchlabs.com</a>
             </div>
           </div>
         </div>
@@ -292,9 +292,10 @@ const handler = async (req: Request): Promise<Response> => {
     `;
 
     // Dynamic subject line
-    const subjectLine = pointsEarned && pointsEarned > 0
-      ? `${orderNumber || 'Order'} Confirmed — +${pointsEarned} pts earned`
-      : orderNumber ? `${orderNumber} — Order Confirmed` : `Order Request Received - ${formatPrice(subtotal)}`;
+    // Subject line — professional, no spam triggers
+    const subjectLine = orderNumber
+      ? `${orderNumber} — Your Order Summary`
+      : `Your Vertex Research Labs Order Summary`;
 
     // Send customer confirmation email
     const customerEmailResponse = await resend.emails.send({
@@ -302,6 +303,9 @@ const handler = async (req: Request): Promise<Response> => {
       to: [customer.email],
       subject: subjectLine,
       html: customerEmailHtml,
+      headers: {
+        "List-Unsubscribe": "<mailto:info@vertexresearchlabs.com?subject=unsubscribe>",
+      },
     });
 
     console.log("Customer email sent:", customerEmailResponse);

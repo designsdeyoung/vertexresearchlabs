@@ -3,10 +3,12 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { Shield, FileCheck, Microscope } from "lucide-react";
 import ghkVial from "@/assets/showcase/ghk-cu-png.png";
 import bpcVial from "@/assets/showcase/bpc-157-png.png";
-import motscVial from "@/assets/showcase/mots-c-png.png";
 import selankVial from "@/assets/showcase/selank-png.png";
 import semaxVial from "@/assets/showcase/semax-png.png";
 import mt2Vial from "@/assets/showcase/mt2-png.png";
+import tesamorelinVial from "@/assets/showcase/tesamorelin-png.png";
+import tb500Vial from "@/assets/showcase/tb-500-png.png";
+import nadVial from "@/assets/showcase/nad-plus-png.png";
 import FloatingParticles from "./FloatingParticles";
 import ScientificMeters from "./ScientificMeters";
 import PurityDial from "./PurityDial";
@@ -32,10 +34,12 @@ const bulletPoints = [
 const vials = [
   { src: ghkVial, alt: "GHK-Cu Copper Peptide Research Vial", name: "GHK-Cu" },
   { src: bpcVial, alt: "BPC-157 Peptide Research Vial", name: "BPC-157" },
-  { src: motscVial, alt: "MOTS-C Peptide Research Vial", name: "MOTS-C" },
   { src: selankVial, alt: "Selank Peptide Research Vial", name: "Selank" },
   { src: semaxVial, alt: "Semax Peptide Research Vial", name: "Semax" },
   { src: mt2Vial, alt: "Melanotan II Peptide Research Vial", name: "MT-2" },
+  { src: tesamorelinVial, alt: "Tesamorelin Peptide Research Vial", name: "Tesamorelin" },
+  { src: tb500Vial, alt: "TB-500 Peptide Research Vial", name: "TB-500" },
+  { src: nadVial, alt: "NAD+ Research Vial", name: "NAD+" },
 ];
 
 const VialShowcase = () => {

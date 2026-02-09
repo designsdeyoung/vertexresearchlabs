@@ -143,7 +143,7 @@ const handler = async (req: Request): Promise<Response> => {
               </p>
               <div style="background: rgba(15, 23, 42, 0.6); border-radius: 8px; padding: 14px 16px; margin: 0 0 16px 0; border: 1px solid rgba(100, 116, 139, 0.3);">
                 <p style="color: #00b4d8; font-size: 14px; margin: 0; font-family: monospace; word-break: break-all;">
-                  https://vertexresearchlabs.lovable.app?ref=${referralCode}
+                  https://vertexresearchlabs.com?ref=${referralCode}
                 </p>
               </div>
               <p style="color: #64748b; font-size: 12px; margin: 0;">

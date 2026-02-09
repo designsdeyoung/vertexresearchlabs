@@ -120,15 +120,18 @@ const OrderConfirmation = () => {
               )}
 
               {!user && (
-                <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
+                <div className="p-4 rounded-lg bg-primary/10 border-2 border-primary/30">
                   <div className="flex items-center gap-2 mb-2">
-                    <Mail size={16} className="text-primary" />
-                    <p className="text-sm text-foreground font-medium">
-                      Check your email to activate your account
+                    <ShieldCheck size={18} className="text-primary" />
+                    <p className="text-sm text-foreground font-semibold">
+                      Activate Your Account
                     </p>
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    We'll send a rewards activation email shortly with a magic link — no passwords, no re-entering your email. Just one click to claim your points.
+                  <p className="text-sm text-muted-foreground mb-1">
+                    Check your email for a magic link — one click to claim your points and unlock your rewards dashboard.
+                  </p>
+                  <p className="text-xs text-primary font-medium">
+                    Activate to track your referral earnings and redeem rewards.
                   </p>
                 </div>
               )}

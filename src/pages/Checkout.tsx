@@ -288,6 +288,7 @@ const Checkout = () => {
           creditApplied: creditDiscount,
           total: finalTotal,
           orderNumber,
+          referralCode: awardData?.referralCode || null,
         },
       });
     } catch (err) {

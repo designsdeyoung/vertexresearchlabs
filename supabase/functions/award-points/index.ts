@@ -216,15 +216,18 @@ const handler = async (req: Request): Promise<Response> => {
               .maybeSingle();
 
             if (!existingReferral) {
-              // Create pending referral record (points awarded after shipment)
+              // Calculate 3x points on referred order subtotal
+              const referralPointsAwarded = Math.floor(subtotal * 3);
+
+              // Create referral record with points
               const { error: refError } = await supabaseAdmin
                 .from("referrals")
                 .insert({
                   referrer_id: referrerProfile.id,
                   referred_email: customerEmail,
                   referred_profile_id: profile.id,
-                  status: "pending",
-                  points_awarded: 0,
+                  status: "completed",
+                  points_awarded: referralPointsAwarded,
                 });
 
               if (refError) {

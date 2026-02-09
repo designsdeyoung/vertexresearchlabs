@@ -39,6 +39,7 @@ interface ActiveCredit {
 
 const Checkout = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { hasAcknowledged, eligibilityType, resetCompliance } = useCompliance();
   const { items, clearCart, subtotal, shippingCost, total, qualifiesForFreeShipping } = useInquiryCart();
   const { user, profile } = useAuth();

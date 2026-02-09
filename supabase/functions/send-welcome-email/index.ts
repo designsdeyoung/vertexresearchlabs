@@ -43,11 +43,11 @@ const handler = async (req: Request): Promise<Response> => {
       type: "magiclink",
       email,
       options: {
-        redirectTo: `${Deno.env.get("SUPABASE_URL")?.replace('.supabase.co', '.lovable.app') || 'https://vertexresearchlabs.lovable.app'}/dashboard`,
+        redirectTo: "https://vertexresearchlabs.com/dashboard",
       },
     });
 
-    let magicLinkUrl = "https://vertexresearchlabs.lovable.app/auth";
+    let magicLinkUrl = "https://vertexresearchlabs.com/auth";
 
     if (linkData?.properties?.action_link && !linkError) {
       magicLinkUrl = linkData.properties.action_link;

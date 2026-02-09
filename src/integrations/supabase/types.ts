@@ -65,6 +65,8 @@ export type Database = {
         Row: {
           created_at: string
           credit_applied: number | null
+          discount_amount: number | null
+          discount_code: string | null
           id: string
           is_autoship: boolean
           items: Json
@@ -79,6 +81,8 @@ export type Database = {
         Insert: {
           created_at?: string
           credit_applied?: number | null
+          discount_amount?: number | null
+          discount_code?: string | null
           id?: string
           is_autoship?: boolean
           items?: Json
@@ -93,6 +97,8 @@ export type Database = {
         Update: {
           created_at?: string
           credit_applied?: number | null
+          discount_amount?: number | null
+          discount_code?: string | null
           id?: string
           is_autoship?: boolean
           items?: Json

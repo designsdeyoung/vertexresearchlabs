@@ -28,6 +28,8 @@ interface AwardPointsRequest {
   creditApplied?: number;
   creditId?: string;
   referrerCode?: string;
+  discountCode?: string;
+  discountAmount?: number;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -44,7 +46,7 @@ const handler = async (req: Request): Promise<Response> => {
     const body: AwardPointsRequest = await req.json();
     console.log("Award points request:", JSON.stringify(body, null, 2));
 
-    const { customerEmail, customerName, items, subtotal, shipping, total, creditApplied, creditId, referrerCode } = body;
+    const { customerEmail, customerName, items, subtotal, shipping, total, creditApplied, creditId, referrerCode, discountCode, discountAmount } = body;
 
     if (!customerEmail || !items || items.length === 0) {
       throw new Error("Missing required fields: customerEmail, items");
@@ -116,7 +118,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     // Create order record
-    const orderData = {
+    const orderData: Record<string, unknown> = {
       profile_id: profile?.id || null,
       items: JSON.stringify(items),
       subtotal,
@@ -126,6 +128,8 @@ const handler = async (req: Request): Promise<Response> => {
       points_earned: pointsEarned,
       status: "pending",
       is_autoship: false,
+      discount_code: discountCode || null,
+      discount_amount: discountAmount || 0,
     };
 
     const { data: order, error: orderError } = await supabaseAdmin
@@ -212,21 +216,52 @@ const handler = async (req: Request): Promise<Response> => {
               .maybeSingle();
 
             if (!existingReferral) {
-              // Create pending referral record (points awarded after shipment)
+              // Calculate 3x points on referred order subtotal
+              const referralPointsAwarded = Math.floor(subtotal * 3);
+
+              // Create referral record with points
               const { error: refError } = await supabaseAdmin
                 .from("referrals")
                 .insert({
                   referrer_id: referrerProfile.id,
                   referred_email: customerEmail,
                   referred_profile_id: profile.id,
-                  status: "pending",
-                  points_awarded: 0,
+                  status: "completed",
+                  points_awarded: referralPointsAwarded,
                 });
 
               if (refError) {
                 console.error("Error creating referral:", refError);
               } else {
-                console.log(`Referral created: ${referrerProfile.id} referred ${customerEmail}`);
+                console.log(`Referral created: ${referrerProfile.id} referred ${customerEmail}, awarded ${referralPointsAwarded} pts`);
+
+                // Award 3x points to referrer immediately
+                const { data: referrerProfileData } = await supabaseAdmin
+                  .from("profiles")
+                  .select("id, points_balance, lifetime_points")
+                  .eq("id", referrerProfile.id)
+                  .single();
+
+                if (referrerProfileData) {
+                  await supabaseAdmin
+                    .from("points_transactions")
+                    .insert({
+                      profile_id: referrerProfile.id,
+                      amount: referralPointsAwarded,
+                      type: "referral",
+                      description: `Referral bonus: ${customerEmail} (3× on $${subtotal})`,
+                    });
+
+                  await supabaseAdmin
+                    .from("profiles")
+                    .update({
+                      points_balance: referrerProfileData.points_balance + referralPointsAwarded,
+                      lifetime_points: referrerProfileData.lifetime_points + referralPointsAwarded,
+                    })
+                    .eq("id", referrerProfile.id);
+
+                  console.log(`Awarded ${referralPointsAwarded} referral points to ${referrerProfile.id}`);
+                }
               }
 
               // Store referred_by on the new profile

@@ -44,15 +44,15 @@ const ReferralSection = ({ referralCode, profileId }: ReferralSectionProps) => {
 
   const handleShareSMS = () => {
     const msg = encodeURIComponent(
-      `Check out Vertex Research Labs — get $15 off your first order: ${referralLink}`
+      `Use my code ${referralCode} at Vertex Research Labs for 10% off your order! ${referralLink}`
     );
     window.open(`sms:?body=${msg}`, "_blank");
   };
 
   const handleShareEmail = () => {
-    const subject = encodeURIComponent("$15 off Vertex Research Labs");
+    const subject = encodeURIComponent("10% off Vertex Research Labs");
     const body = encodeURIComponent(
-      `Hey, I've been using Vertex Research Labs for research peptides and thought you'd be interested.\n\nUse my link to get $15 off your first order:\n${referralLink}\n\nThe link is tracked automatically — no code needed.`
+      `Hey, I've been using Vertex Research Labs for research peptides and thought you'd be interested.\n\nUse my code ${referralCode} at checkout for 10% off your order.\n\nOr use this link: ${referralLink}`
     );
     window.open(`mailto:?subject=${subject}&body=${body}`, "_blank");
   };
@@ -71,13 +71,31 @@ const ReferralSection = ({ referralCode, profileId }: ReferralSectionProps) => {
       </div>
 
       <p className="text-sm text-muted-foreground mb-4">
-        Share your link — your friend gets <span className="text-foreground font-medium">$15 off</span>, you earn{" "}
-        <span className="text-primary font-medium">750 points</span>.
+        Share your code — your friend gets <span className="text-foreground font-medium">10% off</span>, you earn{" "}
+        <span className="text-primary font-medium">3× points</span> on their order.
       </p>
+
+      {/* Discount Code */}
+      <div className="mb-3">
+        <p className="text-[10px] text-muted-foreground mb-1.5 uppercase tracking-wider font-medium">Your discount code</p>
+        <div className="flex items-center gap-2">
+          <div className="flex-1 px-3 py-2.5 rounded-lg bg-primary/5 border border-primary/20 text-base text-foreground font-mono font-bold tracking-widest text-center">
+            {referralCode}
+          </div>
+          <Button variant="outline" size="sm" onClick={() => {
+            navigator.clipboard.writeText(referralCode);
+            setCopied(true);
+            toast({ title: "Copied!", description: "Discount code copied to clipboard." });
+            setTimeout(() => setCopied(false), 2000);
+          }} className="flex-shrink-0">
+            {copied ? <Check size={14} /> : <Copy size={14} />}
+          </Button>
+        </div>
+      </div>
 
       {/* Referral Link */}
       <div className="mb-3">
-        <p className="text-[10px] text-muted-foreground mb-1.5 uppercase tracking-wider font-medium">Your personal referral link</p>
+        <p className="text-[10px] text-muted-foreground mb-1.5 uppercase tracking-wider font-medium">Or share your link</p>
         <div className="flex items-center gap-2">
           <div className="flex-1 px-3 py-2 rounded-lg bg-secondary/50 border border-border/50 text-xs text-muted-foreground truncate font-mono">
             {referralLink}
@@ -101,7 +119,7 @@ const ReferralSection = ({ referralCode, profileId }: ReferralSectionProps) => {
       </div>
 
       <p className="text-[10px] text-muted-foreground mb-5">
-        Tracked automatically — your friends don't need a code.
+        Friends enter your code at checkout or use the link — both work.
       </p>
 
       {/* Stats */}

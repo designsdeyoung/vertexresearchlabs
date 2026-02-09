@@ -44,6 +44,10 @@ const Checkout = () => {
   const { user, profile } = useAuth();
 
   const [selectedCredit, setSelectedCredit] = useState<ActiveCredit | null>(null);
+  const [discountCode, setDiscountCode] = useState("");
+  const [discountValid, setDiscountValid] = useState<boolean | null>(null);
+  const [discountLoading, setDiscountLoading] = useState(false);
+  const [discountReferrerId, setDiscountReferrerId] = useState<string | null>(null);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -52,12 +56,45 @@ const Checkout = () => {
     }).format(price);
   };
 
+  // Apply discount code (10% off subtotal)
+  const discountAmount = discountValid ? subtotal * 0.1 : 0;
+
   // Calculate discount from credit
   const creditDiscount = selectedCredit
     ? Math.min(selectedCredit.amount, total * (selectedCredit.max_percent / 100))
     : 0;
-  const finalTotal = total - creditDiscount;
+  const finalTotal = total - creditDiscount - discountAmount;
   const pointsEarned = calculatePointsForPrice(subtotal);
+
+  const handleApplyDiscount = async () => {
+    if (!discountCode.trim()) return;
+    setDiscountLoading(true);
+    setDiscountValid(null);
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("id, email")
+        .eq("referral_code", discountCode.trim().toUpperCase())
+        .maybeSingle();
+
+      if (error || !data) {
+        setDiscountValid(false);
+        setDiscountReferrerId(null);
+      } else if (data.email === formData.email || data.id === profile?.id) {
+        // Block self-referral
+        setDiscountValid(false);
+        setDiscountReferrerId(null);
+      } else {
+        setDiscountValid(true);
+        setDiscountReferrerId(data.id);
+      }
+    } catch {
+      setDiscountValid(false);
+      setDiscountReferrerId(null);
+    } finally {
+      setDiscountLoading(false);
+    }
+  };
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -168,7 +205,8 @@ const Checkout = () => {
 
     try {
       // Award points via edge function FIRST to get order number
-      const referralCode = getStoredReferralCode();
+      // Use discount code as referrer if applied, otherwise fall back to URL-captured code
+      const referralCode = discountValid ? discountCode.trim().toUpperCase() : getStoredReferralCode();
       const { data: awardData, error: awardError } = await supabase.functions.invoke("award-points", {
         body: {
           customerEmail: formData.email,
@@ -180,6 +218,8 @@ const Checkout = () => {
           creditApplied: creditDiscount,
           creditId: selectedCredit?.id || null,
           referrerCode: referralCode,
+          discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
+          discountAmount: discountAmount,
         },
       });
 
@@ -349,6 +389,45 @@ const Checkout = () => {
                   </div>
                 </div>
 
+                {/* Discount Code */}
+                <div className="glass-card rounded-lg p-6">
+                  <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
+                    <Sparkles size={20} className="text-primary" />
+                    Discount Code
+                  </h2>
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="e.g. ADAM10"
+                      value={discountCode}
+                      onChange={(e) => {
+                        setDiscountCode(e.target.value.toUpperCase());
+                        if (discountValid !== null) {
+                          setDiscountValid(null);
+                          setDiscountReferrerId(null);
+                        }
+                      }}
+                      className="bg-secondary/50 uppercase"
+                      maxLength={30}
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={handleApplyDiscount}
+                      disabled={discountLoading || !discountCode.trim()}
+                    >
+                      {discountLoading ? "..." : "Apply"}
+                    </Button>
+                  </div>
+                  {discountValid === true && (
+                    <p className="text-xs text-primary mt-2 flex items-center gap-1">
+                      <Sparkles size={10} /> 10% discount applied — you save {formatPrice(discountAmount)}
+                    </p>
+                  )}
+                  {discountValid === false && (
+                    <p className="text-xs text-destructive mt-2">Invalid or expired code. Please try again.</p>
+                  )}
+                </div>
+
                 {/* Credit Redemption */}
                 {user && profile && (
                   <CreditRedemption
@@ -429,6 +508,16 @@ const Checkout = () => {
                     )}
                   </div>
                   {!qualifiesForFreeShipping && <p className="text-xs text-muted-foreground">Free shipping on orders over ${FREE_SHIPPING_THRESHOLD}</p>}
+
+                  {discountAmount > 0 && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-primary flex items-center gap-1">
+                        <Sparkles size={12} />
+                        Discount ({discountCode})
+                      </span>
+                      <span className="text-primary font-medium">-{formatPrice(discountAmount)}</span>
+                    </div>
+                  )}
 
                   {creditDiscount > 0 && (
                     <div className="flex justify-between text-sm">

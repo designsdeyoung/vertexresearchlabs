@@ -92,7 +92,7 @@ const handler = async (req: Request): Promise<Response> => {
           type: "magiclink",
           email: customer.email,
           options: {
-            redirectTo: "https://vertexresearchlabs.lovable.app/dashboard",
+            redirectTo: "https://vertexresearchlabs.com/dashboard",
           },
         });
         if (linkData?.properties?.action_link && !linkError) {

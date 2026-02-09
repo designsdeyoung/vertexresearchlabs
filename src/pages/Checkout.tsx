@@ -253,7 +253,7 @@ const Checkout = () => {
 
       const orderNumber = awardData?.orderNumber || null;
 
-      // Build order data for email with order number
+      // Build order data for email with order number + rewards data
       const orderData = {
         customer: formData,
         eligibilityType,
@@ -262,6 +262,11 @@ const Checkout = () => {
         shipping: shippingCost,
         total: finalTotal,
         orderNumber,
+        pointsEarned: awardData?.pointsEarned || pointsEarned,
+        referralCode: awardData?.referralCode || null,
+        isNewAccount: awardData?.accountCreated || false,
+        discountAmount: discountAmount,
+        discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
       };
       // Send order confirmation email with order number
       const { error: emailError } = await supabase.functions.invoke("send-order-confirmation", {

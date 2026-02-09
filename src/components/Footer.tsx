@@ -43,6 +43,11 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/rewards" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Rewards Program
+                </Link>
+              </li>
+              <li>
                 <a href="/#contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Contact
                 </a>

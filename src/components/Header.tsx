@@ -36,6 +36,7 @@ const Header = () => {
   const navLinks = [
     { label: "Products", href: "/#products" },
     { label: "Quality", href: "/quality", hasDropdown: true },
+    { label: "Rewards", href: "/rewards" },
     { label: "Shipping", href: "/shipping" },
     { label: "Contact", href: "/#contact" },
   ];

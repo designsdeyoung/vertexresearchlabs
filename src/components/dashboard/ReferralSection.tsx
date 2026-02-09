@@ -33,7 +33,7 @@ const ReferralSection = ({ referralCode, profileId }: ReferralSectionProps) => {
       });
   }, [profileId]);
 
-  const referralLink = `https://vertexresearchlabs.lovable.app?ref=${referralCode}`;
+  const referralLink = `https://vertexresearchlabs.com?ref=${referralCode}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(referralLink);

@@ -386,6 +386,45 @@ const Checkout = () => {
                   </div>
                 </div>
 
+                {/* Discount Code */}
+                <div className="glass-card rounded-lg p-6">
+                  <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
+                    <Sparkles size={20} className="text-primary" />
+                    Discount Code
+                  </h2>
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="e.g. ADAM10"
+                      value={discountCode}
+                      onChange={(e) => {
+                        setDiscountCode(e.target.value.toUpperCase());
+                        if (discountValid !== null) {
+                          setDiscountValid(null);
+                          setDiscountReferrerId(null);
+                        }
+                      }}
+                      className="bg-secondary/50 uppercase"
+                      maxLength={30}
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={handleApplyDiscount}
+                      disabled={discountLoading || !discountCode.trim()}
+                    >
+                      {discountLoading ? "..." : "Apply"}
+                    </Button>
+                  </div>
+                  {discountValid === true && (
+                    <p className="text-xs text-primary mt-2 flex items-center gap-1">
+                      <Sparkles size={10} /> 10% discount applied — you save {formatPrice(discountAmount)}
+                    </p>
+                  )}
+                  {discountValid === false && (
+                    <p className="text-xs text-destructive mt-2">Invalid or expired code. Please try again.</p>
+                  )}
+                </div>
+
                 {/* Credit Redemption */}
                 {user && profile && (
                   <CreditRedemption

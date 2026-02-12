@@ -260,7 +260,7 @@ export const products: Product[] = [
     id: "mots-c",
     name: "MOTS-C",
     subtitle: "Research Grade",
-    size: "5mg",
+    size: "10mg",
     price: 38,
     description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",

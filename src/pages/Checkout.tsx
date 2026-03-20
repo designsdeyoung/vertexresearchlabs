@@ -266,6 +266,7 @@ const Checkout = () => {
         isNewAccount: awardData?.accountCreated || false,
         discountAmount: discountAmount,
         discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
+        paymentMethod,
       };
       // Send order confirmation email with order number
       const { error: emailError } = await supabase.functions.invoke("send-order-confirmation", {

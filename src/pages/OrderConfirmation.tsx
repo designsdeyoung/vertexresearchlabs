@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import { CountUp } from "@/components/checkout/CountUp";
+import BitcoinReminder from "@/components/checkout/BitcoinReminder";
 import ShareAndEarn from "@/components/checkout/ShareAndEarn";
 import {
   CheckCircle2,

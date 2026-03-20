@@ -241,6 +241,7 @@ const Checkout = () => {
           referrerCode: referralCode,
           discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
           discountAmount: discountAmount,
+          paymentMethod,
         },
       });
 

@@ -79,7 +79,7 @@ const handler = async (req: Request): Promise<Response> => {
     const orderData: OrderRequest = await req.json();
     console.log("Received order request:", JSON.stringify(orderData, null, 2));
 
-    const { customer, eligibilityType, items, subtotal, shipping, total, orderNumber, pointsEarned, referralCode, isNewAccount, discountAmount, discountCode } = orderData;
+    const { customer, eligibilityType, items, subtotal, shipping, total, orderNumber, pointsEarned, referralCode, isNewAccount, discountAmount, discountCode, paymentMethod } = orderData;
 
     // Generate magic link for new accounts
     let magicLinkUrl = "";

@@ -468,6 +468,13 @@ const Checkout = () => {
                   />
                 )}
 
+                {/* Payment Method */}
+                <BitcoinPayment
+                  paymentMethod={paymentMethod}
+                  onPaymentMethodChange={setPaymentMethod}
+                  total={finalTotal}
+                />
+
                 {/* Additional Notes */}
                 <div className="glass-card rounded-lg p-6">
                   <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">

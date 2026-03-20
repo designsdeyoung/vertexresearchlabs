@@ -45,7 +45,7 @@ const Checkout = () => {
   const { user, profile } = useAuth();
 
   const [selectedCredit, setSelectedCredit] = useState<ActiveCredit | null>(null);
-  const [paymentMethod, setPaymentMethod] = useState<"standard" | "bitcoin">("standard");
+  const paymentMethod = "bitcoin";
   const [discountCode, setDiscountCode] = useState("");
   const [discountValid, setDiscountValid] = useState<boolean | null>(null);
   const [discountLoading, setDiscountLoading] = useState(false);

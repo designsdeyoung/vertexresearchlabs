@@ -16,7 +16,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { calculatePointsForPrice } from "@/hooks/useRewards";
 import { getStoredReferralCode } from "@/hooks/useReferralCapture";
 import CreditRedemption from "@/components/checkout/CreditRedemption";
-import BitcoinPayment from "@/components/checkout/BitcoinPayment";
+import {
 import {
   Shield,
   CreditCard,

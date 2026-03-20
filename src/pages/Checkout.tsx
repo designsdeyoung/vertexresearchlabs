@@ -17,9 +17,7 @@ import { calculatePointsForPrice } from "@/hooks/useRewards";
 import { getStoredReferralCode } from "@/hooks/useReferralCapture";
 import CreditRedemption from "@/components/checkout/CreditRedemption";
 import {
-import {
   Shield,
-  CreditCard,
   Building2,
   Mail,
   User,
@@ -27,6 +25,7 @@ import {
   AlertTriangle,
   ArrowLeft,
   Sparkles,
+  Send,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 

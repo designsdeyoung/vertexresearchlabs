@@ -1,37 +1,30 @@
 
 
-# Add Bitcoin Payment Option to Checkout
+# Make BTC the Only Payment Method — Streamlined Flow
 
-## Overview
-Add a Bitcoin (BTC) payment method to the checkout page. When selected, the customer sees your BTC wallet address with a QR code and copy-to-clipboard functionality. The order is submitted as "Pending BTC Payment" so you can manually verify the transaction.
+## Concept
+Remove the payment method selector entirely. The checkout collects shipping info and submits the order as before. After submission, the order confirmation page prominently displays the BTC payment instructions. This is the "order first, pay second" flow you described.
 
-## How It Works
-- A **payment method selector** is added to the checkout form (Card/Invoice vs Bitcoin)
-- When Bitcoin is selected, the checkout displays your BTC address, a QR code, and a copy button
-- The order summary shows the USD total with a note to send equivalent BTC
-- On submit, the order is saved with `payment_method: "bitcoin"` so you know to watch for the transaction
-- The confirmation page reminds the customer to send BTC if they haven't already
+## Changes
 
-## Technical Changes
+### 1. Remove BitcoinPayment component from Checkout (`src/pages/Checkout.tsx`)
+- Remove the `BitcoinPayment` import and usage (lines 19, 472-476)
+- Remove the `paymentMethod` state — hardcode it to `"bitcoin"` everywhere it's referenced (submission body, navigation state)
+- Remove the `CreditCard` icon from the submit button; relabel to "Submit Order Request"
+- Keep everything else (discount codes, credit redemption, notes, confirmation checkbox)
 
-### 1. Checkout Page (`src/pages/Checkout.tsx`)
-- Add a payment method toggle (default "standard" vs "bitcoin")
-- When "bitcoin" is selected, render a styled card with:
-  - Your BTC address (stored as a constant)
-  - A **QR code** generated via `qrcode.react` library (or a free API image)
-  - A **copy address** button
-  - A note: "Send the USD equivalent in BTC. Your order ships once payment is confirmed."
-- Save `paymentMethod` in the order submission data
+### 2. Update Order Confirmation (`src/pages/OrderConfirmation.tsx`)
+- The `BitcoinReminder` component already renders when `paymentMethod === "bitcoin"` — since it's now always bitcoin, move it higher on the page (right after the success header, before rewards)
+- Make the BTC section more prominent: larger QR code, clearer call-to-action
 
-### 2. Order Confirmation Page (`src/pages/OrderConfirmation.tsx`)
-- If payment method is "bitcoin", show a reminder card with the BTC address and instructions
+### 3. Clean up BitcoinPayment component
+- Delete `src/components/checkout/BitcoinPayment.tsx` (no longer needed since there's no selector)
 
-### 3. Orders Table (database)
-- Add a `payment_method` column (text, default `'standard'`) to the `orders` table so you can filter/track BTC orders
+### 4. Edge function (`send-order-confirmation`)
+- Already includes BTC instructions when `payment_method === 'bitcoin'` — no changes needed since all orders are now bitcoin
 
-### 4. Confirmation Email (`supabase/functions/send-order-confirmation/index.ts`)
-- Include BTC payment instructions in the email when `payment_method === 'bitcoin'`
-
-## What I Need From You
-- Your **BTC wallet address** to display on the checkout page
+### Files Modified
+- `src/pages/Checkout.tsx` — remove payment selector, hardcode bitcoin
+- `src/pages/OrderConfirmation.tsx` — promote BTC reminder to top of page
+- `src/components/checkout/BitcoinPayment.tsx` — delete
 

@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FileText, ExternalLink, FlaskConical, Plus, Sparkles } from "lucide-react";
+import { FileText, ExternalLink, FlaskConical, Plus, Sparkles, Package } from "lucide-react";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
+import { THREE_PACK_DISCOUNT } from "@/contexts/InquiryCartContext";
 import { calculatePointsForPrice } from "@/hooks/useRewards";
 import type { Product } from "@/data/products";
 import { toast } from "@/hooks/use-toast";
@@ -12,7 +13,7 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const { name, subtitle, size, price, description, purity, testing, documentation, intendedUse, disclaimer, image, category } = product;
-  const { addItem, openCart } = useInquiryCart();
+  const { addItem, add3Pack, openCart } = useInquiryCart();
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -21,11 +22,23 @@ const ProductCard = ({ product }: ProductCardProps) => {
     }).format(price);
   };
 
+  const threePackUnitPrice = price * (1 - THREE_PACK_DISCOUNT);
+  const threePackTotal = threePackUnitPrice * 3;
+
   const handleAddToCart = () => {
     addItem(product);
     toast({
       title: "Added to inquiry",
       description: `${name} has been added to your list.`,
+    });
+    openCart();
+  };
+
+  const handleAdd3Pack = () => {
+    add3Pack(product);
+    toast({
+      title: "3-Pack added!",
+      description: `${name} × 3 added with 10% savings.`,
     });
     openCart();
   };
@@ -87,6 +100,23 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </div>
         </div>
 
+        {/* 3-Pack Upgrade */}
+        <div className="mb-4 p-3 rounded-lg bg-primary/5 border border-primary/20">
+          <div className="flex items-center gap-1.5 mb-1">
+            <Package size={14} className="text-primary" />
+            <span className="text-xs font-semibold text-primary">3-Pack — Save 10%</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-muted-foreground">
+              3 × {formatPrice(threePackUnitPrice)}
+            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-muted-foreground line-through">{formatPrice(price * 3)}</span>
+              <span className="text-sm font-semibold text-primary">{formatPrice(threePackTotal)}</span>
+            </div>
+          </div>
+        </div>
+
         {/* Description */}
         <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
           {description}
@@ -127,21 +157,32 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-2 mt-4">
-          <Button variant="ghost" size="sm" className="flex-1 text-xs" asChild>
-            <Link to={`/product/${product.id}`}>
-              <ExternalLink size={14} />
-              Details
-            </Link>
-          </Button>
+        <div className="flex flex-col gap-2 mt-4">
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="sm" className="flex-1 text-xs" asChild>
+              <Link to={`/product/${product.id}`}>
+                <ExternalLink size={14} />
+                Details
+              </Link>
+            </Button>
+            <Button 
+              variant="catalog" 
+              size="sm" 
+              className="flex-1 text-xs"
+              onClick={handleAddToCart}
+            >
+              <Plus size={14} />
+              Add to Inquiry
+            </Button>
+          </div>
           <Button 
-            variant="catalog" 
+            variant="heroOutline" 
             size="sm" 
-            className="flex-1 text-xs"
-            onClick={handleAddToCart}
+            className="w-full text-xs"
+            onClick={handleAdd3Pack}
           >
-            <Plus size={14} />
-            Add to Inquiry
+            <Package size={14} />
+            Add 3-Pack & Save 10%
           </Button>
         </div>
       </div>

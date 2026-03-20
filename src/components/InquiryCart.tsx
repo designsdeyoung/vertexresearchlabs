@@ -101,9 +101,22 @@ const InquiryCart = () => {
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-foreground truncate">
                       {item.product.name}
+                      {item.is3Pack && (
+                        <span className="ml-1.5 inline-flex items-center gap-1 text-[10px] text-primary font-medium">
+                          <Package size={10} /> 3-Pack
+                        </span>
+                      )}
                     </p>
                     <p className="text-xs text-muted-foreground">{item.product.size}</p>
-                    <p className="text-sm font-medium text-primary">{formatPrice(item.product.price)}</p>
+                    {item.is3Pack ? (
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs text-muted-foreground line-through">{formatPrice(item.product.price)}</span>
+                        <span className="text-sm font-medium text-primary">{formatPrice(item.product.price * (1 - THREE_PACK_DISCOUNT))}</span>
+                        <span className="text-[10px] text-primary/70">ea</span>
+                      </div>
+                    ) : (
+                      <p className="text-sm font-medium text-primary">{formatPrice(item.product.price)}</p>
+                    )}
                   </div>
                   <div className="flex items-center gap-1">
                     <button

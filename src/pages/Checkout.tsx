@@ -16,6 +16,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { calculatePointsForPrice } from "@/hooks/useRewards";
 import { getStoredReferralCode } from "@/hooks/useReferralCapture";
 import CreditRedemption from "@/components/checkout/CreditRedemption";
+import BitcoinPayment from "@/components/checkout/BitcoinPayment";
 import {
   Shield,
   CreditCard,
@@ -45,6 +46,7 @@ const Checkout = () => {
   const { user, profile } = useAuth();
 
   const [selectedCredit, setSelectedCredit] = useState<ActiveCredit | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<"standard" | "bitcoin">("standard");
   const [discountCode, setDiscountCode] = useState("");
   const [discountValid, setDiscountValid] = useState<boolean | null>(null);
   const [discountLoading, setDiscountLoading] = useState(false);
@@ -239,6 +241,7 @@ const Checkout = () => {
           referrerCode: referralCode,
           discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
           discountAmount: discountAmount,
+          paymentMethod,
         },
       });
 
@@ -264,6 +267,7 @@ const Checkout = () => {
         isNewAccount: awardData?.accountCreated || false,
         discountAmount: discountAmount,
         discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
+        paymentMethod,
       };
       // Send order confirmation email with order number
       const { error: emailError } = await supabase.functions.invoke("send-order-confirmation", {
@@ -291,6 +295,7 @@ const Checkout = () => {
           total: finalTotal,
           orderNumber,
           referralCode: awardData?.referralCode || null,
+          paymentMethod,
         },
       });
     } catch (err) {
@@ -462,6 +467,13 @@ const Checkout = () => {
                     onSelectCredit={setSelectedCredit}
                   />
                 )}
+
+                {/* Payment Method */}
+                <BitcoinPayment
+                  paymentMethod={paymentMethod}
+                  onPaymentMethodChange={setPaymentMethod}
+                  total={finalTotal}
+                />
 
                 {/* Additional Notes */}
                 <div className="glass-card rounded-lg p-6">

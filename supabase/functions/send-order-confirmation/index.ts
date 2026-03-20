@@ -44,6 +44,7 @@ interface OrderRequest {
   isNewAccount?: boolean;
   discountAmount?: number;
   discountCode?: string;
+  paymentMethod?: string;
 }
 
 const formatAddress = (customer: OrderRequest['customer']): string => {
@@ -78,7 +79,7 @@ const handler = async (req: Request): Promise<Response> => {
     const orderData: OrderRequest = await req.json();
     console.log("Received order request:", JSON.stringify(orderData, null, 2));
 
-    const { customer, eligibilityType, items, subtotal, shipping, total, orderNumber, pointsEarned, referralCode, isNewAccount, discountAmount, discountCode } = orderData;
+    const { customer, eligibilityType, items, subtotal, shipping, total, orderNumber, pointsEarned, referralCode, isNewAccount, discountAmount, discountCode, paymentMethod } = orderData;
 
     // Generate magic link for new accounts
     let magicLinkUrl = "";
@@ -268,6 +269,21 @@ const handler = async (req: Request): Promise<Response> => {
               <p style="color: #d97706; font-size: 13px; margin: 6px 0 0 0; line-height: 1.5;">These products are not intended for human or veterinary use.</p>
             </div>
 
+            ${paymentMethod === 'bitcoin' ? `
+            <!-- Bitcoin Payment Instructions -->
+            <div style="background: linear-gradient(135deg, rgba(247, 147, 26, 0.12) 0%, rgba(247, 147, 26, 0.06) 100%); border-radius: 12px; padding: 28px; margin: 0 0 24px 0; border: 1px solid rgba(247, 147, 26, 0.25); text-align: center;">
+              <p style="color: #f7931a; font-size: 14px; margin: 0 0 8px 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">₿ Bitcoin Payment Required</p>
+              <p style="color: #cbd5e1; font-size: 14px; line-height: 1.6; margin: 0 0 16px 0;">
+                Please send the equivalent of <strong style="color: #f1f5f9;">${formatPrice(total)}</strong> in BTC to the address below. Your order ships once payment is confirmed on-chain.
+              </p>
+              <div style="background: rgba(15, 23, 42, 0.6); border-radius: 8px; padding: 14px 16px; border: 1px solid rgba(100, 116, 139, 0.3);">
+                <p style="color: #94a3b8; font-size: 11px; margin: 0 0 6px 0; text-transform: uppercase; letter-spacing: 0.5px;">BTC Address</p>
+                <p style="color: #f7931a; font-size: 14px; margin: 0; font-family: monospace; word-break: break-all; font-weight: 600;">3J9SVQBVXCVVCC6SQrjfEZ43jXuT3BeG39</p>
+              </div>
+              <p style="color: #64748b; font-size: 12px; margin: 14px 0 0 0;">Use the current BTC/USD exchange rate at the time of sending.</p>
+            </div>
+            ` : ''}
+
             <p style="color: #94a3b8; font-size: 14px; margin: 24px 0 0 0; line-height: 1.6;">
               Questions? Reply to this email or contact us at <a href="mailto:info@vertexresearchlabs.com" style="color: #00b4d8; text-decoration: none;">info@vertexresearchlabs.com</a>
             </p>
@@ -332,6 +348,7 @@ const handler = async (req: Request): Promise<Response> => {
           <li><strong>Organization:</strong> ${customer.organization}</li>
           <li><strong>Eligibility:</strong> ${eligibilityLabels[eligibilityType] || eligibilityType}</li>
           <li><strong>New Account:</strong> ${isNewAccount ? 'Yes' : 'No'}</li>
+          <li><strong>Payment Method:</strong> ${paymentMethod || 'standard'}</li>
           <li><strong>Referral Code:</strong> ${referralCode || 'N/A'}</li>
         </ul>
 

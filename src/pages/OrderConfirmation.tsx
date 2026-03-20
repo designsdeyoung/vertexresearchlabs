@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import { CountUp } from "@/components/checkout/CountUp";
+import BitcoinReminder from "@/components/checkout/BitcoinReminder";
 import ShareAndEarn from "@/components/checkout/ShareAndEarn";
 import {
   CheckCircle2,
@@ -23,11 +24,12 @@ const OrderConfirmation = () => {
   const location = useLocation();
   const { user } = useAuth();
 
-  const state = location.state as { pointsEarned?: number; creditApplied?: number; total?: number; orderNumber?: string; referralCode?: string } | null;
+  const state = location.state as { pointsEarned?: number; creditApplied?: number; total?: number; orderNumber?: string; referralCode?: string; paymentMethod?: string } | null;
   const pointsEarned = state?.pointsEarned || 0;
   const creditApplied = state?.creditApplied || 0;
   const orderNumber = state?.orderNumber || null;
   const referralCode = state?.referralCode || null;
+  const paymentMethod = state?.paymentMethod || "standard";
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -146,6 +148,11 @@ const OrderConfirmation = () => {
               )}
             </div>
           </motion.div>
+
+          {/* Bitcoin Payment Reminder */}
+          {paymentMethod === "bitcoin" && (
+            <BitcoinReminder total={state?.total || 0} />
+          )}
 
           {/* Share & Earn Section */}
           {referralCode && <ShareAndEarn referralCode={referralCode} />}

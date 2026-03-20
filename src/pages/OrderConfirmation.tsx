@@ -149,6 +149,11 @@ const OrderConfirmation = () => {
             </div>
           </motion.div>
 
+          {/* Bitcoin Payment Reminder */}
+          {paymentMethod === "bitcoin" && (
+            <BitcoinReminder total={state?.total || 0} />
+          )}
+
           {/* Share & Earn Section */}
           {referralCode && <ShareAndEarn referralCode={referralCode} />}
 

@@ -29,7 +29,7 @@ const OrderConfirmation = () => {
   const creditApplied = state?.creditApplied || 0;
   const orderNumber = state?.orderNumber || null;
   const referralCode = state?.referralCode || null;
-  const paymentMethod = state?.paymentMethod || "standard";
+  
 
   return (
     <div className="min-h-screen bg-background flex flex-col">

@@ -499,7 +499,7 @@ const Checkout = () => {
 
                 {/* Submit Button */}
                 <Button type="submit" variant="hero" size="xl" className="w-full" disabled={!isFormValid || isSubmitting}>
-                  <CreditCard size={18} />
+                  <Send size={18} />
                   {isSubmitting ? "Processing..." : "Submit Order Request"}
                 </Button>
               </form>

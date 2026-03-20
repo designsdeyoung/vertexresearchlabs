@@ -86,6 +86,9 @@ const OrderConfirmation = () => {
             </motion.p>
           </div>
 
+          {/* Bitcoin Payment Instructions — Primary CTA */}
+          <BitcoinReminder total={state?.total || 0} />
+
           {/* Rewards Earned Card */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -148,11 +151,6 @@ const OrderConfirmation = () => {
               )}
             </div>
           </motion.div>
-
-          {/* Bitcoin Payment Reminder */}
-          {paymentMethod === "bitcoin" && (
-            <BitcoinReminder total={state?.total || 0} />
-          )}
 
           {/* Share & Earn Section */}
           {referralCode && <ShareAndEarn referralCode={referralCode} />}

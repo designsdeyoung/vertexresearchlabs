@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, Trash2, FlaskConical, ShieldCheck, ArrowRight, Truck, Sparkles } from "lucide-react";
-import { FREE_SHIPPING_THRESHOLD, FLAT_RATE_SHIPPING } from "@/contexts/InquiryCartContext";
+import { Minus, Plus, Trash2, FlaskConical, ShieldCheck, ArrowRight, Truck, Sparkles, Package } from "lucide-react";
+import { FREE_SHIPPING_THRESHOLD, FLAT_RATE_SHIPPING, THREE_PACK_DISCOUNT } from "@/contexts/InquiryCartContext";
 import { calculatePointsForPrice } from "@/hooks/useRewards";
 
 const InquiryCart = () => {

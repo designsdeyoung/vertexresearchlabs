@@ -294,6 +294,7 @@ const Checkout = () => {
           total: finalTotal,
           orderNumber,
           referralCode: awardData?.referralCode || null,
+          paymentMethod,
         },
       });
     } catch (err) {

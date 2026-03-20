@@ -39,15 +39,31 @@ export const InquiryCartProvider = ({ children }: { children: ReactNode }) => {
 
   const addItem = useCallback((product: Product) => {
     setItems(prev => {
-      const existing = prev.find(item => item.product.id === product.id);
+      const existing = prev.find(item => item.product.id === product.id && !item.is3Pack);
       if (existing) {
         return prev.map(item =>
-          item.product.id === product.id
+          item.product.id === product.id && !item.is3Pack
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
       return [...prev, { product, quantity: 1 }];
+    });
+  }, []);
+
+  const add3Pack = useCallback((product: Product) => {
+    setItems(prev => {
+      // Remove any single items of same product, replace with 3-pack
+      const filtered = prev.filter(item => item.product.id !== product.id);
+      const existing3Pack = prev.find(item => item.product.id === product.id && item.is3Pack);
+      if (existing3Pack) {
+        return prev.map(item =>
+          item.product.id === product.id && item.is3Pack
+            ? { ...item, quantity: item.quantity + 3 }
+            : item
+        );
+      }
+      return [...filtered, { product, quantity: 3, is3Pack: true }];
     });
   }, []);
 

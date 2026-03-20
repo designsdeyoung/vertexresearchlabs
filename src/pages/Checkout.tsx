@@ -16,10 +16,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { calculatePointsForPrice } from "@/hooks/useRewards";
 import { getStoredReferralCode } from "@/hooks/useReferralCapture";
 import CreditRedemption from "@/components/checkout/CreditRedemption";
-import BitcoinPayment from "@/components/checkout/BitcoinPayment";
 import {
   Shield,
-  CreditCard,
   Building2,
   Mail,
   User,
@@ -27,6 +25,7 @@ import {
   AlertTriangle,
   ArrowLeft,
   Sparkles,
+  Send,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -46,7 +45,7 @@ const Checkout = () => {
   const { user, profile } = useAuth();
 
   const [selectedCredit, setSelectedCredit] = useState<ActiveCredit | null>(null);
-  const [paymentMethod, setPaymentMethod] = useState<"standard" | "bitcoin">("standard");
+  const paymentMethod = "bitcoin";
   const [discountCode, setDiscountCode] = useState("");
   const [discountValid, setDiscountValid] = useState<boolean | null>(null);
   const [discountLoading, setDiscountLoading] = useState(false);
@@ -468,12 +467,6 @@ const Checkout = () => {
                   />
                 )}
 
-                {/* Payment Method */}
-                <BitcoinPayment
-                  paymentMethod={paymentMethod}
-                  onPaymentMethodChange={setPaymentMethod}
-                  total={finalTotal}
-                />
 
                 {/* Additional Notes */}
                 <div className="glass-card rounded-lg p-6">
@@ -506,7 +499,7 @@ const Checkout = () => {
 
                 {/* Submit Button */}
                 <Button type="submit" variant="hero" size="xl" className="w-full" disabled={!isFormValid || isSubmitting}>
-                  <CreditCard size={18} />
+                  <Send size={18} />
                   {isSubmitting ? "Processing..." : "Submit Order Request"}
                 </Button>
               </form>

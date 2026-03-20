@@ -29,7 +29,7 @@ const OrderConfirmation = () => {
   const creditApplied = state?.creditApplied || 0;
   const orderNumber = state?.orderNumber || null;
   const referralCode = state?.referralCode || null;
-  const paymentMethod = state?.paymentMethod || "standard";
+  
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -85,6 +85,9 @@ const OrderConfirmation = () => {
               Thank you for your research materials inquiry. Your request has been received.
             </motion.p>
           </div>
+
+          {/* Bitcoin Payment Instructions — Primary CTA */}
+          <BitcoinReminder total={state?.total || 0} />
 
           {/* Rewards Earned Card */}
           <motion.div
@@ -148,11 +151,6 @@ const OrderConfirmation = () => {
               )}
             </div>
           </motion.div>
-
-          {/* Bitcoin Payment Reminder */}
-          {paymentMethod === "bitcoin" && (
-            <BitcoinReminder total={state?.total || 0} />
-          )}
 
           {/* Share & Earn Section */}
           {referralCode && <ShareAndEarn referralCode={referralCode} />}

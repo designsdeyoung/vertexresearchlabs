@@ -16,7 +16,8 @@ import {
   AlertTriangle,
   CheckCircle2,
   BookOpen,
-  ExternalLink
+  ExternalLink,
+  Package
 } from "lucide-react";
 import {
   Dialog,

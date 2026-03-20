@@ -113,6 +113,7 @@ export const InquiryCartProvider = ({ children }: { children: ReactNode }) => {
       value={{
         items,
         addItem,
+        add3Pack,
         removeItem,
         updateQuantity,
         clearCart,

@@ -23,11 +23,12 @@ const OrderConfirmation = () => {
   const location = useLocation();
   const { user } = useAuth();
 
-  const state = location.state as { pointsEarned?: number; creditApplied?: number; total?: number; orderNumber?: string; referralCode?: string } | null;
+  const state = location.state as { pointsEarned?: number; creditApplied?: number; total?: number; orderNumber?: string; referralCode?: string; paymentMethod?: string } | null;
   const pointsEarned = state?.pointsEarned || 0;
   const creditApplied = state?.creditApplied || 0;
   const orderNumber = state?.orderNumber || null;
   const referralCode = state?.referralCode || null;
+  const paymentMethod = state?.paymentMethod || "standard";
 
   return (
     <div className="min-h-screen bg-background flex flex-col">

@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
+import { THREE_PACK_DISCOUNT } from "@/contexts/InquiryCartContext";
 import { toast } from "@/hooks/use-toast";
 import { 
   ArrowLeft, 
@@ -15,7 +16,8 @@ import {
   AlertTriangle,
   CheckCircle2,
   BookOpen,
-  ExternalLink
+  ExternalLink,
+  Package
 } from "lucide-react";
 import {
   Dialog,
@@ -34,7 +36,7 @@ import {
 const ProductDetail = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
-  const { addItem, openCart } = useInquiryCart();
+  const { addItem, add3Pack, openCart } = useInquiryCart();
   
   const product = products.find(p => p.id === productId);
   
@@ -56,13 +58,27 @@ const ProductDetail = () => {
     );
   }
 
-  const { name, subtitle, description, purity, testing, documentation, intendedUse, disclaimer, image, category, coa, references } = product;
+  const { name, subtitle, description, purity, testing, documentation, intendedUse, disclaimer, image, category, coa, references, price } = product;
+
+  const threePackUnitPrice = price * (1 - THREE_PACK_DISCOUNT);
+  const threePackTotal = threePackUnitPrice * 3;
+
+  const formatPrice = (p: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(p);
 
   const handleAddToCart = () => {
     addItem(product);
     toast({
       title: "Added to inquiry",
       description: `${name} has been added to your list.`,
+    });
+    openCart();
+  };
+
+  const handleAdd3Pack = () => {
+    add3Pack(product);
+    toast({
+      title: "3-Pack added!",
+      description: `${name} × 3 added with 10% savings.`,
     });
     openCart();
   };
@@ -168,16 +184,40 @@ const ProductDetail = () => {
                 <p className="text-muted-foreground">{intendedUse}</p>
               </div>
 
+              {/* 3-Pack Offer */}
+              <div className="glass-card rounded-lg p-6 mb-6 border-primary/30 bg-primary/5">
+                <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3 flex items-center gap-2">
+                  <Package size={16} className="text-primary" />
+                  3-Pack — Save 10%
+                </h2>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-muted-foreground">3 × {formatPrice(threePackUnitPrice)} each</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-muted-foreground line-through text-sm">{formatPrice(price * 3)}</span>
+                    <span className="text-xl font-semibold text-primary">{formatPrice(threePackTotal)}</span>
+                  </div>
+                </div>
+                <Button 
+                  variant="hero" 
+                  size="lg" 
+                  className="w-full"
+                  onClick={handleAdd3Pack}
+                >
+                  <Package size={18} />
+                  Add 3-Pack to Inquiry
+                </Button>
+              </div>
+
               {/* Actions */}
               <div className="flex flex-col sm:flex-row gap-3 mb-6">
                 <Button 
-                  variant="hero" 
+                  variant="heroOutline" 
                   size="lg" 
                   className="flex-1"
                   onClick={handleAddToCart}
                 >
                   <Plus size={18} />
-                  Add to Inquiry
+                  Add Single to Inquiry
                 </Button>
                 
                 {coa && (

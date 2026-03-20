@@ -4,14 +4,18 @@ import type { Product } from "@/data/products";
 export const FREE_SHIPPING_THRESHOLD = 99;
 export const FLAT_RATE_SHIPPING = 9.99;
 
-interface CartItem {
+export const THREE_PACK_DISCOUNT = 0.10; // 10% off
+
+export interface CartItem {
   product: Product;
   quantity: number;
+  is3Pack?: boolean;
 }
 
 interface InquiryCartContextType {
   items: CartItem[];
   addItem: (product: Product) => void;
+  add3Pack: (product: Product) => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
@@ -35,15 +39,31 @@ export const InquiryCartProvider = ({ children }: { children: ReactNode }) => {
 
   const addItem = useCallback((product: Product) => {
     setItems(prev => {
-      const existing = prev.find(item => item.product.id === product.id);
+      const existing = prev.find(item => item.product.id === product.id && !item.is3Pack);
       if (existing) {
         return prev.map(item =>
-          item.product.id === product.id
+          item.product.id === product.id && !item.is3Pack
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
       return [...prev, { product, quantity: 1 }];
+    });
+  }, []);
+
+  const add3Pack = useCallback((product: Product) => {
+    setItems(prev => {
+      // Remove any single items of same product, replace with 3-pack
+      const filtered = prev.filter(item => item.product.id !== product.id);
+      const existing3Pack = prev.find(item => item.product.id === product.id && item.is3Pack);
+      if (existing3Pack) {
+        return prev.map(item =>
+          item.product.id === product.id && item.is3Pack
+            ? { ...item, quantity: item.quantity + 3 }
+            : item
+        );
+      }
+      return [...filtered, { product, quantity: 3, is3Pack: true }];
     });
   }, []);
 
@@ -74,7 +94,12 @@ export const InquiryCartProvider = ({ children }: { children: ReactNode }) => {
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   
   const subtotal = useMemo(() => 
-    items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0),
+    items.reduce((sum, item) => {
+      const unitPrice = item.is3Pack 
+        ? item.product.price * (1 - THREE_PACK_DISCOUNT)
+        : item.product.price;
+      return sum + (unitPrice * item.quantity);
+    }, 0),
     [items]
   );
   
@@ -88,6 +113,7 @@ export const InquiryCartProvider = ({ children }: { children: ReactNode }) => {
       value={{
         items,
         addItem,
+        add3Pack,
         removeItem,
         updateQuantity,
         clearCart,

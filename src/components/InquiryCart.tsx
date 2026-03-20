@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, Trash2, FlaskConical, ShieldCheck, ArrowRight, Truck, Sparkles } from "lucide-react";
-import { FREE_SHIPPING_THRESHOLD, FLAT_RATE_SHIPPING } from "@/contexts/InquiryCartContext";
+import { Minus, Plus, Trash2, FlaskConical, ShieldCheck, ArrowRight, Truck, Sparkles, Package } from "lucide-react";
+import { FREE_SHIPPING_THRESHOLD, FLAT_RATE_SHIPPING, THREE_PACK_DISCOUNT } from "@/contexts/InquiryCartContext";
 import { calculatePointsForPrice } from "@/hooks/useRewards";
 
 const InquiryCart = () => {
@@ -101,9 +101,22 @@ const InquiryCart = () => {
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-foreground truncate">
                       {item.product.name}
+                      {item.is3Pack && (
+                        <span className="ml-1.5 inline-flex items-center gap-1 text-[10px] text-primary font-medium">
+                          <Package size={10} /> 3-Pack
+                        </span>
+                      )}
                     </p>
                     <p className="text-xs text-muted-foreground">{item.product.size}</p>
-                    <p className="text-sm font-medium text-primary">{formatPrice(item.product.price)}</p>
+                    {item.is3Pack ? (
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs text-muted-foreground line-through">{formatPrice(item.product.price)}</span>
+                        <span className="text-sm font-medium text-primary">{formatPrice(item.product.price * (1 - THREE_PACK_DISCOUNT))}</span>
+                        <span className="text-[10px] text-primary/70">ea</span>
+                      </div>
+                    ) : (
+                      <p className="text-sm font-medium text-primary">{formatPrice(item.product.price)}</p>
+                    )}
                   </div>
                   <div className="flex items-center gap-1">
                     <button

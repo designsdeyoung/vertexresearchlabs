@@ -4,9 +4,12 @@ import type { Product } from "@/data/products";
 export const FREE_SHIPPING_THRESHOLD = 99;
 export const FLAT_RATE_SHIPPING = 9.99;
 
-interface CartItem {
+export const THREE_PACK_DISCOUNT = 0.10; // 10% off
+
+export interface CartItem {
   product: Product;
   quantity: number;
+  is3Pack?: boolean;
 }
 
 interface InquiryCartContextType {

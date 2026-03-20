@@ -94,7 +94,12 @@ export const InquiryCartProvider = ({ children }: { children: ReactNode }) => {
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   
   const subtotal = useMemo(() => 
-    items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0),
+    items.reduce((sum, item) => {
+      const unitPrice = item.is3Pack 
+        ? item.product.price * (1 - THREE_PACK_DISCOUNT)
+        : item.product.price;
+      return sum + (unitPrice * item.quantity);
+    }, 0),
     [items]
   );
   

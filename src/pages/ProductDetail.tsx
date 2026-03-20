@@ -36,7 +36,7 @@ import {
 const ProductDetail = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
-  const { addItem, openCart } = useInquiryCart();
+  const { addItem, add3Pack, openCart } = useInquiryCart();
   
   const product = products.find(p => p.id === productId);
   

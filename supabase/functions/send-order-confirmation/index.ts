@@ -348,6 +348,7 @@ const handler = async (req: Request): Promise<Response> => {
           <li><strong>Organization:</strong> ${customer.organization}</li>
           <li><strong>Eligibility:</strong> ${eligibilityLabels[eligibilityType] || eligibilityType}</li>
           <li><strong>New Account:</strong> ${isNewAccount ? 'Yes' : 'No'}</li>
+          <li><strong>Payment Method:</strong> ${paymentMethod || 'standard'}</li>
           <li><strong>Referral Code:</strong> ${referralCode || 'N/A'}</li>
         </ul>
 

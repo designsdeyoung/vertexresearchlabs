@@ -58,13 +58,27 @@ const ProductDetail = () => {
     );
   }
 
-  const { name, subtitle, description, purity, testing, documentation, intendedUse, disclaimer, image, category, coa, references } = product;
+  const { name, subtitle, description, purity, testing, documentation, intendedUse, disclaimer, image, category, coa, references, price } = product;
+
+  const threePackUnitPrice = price * (1 - THREE_PACK_DISCOUNT);
+  const threePackTotal = threePackUnitPrice * 3;
+
+  const formatPrice = (p: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(p);
 
   const handleAddToCart = () => {
     addItem(product);
     toast({
       title: "Added to inquiry",
       description: `${name} has been added to your list.`,
+    });
+    openCart();
+  };
+
+  const handleAdd3Pack = () => {
+    add3Pack(product);
+    toast({
+      title: "3-Pack added!",
+      description: `${name} × 3 added with 10% savings.`,
     });
     openCart();
   };

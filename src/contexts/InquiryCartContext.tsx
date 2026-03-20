@@ -15,6 +15,7 @@ export interface CartItem {
 interface InquiryCartContextType {
   items: CartItem[];
   addItem: (product: Product) => void;
+  add3Pack: (product: Product) => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;

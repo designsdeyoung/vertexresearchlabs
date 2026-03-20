@@ -44,6 +44,7 @@ interface OrderRequest {
   isNewAccount?: boolean;
   discountAmount?: number;
   discountCode?: string;
+  paymentMethod?: string;
 }
 
 const formatAddress = (customer: OrderRequest['customer']): string => {

@@ -1,5 +1,6 @@
 // Import product images
 import bpc157Image from "@/assets/products/bpc-157.png";
+import ghkCu100Image from "@/assets/products/ghk-cu-100.png";
 
 // Import COA images
 import ghkCuCoa from "@/assets/coa/ghk-cu-coa.jpg";
@@ -94,7 +95,7 @@ export const products: Product[] = [
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
-    image: ghkCuImage,
+    image: ghkCu100Image,
     category: "Copper Peptide",
     coa: ghkCuCoa,
     references: [

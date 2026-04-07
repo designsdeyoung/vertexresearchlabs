@@ -83,6 +83,38 @@ export const products: Product[] = [
     ]
   },
   {
+    id: "ghk-cu-100",
+    name: "GHK-Cu",
+    subtitle: "Research Grade",
+    size: "100mg",
+    price: 88,
+    description: "Copper peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: ghkCuImage,
+    category: "Copper Peptide",
+    coa: ghkCuCoa,
+    references: [
+      {
+        authors: "Pickart L, Margolina A",
+        journal: "International Journal of Molecular Sciences",
+        year: 2015,
+        title: "Regenerative and Protective Actions of the GHK-Cu Peptide",
+        url: "https://pubmed.ncbi.nlm.nih.gov/26236730/"
+      },
+      {
+        authors: "Pickart L et al.",
+        journal: "Oxidative Medicine and Cellular Longevity",
+        year: 2018,
+        title: "GHK Peptide as a Natural Modulator of Multiple Cellular Pathways",
+        url: "https://pubmed.ncbi.nlm.nih.gov/29986520/"
+      }
+    ]
+  },
+  {
     id: "retatrutide",
     name: "Retatrutide",
     subtitle: "Research Grade",

@@ -35,6 +35,7 @@ export interface Product {
   subtitle?: string;
   size: string;
   price: number;
+  originalPrice?: number;
   description: string;
   purity: string;
   testing: string;

@@ -22,6 +22,7 @@ import bacWater10mlImage from "@/assets/products/bac-water-10ml.png";
 import epithalonImage from "@/assets/products/epithalon.png";
 import dsipImage from "@/assets/products/dsip.png";
 import cjcIpaImage from "@/assets/products/cjc-ipa.png";
+import wolverineBlendImage from "@/assets/products/wolverine-blend.png";
 
 export interface Reference {
   authors: string;
@@ -532,6 +533,7 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     category: "Peptide Blend",
+    image: wolverineBlendImage,
     isNew: true,
     references: [
       {

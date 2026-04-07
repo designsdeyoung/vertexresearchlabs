@@ -551,6 +551,38 @@ export const products: Product[] = [
     ]
   },
   {
+    id: "cjc-ipa-blend",
+    name: "CJC/IPA Blend",
+    subtitle: "No DAC • Research Grade",
+    size: "10mg",
+    price: 85,
+    description: "CJC-1295 (No DAC) and Ipamorelin blend reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: cjcIpaImage,
+    category: "Peptide Blend",
+    isNew: true,
+    references: [
+      {
+        authors: "Teichman SL et al.",
+        journal: "Journal of Clinical Endocrinology & Metabolism",
+        year: 2006,
+        title: "CJC-1295 Growth Hormone Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/16670164/"
+      },
+      {
+        authors: "Raun K et al.",
+        journal: "European Journal of Endocrinology",
+        year: 1998,
+        title: "Ipamorelin GH Secretagogue Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/9916862/"
+      }
+    ]
+  },
+  {
     id: "bac-water-3ml",
     name: "BAC Water",
     subtitle: "Research Grade",

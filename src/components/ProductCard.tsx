@@ -90,7 +90,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground">{size} • {subtitle}</span>
-            <span className="text-lg font-semibold text-primary">{formatPrice(price)}</span>
+            <div className="flex items-center gap-2">
+              {product.originalPrice && (
+                <span className="text-sm text-muted-foreground line-through">{formatPrice(product.originalPrice)}</span>
+              )}
+              <span className="text-lg font-semibold text-primary">{formatPrice(price)}</span>
+            </div>
           </div>
           <div className="flex items-center gap-1 mt-1">
             <Sparkles size={10} className="text-primary/70" />

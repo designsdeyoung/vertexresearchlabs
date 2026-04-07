@@ -461,6 +461,38 @@ export const products: Product[] = [
     ]
   },
   {
+    id: "wolverine-blend",
+    name: "Wolverine Blend",
+    subtitle: "Research Grade",
+    size: "10mg",
+    price: 55,
+    originalPrice: 65,
+    description: "Premium blend of BPC-157 (5mg) and TB-500 (5mg) reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    category: "Peptide Blend",
+    isNew: true,
+    references: [
+      {
+        authors: "Sikiric P et al.",
+        journal: "Current Pharmaceutical Design",
+        year: 2011,
+        title: "BPC-157 Peptide Studies",
+        url: "https://pubmed.ncbi.nlm.nih.gov/21548867/"
+      },
+      {
+        authors: "Philp D et al.",
+        journal: "FASEB Journal",
+        year: 2011,
+        title: "Thymosin β4 Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/22074294/"
+      }
+    ]
+  },
+  {
     id: "bac-water-3ml",
     name: "BAC Water",
     subtitle: "Research Grade",

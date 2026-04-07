@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { THREE_PACK_DISCOUNT } from "@/contexts/InquiryCartContext";
+import { SITEWIDE_SALE } from "@/config/sale";
 import { toast } from "@/hooks/use-toast";
 import { 
   ArrowLeft, 
@@ -60,7 +61,8 @@ const ProductDetail = () => {
 
   const { name, subtitle, description, purity, testing, documentation, intendedUse, disclaimer, image, category, coa, references, price } = product;
 
-  const threePackUnitPrice = price * (1 - THREE_PACK_DISCOUNT);
+  const salePrice = SITEWIDE_SALE.active ? price * (1 - SITEWIDE_SALE.discount) : price;
+  const threePackUnitPrice = salePrice * (1 - THREE_PACK_DISCOUNT);
   const threePackTotal = threePackUnitPrice * 3;
 
   const formatPrice = (p: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(p);
@@ -184,11 +186,27 @@ const ProductDetail = () => {
                 <p className="text-muted-foreground">{intendedUse}</p>
               </div>
 
+              {/* Price Display */}
+              <div className="glass-card rounded-lg p-6 mb-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground text-lg">Price</span>
+                  <div className="flex items-center gap-3">
+                    {SITEWIDE_SALE.active && (
+                      <>
+                        <span className="text-muted-foreground line-through text-lg">{formatPrice(price)}</span>
+                        <span className="text-xs font-bold text-destructive bg-destructive/10 px-2 py-1 rounded">-{SITEWIDE_SALE.discount * 100}%</span>
+                      </>
+                    )}
+                    <span className="text-2xl font-semibold text-primary">{formatPrice(salePrice)}</span>
+                  </div>
+                </div>
+              </div>
+
               {/* 3-Pack Offer */}
               <div className="glass-card rounded-lg p-6 mb-6 border-primary/30 bg-primary/5">
                 <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3 flex items-center gap-2">
                   <Package size={16} className="text-primary" />
-                  3-Pack — Save 10%
+                  3-Pack — Save {SITEWIDE_SALE.active ? '~19%' : '10%'}
                 </h2>
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-muted-foreground">3 × {formatPrice(threePackUnitPrice)} each</span>

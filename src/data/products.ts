@@ -1,5 +1,6 @@
 // Import product images
 import bpc157Image from "@/assets/products/bpc-157.png";
+import ghkCu100Image from "@/assets/products/ghk-cu-100.png";
 
 // Import COA images
 import ghkCuCoa from "@/assets/coa/ghk-cu-coa.jpg";

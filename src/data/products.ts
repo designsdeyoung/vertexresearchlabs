@@ -21,6 +21,7 @@ import bacWater3mlImage from "@/assets/products/bac-water-3ml.png";
 import bacWater10mlImage from "@/assets/products/bac-water-10ml.png";
 import epithalonImage from "@/assets/products/epithalon.png";
 import dsipImage from "@/assets/products/dsip.png";
+import cjcIpaImage from "@/assets/products/cjc-ipa.png";
 
 export interface Reference {
   authors: string;

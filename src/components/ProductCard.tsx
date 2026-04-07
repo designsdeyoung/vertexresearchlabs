@@ -146,12 +146,16 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </div>
         </div>
 
-        {/* Intended Use */}
+        {/* Key Highlights */}
         <div className="pt-4 border-t border-border/50 mb-4">
           <h4 className="text-xs font-semibold text-foreground uppercase tracking-wider mb-2">
-            Intended Use
+            Highlights
           </h4>
-          <p className="text-xs text-muted-foreground">{intendedUse}</p>
+          <div className="flex flex-wrap gap-1.5">
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">Lyophilized Powder</span>
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">Third-Party Tested</span>
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">Ships Same Day</span>
+          </div>
         </div>
 
         {/* Disclaimer */}

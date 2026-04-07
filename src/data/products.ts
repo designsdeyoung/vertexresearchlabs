@@ -270,7 +270,31 @@ export const products: Product[] = [
     name: "NAD+",
     subtitle: "Research Grade",
     size: "500mg",
-    price: 60,
+    price: 80,
+    description: "Coenzyme reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: nadPlusImage,
+    category: "Coenzyme",
+    references: [
+      {
+        authors: "Bogan KL, Brenner C",
+        journal: "Annual Review of Nutrition",
+        year: 2008,
+        title: "NAD+ Biosynthesis Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/18429699/"
+      }
+    ]
+  },
+  {
+    id: "nad-plus-1000",
+    name: "NAD+",
+    subtitle: "Research Grade",
+    size: "1000mg",
+    price: 160,
     description: "Coenzyme reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",

@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FileText, ExternalLink, FlaskConical, Plus, Sparkles, Package } from "lucide-react";
+import { FileText, ExternalLink, FlaskConical, Plus, Sparkles, Package, Zap } from "lucide-react";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { THREE_PACK_DISCOUNT } from "@/contexts/InquiryCartContext";
+import { SITEWIDE_SALE } from "@/config/sale";
 import { calculatePointsForPrice } from "@/hooks/useRewards";
 import type { Product } from "@/data/products";
 import { toast } from "@/hooks/use-toast";
@@ -22,7 +23,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
     }).format(price);
   };
 
-  const threePackUnitPrice = price * (1 - THREE_PACK_DISCOUNT);
+  const salePrice = SITEWIDE_SALE.active ? price * (1 - SITEWIDE_SALE.discount) : price;
+  const threePackUnitPrice = salePrice * (1 - THREE_PACK_DISCOUNT);
   const threePackTotal = threePackUnitPrice * 3;
 
   const handleAddToCart = () => {
@@ -91,10 +93,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground">{size} • {subtitle}</span>
             <div className="flex items-center gap-2">
-              {product.originalPrice && (
-                <span className="text-sm text-muted-foreground line-through">{formatPrice(product.originalPrice)}</span>
+              {(product.originalPrice || SITEWIDE_SALE.active) && (
+                <span className="text-sm text-muted-foreground line-through">{formatPrice(product.originalPrice || price)}</span>
               )}
-              <span className="text-lg font-semibold text-primary">{formatPrice(price)}</span>
+              <span className="text-lg font-semibold text-primary">{formatPrice(SITEWIDE_SALE.active ? salePrice : price)}</span>
+              {SITEWIDE_SALE.active && (
+                <span className="text-[10px] font-bold text-destructive bg-destructive/10 px-1.5 py-0.5 rounded">-{SITEWIDE_SALE.discount * 100}%</span>
+              )}
             </div>
           </div>
           <div className="flex items-center gap-1 mt-1">
@@ -109,7 +114,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <div className="mb-4 p-3 rounded-lg bg-primary/5 border border-primary/20">
           <div className="flex items-center gap-1.5 mb-1">
             <Package size={14} className="text-primary" />
-            <span className="text-xs font-semibold text-primary">3-Pack — Save 10%</span>
+            <span className="text-xs font-semibold text-primary">
+              3-Pack — Save {SITEWIDE_SALE.active ? '~19%' : '10%'}
+            </span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground">

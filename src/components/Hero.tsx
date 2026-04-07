@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { ArrowDown, FlaskConical, FileCheck, Shield, Microscope, Package } from "lucide-react";
+import { ArrowDown, FlaskConical, FileCheck, Shield, Microscope, Package, Zap } from "lucide-react";
 import FloatingParticles from "./FloatingParticles";
 import DNAHelix from "./DNAHelix";
+import { SITEWIDE_SALE } from "@/config/sale";
 
 const Hero = () => {
   return (
@@ -38,13 +39,23 @@ const Hero = () => {
       <div className="relative z-10 flex-1 flex flex-col justify-center pt-20 sm:pt-28 pb-16">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-3xl mx-auto text-center">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-secondary/50 border border-border/50 mb-6 sm:mb-8 animate-fade-up opacity-0">
-              <div className="w-2 h-2 rounded-full bg-primary animate-pulse" aria-hidden="true" />
-              <span className="text-xs text-muted-foreground tracking-wide uppercase">
-                Research Use Only
-              </span>
-            </div>
+            {/* Sale Badge */}
+            {SITEWIDE_SALE.active ? (
+              <div className="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-full bg-destructive/20 border border-destructive/50 mb-6 sm:mb-8 animate-fade-up opacity-0">
+                <Zap className="w-4 h-4 text-destructive animate-pulse" aria-hidden="true" />
+                <span className="text-sm font-bold text-destructive tracking-wide uppercase">
+                  {SITEWIDE_SALE.label}
+                </span>
+                <Zap className="w-4 h-4 text-destructive animate-pulse" aria-hidden="true" />
+              </div>
+            ) : (
+              <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-secondary/50 border border-border/50 mb-6 sm:mb-8 animate-fade-up opacity-0">
+                <div className="w-2 h-2 rounded-full bg-primary animate-pulse" aria-hidden="true" />
+                <span className="text-xs text-muted-foreground tracking-wide uppercase">
+                  Research Use Only
+                </span>
+              </div>
+            )}
 
             {/* Main heading */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground leading-tight tracking-tight mb-4 sm:mb-6 animate-fade-up opacity-0 stagger-1">

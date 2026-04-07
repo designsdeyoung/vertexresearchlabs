@@ -95,7 +95,7 @@ export const products: Product[] = [
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
-    image: ghkCuImage,
+    image: ghkCu100Image,
     category: "Copper Peptide",
     coa: ghkCuCoa,
     references: [

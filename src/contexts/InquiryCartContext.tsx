@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useCallback, ReactNode, useMemo } from "react";
 import type { Product } from "@/data/products";
+import { SITEWIDE_SALE } from "@/config/sale";
 
 export const FREE_SHIPPING_THRESHOLD = 99;
 export const FLAT_RATE_SHIPPING = 9.99;
@@ -95,9 +96,13 @@ export const InquiryCartProvider = ({ children }: { children: ReactNode }) => {
   
   const subtotal = useMemo(() => 
     items.reduce((sum, item) => {
-      const unitPrice = item.is3Pack 
+      let unitPrice = item.is3Pack 
         ? item.product.price * (1 - THREE_PACK_DISCOUNT)
         : item.product.price;
+      // Apply sitewide sale discount
+      if (SITEWIDE_SALE.active) {
+        unitPrice = unitPrice * (1 - SITEWIDE_SALE.discount);
+      }
       return sum + (unitPrice * item.quantity);
     }, 0),
     [items]

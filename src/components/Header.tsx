@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown, Truck, Sparkles, User } from "lucide-react";
+import { Menu, X, ChevronDown, Truck, Sparkles, User, Zap } from "lucide-react";
 import logo from "@/assets/logo.png";
+import { SITEWIDE_SALE } from "@/config/sale";
 import CartButton from "./CartButton";
 import ThemeToggle from "./ThemeToggle";
 import { useAuth } from "@/contexts/AuthContext";
@@ -49,6 +50,16 @@ const Header = () => {
           : "bg-transparent"
       }`}
     >
+      {/* Sale Banner */}
+      {SITEWIDE_SALE.active && (
+        <div className="bg-destructive text-destructive-foreground py-2 px-4 text-center text-xs font-bold animate-pulse">
+          <div className="container flex items-center justify-center gap-2">
+            <Zap className="h-3.5 w-3.5" />
+            <span>🔥 {SITEWIDE_SALE.label} 🔥</span>
+            <Zap className="h-3.5 w-3.5" />
+          </div>
+        </div>
+      )}
       {/* Free Shipping Banner */}
       <div className="bg-primary text-primary-foreground py-1.5 px-4 text-center text-xs font-medium">
         <div className="container flex items-center justify-center gap-2">

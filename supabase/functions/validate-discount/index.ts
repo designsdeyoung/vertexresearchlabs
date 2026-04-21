@@ -29,6 +29,25 @@ const handler = async (req: Request): Promise<Response> => {
 
     const normalizedCode = code.trim().toUpperCase();
 
+    // Special promo codes (10% off + free shipping, no min order)
+    const SPECIAL_PROMOS: Record<string, { discount: number; freeShipping: boolean }> = {
+      PATRICIA10: { discount: 0.10, freeShipping: true },
+    };
+
+    if (SPECIAL_PROMOS[normalizedCode]) {
+      const promo = SPECIAL_PROMOS[normalizedCode];
+      return new Response(
+        JSON.stringify({
+          valid: true,
+          referrerId: null,
+          isPromo: true,
+          discount: promo.discount,
+          freeShipping: promo.freeShipping,
+        }),
+        { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
     // Look up the referral code using service role (bypasses RLS)
     const { data, error } = await supabaseAdmin
       .from("profiles")

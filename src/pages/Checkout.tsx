@@ -441,6 +441,7 @@ const Checkout = () => {
                         if (discountValid !== null) {
                           setDiscountValid(null);
                           setDiscountReferrerId(null);
+                          setPromoFreeShipping(false);
                         }
                       }}
                       className="bg-secondary/50 uppercase"

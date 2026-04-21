@@ -50,6 +50,7 @@ const Checkout = () => {
   const [discountValid, setDiscountValid] = useState<boolean | null>(null);
   const [discountLoading, setDiscountLoading] = useState(false);
   const [discountReferrerId, setDiscountReferrerId] = useState<string | null>(null);
+  const [promoFreeShipping, setPromoFreeShipping] = useState(false);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -61,11 +62,15 @@ const Checkout = () => {
   // Apply discount code (10% off subtotal)
   const discountAmount = discountValid ? subtotal * 0.1 : 0;
 
+  // Override shipping when promo grants free shipping
+  const effectiveShipping = promoFreeShipping ? 0 : shippingCost;
+  const effectiveTotal = subtotal + effectiveShipping;
+
   // Calculate discount from credit
   const creditDiscount = selectedCredit
-    ? Math.min(selectedCredit.amount, total * (selectedCredit.max_percent / 100))
+    ? Math.min(selectedCredit.amount, effectiveTotal * (selectedCredit.max_percent / 100))
     : 0;
-  const finalTotal = total - creditDiscount - discountAmount;
+  const finalTotal = effectiveTotal - creditDiscount - discountAmount;
   const pointsEarned = calculatePointsForPrice(subtotal);
 
   const handleApplyDiscount = async () => {
@@ -83,13 +88,16 @@ const Checkout = () => {
       if (error || !data?.valid) {
         setDiscountValid(false);
         setDiscountReferrerId(null);
+        setPromoFreeShipping(false);
       } else {
         setDiscountValid(true);
         setDiscountReferrerId(data.referrerId);
+        setPromoFreeShipping(!!data.freeShipping);
       }
     } catch {
       setDiscountValid(false);
       setDiscountReferrerId(null);
+      setPromoFreeShipping(false);
     } finally {
       setDiscountLoading(false);
     }

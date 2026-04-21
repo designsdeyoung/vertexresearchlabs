@@ -241,7 +241,7 @@ const Checkout = () => {
           customerName: formData.fullName,
           items: orderItems,
           subtotal,
-          shipping: shippingCost,
+          shipping: effectiveShipping,
           total: finalTotal,
           creditApplied: creditDiscount,
           creditId: selectedCredit?.id || null,
@@ -266,7 +266,7 @@ const Checkout = () => {
         eligibilityType,
         items: orderItems2,
         subtotal,
-        shipping: shippingCost,
+        shipping: effectiveShipping,
         total: finalTotal,
         orderNumber,
         pointsEarned: awardData?.pointsEarned || pointsEarned,
@@ -458,7 +458,7 @@ const Checkout = () => {
                   </div>
                   {discountValid === true && (
                     <p className="text-xs text-primary mt-2 flex items-center gap-1">
-                      <Sparkles size={10} /> 10% discount applied — you save {formatPrice(discountAmount)}
+                      <Sparkles size={10} /> 10% discount applied{promoFreeShipping ? " + FREE shipping" : ""} — you save {formatPrice(discountAmount + (promoFreeShipping && !qualifiesForFreeShipping ? FLAT_RATE_SHIPPING : 0))}
                     </p>
                   )}
                   {discountValid === false && (
@@ -540,13 +540,13 @@ const Checkout = () => {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">US Shipping</span>
-                    {qualifiesForFreeShipping ? (
+                    {qualifiesForFreeShipping || promoFreeShipping ? (
                       <span className="text-primary font-medium">FREE</span>
                     ) : (
                       <span className="text-foreground font-medium">{formatPrice(FLAT_RATE_SHIPPING)}</span>
                     )}
                   </div>
-                  {!qualifiesForFreeShipping && <p className="text-xs text-muted-foreground">Free shipping on orders over ${FREE_SHIPPING_THRESHOLD}</p>}
+                  {!qualifiesForFreeShipping && !promoFreeShipping && <p className="text-xs text-muted-foreground">Free shipping on orders over ${FREE_SHIPPING_THRESHOLD}</p>}
 
                   {discountAmount > 0 && (
                     <div className="flex justify-between text-sm">

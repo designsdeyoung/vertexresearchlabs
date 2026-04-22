@@ -15,6 +15,7 @@ const InquiryCart = () => {
     removeItem, 
     updateQuantity, 
     clearCart,
+    addItem,
     subtotal,
     shippingCost,
     total,
@@ -22,6 +23,13 @@ const InquiryCart = () => {
     amountToFreeShipping
   } = useInquiryCart();
   const navigate = useNavigate();
+
+  // Upsell logic: if cart has any peptide but no BAC water, show upsell
+  const hasPeptide = items.some(i => i.product.category !== "Diluent");
+  const hasBacWater = items.some(i => i.product.id.startsWith("bac-water"));
+  const showBacUpsell = hasPeptide && !hasBacWater;
+  const bacWater3ml = products.find(p => p.id === "bac-water-3ml");
+  const bacWater10ml = products.find(p => p.id === "bac-water-10ml");
 
   const handleProceedToAccess = () => {
     closeCart();

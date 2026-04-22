@@ -1,11 +1,44 @@
+import { useState } from "react";
 import { REWARD_TIERS } from "@/hooks/useRewards";
-import { Gift, Lock, CheckCircle2 } from "lucide-react";
+import { Gift, Lock, CheckCircle2, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 interface RewardsLadderProps {
   balance: number;
+  onRedeemed?: () => Promise<void> | void;
 }
 
-const RewardsLadder = ({ balance }: RewardsLadderProps) => {
+const RewardsLadder = ({ balance, onRedeemed }: RewardsLadderProps) => {
+  const [redeemingPoints, setRedeemingPoints] = useState<number | null>(null);
+
+  const handleRedeem = async (points: number) => {
+    setRedeemingPoints(points);
+
+    const { data, error } = await supabase.functions.invoke("redeem-credit", {
+      body: { points },
+    });
+
+    if (error || !data?.success) {
+      toast({
+        title: "Unable to redeem",
+        description: data?.error || error?.message || "Please try again.",
+        variant: "destructive",
+      });
+      setRedeemingPoints(null);
+      return;
+    }
+
+    toast({
+      title: "Credit ready",
+      description: `${data.credit.amount ? `$${data.credit.amount}` : "Your"} credit is now available at checkout.`,
+    });
+
+    await onRedeemed?.();
+    setRedeemingPoints(null);
+  };
+
   return (
     <div className="glass-card rounded-xl p-6">
       <div className="flex items-center gap-2 mb-5">
@@ -46,11 +79,19 @@ const RewardsLadder = ({ balance }: RewardsLadderProps) => {
                   {tier.points.toLocaleString()} pts • Min cart ${tier.minCart}
                 </p>
               </div>
-              {unlocked && (
-                <span className="text-xs font-medium text-primary px-2 py-1 rounded-full bg-primary/10">
-                  Unlocked
-                </span>
-              )}
+              {unlocked ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleRedeem(tier.points)}
+                  disabled={redeemingPoints !== null}
+                  className="shrink-0"
+                >
+                  <Sparkles size={14} />
+                  {redeemingPoints === tier.points ? "Redeeming..." : "Redeem"}
+                </Button>
+              ) : null}
             </div>
           );
         })}

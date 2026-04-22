@@ -51,6 +51,7 @@ const Checkout = () => {
   const [discountLoading, setDiscountLoading] = useState(false);
   const [discountReferrerId, setDiscountReferrerId] = useState<string | null>(null);
   const [promoFreeShipping, setPromoFreeShipping] = useState(false);
+  const [discountMessage, setDiscountMessage] = useState<string | null>(null);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -77,6 +78,7 @@ const Checkout = () => {
     if (!discountCode.trim()) return;
     setDiscountLoading(true);
     setDiscountValid(null);
+    setDiscountMessage(null);
     try {
       const { data, error } = await supabase.functions.invoke("validate-discount", {
         body: {
@@ -89,15 +91,18 @@ const Checkout = () => {
         setDiscountValid(false);
         setDiscountReferrerId(null);
         setPromoFreeShipping(false);
+        setDiscountMessage(data?.reason || error?.message || "Invalid or expired code. Please try again.");
       } else {
         setDiscountValid(true);
         setDiscountReferrerId(data.referrerId);
         setPromoFreeShipping(!!data.freeShipping);
+        setDiscountMessage(null);
       }
     } catch {
       setDiscountValid(false);
       setDiscountReferrerId(null);
       setPromoFreeShipping(false);
+      setDiscountMessage("Invalid or expired code. Please try again.");
     } finally {
       setDiscountLoading(false);
     }
@@ -442,6 +447,7 @@ const Checkout = () => {
                           setDiscountValid(null);
                           setDiscountReferrerId(null);
                           setPromoFreeShipping(false);
+                          setDiscountMessage(null);
                         }
                       }}
                       className="bg-secondary/50 uppercase"
@@ -462,7 +468,7 @@ const Checkout = () => {
                     </p>
                   )}
                   {discountValid === false && (
-                    <p className="text-xs text-destructive mt-2">Invalid or expired code. Please try again.</p>
+                    <p className="text-xs text-destructive mt-2">{discountMessage || "Invalid or expired code. Please try again."}</p>
                   )}
                 </div>
 

@@ -32,6 +32,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Special promo codes (10% off + free shipping, no min order)
     const SPECIAL_PROMOS: Record<string, { discount: number; freeShipping: boolean }> = {
       PATRICIA10: { discount: 0.10, freeShipping: true },
+      ADAM10: { discount: 0.10, freeShipping: false },
     };
 
     if (SPECIAL_PROMOS[normalizedCode]) {

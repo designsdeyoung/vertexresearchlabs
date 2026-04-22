@@ -472,15 +472,14 @@ const Checkout = () => {
                   )}
                 </div>
 
-                {/* Credit Redemption */}
-                {user && profile && (
-                  <CreditRedemption
-                    profileId={profile.id}
-                    cartTotal={total}
-                    selectedCredit={selectedCredit}
-                    onSelectCredit={setSelectedCredit}
-                  />
-                )}
+                {/* Credit Redemption — works for logged-in users AND guests via email lookup */}
+                <CreditRedemption
+                  profileId={profile?.id}
+                  email={formData.email}
+                  cartTotal={total}
+                  selectedCredit={selectedCredit}
+                  onSelectCredit={setSelectedCredit}
+                />
 
 
                 {/* Additional Notes */}

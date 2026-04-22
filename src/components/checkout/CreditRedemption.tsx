@@ -14,7 +14,8 @@ interface Credit {
 }
 
 interface CreditRedemptionProps {
-  profileId: string;
+  profileId?: string | null;
+  email?: string;
   cartTotal: number;
   selectedCredit: { id: string; amount: number; points_cost: number; min_cart: number; max_percent: number } | null;
   onSelectCredit: (credit: { id: string; amount: number; points_cost: number; min_cart: number; max_percent: number } | null) => void;
@@ -23,10 +24,12 @@ interface CreditRedemptionProps {
 const formatPrice = (price: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(price);
 
-const CreditRedemption = ({ profileId, cartTotal, selectedCredit, onSelectCredit }: CreditRedemptionProps) => {
+const CreditRedemption = ({ profileId, email, cartTotal, selectedCredit, onSelectCredit }: CreditRedemptionProps) => {
   const [credits, setCredits] = useState<Credit[]>([]);
 
+  // Load credits when logged in via profileId
   useEffect(() => {
+    if (!profileId) return;
     supabase
       .from("credits")
       .select("*")
@@ -36,6 +39,28 @@ const CreditRedemption = ({ profileId, cartTotal, selectedCredit, onSelectCredit
         if (data) setCredits(data as Credit[]);
       });
   }, [profileId]);
+
+  // Load credits via email lookup (guest checkout) — debounced
+  useEffect(() => {
+    if (profileId) return; // already loaded via profile
+    const trimmed = (email || "").trim();
+    if (!trimmed || !trimmed.includes("@") || trimmed.length < 5) {
+      setCredits([]);
+      return;
+    }
+    const timer = setTimeout(async () => {
+      try {
+        const { data } = await supabase.functions.invoke("lookup-credits", {
+          body: { email: trimmed },
+        });
+        if (data?.credits) setCredits(data.credits as Credit[]);
+        else setCredits([]);
+      } catch {
+        setCredits([]);
+      }
+    }, 600);
+    return () => clearTimeout(timer);
+  }, [email, profileId]);
 
   if (credits.length === 0) return null;
 

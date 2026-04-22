@@ -1,0 +1,1 @@
+UPDATE public.profiles SET full_name = 'Jose A Zuniga', referral_code = 'JOSE10' WHERE id = 'bf3b3514-74d0-4995-afbf-566cb08f4a77' AND NOT EXISTS (SELECT 1 FROM public.profiles WHERE referral_code = 'JOSE10' AND id != 'bf3b3514-74d0-4995-afbf-566cb08f4a77');

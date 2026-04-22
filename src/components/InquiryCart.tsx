@@ -2,9 +2,10 @@ import { useNavigate } from "react-router-dom";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, Trash2, FlaskConical, ShieldCheck, ArrowRight, Truck, Sparkles, Package } from "lucide-react";
+import { Minus, Plus, Trash2, FlaskConical, ShieldCheck, ArrowRight, Truck, Sparkles, Package, Droplet, Plus as PlusIcon } from "lucide-react";
 import { FREE_SHIPPING_THRESHOLD, FLAT_RATE_SHIPPING, THREE_PACK_DISCOUNT } from "@/contexts/InquiryCartContext";
 import { calculatePointsForPrice } from "@/hooks/useRewards";
+import { products } from "@/data/products";
 
 const InquiryCart = () => {
   const { 
@@ -14,6 +15,7 @@ const InquiryCart = () => {
     removeItem, 
     updateQuantity, 
     clearCart,
+    addItem,
     subtotal,
     shippingCost,
     total,
@@ -21,6 +23,13 @@ const InquiryCart = () => {
     amountToFreeShipping
   } = useInquiryCart();
   const navigate = useNavigate();
+
+  // Upsell logic: if cart has any peptide but no BAC water, show upsell
+  const hasPeptide = items.some(i => i.product.category !== "Diluent");
+  const hasBacWater = items.some(i => i.product.id.startsWith("bac-water"));
+  const showBacUpsell = hasPeptide && !hasBacWater;
+  const bacWater3ml = products.find(p => p.id === "bac-water-3ml");
+  const bacWater10ml = products.find(p => p.id === "bac-water-10ml");
 
   const handleProceedToAccess = () => {
     closeCart();
@@ -143,7 +152,42 @@ const InquiryCart = () => {
               ))}
             </div>
 
-            <div className="pt-4 border-t border-border/50 space-y-3">
+            {/* BAC Water Upsell */}
+            {showBacUpsell && bacWater3ml && bacWater10ml && (
+              <div className="mt-3 p-3 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/30">
+                <div className="flex items-start gap-2 mb-2">
+                  <Droplet size={16} className="text-primary mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">Don't forget BAC Water</p>
+                    <p className="text-xs text-muted-foreground">Required diluent for peptide reconstitution.</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-2 mt-2">
+                  <button
+                    onClick={() => addItem(bacWater3ml)}
+                    className="flex items-center justify-between gap-1 p-2 rounded-md bg-background/50 border border-border hover:border-primary hover:bg-primary/5 transition-all group"
+                  >
+                    <div className="text-left">
+                      <p className="text-xs font-medium text-foreground">3mL</p>
+                      <p className="text-xs text-primary font-semibold">{formatPrice(bacWater3ml.price)}</p>
+                    </div>
+                    <PlusIcon size={14} className="text-muted-foreground group-hover:text-primary" />
+                  </button>
+                  <button
+                    onClick={() => addItem(bacWater10ml)}
+                    className="flex items-center justify-between gap-1 p-2 rounded-md bg-background/50 border border-border hover:border-primary hover:bg-primary/5 transition-all group"
+                  >
+                    <div className="text-left">
+                      <p className="text-xs font-medium text-foreground">10mL</p>
+                      <p className="text-xs text-primary font-semibold">{formatPrice(bacWater10ml.price)}</p>
+                    </div>
+                    <PlusIcon size={14} className="text-muted-foreground group-hover:text-primary" />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <div className="pt-4 border-t border-border/50 space-y-3 mt-4">
               {/* Points earned preview */}
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground flex items-center gap-1">

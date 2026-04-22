@@ -152,7 +152,42 @@ const InquiryCart = () => {
               ))}
             </div>
 
-            <div className="pt-4 border-t border-border/50 space-y-3">
+            {/* BAC Water Upsell */}
+            {showBacUpsell && bacWater3ml && bacWater10ml && (
+              <div className="mt-3 p-3 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/30">
+                <div className="flex items-start gap-2 mb-2">
+                  <Droplet size={16} className="text-primary mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">Don't forget BAC Water</p>
+                    <p className="text-xs text-muted-foreground">Required diluent for peptide reconstitution.</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-2 mt-2">
+                  <button
+                    onClick={() => addItem(bacWater3ml)}
+                    className="flex items-center justify-between gap-1 p-2 rounded-md bg-background/50 border border-border hover:border-primary hover:bg-primary/5 transition-all group"
+                  >
+                    <div className="text-left">
+                      <p className="text-xs font-medium text-foreground">3mL</p>
+                      <p className="text-xs text-primary font-semibold">{formatPrice(bacWater3ml.price)}</p>
+                    </div>
+                    <PlusIcon size={14} className="text-muted-foreground group-hover:text-primary" />
+                  </button>
+                  <button
+                    onClick={() => addItem(bacWater10ml)}
+                    className="flex items-center justify-between gap-1 p-2 rounded-md bg-background/50 border border-border hover:border-primary hover:bg-primary/5 transition-all group"
+                  >
+                    <div className="text-left">
+                      <p className="text-xs font-medium text-foreground">10mL</p>
+                      <p className="text-xs text-primary font-semibold">{formatPrice(bacWater10ml.price)}</p>
+                    </div>
+                    <PlusIcon size={14} className="text-muted-foreground group-hover:text-primary" />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <div className="pt-4 border-t border-border/50 space-y-3 mt-4">
               {/* Points earned preview */}
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground flex items-center gap-1">

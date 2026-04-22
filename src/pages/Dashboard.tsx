@@ -108,7 +108,7 @@ const Dashboard = () => {
               balance={profile.points_balance}
               lifetime={profile.lifetime_points}
             />
-            <RewardsLadder balance={profile.points_balance} />
+            <RewardsLadder balance={profile.points_balance} onRedeemed={refreshProfile} />
           </div>
 
           {/* Referral & Orders */}

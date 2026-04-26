@@ -70,7 +70,7 @@ const ProductDetail = () => {
   const handleAddToCart = () => {
     addItem(product);
     toast({
-      title: "Added to inquiry",
+      title: "Added to cart",
       description: `${name} has been added to your list.`,
     });
     openCart();
@@ -222,7 +222,7 @@ const ProductDetail = () => {
                   onClick={handleAdd3Pack}
                 >
                   <Package size={18} />
-                  Add 3-Pack to Inquiry
+                  Add 3-Pack to Cart
                 </Button>
               </div>
 
@@ -235,7 +235,7 @@ const ProductDetail = () => {
                   onClick={handleAddToCart}
                 >
                   <Plus size={18} />
-                  Add Single to Inquiry
+                  Add Single to Cart
                 </Button>
                 
                 {coa && (

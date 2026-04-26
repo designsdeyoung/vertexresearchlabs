@@ -30,7 +30,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const handleAddToCart = () => {
     addItem(product);
     toast({
-      title: "Added to inquiry",
+      title: "Added to cart",
       description: `${name} has been added to your list.`,
     });
     openCart();
@@ -188,7 +188,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
               onClick={handleAddToCart}
             >
               <Plus size={14} />
-              Add to Inquiry
+              Add to Cart
             </Button>
           </div>
           <Button 

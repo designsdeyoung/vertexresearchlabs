@@ -53,7 +53,7 @@ const OrderConfirmation = () => {
               transition={{ delay: 0.2 }}
               className="text-3xl md:text-4xl font-semibold text-foreground mb-4"
             >
-              Order Request Submitted
+              Payment Successful
             </motion.h1>
             {orderNumber && (
               <motion.div

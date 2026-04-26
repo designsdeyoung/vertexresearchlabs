@@ -393,12 +393,6 @@ const Checkout = () => {
                       <Label htmlFor="organization">Organization / University (Optional)</Label>
                       <Input id="organization" maxLength={200} value={formData.organization} onChange={(e) => setFormData((prev) => ({ ...prev, organization: e.target.value }))} placeholder="University Research Laboratory" className="bg-secondary/50" />
                     </div>
-                    <div className="p-3 rounded-lg bg-secondary/30 border border-border/50">
-                      <p className="text-xs text-muted-foreground">
-                        <span className="font-medium text-foreground">Eligibility Type:</span>{" "}
-                        {eligibilityLabels[eligibilityType || ""] || eligibilityType}
-                      </p>
-                    </div>
                   </div>
                 </div>
 
@@ -448,7 +442,7 @@ const Checkout = () => {
                   </h2>
                   <div className="flex gap-2">
                     <Input
-                      placeholder="e.g. ADAM10"
+                      placeholder=""
                       value={discountCode}
                       onChange={(e) => {
                         setDiscountCode(e.target.value.toUpperCase());

@@ -212,9 +212,8 @@ const Checkout = () => {
     organization: "Other Research Organization",
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleContinueToPayment = (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!finalConfirmation) {
       toast({
         title: "Confirmation Required",
@@ -223,7 +222,14 @@ const Checkout = () => {
       });
       return;
     }
+    setShowPayment(true);
+    // Scroll payment section into view
+    setTimeout(() => {
+      document.getElementById("stripe-payment-section")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 100);
+  };
 
+  const handleStripeSuccess = async (stripePaymentIntentId: string) => {
     setIsSubmitting(true);
 
     const orderItems = items.map((item) => ({

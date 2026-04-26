@@ -82,12 +82,32 @@ const OrderConfirmation = () => {
               transition={{ delay: 0.3 }}
               className="text-muted-foreground max-w-md mx-auto"
             >
-              Thank you for your research materials inquiry. Your request has been received.
+              Thank you for your order. Your payment has been received and your research materials will ship shortly.
             </motion.p>
           </div>
 
-          {/* Bitcoin Payment Instructions — Primary CTA */}
-          <BitcoinReminder total={state?.total || 0} />
+          {/* Payment Confirmed Block */}
+          {state?.total ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="glass-card rounded-xl p-6 mb-6 border-primary/30 bg-primary/5"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <ShieldCheck className="text-primary" size={22} />
+                  <div>
+                    <p className="text-sm font-medium text-foreground">Payment Confirmed</p>
+                    <p className="text-xs text-muted-foreground">Charged securely via Stripe</p>
+                  </div>
+                </div>
+                <span className="text-lg font-semibold text-foreground">
+                  ${state.total.toFixed(2)}
+                </span>
+              </div>
+            </motion.div>
+          ) : null}
 
           {/* Rewards Earned Card */}
           <motion.div

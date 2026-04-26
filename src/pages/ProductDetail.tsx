@@ -70,7 +70,7 @@ const ProductDetail = () => {
   const handleAddToCart = () => {
     addItem(product);
     toast({
-      title: "Added to inquiry",
+      title: "Added to cart",
       description: `${name} has been added to your list.`,
     });
     openCart();

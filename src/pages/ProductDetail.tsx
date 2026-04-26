@@ -235,7 +235,7 @@ const ProductDetail = () => {
                   onClick={handleAddToCart}
                 >
                   <Plus size={18} />
-                  Add Single to Inquiry
+                  Add Single to Cart
                 </Button>
                 
                 {coa && (

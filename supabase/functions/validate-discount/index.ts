@@ -49,9 +49,6 @@ const handler = async (req: Request): Promise<Response> => {
       }
 
 
-    if (SPECIAL_PROMOS[normalizedCode]) {
-      const promo = SPECIAL_PROMOS[normalizedCode];
-
       // Enforce first-order-only restriction
       if (promo.firstOrderOnly) {
         const normalizedEmail = (customerEmail || "").trim().toLowerCase();

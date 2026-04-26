@@ -71,11 +71,13 @@ export type Database = {
           is_autoship: boolean
           items: Json
           order_number: string | null
+          paid_at: string | null
           payment_method: string
           points_earned: number
           profile_id: string | null
           shipping: number
           status: string
+          stripe_payment_intent_id: string | null
           subtotal: number
           total: number
         }
@@ -88,11 +90,13 @@ export type Database = {
           is_autoship?: boolean
           items?: Json
           order_number?: string | null
+          paid_at?: string | null
           payment_method?: string
           points_earned?: number
           profile_id?: string | null
           shipping?: number
           status?: string
+          stripe_payment_intent_id?: string | null
           subtotal: number
           total: number
         }
@@ -105,11 +109,13 @@ export type Database = {
           is_autoship?: boolean
           items?: Json
           order_number?: string | null
+          paid_at?: string | null
           payment_method?: string
           points_earned?: number
           profile_id?: string | null
           shipping?: number
           status?: string
+          stripe_payment_intent_id?: string | null
           subtotal?: number
           total?: number
         }

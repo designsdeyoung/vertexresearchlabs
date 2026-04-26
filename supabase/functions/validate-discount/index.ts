@@ -30,14 +30,24 @@ const handler = async (req: Request): Promise<Response> => {
     const normalizedCode = code.trim().toUpperCase();
 
     // Special promo codes
-    const SPECIAL_PROMOS: Record<string, { discount: number; freeShipping: boolean; firstOrderOnly?: boolean }> = {
+    const SPECIAL_PROMOS: Record<string, { discount: number; freeShipping: boolean; firstOrderOnly?: boolean; expiresAt?: string }> = {
       PATRICIA10: { discount: 0.10, freeShipping: true },
       ADAM10: { discount: 0.10, freeShipping: false },
       JODI30: { discount: 0.30, freeShipping: true, firstOrderOnly: true },
+      GLOWUP: { discount: 0.20, freeShipping: true, expiresAt: "2026-04-27T04:59:59Z" },
     };
 
     if (SPECIAL_PROMOS[normalizedCode]) {
       const promo = SPECIAL_PROMOS[normalizedCode];
+
+      // Enforce expiration
+      if (promo.expiresAt && new Date() > new Date(promo.expiresAt)) {
+        return new Response(
+          JSON.stringify({ valid: false, reason: "This code has expired" }),
+          { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
+
 
       // Enforce first-order-only restriction
       if (promo.firstOrderOnly) {

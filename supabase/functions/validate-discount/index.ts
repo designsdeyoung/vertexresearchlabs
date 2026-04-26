@@ -29,14 +29,63 @@ const handler = async (req: Request): Promise<Response> => {
 
     const normalizedCode = code.trim().toUpperCase();
 
-    // Special promo codes (10% off + free shipping, no min order)
-    const SPECIAL_PROMOS: Record<string, { discount: number; freeShipping: boolean }> = {
+    // Special promo codes
+    const SPECIAL_PROMOS: Record<string, { discount: number; freeShipping: boolean; firstOrderOnly?: boolean }> = {
       PATRICIA10: { discount: 0.10, freeShipping: true },
       ADAM10: { discount: 0.10, freeShipping: false },
+      JODI30: { discount: 0.30, freeShipping: true, firstOrderOnly: true },
     };
 
     if (SPECIAL_PROMOS[normalizedCode]) {
       const promo = SPECIAL_PROMOS[normalizedCode];
+
+      // Enforce first-order-only restriction
+      if (promo.firstOrderOnly) {
+        const normalizedEmail = (customerEmail || "").trim().toLowerCase();
+        if (!normalizedEmail) {
+          return new Response(
+            JSON.stringify({ valid: false, reason: "Email required for this code" }),
+            { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+          );
+        }
+
+        // Find any profile with this email
+        const { data: profile } = await supabaseAdmin
+          .from("profiles")
+          .select("id")
+          .eq("email", normalizedEmail)
+          .maybeSingle();
+
+        if (profile) {
+          const { count } = await supabaseAdmin
+            .from("orders")
+            .select("id", { count: "exact", head: true })
+            .eq("profile_id", profile.id)
+            .eq("status", "paid");
+
+          if ((count ?? 0) > 0) {
+            return new Response(
+              JSON.stringify({ valid: false, reason: "Code valid for first order only" }),
+              { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+            );
+          }
+        }
+
+        // Also check if this code was already used in any order
+        const { count: usedCount } = await supabaseAdmin
+          .from("orders")
+          .select("id", { count: "exact", head: true })
+          .eq("discount_code", normalizedCode)
+          .eq("status", "paid");
+
+        if ((usedCount ?? 0) > 0) {
+          return new Response(
+            JSON.stringify({ valid: false, reason: "This code has already been redeemed" }),
+            { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+          );
+        }
+      }
+
       return new Response(
         JSON.stringify({
           valid: true,

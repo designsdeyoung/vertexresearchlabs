@@ -13,7 +13,7 @@ import { toast } from "@/hooks/use-toast";
 
 // Stripe publishable key — safe to expose
 const STRIPE_PUBLISHABLE_KEY =
-  "pk_live_REPLACE_ME";
+  "pk_live_51Sq34bC1sO3DYmPXdFqAIIBaPTK9NYgPs9Ss339B5XEEzS7NQpg12F1nAr8ksKnJ6o0sKjh7LpTl73s78jhTP5jj00pjJnAdrZ";
 
 const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
 

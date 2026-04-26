@@ -262,6 +262,7 @@ const Checkout = () => {
           discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
           discountAmount: discountAmount,
           paymentMethod,
+          stripePaymentIntentId,
         },
       });
 

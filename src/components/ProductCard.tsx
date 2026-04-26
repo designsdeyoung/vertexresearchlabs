@@ -188,7 +188,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
               onClick={handleAddToCart}
             >
               <Plus size={14} />
-              Add to Inquiry
+              Add to Cart
             </Button>
           </div>
           <Button 

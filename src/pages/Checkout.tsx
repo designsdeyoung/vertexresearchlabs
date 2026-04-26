@@ -16,6 +16,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { calculatePointsForPrice } from "@/hooks/useRewards";
 import { getStoredReferralCode } from "@/hooks/useReferralCapture";
 import CreditRedemption from "@/components/checkout/CreditRedemption";
+import StripePayment from "@/components/checkout/StripePayment";
 import {
   Shield,
   Building2,
@@ -25,7 +26,7 @@ import {
   AlertTriangle,
   ArrowLeft,
   Sparkles,
-  Send,
+  CreditCard,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 

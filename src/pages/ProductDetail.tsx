@@ -222,7 +222,7 @@ const ProductDetail = () => {
                   onClick={handleAdd3Pack}
                 >
                   <Package size={18} />
-                  Add 3-Pack to Inquiry
+                  Add 3-Pack to Cart
                 </Button>
               </div>
 

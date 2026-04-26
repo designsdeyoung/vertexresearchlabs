@@ -359,7 +359,7 @@ const Checkout = () => {
               <h1 className="text-3xl font-semibold text-foreground mb-2">Checkout</h1>
               <p className="text-muted-foreground mb-8">Complete your research materials order</p>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleContinueToPayment} className="space-y-6">
                 {/* Contact Information */}
                 <div className="glass-card rounded-lg p-6">
                   <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">

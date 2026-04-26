@@ -16,6 +16,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { calculatePointsForPrice } from "@/hooks/useRewards";
 import { getStoredReferralCode } from "@/hooks/useReferralCapture";
 import CreditRedemption from "@/components/checkout/CreditRedemption";
+import StripePayment from "@/components/checkout/StripePayment";
 import {
   Shield,
   Building2,
@@ -25,7 +26,7 @@ import {
   AlertTriangle,
   ArrowLeft,
   Sparkles,
-  Send,
+  CreditCard,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -45,7 +46,8 @@ const Checkout = () => {
   const { user, profile } = useAuth();
 
   const [selectedCredit, setSelectedCredit] = useState<ActiveCredit | null>(null);
-  const paymentMethod = "bitcoin";
+  const paymentMethod = "stripe";
+  const [showPayment, setShowPayment] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
   const [discountValid, setDiscountValid] = useState<boolean | null>(null);
   const [discountLoading, setDiscountLoading] = useState(false);
@@ -210,9 +212,8 @@ const Checkout = () => {
     organization: "Other Research Organization",
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleContinueToPayment = (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!finalConfirmation) {
       toast({
         title: "Confirmation Required",
@@ -221,7 +222,14 @@ const Checkout = () => {
       });
       return;
     }
+    setShowPayment(true);
+    // Scroll payment section into view
+    setTimeout(() => {
+      document.getElementById("stripe-payment-section")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 100);
+  };
 
+  const handleStripeSuccess = async (stripePaymentIntentId: string) => {
     setIsSubmitting(true);
 
     const orderItems = items.map((item) => ({
@@ -254,6 +262,7 @@ const Checkout = () => {
           discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
           discountAmount: discountAmount,
           paymentMethod,
+          stripePaymentIntentId,
         },
       });
 
@@ -350,7 +359,7 @@ const Checkout = () => {
               <h1 className="text-3xl font-semibold text-foreground mb-2">Checkout</h1>
               <p className="text-muted-foreground mb-8">Complete your research materials order</p>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleContinueToPayment} className="space-y-6">
                 {/* Contact Information */}
                 <div className="glass-card rounded-lg p-6">
                   <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
@@ -511,11 +520,40 @@ const Checkout = () => {
                   </div>
                 </div>
 
-                {/* Submit Button */}
-                <Button type="submit" variant="hero" size="xl" className="w-full" disabled={!isFormValid || isSubmitting}>
-                  <Send size={18} />
-                  {isSubmitting ? "Processing..." : "Submit Order Request"}
-                </Button>
+                {/* Continue to Payment OR Stripe Payment */}
+                {!showPayment ? (
+                  <Button type="submit" variant="hero" size="xl" className="w-full" disabled={!isFormValid || isSubmitting}>
+                    <CreditCard size={18} />
+                    Continue to Payment
+                  </Button>
+                ) : (
+                  <div id="stripe-payment-section" className="glass-card rounded-lg p-6 border-l-4 border-l-primary">
+                    <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
+                      <CreditCard size={20} className="text-primary" />
+                      Payment — {formatPrice(finalTotal)}
+                    </h2>
+                    <p className="text-xs text-muted-foreground mb-4">
+                      Secure payment powered by Stripe. Apple Pay, Google Pay, and all major cards accepted.
+                    </p>
+                    <StripePayment
+                      amount={finalTotal}
+                      email={formData.email}
+                      metadata={{
+                        customer_name: formData.fullName,
+                        customer_email: formData.email,
+                      }}
+                      disabled={isSubmitting}
+                      onSuccess={handleStripeSuccess}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPayment(false)}
+                      className="text-xs text-muted-foreground hover:text-foreground mt-4 underline"
+                    >
+                      ← Edit order details
+                    </button>
+                  </div>
+                )}
               </form>
             </div>
 

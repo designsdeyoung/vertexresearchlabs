@@ -448,7 +448,7 @@ const Checkout = () => {
                   </h2>
                   <div className="flex gap-2">
                     <Input
-                      placeholder="e.g. ADAM10"
+                      placeholder=""
                       value={discountCode}
                       onChange={(e) => {
                         setDiscountCode(e.target.value.toUpperCase());

@@ -520,11 +520,40 @@ const Checkout = () => {
                   </div>
                 </div>
 
-                {/* Submit Button */}
-                <Button type="submit" variant="hero" size="xl" className="w-full" disabled={!isFormValid || isSubmitting}>
-                  <Send size={18} />
-                  {isSubmitting ? "Processing..." : "Submit Order Request"}
-                </Button>
+                {/* Continue to Payment OR Stripe Payment */}
+                {!showPayment ? (
+                  <Button type="submit" variant="hero" size="xl" className="w-full" disabled={!isFormValid || isSubmitting}>
+                    <CreditCard size={18} />
+                    Continue to Payment
+                  </Button>
+                ) : (
+                  <div id="stripe-payment-section" className="glass-card rounded-lg p-6 border-l-4 border-l-primary">
+                    <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
+                      <CreditCard size={20} className="text-primary" />
+                      Payment — {formatPrice(finalTotal)}
+                    </h2>
+                    <p className="text-xs text-muted-foreground mb-4">
+                      Secure payment powered by Stripe. Apple Pay, Google Pay, and all major cards accepted.
+                    </p>
+                    <StripePayment
+                      amount={finalTotal}
+                      email={formData.email}
+                      metadata={{
+                        customer_name: formData.fullName,
+                        customer_email: formData.email,
+                      }}
+                      disabled={isSubmitting}
+                      onSuccess={handleStripeSuccess}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPayment(false)}
+                      className="text-xs text-muted-foreground hover:text-foreground mt-4 underline"
+                    >
+                      ← Edit order details
+                    </button>
+                  </div>
+                )}
               </form>
             </div>
 

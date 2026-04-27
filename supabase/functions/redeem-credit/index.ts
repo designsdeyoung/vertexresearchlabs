@@ -8,9 +8,13 @@ const corsHeaders = {
 };
 
 const REWARD_TIERS = [
-  { points: 500, credit: 20, minCart: 100, maxPercent: 20, label: "$20 Vertex Credit" },
-  { points: 750, credit: 30, minCart: 120, maxPercent: 25, label: "$30 Vertex Credit" },
-  { points: 1000, credit: 40, minCart: 150, maxPercent: 30, label: "$40 Vertex Credit" },
+  { points: 500, credit: 20, minCart: 100, maxPercent: 100, label: "$20 Vertex Credit" },
+  { points: 750, credit: 30, minCart: 120, maxPercent: 100, label: "$30 Vertex Credit" },
+  { points: 1000, credit: 40, minCart: 150, maxPercent: 100, label: "$40 Vertex Credit" },
+  { points: 1500, credit: 65, minCart: 200, maxPercent: 100, label: "$65 Vertex Credit" },
+  { points: 2000, credit: 90, minCart: 250, maxPercent: 100, label: "$90 Vertex Credit" },
+  { points: 3000, credit: 140, minCart: 350, maxPercent: 100, label: "$140 Vertex Credit" },
+  { points: 5000, credit: 250, minCart: 500, maxPercent: 100, label: "$250 Vertex Credit" },
 ] as const;
 
 const handler = async (req: Request): Promise<Response> => {

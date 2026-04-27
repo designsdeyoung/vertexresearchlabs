@@ -480,6 +480,8 @@ const Checkout = () => {
                   profileId={profile?.id}
                   email={formData.email}
                   cartTotal={total}
+                  pointsBalance={profile?.points_balance ?? 0}
+                  isAuthenticated={!!profile?.id}
                   selectedCredit={selectedCredit}
                   onSelectCredit={setSelectedCredit}
                 />

@@ -26,6 +26,7 @@ import TestingCOAs from "./pages/TestingCOAs";
 import Methods from "./pages/Methods";
 import ChainOfCustody from "./pages/ChainOfCustody";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import Rewards from "./pages/Rewards";
 import NotFound from "./pages/NotFound";

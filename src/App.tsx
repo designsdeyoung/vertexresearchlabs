@@ -26,6 +26,7 @@ import TestingCOAs from "./pages/TestingCOAs";
 import Methods from "./pages/Methods";
 import ChainOfCustody from "./pages/ChainOfCustody";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import Rewards from "./pages/Rewards";
 import NotFound from "./pages/NotFound";
@@ -62,6 +63,7 @@ const App = () => (
                   <Route path="/quality/methods" element={<Methods />} />
                   <Route path="/quality/chain-of-custody" element={<ChainOfCustody />} />
                   <Route path="/auth" element={<Auth />} />
+                  <Route path="/reset-password" element={<ResetPassword />} />
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/rewards" element={<Rewards />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

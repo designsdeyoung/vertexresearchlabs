@@ -63,6 +63,7 @@ const App = () => (
                   <Route path="/quality/methods" element={<Methods />} />
                   <Route path="/quality/chain-of-custody" element={<ChainOfCustody />} />
                   <Route path="/auth" element={<Auth />} />
+                  <Route path="/reset-password" element={<ResetPassword />} />
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/rewards" element={<Rewards />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

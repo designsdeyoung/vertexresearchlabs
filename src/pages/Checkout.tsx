@@ -27,6 +27,7 @@ import {
   ArrowLeft,
   Sparkles,
   CreditCard,
+  CheckCircle2,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -73,7 +74,7 @@ const Checkout = () => {
   const creditDiscount = selectedCredit
     ? Math.min(selectedCredit.amount, effectiveTotal * (selectedCredit.max_percent / 100))
     : 0;
-  const finalTotal = effectiveTotal - creditDiscount - discountAmount;
+  const finalTotal = Math.max(0, effectiveTotal - creditDiscount - discountAmount);
   const pointsEarned = calculatePointsForPrice(subtotal);
 
   const handleApplyDiscount = async () => {
@@ -331,6 +332,10 @@ const Checkout = () => {
     }
   };
 
+  const handleCoveredByCredits = () => {
+    void handleStripeSuccess(`credit-${Date.now()}`);
+  };
+
   const isFormValid =
     formData.fullName.trim() !== "" &&
     formData.email.trim() !== "" &&
@@ -520,8 +525,29 @@ const Checkout = () => {
                 {!showPayment ? (
                   <Button type="submit" variant="hero" size="xl" className="w-full" disabled={!isFormValid || isSubmitting}>
                     <CreditCard size={18} />
-                    Continue to Payment
+                    {finalTotal === 0 ? "Complete Order" : "Continue to Payment"}
                   </Button>
+                ) : finalTotal === 0 ? (
+                  <div id="stripe-payment-section" className="glass-card rounded-lg p-6 border-l-4 border-l-primary">
+                    <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
+                      <CheckCircle2 size={20} className="text-primary" />
+                      Covered by Vertex Credit
+                    </h2>
+                    <p className="text-xs text-muted-foreground mb-4">
+                      Your credit covers this order total. No card payment is required.
+                    </p>
+                    <Button type="button" variant="hero" size="xl" className="w-full" disabled={isSubmitting} onClick={handleCoveredByCredits}>
+                      <CheckCircle2 size={18} />
+                      {isSubmitting ? "Submitting…" : "Submit Order"}
+                    </Button>
+                    <button
+                      type="button"
+                      onClick={() => setShowPayment(false)}
+                      className="text-xs text-muted-foreground hover:text-foreground mt-4 underline"
+                    >
+                      ← Edit order details
+                    </button>
+                  </div>
                 ) : (
                   <div id="stripe-payment-section" className="glass-card rounded-lg p-6 border-l-4 border-l-primary">
                     <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">

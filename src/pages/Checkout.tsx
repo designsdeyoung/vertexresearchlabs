@@ -246,6 +246,8 @@ const Checkout = () => {
     const orderItems2 = orderItems;
 
     try {
+      const effectivePaymentMethod = finalTotal === 0 ? "credit" : paymentMethod;
+
       // Award points via edge function FIRST to get order number
       // Use discount code as referrer if applied, otherwise fall back to URL-captured code
       const referralCode = discountValid ? discountCode.trim().toUpperCase() : getStoredReferralCode();
@@ -262,7 +264,7 @@ const Checkout = () => {
           referrerCode: referralCode,
           discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
           discountAmount: discountAmount,
-          paymentMethod,
+          paymentMethod: effectivePaymentMethod,
           stripePaymentIntentId,
         },
       });
@@ -289,7 +291,7 @@ const Checkout = () => {
         isNewAccount: awardData?.accountCreated || false,
         discountAmount: discountAmount,
         discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
-        paymentMethod,
+        paymentMethod: effectivePaymentMethod,
       };
       // Send order confirmation email with order number
       const { error: emailError } = await supabase.functions.invoke("send-order-confirmation", {
@@ -317,7 +319,7 @@ const Checkout = () => {
           total: finalTotal,
           orderNumber,
           referralCode: awardData?.referralCode || null,
-          paymentMethod,
+          paymentMethod: effectivePaymentMethod,
         },
       });
     } catch (err) {

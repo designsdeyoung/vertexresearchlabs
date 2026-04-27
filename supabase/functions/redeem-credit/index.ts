@@ -41,18 +41,20 @@ const handler = async (req: Request): Promise<Response> => {
       });
     }
 
-    const supabaseClient = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_ANON_KEY") ?? Deno.env.get("SUPABASE_PUBLISHABLE_KEY")!,
-      { global: { headers: { Authorization: authHeader } } }
-    );
+    const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
+    const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+
+    if (!supabaseUrl || !serviceRoleKey) {
+      throw new Error("Rewards service is not configured");
+    }
 
     const supabaseAdmin = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+      supabaseUrl,
+      serviceRoleKey
     );
 
-    const { data: userData, error: userError } = await supabaseClient.auth.getUser();
+    const jwt = authHeader.replace(/^Bearer\s+/i, "");
+    const { data: userData, error: userError } = await supabaseAdmin.auth.getUser(jwt);
     const user = userData?.user;
 
     if (userError || !user) {

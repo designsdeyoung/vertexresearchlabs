@@ -27,6 +27,7 @@ import {
   ArrowLeft,
   Sparkles,
   CreditCard,
+  CheckCircle2,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -73,7 +74,7 @@ const Checkout = () => {
   const creditDiscount = selectedCredit
     ? Math.min(selectedCredit.amount, effectiveTotal * (selectedCredit.max_percent / 100))
     : 0;
-  const finalTotal = effectiveTotal - creditDiscount - discountAmount;
+  const finalTotal = Math.max(0, effectiveTotal - creditDiscount - discountAmount);
   const pointsEarned = calculatePointsForPrice(subtotal);
 
   const handleApplyDiscount = async () => {
@@ -245,6 +246,8 @@ const Checkout = () => {
     const orderItems2 = orderItems;
 
     try {
+      const effectivePaymentMethod = finalTotal === 0 ? "credit" : paymentMethod;
+
       // Award points via edge function FIRST to get order number
       // Use discount code as referrer if applied, otherwise fall back to URL-captured code
       const referralCode = discountValid ? discountCode.trim().toUpperCase() : getStoredReferralCode();
@@ -261,7 +264,7 @@ const Checkout = () => {
           referrerCode: referralCode,
           discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
           discountAmount: discountAmount,
-          paymentMethod,
+          paymentMethod: effectivePaymentMethod,
           stripePaymentIntentId,
         },
       });
@@ -288,7 +291,7 @@ const Checkout = () => {
         isNewAccount: awardData?.accountCreated || false,
         discountAmount: discountAmount,
         discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
-        paymentMethod,
+        paymentMethod: effectivePaymentMethod,
       };
       // Send order confirmation email with order number
       const { error: emailError } = await supabase.functions.invoke("send-order-confirmation", {
@@ -316,7 +319,7 @@ const Checkout = () => {
           total: finalTotal,
           orderNumber,
           referralCode: awardData?.referralCode || null,
-          paymentMethod,
+          paymentMethod: effectivePaymentMethod,
         },
       });
     } catch (err) {
@@ -329,6 +332,10 @@ const Checkout = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleCoveredByCredits = () => {
+    void handleStripeSuccess(`credit-${Date.now()}`);
   };
 
   const isFormValid =
@@ -520,8 +527,29 @@ const Checkout = () => {
                 {!showPayment ? (
                   <Button type="submit" variant="hero" size="xl" className="w-full" disabled={!isFormValid || isSubmitting}>
                     <CreditCard size={18} />
-                    Continue to Payment
+                    {finalTotal === 0 ? "Complete Order" : "Continue to Payment"}
                   </Button>
+                ) : finalTotal === 0 ? (
+                  <div id="stripe-payment-section" className="glass-card rounded-lg p-6 border-l-4 border-l-primary">
+                    <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
+                      <CheckCircle2 size={20} className="text-primary" />
+                      Covered by Vertex Credit
+                    </h2>
+                    <p className="text-xs text-muted-foreground mb-4">
+                      Your credit covers this order total. No card payment is required.
+                    </p>
+                    <Button type="button" variant="hero" size="xl" className="w-full" disabled={isSubmitting} onClick={handleCoveredByCredits}>
+                      <CheckCircle2 size={18} />
+                      {isSubmitting ? "Submitting…" : "Submit Order"}
+                    </Button>
+                    <button
+                      type="button"
+                      onClick={() => setShowPayment(false)}
+                      className="text-xs text-muted-foreground hover:text-foreground mt-4 underline"
+                    >
+                      ← Edit order details
+                    </button>
+                  </div>
                 ) : (
                   <div id="stripe-payment-section" className="glass-card rounded-lg p-6 border-l-4 border-l-primary">
                     <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">

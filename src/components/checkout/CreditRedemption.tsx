@@ -28,6 +28,8 @@ interface CreditRedemptionProps {
 const formatPrice = (price: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(price);
 
+const rewardTiersDescending = [...REWARD_TIERS].sort((a, b) => b.points - a.points);
+
 const CreditRedemption = ({
   profileId,
   email,
@@ -82,7 +84,7 @@ const CreditRedemption = ({
   // Show redeemable tiers only when logged in AND no active credit exists
   const availableTiers = useMemo(() => {
     if (!isAuthenticated || hasActiveCredit) return [];
-    return REWARD_TIERS;
+    return rewardTiersDescending;
   }, [isAuthenticated, hasActiveCredit]);
 
   const handleRedeem = async (points: number) => {
@@ -256,7 +258,7 @@ const CreditRedemption = ({
       )}
 
       <p className="text-[10px] text-muted-foreground/60 mt-3">
-        One credit per order. {selectedCredit ? `Max ${selectedCredit.max_percent}% of cart value.` : "Points are deducted at redemption."}
+        One credit per order. {selectedCredit ? "Credit can cover up to the full order total." : "Points are deducted at redemption."}
       </p>
     </div>
   );

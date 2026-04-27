@@ -16,27 +16,35 @@ const RewardsLadder = ({ balance, onRedeemed }: RewardsLadderProps) => {
   const handleRedeem = async (points: number) => {
     setRedeemingPoints(points);
 
-    const { data, error } = await supabase.functions.invoke("redeem-credit", {
-      body: { points },
-    });
+    try {
+      const { data, error } = await supabase.functions.invoke("redeem-credit", {
+        body: { points },
+      });
 
-    if (error || !data?.success) {
+      if (error || !data?.success) {
+        toast({
+          title: "Unable to redeem",
+          description: data?.error || error?.message || "Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      toast({
+        title: "Credit ready",
+        description: `${data.credit.amount ? `$${data.credit.amount}` : "Your"} credit is now available at checkout.`,
+      });
+
+      await onRedeemed?.();
+    } catch (error) {
       toast({
         title: "Unable to redeem",
-        description: data?.error || error?.message || "Please try again.",
+        description: error instanceof Error ? error.message : "Please try again.",
         variant: "destructive",
       });
+    } finally {
       setRedeemingPoints(null);
-      return;
     }
-
-    toast({
-      title: "Credit ready",
-      description: `${data.credit.amount ? `$${data.credit.amount}` : "Your"} credit is now available at checkout.`,
-    });
-
-    await onRedeemed?.();
-    setRedeemingPoints(null);
   };
 
   return (

@@ -61,12 +61,17 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
             src={image}
             alt={`${name} ${size} research material`}
             loading="lazy"
-            className="h-full w-full object-contain p-6"
+            className={`h-full w-full object-contain p-6 ${selected.outOfStock ? "opacity-40 grayscale" : ""}`}
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
             <FlaskConical size={48} className="text-muted-foreground/30" />
           </div>
+        )}
+        {selected.outOfStock && (
+          <span className="absolute left-3 top-3 rounded-md border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-amber-400">
+            Out of Stock
+          </span>
         )}
       </Link>
 

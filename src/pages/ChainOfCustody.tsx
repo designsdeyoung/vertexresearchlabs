@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { 
@@ -19,6 +20,19 @@ import {
 const ChainOfCustody = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <SEOHead
+        title="Peptide Chain of Custody | Batch Tracking & Traceability Documentation"
+        description="Full batch traceability for every Vertex Research Labs peptide. Lot numbers, storage records, independent testing chain, and complete documentation from synthesis to delivery."
+        canonical="/quality/chain-of-custody"
+        keywords={[
+          "peptide batch tracking",
+          "peptide lot number",
+          "research peptide traceability",
+          "peptide chain of custody",
+          "peptide documentation",
+          "research peptide batch record",
+        ]}
+      />
       <Header />
       
       <main className="flex-1 pt-24 pb-16">

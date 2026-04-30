@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { 
@@ -40,6 +41,21 @@ const Quality = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <SEOHead
+        title="Peptide Quality Standards | HPLC Testing, COAs & Batch Documentation"
+        description="Every Vertex Research Labs peptide is independently HPLC tested with ≥99% purity verification. View our testing methods, Certificates of Analysis, and chain-of-custody documentation."
+        canonical="/quality"
+        keywords={[
+          "peptide COA",
+          "peptide certificate of analysis",
+          "HPLC tested peptides",
+          "research peptide purity testing",
+          "peptide quality standards",
+          "99% purity peptides",
+          "independent peptide testing",
+          "peptide batch documentation",
+        ]}
+      />
       <Header />
       
       <main className="flex-1 pt-24 pb-16">

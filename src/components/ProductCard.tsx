@@ -14,13 +14,23 @@ import {
 
 interface ProductCardProps {
   product: Product;
+  /** All variants in the same group (including `product`). When length > 1,
+   *  size selector pills are shown and switching swaps image, price, and the
+   *  underlying product used for cart + detail link. */
+  variants?: Product[];
 }
 
 const formatPrice = (p: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(p);
 
-const ProductCard = ({ product }: ProductCardProps) => {
-  const { name, subtitle, size, price, purity, image, category } = product;
+const ProductCard = ({ product, variants }: ProductCardProps) => {
+  const allVariants =
+    variants && variants.length > 0 ? variants : [product];
+  const [selectedId, setSelectedId] = useState(product.id);
+  const selected =
+    allVariants.find((v) => v.id === selectedId) ?? allVariants[0];
+
+  const { name, subtitle, size, price, image, category } = selected;
   const { addItem, openCart } = useInquiryCart();
   const [subOpen, setSubOpen] = useState(false);
 
@@ -28,7 +38,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const subPrice = salePrice * (1 - AUTOSHIP_DISCOUNT);
 
   const handleAdd = (autoship: boolean) => {
-    addItem(product, { isAutoship: autoship });
+    addItem(selected, { isAutoship: autoship });
     toast({
       title: autoship ? "Subscription added" : "Added to cart",
       description: `${name} ${size}`,

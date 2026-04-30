@@ -57,6 +57,7 @@ export interface Product {
   coa?: string;
   references?: Reference[];
   isNew?: boolean;
+  outOfStock?: boolean;
 }
 
 export const products: Product[] = [

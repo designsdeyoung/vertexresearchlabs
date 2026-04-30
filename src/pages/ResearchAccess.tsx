@@ -106,7 +106,7 @@ const ResearchAccess = () => {
           {/* Items count */}
           {items.length > 0 && (
             <div className="flex items-center justify-between text-sm text-muted-foreground mb-5 px-1">
-              <span>{items.reduce((sum, item) => sum + item.quantity, 0)} item{items.length !== 1 ? "s" : ""} ready</span>
+              <span>{items.reduce((sum, item) => sum + item.quantity, 0)} item{items.reduce((sum, item) => sum + item.quantity, 0) !== 1 ? "s" : ""} ready</span>
               <button onClick={() => navigate("/")} className="text-primary hover:underline text-xs">
                 + Add more
               </button>

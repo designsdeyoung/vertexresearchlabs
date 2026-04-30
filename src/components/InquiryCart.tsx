@@ -103,7 +103,7 @@ const InquiryCart = () => {
             <div className="flex-1 overflow-y-auto mt-4 space-y-3">
               {items.map(item => (
                 <div
-                  key={item.product.id}
+                  key={`${item.product.id}-${item.is3Pack ? "3" : "1"}-${item.isAutoship ? "a" : "o"}`}
                   className="flex items-center gap-3 p-3 rounded-lg bg-secondary/30 border border-border/50"
                 >
                   {item.product.image && (
@@ -147,21 +147,21 @@ const InquiryCart = () => {
                   </div>
                   <div className="flex items-center gap-1">
                     <button
-                      onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                      onClick={() => updateQuantity(item.product.id, item.quantity - 1, item.is3Pack, item.isAutoship)}
                       className="p-1 rounded hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"
                     >
                       <Minus size={14} />
                     </button>
                     <span className="w-6 text-center text-sm">{item.quantity}</span>
                     <button
-                      onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                      onClick={() => updateQuantity(item.product.id, item.quantity + 1, item.is3Pack, item.isAutoship)}
                       className="p-1 rounded hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"
                     >
                       <Plus size={14} />
                     </button>
                   </div>
                   <button
-                    onClick={() => removeItem(item.product.id)}
+                    onClick={() => removeItem(item.product.id, item.is3Pack, item.isAutoship)}
                     className="p-1.5 rounded hover:bg-destructive/20 text-muted-foreground hover:text-destructive transition-colors"
                   >
                     <Trash2 size={14} />

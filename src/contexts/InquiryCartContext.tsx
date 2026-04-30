@@ -23,8 +23,8 @@ interface InquiryCartContextType {
   items: CartItem[];
   addItem: (product: Product, opts?: { isAutoship?: boolean }) => void;
   add3Pack: (product: Product, opts?: { isAutoship?: boolean; intervalDays?: number }) => void;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
+  removeItem: (productId: string, is3Pack?: boolean, isAutoship?: boolean) => void;
+  updateQuantity: (productId: string, quantity: number, is3Pack?: boolean, isAutoship?: boolean) => void;
   clearCart: () => void;
   isOpen: boolean;
   openCart: () => void;
@@ -97,18 +97,30 @@ export const InquiryCartProvider = ({ children }: { children: ReactNode }) => {
     });
   }, []);
 
-  const removeItem = useCallback((productId: string) => {
-    setItems((prev) => prev.filter((item) => item.product.id !== productId));
+  const removeItem = useCallback((productId: string, is3Pack?: boolean, isAutoship?: boolean) => {
+    setItems((prev) =>
+      prev.filter((item) => {
+        if (item.product.id !== productId) return true;
+        if (is3Pack !== undefined && !!item.is3Pack !== is3Pack) return true;
+        if (isAutoship !== undefined && !!item.isAutoship !== isAutoship) return true;
+        return false;
+      })
+    );
   }, []);
 
   const updateQuantity = useCallback(
-    (productId: string, quantity: number) => {
+    (productId: string, quantity: number, is3Pack?: boolean, isAutoship?: boolean) => {
       if (quantity <= 0) {
-        removeItem(productId);
+        removeItem(productId, is3Pack, isAutoship);
         return;
       }
       setItems((prev) =>
-        prev.map((item) => (item.product.id === productId ? { ...item, quantity } : item))
+        prev.map((item) => {
+          if (item.product.id !== productId) return item;
+          if (is3Pack !== undefined && !!item.is3Pack !== is3Pack) return item;
+          if (isAutoship !== undefined && !!item.isAutoship !== isAutoship) return item;
+          return { ...item, quantity };
+        })
       );
     },
     [removeItem]

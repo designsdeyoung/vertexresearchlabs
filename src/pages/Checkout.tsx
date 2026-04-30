@@ -659,7 +659,7 @@ const Checkout = () => {
                         </p>
                         <p className="text-xs text-muted-foreground">
                           {item.product.size} × {item.quantity}
-                          {item.isAutoship && " · every 30d"}
+                          {item.isAutoship && ` · every ${item.intervalDays ?? (item.is3Pack ? 90 : 30)}d`}
                         </p>
                       </div>
                       <span className="text-sm font-medium text-foreground">{formatPrice(computeUnitPrice(item) * item.quantity)}</span>

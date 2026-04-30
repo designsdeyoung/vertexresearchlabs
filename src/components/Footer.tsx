@@ -1,160 +1,115 @@
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border/50 py-12">
-      <div className="container mx-auto px-6">
-        {/* Main footer content */}
-        <div className="grid md:grid-cols-6 gap-8 mb-12">
+    <footer className="border-t border-border bg-background">
+      <div className="container mx-auto px-6 py-14">
+        <div className="grid gap-10 md:grid-cols-4">
           {/* Brand */}
-          <div className="md:col-span-2">
-            <div className="mb-4">
-              <Link to="/">
-                <img src={logo} alt="Vertex Research Labs" className="h-12 w-auto" />
-              </Link>
-            </div>
-            <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
-              High-purity peptide reference materials for laboratory research applications. 
-              All products are intended for research use only.
+          <div>
+            <Link to="/" className="inline-block">
+              <img src={logo} alt="Vertex Research Labs" className="h-10 w-auto" />
+            </Link>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
+              Research-grade materials for analytical applications.
             </p>
           </div>
 
-          {/* Quick links */}
+          {/* Products */}
           <div>
-            <h4 className="text-sm font-medium text-foreground mb-4">Quick Links</h4>
-            <ul className="space-y-2">
+            <h4 className="mb-3 font-display text-sm font-semibold text-foreground">Products</h4>
+            <ul className="space-y-2 text-sm">
               <li>
-                <a href="/#products" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Products
+                <a href="/#products" className="text-muted-foreground hover:text-foreground">
+                  Peptides
                 </a>
               </li>
               <li>
-                <Link to="/quality" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Quality & COA
+                <a href="/#products" className="text-muted-foreground hover:text-foreground">
+                  Heptapeptides
+                </a>
+              </li>
+              <li>
+                <a href="/#products" className="text-muted-foreground hover:text-foreground">
+                  Coenzymes
+                </a>
+              </li>
+              <li>
+                <a href="/#products" className="text-muted-foreground hover:text-foreground">
+                  Blends
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Company */}
+          <div>
+            <h4 className="mb-3 font-display text-sm font-semibold text-foreground">Company</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link to="/quality" className="text-muted-foreground hover:text-foreground">
+                  Quality
                 </Link>
               </li>
               <li>
-                <Link to="/shipping" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Shipping & Returns
+                <Link to="/shipping" className="text-muted-foreground hover:text-foreground">
+                  Shipping
                 </Link>
               </li>
               <li>
-                <Link to="/rewards" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Rewards Program
+                <Link to="/rewards" className="text-muted-foreground hover:text-foreground">
+                  Rewards
                 </Link>
               </li>
               <li>
-                <a href="/#contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a href="/#contact" className="text-muted-foreground hover:text-foreground">
                   Contact
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Research Library */}
-          <div>
-            <h4 className="text-sm font-medium text-foreground mb-4">Research Library</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/learn" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  All Articles
-                </Link>
-              </li>
-              <li>
-                <Link to="/learn/bpc-157-research-overview" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  BPC-157 Research
-                </Link>
-              </li>
-              <li>
-                <Link to="/learn/retatrutide-triple-agonist-research" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Retatrutide Research
-                </Link>
-              </li>
-              <li>
-                <Link to="/learn/how-to-read-peptide-coa" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  How to Read a COA
-                </Link>
-              </li>
-              <li>
-                <Link to="/learn/research-grade-peptide-purity-standards" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Purity Standards
-                </Link>
-              </li>
-            </ul>
-          </div>
-
           {/* Legal */}
           <div>
-            <h4 className="text-sm font-medium text-foreground mb-4">Legal</h4>
-            <ul className="space-y-2">
+            <h4 className="mb-3 font-display text-sm font-semibold text-foreground">Legal</h4>
+            <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/disclaimer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Disclaimer
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Terms & Conditions
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/privacy" className="text-muted-foreground hover:text-foreground">
                   Privacy Policy
                 </Link>
               </li>
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4 className="text-sm font-medium text-foreground mb-4">Contact</h4>
-            <ul className="space-y-2">
               <li>
-                <a href="mailto:info@vertexresearchlabs.com" className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
-                  <Mail size={14} className="flex-shrink-0" />
-                  <span>info@vertexresearchlabs.com</span>
-                </a>
+                <Link to="/terms" className="text-muted-foreground hover:text-foreground">
+                  Terms
+                </Link>
               </li>
               <li>
-                <a href="tel:727-295-1338" className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
-                  <Phone size={14} />
-                  (727) 295-1338
-                </a>
+                <Link to="/shipping" className="text-muted-foreground hover:text-foreground">
+                  Returns
+                </Link>
               </li>
               <li>
-                <div className="text-sm text-muted-foreground flex items-start gap-2">
-                  <MapPin size={14} className="mt-0.5 flex-shrink-0" />
-                  <span>
-                    1444 S Belcher RD STE C-103<br />
-                    Clearwater, FL 33764
-                  </span>
-                </div>
+                <Link to="/disclaimer" className="text-muted-foreground hover:text-foreground">
+                  Disclaimer
+                </Link>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Disclaimer */}
-        <div className="glass-card rounded-lg p-4 mb-8">
-          <p className="text-xs text-muted-foreground text-center leading-relaxed">
-            <strong className="text-foreground">Research Use Only:</strong> All products supplied by Vertex Research Labs are intended 
-            exclusively for laboratory research purposes. These materials are not intended for human or veterinary use, 
-            diagnostic applications, therapeutic purposes, or any form of consumption. By purchasing or using our products, 
-            you agree to use them solely for legitimate research activities.
+        {/* Compliance disclaimer */}
+        <div className="mt-12 border-t border-border pt-6">
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            All products sold by Vertex Research Labs are intended for laboratory research and
+            analytical applications only. Not for human consumption. Not for veterinary use.
+            Must be handled by qualified research personnel in appropriate laboratory settings.
+            These statements have not been evaluated by the FDA.
           </p>
-        </div>
-
-        {/* Copyright */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-border/50">
-          <p className="text-xs text-muted-foreground">
-            © {currentYear} Vertex Research Labs. All rights reserved.
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Reference materials for scientific research
+          <p className="mt-4 text-xs text-muted-foreground">
+            © {year} Vertex Research Labs. All rights reserved.
           </p>
         </div>
       </div>

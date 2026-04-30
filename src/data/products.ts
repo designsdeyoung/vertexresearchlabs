@@ -305,7 +305,7 @@ export const products: Product[] = [
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
-    image: nadPlusImage,
+    image: nadPlus1000Image,
     category: "Coenzyme",
     references: [
       {

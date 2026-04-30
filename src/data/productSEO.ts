@@ -148,7 +148,7 @@ export const productSEO: Record<string, ProductSEOData> = {
           "Phase 2 trial findings were published in the New England Journal of Medicine (Jastreboff AM et al., 2023), examining its metabolic receptor activity profile. This is among the most cited recent peptide research publications.",
       },
     ],
-    relatedProducts: ["bpc-157", "tesamorelin", "tesamorelin-10mg", "mots-c"],
+    relatedProducts: ["bpc-157", "tesamorelin", "mots-c"],
   },
 
   "bpc-157": {
@@ -585,7 +585,7 @@ export const productSEO: Record<string, ProductSEOData> = {
           "Kisspeptin binds the GPR54 receptor (also known as KISS1R). This interaction has been extensively studied in the context of GnRH pulse regulation in preclinical and clinical research.",
       },
     ],
-    relatedProducts: ["pt-141", "tesamorelin", "tesamorelin-10mg", "semax"],
+    relatedProducts: ["pt-141", "tesamorelin", "semax"],
   },
 
   "tesamorelin": {
@@ -636,7 +636,7 @@ export const productSEO: Record<string, ProductSEOData> = {
           "Yes. We offer a 10mg bulk format for researchers requiring larger quantities for extended protocols.",
       },
     ],
-    relatedProducts: ["tesamorelin-10mg", "cjc-ipa-blend", "mots-c", "kisspeptin"],
+    relatedProducts: ["cjc-ipa-blend", "mots-c", "kisspeptin"],
   },
 
   "pt-141": {
@@ -932,7 +932,7 @@ export const productSEO: Record<string, ProductSEOData> = {
           "The blend contains an equal 1:1 ratio — 5mg CJC-1295 (No DAC) and 5mg Ipamorelin per 10mg vial.",
       },
     ],
-    relatedProducts: ["tesamorelin", "tesamorelin-10mg", "mots-c", "wolverine-blend"],
+    relatedProducts: ["tesamorelin", "mots-c", "wolverine-blend"],
   },
 
   "bac-water-3ml": {

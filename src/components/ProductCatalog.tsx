@@ -40,7 +40,6 @@ const ProductCatalog = () => {
     "pt-141",
     "tb-500",
     "tesamorelin",
-    "tesamorelin-10mg",
     "ghk-cu-100",
     "mots-c-40",
     "glutathione",

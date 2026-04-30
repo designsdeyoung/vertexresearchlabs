@@ -176,6 +176,7 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
             </div>
           </CollapsibleContent>
         </Collapsible>
+        )}
       </div>
     </article>
   );

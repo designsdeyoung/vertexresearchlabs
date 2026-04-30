@@ -53,6 +53,7 @@ const Index = () => {
         <BundleSection />
         <TickerBar />
         <ProductCatalog />
+        <PuritySection />
         <ContactSection />
       </main>
       <Footer />

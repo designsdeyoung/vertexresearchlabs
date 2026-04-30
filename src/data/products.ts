@@ -602,6 +602,7 @@ export const products: Product[] = [
     disclaimer: "Not for human consumption or veterinary use.",
     image: epithalonImage,
     category: "Peptide",
+    outOfStock: true,
     references: [
       {
         authors: "Khavinson VK et al.",

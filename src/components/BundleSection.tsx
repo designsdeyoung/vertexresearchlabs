@@ -27,7 +27,7 @@ const BUNDLES: Bundle[] = [
     blurb:
       "The three compounds researchers add to nearly every order. Pre-bundled at a research-grade discount.",
     icon: Layers,
-    productIds: ["retatrutide", "ghk-cu", "bac-water-3ml"],
+    productIds: ["retatrutide", "ghk-cu", "bac-water-10ml"],
     bundleDiscountPct: 10,
   },
   {
@@ -47,7 +47,7 @@ const BUNDLES: Bundle[] = [
     blurb:
       "Curated reference compounds frequently cited together in published peptide methodology literature.",
     icon: FlaskConical,
-    productIds: ["mots-c", "cjc-ipa-blend", "wolverine-blend"],
+    productIds: ["mots-c", "cjc-ipa-blend", "wolverine-blend", "bac-water-10ml"],
     bundleDiscountPct: 10,
   },
 ];

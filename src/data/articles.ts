@@ -643,4 +643,413 @@ export const articles: Article[] = [
       "ghk-cu-copper-peptide-guide",
     ],
   },
+
+  {
+    slug: "tb-500-thymosin-beta-4-research",
+    title: "TB-500 (Thymosin Beta-4): Preclinical Research Overview",
+    metaTitle: "TB-500 Thymosin Beta-4 Research Overview | Vertex Research Labs",
+    metaDescription:
+      "Preclinical research overview of TB-500 (Thymosin Beta-4 Acetate). Covers actin-binding properties, cytoskeletal research, published literature, and why it is one of the most studied peptides in preclinical science.",
+    keywords: [
+      "TB-500 research",
+      "Thymosin Beta-4 research",
+      "TB-500 preclinical",
+      "Thymosin Beta-4 actin binding",
+      "TB-500 cytoskeletal research",
+      "Tβ4 published studies",
+      "TB-500 mechanism",
+      "Thymosin Beta-4 cell migration",
+    ],
+    publishedDate: "2025-02-25",
+    modifiedDate: "2025-04-01",
+    category: "Research Overview",
+    readTime: 7,
+    excerpt:
+      "TB-500 is the synthetic analog of Thymosin Beta-4 (Tβ4), a naturally occurring 43-amino-acid actin-binding peptide. It has one of the largest published preclinical research bodies of any peptide reference material, with studies appearing in FASEB Journal, Annals of the New York Academy of Sciences, and numerous other journals.",
+    sections: [
+      {
+        heading: "What Is TB-500?",
+        content:
+          "TB-500 is the synthetic form of the active region of Thymosin Beta-4 (Tβ4), a naturally occurring 43-amino-acid peptide encoded by the TMSB4X gene. Tβ4 is one of the most abundant intracellular peptides in eukaryotic cells and plays a central role in regulating actin polymerization. TB-500 as a research material is typically the 17-amino-acid fragment representing the actin-binding domain, though formulations may vary. Vertex Research Labs supplies TB-500 / Thymosin Beta-4 Acetate as the full-length synthetic equivalent.",
+        list: [
+          "Natural source: Encoded by the TMSB4X gene on the X chromosome",
+          "Length: 43 amino acids (Tβ4 full length) / 17 aa actin-binding fragment",
+          "Molecular weight (Tβ4 acetate): ~4963.5 Da",
+          "Primary function: Actin monomer (G-actin) sequestration",
+          "Intracellular abundance: One of the highest-concentration peptides in mammalian cells",
+        ],
+      },
+      {
+        heading: "Actin Biology and the Role of Thymosin Beta-4",
+        content:
+          "To understand TB-500 research, understanding actin biology is essential. Actin exists in two forms: monomeric G-actin (globular) and filamentous F-actin. The dynamic balance between G-actin and F-actin — controlled by proteins including Thymosin Beta-4 — regulates cell motility, shape, and cytoskeletal structure. Tβ4 acts as a G-actin sequestering protein, binding free actin monomers and modulating when and where new actin filaments can form. This places it at the center of cytoskeletal biology research.",
+      },
+      {
+        heading: "Published Research Highlights",
+        content:
+          "The Thymosin Beta-4 / TB-500 research literature is extensive. Key published works include foundational studies by Goldstein AL and colleagues in Annals of the New York Academy of Sciences (1997) characterizing the peptide's biological properties, and work by Philp D et al. in FASEB Journal (2011) examining cell migration models. Research by Huff T et al. and others has characterized the structural basis of actin binding at atomic resolution. All cited research is preclinical.",
+      },
+      {
+        heading: "Research Areas Covered in the Literature",
+        content:
+          "The published TB-500 / Tβ4 literature spans multiple research disciplines, reflecting the peptide's central role in cytoskeletal biology.",
+        list: [
+          "Actin polymerization dynamics and G-actin sequestration",
+          "Cell migration assays (scratch assays, transwell models)",
+          "Cardiac fibroblast and cardiomyocyte models",
+          "Corneal epithelial cell research",
+          "Tendon cell proliferation and migration in vitro",
+          "Angiogenesis models (endothelial cell tube formation)",
+        ],
+      },
+      {
+        heading: "TB-500 and BPC-157: Frequently Co-Researched",
+        content:
+          "TB-500 and BPC-157 are among the most frequently co-studied peptides in the preclinical literature. Researchers investigating cytoskeletal dynamics, tissue remodeling models, or growth factor signaling often use both as reference materials in parallel experimental arms. Vertex Research Labs offers both individually and as the Wolverine Blend (BPC-157 5mg + TB-500 5mg) for researchers who need both in a single verified vial.",
+      },
+      {
+        heading: "Disclaimer",
+        content:
+          "TB-500 / Thymosin Beta-4 Acetate reference materials from Vertex Research Labs are supplied for laboratory research use only. All research cited is preclinical. No claims regarding human therapeutic use are made. This material is not for human or veterinary use.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is TB-500 the same as Thymosin Beta-4?",
+        answer:
+          "TB-500 is the synthetic form associated with the actin-binding active region of Thymosin Beta-4 (Tβ4). The natural peptide is 43 amino acids; TB-500 may refer to the full synthetic equivalent or the active 17-amino-acid fragment depending on the formulation. Vertex Research Labs supplies TB-500 / Thymosin Beta-4 Acetate.",
+      },
+      {
+        question: "What makes TB-500 important in cytoskeletal research?",
+        answer:
+          "Thymosin Beta-4 is one of the primary G-actin sequestering proteins in eukaryotic cells, placing it at a central regulatory node in cytoskeletal dynamics. This makes it a highly relevant reference tool for any research involving cell motility, migration, or cytoskeletal remodeling.",
+      },
+      {
+        question: "What purity is research-grade TB-500?",
+        answer:
+          "Vertex Research Labs supplies TB-500 at ≥99% purity by HPLC with a batch-specific Certificate of Analysis. Given its larger molecular weight (~4963 Da), mass spectrometry identity confirmation is standard.",
+      },
+      {
+        question: "Can TB-500 and BPC-157 be ordered together?",
+        answer:
+          "Yes — they are available individually or as the Wolverine Blend (5mg BPC-157 + 5mg TB-500 in a single co-lyophilized vial) for researchers studying both peptides in the same protocol.",
+      },
+    ],
+    relatedProducts: ["tb-500", "bpc-157", "wolverine-blend"],
+    relatedSlugs: [
+      "bpc-157-research-overview",
+      "research-grade-peptide-purity-standards",
+      "how-to-read-peptide-coa",
+    ],
+  },
+
+  {
+    slug: "glp1-peptides-research-overview",
+    title: "GLP-1 Peptides in Research: Semaglutide, Tirzepatide, and Retatrutide",
+    metaTitle: "GLP-1 Peptides Research Overview: Semaglutide, Tirzepatide, Retatrutide | Vertex Research Labs",
+    metaDescription:
+      "Research overview of the GLP-1 peptide class: comparing Semaglutide, Tirzepatide, and Retatrutide as incretin receptor research tools. Covers receptor targets, structural differences, and published clinical data.",
+    keywords: [
+      "GLP-1 peptide research",
+      "Semaglutide research",
+      "Tirzepatide research",
+      "Retatrutide research",
+      "GLP-1 receptor agonist",
+      "incretin peptide research",
+      "GLP-1 GIP glucagon",
+      "GLP-1 peptide comparison",
+      "GLP-1 class peptides 2024 2025",
+      "trending peptide research",
+    ],
+    publishedDate: "2025-03-10",
+    modifiedDate: "2025-04-01",
+    category: "Research Overview",
+    readTime: 9,
+    excerpt:
+      "The GLP-1 peptide class has emerged as one of the most active areas in metabolic research. This overview compares Semaglutide, Tirzepatide, and Retatrutide as distinct research tools — covering their receptor targets, structural properties, and published clinical data.",
+    sections: [
+      {
+        heading: "The Incretin Hormone System",
+        content:
+          "GLP-1 (Glucagon-Like Peptide-1) is an incretin hormone secreted by intestinal L-cells in response to food intake. It stimulates insulin secretion, inhibits glucagon release, and slows gastric emptying in a glucose-dependent manner. GIP (Glucose-dependent Insulinotropic Polypeptide) is a related incretin hormone secreted by intestinal K-cells with complementary effects. Glucagon, secreted by pancreatic alpha-cells, counteracts insulin and promotes glucose production. The GLP-1 class of synthetic peptides mimics and extends the actions of these endogenous hormones, making them central tools in metabolic receptor research.",
+      },
+      {
+        heading: "Semaglutide: GLP-1R Mono-Agonist",
+        content:
+          "Semaglutide (brand names Ozempic, Wegovy, Rybelsus) is a GLP-1 receptor mono-agonist developed by Novo Nordisk. It consists of a 34-amino-acid sequence homologous to human GLP-1(7-37) with two substitutions and a C18 fatty diacid acylation at Lys26 for albumin binding and extended half-life. FDA-approved for type 2 diabetes management and chronic weight management, it is the reference compound for GLP-1R agonism research. As an approved drug it is not supplied by Vertex Research Labs, but understanding its pharmacology provides essential context for researchers studying the broader GLP-1 class.",
+        list: [
+          "Receptor: GLP-1R only (mono-agonist)",
+          "Half-life: ~1 week (albumin-bound)",
+          "Route of administration (clinical): Subcutaneous or oral",
+          "Approval status: FDA-approved (multiple indications)",
+        ],
+      },
+      {
+        heading: "Tirzepatide: GLP-1R / GIPR Dual Agonist",
+        content:
+          "Tirzepatide (Mounjaro, Zepbound) is a 39-amino-acid synthetic peptide developed by Eli Lilly that acts as a dual agonist at both GLP-1R and GIPR. Its C20 fatty diacid acylation provides extended half-life similar to Semaglutide. Phase 3 SURMOUNT trials published in NEJM (2022) established its clinical profile. For researchers, Tirzepatide's dual-receptor pharmacology makes it a useful comparator for studying synergistic incretin receptor signaling versus single-receptor activation.",
+        list: [
+          "Receptors: GLP-1R + GIPR (dual agonist)",
+          "Half-life: ~5 days",
+          "Approval status: FDA-approved (type 2 diabetes, obesity)",
+        ],
+      },
+      {
+        heading: "Retatrutide: GLP-1R / GIPR / GCGR Triple Agonist",
+        content:
+          "Retatrutide (LY3437943, Eli Lilly) extends the dual-agonism of Tirzepatide by adding full glucagon receptor (GCGR) agonism, creating the first triple-receptor incretin peptide to reach Phase 2 clinical trials. Phase 2 data published in NEJM (Jastreboff AM et al., 2023) reported the metabolic effects of multiple dose levels over 48 weeks. Retatrutide is investigational with no approved indication as of 2025 and is available from Vertex Research Labs as a research reference material.",
+        list: [
+          "Receptors: GLP-1R + GIPR + GCGR (triple agonist)",
+          "Status: Investigational (Phase 2 completed)",
+          "Key publication: NEJM 2023; 389:514–526",
+        ],
+      },
+      {
+        heading: "Comparative Receptor Profile Summary",
+        content:
+          "For researchers designing comparative studies of GLP-1 class peptides, this receptor target matrix provides a quick reference.",
+        list: [
+          "Semaglutide: GLP-1R ✓ | GIPR ✗ | GCGR ✗",
+          "Tirzepatide: GLP-1R ✓ | GIPR ✓ | GCGR ✗",
+          "Retatrutide: GLP-1R ✓ | GIPR ✓ | GCGR ✓",
+        ],
+      },
+      {
+        heading: "Research Applications",
+        content:
+          "For laboratory researchers, these peptides offer distinct tools for probing incretin biology. Retatrutide is the only one of the three available as a research reference material from Vertex Research Labs, as Semaglutide and Tirzepatide are FDA-approved drugs subject to different regulatory frameworks.",
+      },
+      {
+        heading: "Disclaimer",
+        content:
+          "This overview is for scientific reference only. No therapeutic claims are made for any compound discussed. Semaglutide and Tirzepatide are FDA-approved drugs not supplied by Vertex Research Labs. Retatrutide is supplied as a laboratory research reference material only and is not for human or veterinary use.",
+      },
+    ],
+    faqs: [
+      {
+        question: "What does GLP-1 stand for?",
+        answer:
+          "GLP-1 stands for Glucagon-Like Peptide-1. It is an endogenous incretin hormone secreted by intestinal L-cells in response to nutrient intake, involved in glucose-dependent insulin secretion.",
+      },
+      {
+        question: "What makes Retatrutide different from Tirzepatide?",
+        answer:
+          "Tirzepatide is a dual GLP-1R/GIPR agonist. Retatrutide adds full GCGR (glucagon receptor) agonism to that profile, creating a triple-receptor pharmacology. This additional receptor activity is the primary research interest distinguishing Retatrutide.",
+      },
+      {
+        question: "Can I buy Semaglutide or Tirzepatide as a research peptide?",
+        answer:
+          "Semaglutide and Tirzepatide are FDA-approved drugs and are not supplied by Vertex Research Labs. Retatrutide remains investigational and is available as a research reference material.",
+      },
+      {
+        question: "Where is the Retatrutide Phase 2 data published?",
+        answer:
+          "The Phase 2 trial data was published in the New England Journal of Medicine: Jastreboff AM et al., NEJM 2023; 389:514–526. DOI: 10.1056/NEJMoa2301972.",
+      },
+    ],
+    relatedProducts: ["retatrutide", "tesamorelin", "cjc-ipa-blend"],
+    relatedSlugs: [
+      "retatrutide-triple-agonist-research",
+      "research-grade-peptide-purity-standards",
+      "how-to-read-peptide-coa",
+    ],
+  },
+
+  {
+    slug: "research-grade-peptide-purity-standards",
+    title: "Research Grade Peptides: What Purity Standards Actually Mean",
+    metaTitle: "Research Grade Peptide Purity Standards Explained | Vertex Research Labs",
+    metaDescription:
+      "What does '≥99% purity' actually mean for research peptides? A clear explanation of HPLC purity grading, why it matters for reproducible research, and how to evaluate supplier quality claims.",
+    keywords: [
+      "research grade peptide purity",
+      "peptide purity standards",
+      "99% purity peptide meaning",
+      "HPLC peptide grade",
+      "research peptide quality",
+      "how pure should research peptides be",
+      "peptide purity vs research grade",
+      "best purity peptides for research",
+      "peptide supplier quality",
+    ],
+    publishedDate: "2025-03-15",
+    modifiedDate: "2025-04-01",
+    category: "Research Guide",
+    readTime: 6,
+    excerpt:
+      "The phrase 'research grade' is used widely in the peptide industry, but what does it actually mean? This guide demystifies purity grades, explains what HPLC purity numbers represent, and explains why purity matters for experimental reproducibility.",
+    sections: [
+      {
+        heading: "What Does 'Research Grade' Mean?",
+        content:
+          "Unlike pharmaceutical grade (which is governed by official pharmacopoeias such as USP or BP), 'research grade' is not a formally regulated term. In practice, however, the scientific community has converged on clear standards. Research-grade peptides are expected to meet ≥99% purity by HPLC, with confirmed molecular identity by mass spectrometry and full batch documentation. Materials below this threshold are generally considered substandard for use in peer-reviewed research where data reproducibility is required.",
+      },
+      {
+        heading: "Purity Grades Explained",
+        content:
+          "Peptide suppliers typically offer materials across several purity tiers. Understanding these helps researchers select the right material for their protocol.",
+        list: [
+          "≥95% purity: Minimum acceptable for exploratory screening; not suitable for publications",
+          "≥98% purity: Acceptable for some research applications; still carries meaningful impurity load",
+          "≥99% purity: The accepted research-grade standard; suitable for most published research protocols",
+          "≥99.5% purity: High-purity grade; preferred for sensitive assays or reference standard use",
+          "Pharmaceutical grade (USP/BP): Governed by official pharmacopoeias; not the same as research grade",
+        ],
+      },
+      {
+        heading: "Why Purity Matters for Research Reproducibility",
+        content:
+          "In a biological assay, a peptide at 95% purity contains 5% unknowns — synthesis byproducts, truncated sequences, oxidized variants, or residual reagents. In a cell culture experiment, these impurities can interact with receptors, enzymes, or signaling pathways, producing results that have nothing to do with the target peptide. This is a significant source of irreproducibility in peptide research. Using ≥99% purity material with confirmed identity eliminates the vast majority of this confounding factor.",
+      },
+      {
+        heading: "Common Impurities in Synthetic Peptides",
+        content:
+          "Solid-phase peptide synthesis (SPPS), the standard method for producing research peptides, generates characteristic impurity profiles that a high-quality HPLC analysis should resolve.",
+        list: [
+          "Deletion sequences (peptides missing one or more amino acids from incomplete coupling)",
+          "Truncated sequences (incomplete peptide chains from early termination)",
+          "Oxidized variants (methionine, cysteine, or tryptophan oxidation)",
+          "Racemized residues (D-amino acid incorporation during synthesis)",
+          "Residual protecting groups from SPPS chemistry",
+          "TFA salt (trifluoroacetate counter-ion from purification; can affect some biological assays)",
+        ],
+      },
+      {
+        heading: "How to Verify Purity Claims",
+        content:
+          "A supplier claiming ≥99% purity should be able to support that claim with documentation. The minimum acceptable evidence is a batch-specific HPLC chromatogram (not just a percentage number) from an independent laboratory, accompanied by mass spectrometry identity confirmation. Without these two pieces of evidence, a purity claim cannot be independently verified.",
+      },
+      {
+        heading: "Vertex Research Labs Quality Standard",
+        content:
+          "Every peptide supplied by Vertex Research Labs meets the ≥99% purity standard as verified by independent third-party HPLC analysis. Each batch ships with a Certificate of Analysis documenting the HPLC chromatogram, mass spectrometry identity confirmation, lot number, testing laboratory, and analysis date. We do not sell peptides without independent COA documentation.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is ≥99% purity enough for published research?",
+        answer:
+          "Yes — ≥99% purity by HPLC is the accepted standard for most peer-reviewed research protocols. For highly sensitive assays or reference standard applications, ≥99.5% may be preferred.",
+      },
+      {
+        question: "What is TFA salt and does it matter?",
+        answer:
+          "TFA (trifluoroacetic acid) is used in peptide purification and leaves a trifluoroacetate counter-ion on the final peptide salt. In most biological assays this is inconsequential, but TFA can be cytotoxic at higher concentrations. For sensitive cell culture assays at high peptide concentrations, acetate salt form peptides are preferable.",
+      },
+      {
+        question: "Can I use 95% purity peptides for research?",
+        answer:
+          "Technically yes, but the 5% impurity load introduces meaningful risk of confounding results, especially in receptor binding assays or cell-based studies. For any research intended for publication, ≥99% purity is the recommended minimum.",
+      },
+      {
+        question: "How do I know if a supplier's purity claim is real?",
+        answer:
+          "Request a batch-specific COA showing the HPLC chromatogram (not just the percentage number), the testing laboratory's name, and mass spectrometry data. If a supplier cannot provide these, their purity claim cannot be independently verified.",
+      },
+    ],
+    relatedProducts: ["bpc-157", "ghk-cu", "tb-500", "retatrutide"],
+    relatedSlugs: [
+      "how-to-read-peptide-coa",
+      "bpc-157-research-overview",
+      "ghk-cu-copper-peptide-guide",
+    ],
+  },
+
+  {
+    slug: "cjc-1295-ipamorelin-research",
+    title: "CJC-1295 and Ipamorelin: GH-Axis Research Tools Explained",
+    metaTitle: "CJC-1295 and Ipamorelin Research Overview: GHRH + GHS | Vertex Research Labs",
+    metaDescription:
+      "Research overview of CJC-1295 (No DAC) and Ipamorelin as complementary GH-axis research tools. Covers GHRH receptor vs GHS-R1a pharmacology, published studies, and why researchers use them together.",
+    keywords: [
+      "CJC-1295 research",
+      "Ipamorelin research",
+      "CJC-1295 Ipamorelin",
+      "GHRH analog research",
+      "GH secretagogue research",
+      "GHS-R1a agonist",
+      "CJC-1295 No DAC",
+      "growth hormone research peptide",
+      "CJC Ipamorelin blend research",
+      "GH axis peptide research",
+    ],
+    publishedDate: "2025-03-20",
+    modifiedDate: "2025-04-01",
+    category: "Research Overview",
+    readTime: 7,
+    excerpt:
+      "CJC-1295 (No DAC) and Ipamorelin represent two complementary entry points into GH-axis research — one targeting GHRH receptors, the other targeting GHS-R1a. Together they allow researchers to study synergistic GH secretagogue pathways using distinct but compatible receptor tools.",
+    sections: [
+      {
+        heading: "The GH Axis: Two Research-Relevant Pathways",
+        content:
+          "Growth hormone (GH) secretion from the anterior pituitary is regulated by two primary hypothalamic inputs: GHRH (Growth Hormone-Releasing Hormone), which stimulates GH release via GHRHR, and Somatostatin, which inhibits GH release. A third pathway involves Ghrelin, which stimulates GH via the GHS-R1a receptor. CJC-1295 acts on the GHRH receptor pathway; Ipamorelin acts on the GHS-R1a/ghrelin receptor pathway. This complementary receptor biology is the primary reason they are studied together.",
+      },
+      {
+        heading: "CJC-1295 (No DAC): A GHRH Analog",
+        content:
+          "CJC-1295 is a synthetic analog of GHRH, modified from the native 44-amino-acid sequence. The 'No DAC' designation refers to the absence of the Drug Affinity Complex — a reactive MPA (maleimidoproprionic acid) group that, in the DAC version, covalently binds to albumin for extended half-life. The No DAC variant has a shorter half-life more suitable for pulsatile GH secretion research protocols. Published pharmacokinetic data appeared in Journal of Clinical Endocrinology & Metabolism (Teichman SL et al., 2006).",
+        list: [
+          "Target receptor: GHRHR (Growth Hormone-Releasing Hormone Receptor)",
+          "Mechanism: GHRH receptor agonist",
+          "Key distinction: No DAC = shorter half-life, pulse-friendly",
+          "Published in: J Clin Endocrinol Metab 2006; 91:799–805",
+        ],
+      },
+      {
+        heading: "Ipamorelin: A Selective GH Secretagogue",
+        content:
+          "Ipamorelin is a synthetic pentapeptide (Aib-His-D-2-Nal-D-Phe-Lys-NH₂) that acts as a selective agonist at the GHS-R1a receptor — the ghrelin receptor. Research by Raun K et al. published in European Journal of Endocrinology (1998) characterized Ipamorelin as highly selective for GH release, with minimal stimulation of other pituitary hormones (ACTH, cortisol, prolactin) compared to earlier GH secretagogues like GHRP-6. This selectivity makes it a cleaner research tool for GH-axis studies.",
+        list: [
+          "Target receptor: GHS-R1a (Ghrelin receptor)",
+          "Mechanism: Selective GH secretagogue",
+          "Key selectivity: Minimal ACTH/cortisol stimulation vs GHRP-6",
+          "Published in: Eur J Endocrinol 1998; 139:552–561",
+        ],
+      },
+      {
+        heading: "Why Researchers Use CJC-1295 and Ipamorelin Together",
+        content:
+          "CJC-1295 and Ipamorelin target distinct but synergistic receptor pathways — GHRHR and GHS-R1a respectively. In preclinical models, co-administration of GHRH analogs and GH secretagogues has demonstrated additive GH secretion effects, as the two pathways converge on different intracellular signaling cascades (cAMP for GHRHR; IP3/PKC for GHS-R1a) within the same somatotroph cell. For researchers studying GH secretion dynamics, this makes the combination particularly informative.",
+      },
+      {
+        heading: "The CJC/IPA Blend from Vertex Research Labs",
+        content:
+          "Vertex Research Labs offers a pre-blended CJC/IPA Blend containing CJC-1295 (No DAC) 5mg and Ipamorelin 5mg in a single 10mg research vial. Both components are independently verified at ≥99% purity with a combined batch-specific COA. This format is designed for researchers who need both peptides simultaneously without managing two separate procurement and reconstitution workflows.",
+      },
+      {
+        heading: "Disclaimer",
+        content:
+          "CJC-1295 and Ipamorelin reference materials from Vertex Research Labs are supplied for laboratory research use only. Neither compound is FDA-approved. Published research cited is preclinical or early-phase clinical only. No health or therapeutic claims are made. Not for human or veterinary use.",
+      },
+    ],
+    faqs: [
+      {
+        question: "What is the difference between CJC-1295 with DAC and without DAC?",
+        answer:
+          "CJC-1295 with DAC contains a Drug Affinity Complex that covalently binds albumin, extending half-life to approximately 8 days. Without DAC, the half-life is approximately 30 minutes, similar to native GHRH. The No DAC form is preferred for research protocols studying pulsatile GH dynamics.",
+      },
+      {
+        question: "Why is Ipamorelin considered more selective than other GH secretagogues?",
+        answer:
+          "Ipamorelin was characterized in a 1998 European Journal of Endocrinology study as stimulating GH release with minimal stimulation of ACTH, cortisol, or prolactin — a cleaner profile than earlier secretagogues like GHRP-2 or GHRP-6, which significantly stimulate corticotropin release.",
+      },
+      {
+        question: "Are CJC-1295 and Ipamorelin available separately?",
+        answer:
+          "Yes — both are available individually. The CJC/IPA Blend (10mg, 1:1 ratio) is offered for researchers who need both in a single verified reference vial.",
+      },
+      {
+        question: "What purity is the CJC/IPA Blend?",
+        answer:
+          "Both CJC-1295 and Ipamorelin in the blend are independently verified at ≥99% purity. The blend ships with a Certificate of Analysis covering both components.",
+      },
+    ],
+    relatedProducts: ["cjc-ipa-blend", "tesamorelin", "tesamorelin-10mg", "mots-c"],
+    relatedSlugs: [
+      "retatrutide-triple-agonist-research",
+      "research-grade-peptide-purity-standards",
+      "how-to-read-peptide-coa",
+    ],
+  },
 ];

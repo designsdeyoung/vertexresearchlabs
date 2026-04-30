@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FileText, ExternalLink, FlaskConical, Plus, Sparkles, Package, Zap } from "lucide-react";
+import { FileText, ExternalLink, FlaskConical, Plus, Sparkles, Package, Zap, Repeat } from "lucide-react";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
-import { THREE_PACK_DISCOUNT } from "@/contexts/InquiryCartContext";
+import { THREE_PACK_DISCOUNT, AUTOSHIP_DISCOUNT } from "@/contexts/InquiryCartContext";
 import { SITEWIDE_SALE } from "@/config/sale";
 import { calculatePointsForPrice } from "@/hooks/useRewards";
 import type { Product } from "@/data/products";
@@ -15,6 +16,7 @@ interface ProductCardProps {
 const ProductCard = ({ product }: ProductCardProps) => {
   const { name, subtitle, size, price, description, purity, testing, documentation, intendedUse, disclaimer, image, category } = product;
   const { addItem, add3Pack, openCart } = useInquiryCart();
+  const [isAutoship, setIsAutoship] = useState(false);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {

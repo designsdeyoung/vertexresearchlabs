@@ -47,7 +47,7 @@ const BUNDLES: Bundle[] = [
     blurb:
       "Curated reference compounds frequently cited together in published peptide methodology literature.",
     icon: FlaskConical,
-    productIds: ["mots-c", "cjc-ipa-blend", "wolverine-blend"],
+    productIds: ["mots-c", "cjc-ipa-blend", "wolverine-blend", "bac-water-10ml"],
     bundleDiscountPct: 10,
   },
 ];

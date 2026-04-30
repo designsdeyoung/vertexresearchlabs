@@ -8,6 +8,7 @@ interface AutoshipLine {
   unitAmount: number; // in dollars, post all discounts (autoship + 3pack + sale)
   quantity: number;
   is3Pack: boolean;
+  intervalDays?: number; // 30 (default for singles) or 90 (3-Pack default)
 }
 
 interface OneTimeLine {

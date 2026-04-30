@@ -43,7 +43,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { hasAcknowledged, eligibilityType, resetCompliance } = useCompliance();
-  const { items, clearCart, subtotal, shippingCost, total, qualifiesForFreeShipping } = useInquiryCart();
+  const { items, clearCart, subtotal, shippingCost, total, qualifiesForFreeShipping, hasAutoship } = useInquiryCart();
   const { user, profile } = useAuth();
 
   const [selectedCredit, setSelectedCredit] = useState<ActiveCredit | null>(null);

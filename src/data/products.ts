@@ -458,6 +458,7 @@ export const products: Product[] = [
   },
   {
     id: "tesamorelin",
+    groupId: "tesamorelin",
     name: "Tesamorelin",
     subtitle: "Research Grade",
     size: "10mg",
@@ -485,6 +486,32 @@ export const products: Product[] = [
         year: 2007,
         title: "Tesamorelin GHRH Analog Studies",
         url: "https://www.nejm.org/doi/full/10.1056/NEJMoa072375"
+      }
+    ]
+  },
+  {
+    id: "tesamorelin-2mg",
+    groupId: "tesamorelin",
+    name: "Tesamorelin",
+    subtitle: "Research Grade",
+    size: "2mg",
+    price: 38,
+    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: tesamorelinImage,
+    category: "Peptide",
+    outOfStock: true,
+    references: [
+      {
+        authors: "Falutz J et al.",
+        journal: "AIDS",
+        year: 2007,
+        title: "Tesamorelin Clinical Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/18057338/"
       }
     ]
   },

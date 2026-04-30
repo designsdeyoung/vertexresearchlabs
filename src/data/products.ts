@@ -15,6 +15,7 @@ import nadPlusImage from "@/assets/products/nad-plus.png";
 import nadPlus1000Image from "@/assets/products/nad-plus-1000.png";
 import glutathioneImage from "@/assets/products/glutathione.png";
 import motsCImage from "@/assets/products/mots-c.png";
+import motsC40Image from "@/assets/products/mots-c-40.png";
 import kisspeptinImage from "@/assets/products/kisspeptin.png";
 import tesamorelinImage from "@/assets/products/tesamorelin.png";
 import pt141Image from "@/assets/products/pt-141.png";

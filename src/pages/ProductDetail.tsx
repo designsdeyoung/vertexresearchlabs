@@ -313,7 +313,7 @@ const ProductDetail = () => {
               {/* Subscribe */}
               <Collapsible open={subOpen} onOpenChange={setSubOpen} className="mt-4">
                 <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground hover:border-primary/30">
-                  <span>Subscribe & save 10%</span>
+                  <span>Subscribe & save extra 10% (stacks with 3-Pack & sale)</span>
                   <ChevronDown
                     size={14}
                     className={`transition-transform ${subOpen ? "rotate-180" : ""}`}

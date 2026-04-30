@@ -84,6 +84,8 @@ const ProductDetail = () => {
   const subPrice = salePrice * (1 - AUTOSHIP_DISCOUNT);
   const threePackUnit = salePrice * (1 - THREE_PACK_DISCOUNT);
   const threePackTotal = threePackUnit * 3;
+  const threePackSubUnit = threePackUnit * (1 - AUTOSHIP_DISCOUNT);
+  const threePackSubTotal = threePackSubUnit * 3;
 
   const handleAdd = () => {
     for (let i = 0; i < qty; i++) addItem(product, { isAutoship: false });
@@ -100,6 +102,12 @@ const ProductDetail = () => {
   const handle3Pack = () => {
     add3Pack(product, { isAutoship: false });
     toast({ title: "3-Pack added", description: `${name} × 3` });
+    openCart();
+  };
+
+  const handle3PackSubscribe = () => {
+    add3Pack(product, { isAutoship: true, intervalDays: THREE_PACK_AUTOSHIP_INTERVAL_DAYS });
+    toast({ title: "3-Pack subscription added", description: `${name} × 3 · every 90 days` });
     openCart();
   };
 

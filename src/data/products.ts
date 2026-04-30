@@ -529,6 +529,7 @@ export const products: Product[] = [
     disclaimer: "Not for human consumption or veterinary use.",
     image: pt141Image,
     category: "Peptide",
+    outOfStock: true,
     references: [
       {
         authors: "Kingsberg SA et al.",

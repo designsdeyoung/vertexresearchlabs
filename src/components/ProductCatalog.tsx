@@ -79,6 +79,7 @@ const ProductCatalog = () => {
         list = [...list].sort((a, b) => a.name.localeCompare(b.name));
         break;
       default:
+        list = [...list].sort((a, b) => rankOf(a.id) - rankOf(b.id));
         break;
     }
     return list;

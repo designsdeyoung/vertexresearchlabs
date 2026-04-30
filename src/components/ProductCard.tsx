@@ -99,10 +99,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground">{size} • {subtitle}</span>
             <div className="flex items-center gap-2">
-              {(product.originalPrice || SITEWIDE_SALE.active) && (
+              {(product.originalPrice || SITEWIDE_SALE.active || isAutoship) && (
                 <span className="text-sm text-muted-foreground line-through">{formatPrice(product.originalPrice || price)}</span>
               )}
-              <span className="text-lg font-semibold text-primary">{formatPrice(SITEWIDE_SALE.active ? salePrice : price)}</span>
+              <span className="text-lg font-semibold text-primary">{formatPrice(singleDisplayPrice)}</span>
               {SITEWIDE_SALE.active && (
                 <span className="text-[10px] font-bold text-destructive bg-destructive/10 px-1.5 py-0.5 rounded">-{SITEWIDE_SALE.discount * 100}%</span>
               )}
@@ -111,8 +111,42 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <div className="flex items-center gap-1 mt-1">
             <Sparkles size={10} className="text-primary/70" />
             <span className="text-[10px] text-primary/70 font-medium">
-              Earn {calculatePointsForPrice(price)} pts
+              Earn {calculatePointsForPrice(singleDisplayPrice) * (isAutoship ? 2 : 1)} pts{isAutoship ? " (2×)" : ""}
             </span>
+          </div>
+        </div>
+
+        {/* Subscribe & Save toggle */}
+        <div className="mb-3 p-3 rounded-lg border border-border/60 bg-secondary/20">
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => setIsAutoship(false)}
+              className={`text-left p-2 rounded-md border transition-all ${
+                !isAutoship
+                  ? "border-primary bg-primary/10"
+                  : "border-border/40 bg-background/30 hover:border-border"
+              }`}
+            >
+              <div className="text-xs font-semibold text-foreground">One-time</div>
+              <div className="text-[10px] text-muted-foreground">{formatPrice(salePrice)}</div>
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsAutoship(true)}
+              className={`text-left p-2 rounded-md border transition-all ${
+                isAutoship
+                  ? "border-primary bg-primary/10 shadow-[0_0_12px_-2px_hsl(var(--primary)/0.5)]"
+                  : "border-border/40 bg-background/30 hover:border-border"
+              }`}
+            >
+              <div className="flex items-center gap-1 text-xs font-semibold text-primary">
+                <Repeat size={11} /> Subscribe
+              </div>
+              <div className="text-[10px] text-muted-foreground">
+                {formatPrice(autoshipUnitPrice)} • every 30d • 2× pts
+              </div>
+            </button>
           </div>
         </div>
 

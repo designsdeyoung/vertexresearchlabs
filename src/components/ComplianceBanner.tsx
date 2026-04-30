@@ -14,7 +14,7 @@ const ComplianceBanner = () => {
   if (!visible) return null;
 
   return (
-    <div className="relative z-[60] w-full border-b border-border bg-background">
+    <div className="fixed left-0 right-0 top-0 z-[60] w-full border-b border-border bg-background">
       <div className="container mx-auto flex items-center justify-center gap-2 px-6 py-1.5 text-center">
         <span className="inline-block h-1.5 w-1.5 rounded-full bg-primary/80" aria-hidden />
         <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">

@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useCompliance } from "@/contexts/ComplianceContext";
-import { useInquiryCart } from "@/contexts/InquiryCartContext";
+import { useInquiryCart, computeUnitPrice } from "@/contexts/InquiryCartContext";
 import { FREE_SHIPPING_THRESHOLD, FLAT_RATE_SHIPPING } from "@/contexts/InquiryCartContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";
@@ -43,7 +43,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { hasAcknowledged, eligibilityType, resetCompliance } = useCompliance();
-  const { items, clearCart, subtotal, shippingCost, total, qualifiesForFreeShipping } = useInquiryCart();
+  const { items, clearCart, subtotal, shippingCost, total, qualifiesForFreeShipping, hasAutoship } = useInquiryCart();
   const { user, profile } = useAuth();
 
   const [selectedCredit, setSelectedCredit] = useState<ActiveCredit | null>(null);
@@ -213,7 +213,7 @@ const Checkout = () => {
     organization: "Other Research Organization",
   };
 
-  const handleContinueToPayment = (e: React.FormEvent) => {
+  const handleContinueToPayment = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!finalConfirmation) {
       toast({
@@ -223,6 +223,67 @@ const Checkout = () => {
       });
       return;
     }
+
+    // Autoship branch: redirect to Stripe Checkout (subscription mode)
+    if (hasAutoship) {
+      setIsSubmitting(true);
+      try {
+        const autoshipLines = items
+          .filter((i) => i.isAutoship)
+          .map((i) => ({
+            productId: i.product.id,
+            productName: i.product.name,
+            unitAmount: computeUnitPrice(i),
+            quantity: i.quantity,
+            is3Pack: !!i.is3Pack,
+          }));
+        const oneTimeLines = items
+          .filter((i) => !i.isAutoship)
+          .map((i) => ({
+            productId: i.product.id,
+            productName: i.product.name,
+            unitAmount: computeUnitPrice(i),
+            quantity: i.quantity,
+          }));
+
+        const origin = window.location.origin;
+        const { data, error } = await supabase.functions.invoke("create-subscription-checkout", {
+          body: {
+            email: formData.email,
+            customerName: formData.fullName,
+            autoshipLines,
+            oneTimeLines,
+            shippingAmount: effectiveShipping,
+            shippingAddress: {
+              line1: formData.addressLine1,
+              line2: formData.addressLine2,
+              city: formData.city,
+              state: formData.state,
+              postal_code: formData.zipCode,
+              country: formData.country,
+              phone: formData.phoneNumber,
+              organization: formData.organization,
+            },
+            successUrl: `${origin}/order-confirmation?autoship=1`,
+            cancelUrl: `${origin}/checkout`,
+          },
+        });
+        if (error || !data?.url) {
+          throw new Error(error?.message || "Could not start subscription checkout");
+        }
+        window.location.href = data.url;
+      } catch (err) {
+        console.error(err);
+        toast({
+          title: "Subscription error",
+          description: err instanceof Error ? err.message : "Please try again.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+      }
+      return;
+    }
+
     setShowPayment(true);
     // Scroll payment section into view
     setTimeout(() => {
@@ -527,7 +588,7 @@ const Checkout = () => {
                 {!showPayment ? (
                   <Button type="submit" variant="hero" size="xl" className="w-full" disabled={!isFormValid || isSubmitting}>
                     <CreditCard size={18} />
-                    {finalTotal === 0 ? "Complete Order" : "Continue to Payment"}
+                    {hasAutoship ? (isSubmitting ? "Redirecting…" : "Continue to Subscription Checkout") : (finalTotal === 0 ? "Complete Order" : "Continue to Payment")}
                   </Button>
                 ) : finalTotal === 0 ? (
                   <div id="stripe-payment-section" className="glass-card rounded-lg p-6 border-l-4 border-l-primary">
@@ -588,14 +649,19 @@ const Checkout = () => {
 
                 <div className="space-y-3 mb-6">
                   {items.map((item) => (
-                    <div key={item.product.id} className="flex justify-between items-start py-2 border-b border-border/30 last:border-0">
+                    <div key={`${item.product.id}-${item.is3Pack ? "3" : "1"}-${item.isAutoship ? "a" : "o"}`} className="flex justify-between items-start py-2 border-b border-border/30 last:border-0">
                       <div className="flex-1">
-                        <p className="text-sm font-medium text-foreground">{item.product.name}</p>
+                        <p className="text-sm font-medium text-foreground">
+                          {item.product.name}
+                          {item.isAutoship && <span className="ml-1.5 text-[10px] text-primary font-medium">· Autoship</span>}
+                          {item.is3Pack && <span className="ml-1.5 text-[10px] text-primary font-medium">· 3-Pack</span>}
+                        </p>
                         <p className="text-xs text-muted-foreground">
                           {item.product.size} × {item.quantity}
+                          {item.isAutoship && " · every 30d"}
                         </p>
                       </div>
-                      <span className="text-sm font-medium text-foreground">{formatPrice(item.product.price * item.quantity)}</span>
+                      <span className="text-sm font-medium text-foreground">{formatPrice(computeUnitPrice(item) * item.quantity)}</span>
                     </div>
                   ))}
                 </div>

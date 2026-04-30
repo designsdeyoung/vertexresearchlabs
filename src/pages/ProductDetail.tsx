@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
-import { THREE_PACK_DISCOUNT } from "@/contexts/InquiryCartContext";
+import { THREE_PACK_DISCOUNT, AUTOSHIP_DISCOUNT } from "@/contexts/InquiryCartContext";
 import { SITEWIDE_SALE } from "@/config/sale";
 import { toast } from "@/hooks/use-toast";
 import { 
@@ -18,7 +18,9 @@ import {
   CheckCircle2,
   BookOpen,
   ExternalLink,
-  Package
+  Package,
+  Repeat,
+  Sparkles
 } from "lucide-react";
 import {
   Dialog,
@@ -38,9 +40,10 @@ const ProductDetail = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
   const { addItem, add3Pack, openCart } = useInquiryCart();
-  
+  const [isAutoship, setIsAutoship] = useState(false);
+
   const product = products.find(p => p.id === productId);
-  
+
   if (!product) {
     return (
       <div className="min-h-screen bg-background flex flex-col">
@@ -62,25 +65,29 @@ const ProductDetail = () => {
   const { name, subtitle, description, purity, testing, documentation, intendedUse, disclaimer, image, category, coa, references, price } = product;
 
   const salePrice = SITEWIDE_SALE.active ? price * (1 - SITEWIDE_SALE.discount) : price;
-  const threePackUnitPrice = salePrice * (1 - THREE_PACK_DISCOUNT);
+  const autoshipUnitPrice = salePrice * (1 - AUTOSHIP_DISCOUNT);
+  const singleDisplayPrice = isAutoship ? autoshipUnitPrice : salePrice;
+  const threePackUnitPrice = salePrice * (1 - THREE_PACK_DISCOUNT) * (isAutoship ? (1 - AUTOSHIP_DISCOUNT) : 1);
   const threePackTotal = threePackUnitPrice * 3;
 
   const formatPrice = (p: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(p);
 
   const handleAddToCart = () => {
-    addItem(product);
+    addItem(product, { isAutoship });
     toast({
-      title: "Added to cart",
-      description: `${name} has been added to your list.`,
+      title: isAutoship ? "Autoship added" : "Added to cart",
+      description: isAutoship
+        ? `${name} — ships every 30 days, 10% off + 2× points.`
+        : `${name} has been added to your list.`,
     });
     openCart();
   };
 
   const handleAdd3Pack = () => {
-    add3Pack(product);
+    add3Pack(product, { isAutoship });
     toast({
-      title: "3-Pack added!",
-      description: `${name} × 3 added with 10% savings.`,
+      title: isAutoship ? "Autoship 3-Pack added" : "3-Pack added!",
+      description: `${name} × 3 added with 10% savings${isAutoship ? " + 10% autoship" : ""}.`,
     });
     openCart();
   };
@@ -191,15 +198,60 @@ const ProductDetail = () => {
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground text-lg">Price</span>
                   <div className="flex items-center gap-3">
-                    {SITEWIDE_SALE.active && (
+                    {(SITEWIDE_SALE.active || isAutoship) && (
                       <>
                         <span className="text-muted-foreground line-through text-lg">{formatPrice(price)}</span>
-                        <span className="text-xs font-bold text-destructive bg-destructive/10 px-2 py-1 rounded">-{SITEWIDE_SALE.discount * 100}%</span>
+                        {SITEWIDE_SALE.active && (
+                          <span className="text-xs font-bold text-destructive bg-destructive/10 px-2 py-1 rounded">-{SITEWIDE_SALE.discount * 100}%</span>
+                        )}
                       </>
                     )}
-                    <span className="text-2xl font-semibold text-primary">{formatPrice(salePrice)}</span>
+                    <span className="text-2xl font-semibold text-primary">{formatPrice(singleDisplayPrice)}</span>
                   </div>
                 </div>
+              </div>
+
+              {/* Subscribe & Save toggle */}
+              <div className="glass-card rounded-lg p-6 mb-6">
+                <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-3 flex items-center gap-2">
+                  <Repeat size={16} className="text-primary" />
+                  Purchase Option
+                </h2>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setIsAutoship(false)}
+                    className={`text-left p-4 rounded-lg border transition-all ${
+                      !isAutoship
+                        ? "border-primary bg-primary/10"
+                        : "border-border/50 bg-background/30 hover:border-border"
+                    }`}
+                  >
+                    <div className="text-sm font-semibold text-foreground mb-1">One-time</div>
+                    <div className="text-xs text-muted-foreground">{formatPrice(salePrice)}</div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsAutoship(true)}
+                    className={`text-left p-4 rounded-lg border transition-all ${
+                      isAutoship
+                        ? "border-primary bg-primary/10 shadow-[0_0_16px_-2px_hsl(var(--primary)/0.5)]"
+                        : "border-border/50 bg-background/30 hover:border-border"
+                    }`}
+                  >
+                    <div className="flex items-center gap-1 text-sm font-semibold text-primary mb-1">
+                      <Repeat size={12} /> Subscribe & Save
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      {formatPrice(autoshipUnitPrice)} • every 30d • 2× points
+                    </div>
+                  </button>
+                </div>
+                {isAutoship && (
+                  <p className="text-xs text-primary/80 mt-3 flex items-center gap-1">
+                    <Sparkles size={10} /> Cancel or skip anytime from your dashboard.
+                  </p>
+                )}
               </div>
 
               {/* 3-Pack Offer */}

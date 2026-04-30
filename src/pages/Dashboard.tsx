@@ -8,6 +8,7 @@ import PointsBalance from "@/components/dashboard/PointsBalance";
 import RewardsLadder from "@/components/dashboard/RewardsLadder";
 import ReferralSection from "@/components/dashboard/ReferralSection";
 import OrderHistory from "@/components/dashboard/OrderHistory";
+import SubscriptionsList from "@/components/dashboard/SubscriptionsList";
 import { Button } from "@/components/ui/button";
 import { Sparkles, LogOut } from "lucide-react";
 
@@ -118,6 +119,11 @@ const Dashboard = () => {
               profileId={profile.id}
             />
             <OrderHistory orders={orders} />
+          </div>
+
+          {/* Subscriptions */}
+          <div className="mt-8">
+            <SubscriptionsList profileId={profile.id} />
           </div>
 
           {/* Recent Activity */}

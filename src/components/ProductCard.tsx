@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FileText, ExternalLink, FlaskConical, Plus, Sparkles, Package, Zap } from "lucide-react";
+import { FileText, ExternalLink, FlaskConical, Plus, Sparkles, Package, Zap, Repeat } from "lucide-react";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
-import { THREE_PACK_DISCOUNT } from "@/contexts/InquiryCartContext";
+import { THREE_PACK_DISCOUNT, AUTOSHIP_DISCOUNT } from "@/contexts/InquiryCartContext";
 import { SITEWIDE_SALE } from "@/config/sale";
 import { calculatePointsForPrice } from "@/hooks/useRewards";
 import type { Product } from "@/data/products";
@@ -15,6 +16,7 @@ interface ProductCardProps {
 const ProductCard = ({ product }: ProductCardProps) => {
   const { name, subtitle, size, price, description, purity, testing, documentation, intendedUse, disclaimer, image, category } = product;
   const { addItem, add3Pack, openCart } = useInquiryCart();
+  const [isAutoship, setIsAutoship] = useState(false);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -24,23 +26,27 @@ const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   const salePrice = SITEWIDE_SALE.active ? price * (1 - SITEWIDE_SALE.discount) : price;
-  const threePackUnitPrice = salePrice * (1 - THREE_PACK_DISCOUNT);
+  const autoshipUnitPrice = salePrice * (1 - AUTOSHIP_DISCOUNT);
+  const threePackUnitPrice = salePrice * (1 - THREE_PACK_DISCOUNT) * (isAutoship ? (1 - AUTOSHIP_DISCOUNT) : 1);
   const threePackTotal = threePackUnitPrice * 3;
+  const singleDisplayPrice = isAutoship ? autoshipUnitPrice : salePrice;
 
   const handleAddToCart = () => {
-    addItem(product);
+    addItem(product, { isAutoship });
     toast({
-      title: "Added to cart",
-      description: `${name} has been added to your list.`,
+      title: isAutoship ? "Autoship added" : "Added to cart",
+      description: isAutoship
+        ? `${name} — ships every 30 days, 10% off + 2× points.`
+        : `${name} has been added to your list.`,
     });
     openCart();
   };
 
   const handleAdd3Pack = () => {
-    add3Pack(product);
+    add3Pack(product, { isAutoship });
     toast({
-      title: "3-Pack added!",
-      description: `${name} × 3 added with 10% savings.`,
+      title: isAutoship ? "Autoship 3-Pack added" : "3-Pack added!",
+      description: `${name} × 3 added with 10% savings${isAutoship ? " + 10% autoship" : ""}.`,
     });
     openCart();
   };
@@ -93,10 +99,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground">{size} • {subtitle}</span>
             <div className="flex items-center gap-2">
-              {(product.originalPrice || SITEWIDE_SALE.active) && (
+              {(product.originalPrice || SITEWIDE_SALE.active || isAutoship) && (
                 <span className="text-sm text-muted-foreground line-through">{formatPrice(product.originalPrice || price)}</span>
               )}
-              <span className="text-lg font-semibold text-primary">{formatPrice(SITEWIDE_SALE.active ? salePrice : price)}</span>
+              <span className="text-lg font-semibold text-primary">{formatPrice(singleDisplayPrice)}</span>
               {SITEWIDE_SALE.active && (
                 <span className="text-[10px] font-bold text-destructive bg-destructive/10 px-1.5 py-0.5 rounded">-{SITEWIDE_SALE.discount * 100}%</span>
               )}
@@ -105,8 +111,42 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <div className="flex items-center gap-1 mt-1">
             <Sparkles size={10} className="text-primary/70" />
             <span className="text-[10px] text-primary/70 font-medium">
-              Earn {calculatePointsForPrice(price)} pts
+              Earn {calculatePointsForPrice(singleDisplayPrice) * (isAutoship ? 2 : 1)} pts{isAutoship ? " (2×)" : ""}
             </span>
+          </div>
+        </div>
+
+        {/* Subscribe & Save toggle */}
+        <div className="mb-3 p-3 rounded-lg border border-border/60 bg-secondary/20">
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => setIsAutoship(false)}
+              className={`text-left p-2 rounded-md border transition-all ${
+                !isAutoship
+                  ? "border-primary bg-primary/10"
+                  : "border-border/40 bg-background/30 hover:border-border"
+              }`}
+            >
+              <div className="text-xs font-semibold text-foreground">One-time</div>
+              <div className="text-[10px] text-muted-foreground">{formatPrice(salePrice)}</div>
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsAutoship(true)}
+              className={`text-left p-2 rounded-md border transition-all ${
+                isAutoship
+                  ? "border-primary bg-primary/10 shadow-[0_0_12px_-2px_hsl(var(--primary)/0.5)]"
+                  : "border-border/40 bg-background/30 hover:border-border"
+              }`}
+            >
+              <div className="flex items-center gap-1 text-xs font-semibold text-primary">
+                <Repeat size={11} /> Subscribe
+              </div>
+              <div className="text-[10px] text-muted-foreground">
+                {formatPrice(autoshipUnitPrice)} • every 30d • 2× pts
+              </div>
+            </button>
           </div>
         </div>
 

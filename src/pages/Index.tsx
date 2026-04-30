@@ -4,6 +4,7 @@ import ComplianceBanner from "@/components/ComplianceBanner";
 import Hero from "@/components/Hero";
 import TrustBar from "@/components/TrustBar";
 import BundleSection from "@/components/BundleSection";
+import BestSellersShowcase from "@/components/BestSellersShowcase";
 import ProductCatalog from "@/components/ProductCatalog";
 import TickerBar from "@/components/TickerBar";
 import PuritySection from "@/components/PuritySection";
@@ -50,6 +51,7 @@ const Index = () => {
       <main className="flex-1">
         <Hero />
         <TrustBar />
+        <BestSellersShowcase />
         <BundleSection />
         <TickerBar />
         <ProductCatalog />

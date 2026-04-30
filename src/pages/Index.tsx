@@ -6,6 +6,7 @@ import TrustBar from "@/components/TrustBar";
 import BundleSection from "@/components/BundleSection";
 import ProductCatalog from "@/components/ProductCatalog";
 import TickerBar from "@/components/TickerBar";
+import PuritySection from "@/components/PuritySection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 

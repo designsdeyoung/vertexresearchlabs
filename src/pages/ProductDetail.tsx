@@ -18,7 +18,8 @@ import {
   CheckCircle2,
   BookOpen,
   ExternalLink,
-  Package
+  Package,
+  Repeat
 } from "lucide-react";
 import {
   Dialog,

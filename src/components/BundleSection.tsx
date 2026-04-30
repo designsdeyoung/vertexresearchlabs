@@ -134,7 +134,7 @@ const BundleSection = () => {
                         <img
                           src={p.image}
                           alt={p.name}
-                          className="h-full w-full object-contain p-1.5"
+                          className="h-full w-full object-contain object-center scale-[1.5]"
                           loading="lazy"
                         />
                       ) : (

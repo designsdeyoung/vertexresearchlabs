@@ -61,7 +61,7 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
             src={image}
             alt={`${name} ${size} research material`}
             loading="lazy"
-            className={`h-full w-full object-contain p-6 ${selected.outOfStock ? "opacity-40 grayscale" : ""}`}
+            className={`h-full w-full object-contain object-center scale-[1.6] transition-transform duration-300 group-hover:scale-[1.7] ${selected.outOfStock ? "opacity-40 grayscale" : ""}`}
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">

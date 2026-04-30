@@ -192,20 +192,42 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
           </CollapsibleTrigger>
           <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
             <div className="mt-2 space-y-2 rounded-md border border-border bg-background/40 p-3">
-              <p className="text-xs text-muted-foreground">
-                <span className="font-mono font-medium text-foreground">
-                  {formatPrice(subPrice)}
-                </span>{" "}
-                / 30 days · Cancel anytime · Extra 10% off even on 3-Packs
-              </p>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => handleAdd(true)}
-                className="h-9 w-full border-primary/40 text-primary hover:bg-primary/10 hover:text-primary"
-              >
-                Subscribe — {formatPrice(subPrice)}/mo
-              </Button>
+              {/* 30-day single */}
+              <div className="space-y-2">
+                <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Single · every 30 days</p>
+                <p className="text-xs text-muted-foreground">
+                  <span className="font-mono font-medium text-foreground">{formatPrice(subPrice)}</span>{" "}
+                  / 30 days · Cancel anytime
+                </p>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleAdd(true)}
+                  className="h-9 w-full border-primary/40 text-primary hover:bg-primary/10 hover:text-primary"
+                >
+                  Subscribe — {formatPrice(subPrice)}/mo
+                </Button>
+              </div>
+
+              {/* Divider */}
+              <div className="border-t border-border/60" />
+
+              {/* 90-day 3-Pack */}
+              <div className="space-y-2">
+                <p className="text-[11px] font-medium uppercase tracking-wider text-primary">3-Pack · every 90 days</p>
+                <p className="text-xs text-muted-foreground">
+                  <span className="font-mono font-medium text-foreground">{formatPrice(threePackSubTotal)}</span>{" "}
+                  / 90 days · {formatPrice(threePackSubUnit)} ea · Stacks 3-Pack 10% + Subscribe 10%
+                </p>
+                <Button
+                  size="sm"
+                  onClick={handle3PackSubscribe}
+                  className="h-9 w-full bg-primary/90 text-primary-foreground hover:bg-primary"
+                >
+                  <Package size={13} className="mr-1.5" />
+                  Subscribe 3-Pack — {formatPrice(threePackSubTotal)}/90d
+                </Button>
+              </div>
             </div>
           </CollapsibleContent>
         </Collapsible>

@@ -13,6 +13,7 @@ import semaxImage from "@/assets/products/semax.png";
 import selankImage from "@/assets/products/selank.png";
 import nadPlusImage from "@/assets/products/nad-plus.png";
 import nadPlus1000Image from "@/assets/products/nad-plus-1000.png";
+import glutathioneImage from "@/assets/products/glutathione.png";
 import motsCImage from "@/assets/products/mots-c.png";
 import kisspeptinImage from "@/assets/products/kisspeptin.png";
 import tesamorelinImage from "@/assets/products/tesamorelin.png";

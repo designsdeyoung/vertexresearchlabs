@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { products } from "@/data/products";
+import { productSEO } from "@/data/productSEO";
+import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -43,6 +45,7 @@ const ProductDetail = () => {
   const [isAutoship, setIsAutoship] = useState(false);
 
   const product = products.find(p => p.id === productId);
+  const seo = productId ? productSEO[productId] : undefined;
 
   if (!product) {
     return (
@@ -92,10 +95,65 @@ const ProductDetail = () => {
     openCart();
   };
 
+  const BASE_URL = "https://vertexresearchlabs.com";
+
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: `${name} ${product.size} – Research Grade`,
+    description: seo?.metaDescription ?? product.description,
+    brand: { "@type": "Brand", name: "Vertex Research Labs" },
+    sku: product.id,
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "USD",
+      price: product.price.toFixed(2),
+      availability: "https://schema.org/InStock",
+      url: `${BASE_URL}/product/${product.id}`,
+      seller: { "@type": "Organization", name: "Vertex Research Labs" },
+    },
+    additionalProperty: [
+      { "@type": "PropertyValue", name: "Purity", value: product.purity },
+      { "@type": "PropertyValue", name: "Size", value: product.size },
+      { "@type": "PropertyValue", name: "Testing", value: product.testing },
+      { "@type": "PropertyValue", name: "Intended Use", value: product.intendedUse },
+    ],
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
+      { "@type": "ListItem", position: 2, name: "Catalog", item: `${BASE_URL}/#products` },
+      { "@type": "ListItem", position: 3, name: name, item: `${BASE_URL}/product/${product.id}` },
+    ],
+  };
+
+  const faqSchema = seo?.faqs?.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: seo.faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.answer },
+        })),
+      }
+    : null;
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <SEOHead
+        title={seo?.metaTitle ?? `${name} ${product.size} | Research Grade Peptide`}
+        description={seo?.metaDescription ?? product.description}
+        canonical={`/product/${product.id}`}
+        ogType="product"
+        keywords={seo?.keywords ?? []}
+        jsonLd={[productSchema, breadcrumbSchema, ...(faqSchema ? [faqSchema] : [])]}
+      />
       <Header />
-      
+
       <main className="flex-1 pt-24 pb-16">
         <div className="container mx-auto px-6">
           {/* Back button */}
@@ -325,9 +383,45 @@ const ProductDetail = () => {
             </div>
           </div>
 
+          {/* Research Summary */}
+          {seo?.researchSummary && (
+            <div className="mt-16 glass-card rounded-xl border-border/50 p-6">
+              <h2 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
+                <BookOpen size={20} className="text-primary" />
+                Research Overview
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">{seo.researchSummary}</p>
+            </div>
+          )}
+
+          {/* FAQ Section */}
+          {seo?.faqs && seo.faqs.length > 0 && (
+            <div className="mt-8">
+              <h2 className="text-xl font-semibold text-foreground mb-4">
+                Frequently Asked Questions — {name}
+              </h2>
+              <Accordion type="multiple" className="w-full space-y-2">
+                {seo.faqs.map((faq, i) => (
+                  <AccordionItem
+                    key={i}
+                    value={`faq-${i}`}
+                    className="glass-card rounded-xl border-border/50 px-6"
+                  >
+                    <AccordionTrigger className="hover:no-underline text-left py-4">
+                      <span className="font-medium text-foreground">{faq.question}</span>
+                    </AccordionTrigger>
+                    <AccordionContent className="pb-4">
+                      <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          )}
+
           {/* Selected Research & References Section */}
           {references && references.length > 0 && (
-            <div className="mt-16">
+            <div className="mt-8">
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="references" className="glass-card rounded-xl border-border/50">
                   <AccordionTrigger className="px-6 py-4 hover:no-underline">

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { 
@@ -17,8 +18,22 @@ import {
 const Methods = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <SEOHead
+        title="Peptide Testing Methods | HPLC, GC-MS, Sterility & Identity Testing"
+        description="Learn how Vertex Research Labs tests every peptide batch: HPLC purity analysis, GC-MS identity confirmation, sterility testing, and full batch documentation protocols."
+        canonical="/quality/methods"
+        keywords={[
+          "peptide HPLC testing",
+          "peptide purity analysis",
+          "GC-MS peptide identity",
+          "research peptide testing methods",
+          "how to read peptide COA",
+          "peptide sterility testing",
+          "independent peptide testing lab",
+        ]}
+      />
       <Header />
-      
+
       <main className="flex-1 pt-24 pb-16">
         <div className="container mx-auto px-6">
           {/* Breadcrumb */}

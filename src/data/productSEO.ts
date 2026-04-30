@@ -639,35 +639,6 @@ export const productSEO: Record<string, ProductSEOData> = {
     relatedProducts: ["tesamorelin-10mg", "cjc-ipa-blend", "mots-c", "kisspeptin"],
   },
 
-  "tesamorelin-10mg": {
-    metaTitle: "Tesamorelin 10mg | ≥99% Purity Bulk GHRH Analog Research Peptide",
-    metaDescription:
-      "Buy Tesamorelin 10mg bulk research peptide. ≥99% purity, HPLC verified, COA included. Best value GHRH analog reference material for extended laboratory protocols.",
-    keywords: [
-      "Tesamorelin 10mg",
-      "bulk Tesamorelin",
-      "buy Tesamorelin 10mg",
-      "GHRH analog bulk research",
-      "Tesamorelin bulk research grade",
-      "high purity Tesamorelin 10mg",
-    ],
-    researchSummary:
-      "The 10mg bulk format of Tesamorelin is designed for extended research protocols requiring consistent GHRH analog reference material. Identical ≥99% purity standard to the 2mg format with batch-specific COA documentation.",
-    faqs: [
-      {
-        question: "Why choose the 10mg Tesamorelin over the 2mg?",
-        answer:
-          "The 10mg format provides better per-milligram value for larger studies or longitudinal research protocols requiring repeated use of Tesamorelin reference material.",
-      },
-      {
-        question: "Is the purity the same as the 2mg size?",
-        answer:
-          "Yes. Both sizes are verified at ≥99% purity with independent batch Certificates of Analysis.",
-      },
-    ],
-    relatedProducts: ["tesamorelin", "cjc-ipa-blend", "mots-c"],
-  },
-
   "pt-141": {
     metaTitle: "PT-141 (Bremelanotide) 10mg | ≥99% Purity Research Peptide",
     metaDescription:

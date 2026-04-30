@@ -14,22 +14,24 @@ const ComplianceBanner = () => {
   if (!visible) return null;
 
   return (
-    <div className="relative z-[60] w-full border-b border-amber-800/30 bg-amber-950/40 backdrop-blur-sm">
-      <div className="container mx-auto flex items-center justify-center gap-3 px-6 py-2 text-center">
-        <p className="text-[13px] leading-snug text-amber-300">
-          All products are research materials for laboratory and analytical use only.
-          Not for human consumption. For licensed researchers only.
+    <div className="relative z-[60] w-full border-b border-border bg-background">
+      <div className="container mx-auto flex items-center justify-center gap-2 px-6 py-1.5 text-center">
+        <span className="inline-block h-1.5 w-1.5 rounded-full bg-primary/80" aria-hidden />
+        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+          Research Use Only
+          <span className="mx-2 text-border">·</span>
+          Not for human or veterinary use
         </p>
         <button
           type="button"
-          aria-label="Dismiss compliance notice"
+          aria-label="Dismiss notice"
           onClick={() => {
             localStorage.setItem(STORAGE_KEY, "1");
             setVisible(false);
           }}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-amber-400/70 transition-colors hover:text-amber-200"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground/60 transition-colors hover:text-foreground"
         >
-          <X size={14} />
+          <X size={12} />
         </button>
       </div>
     </div>

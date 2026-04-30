@@ -158,9 +158,24 @@ const ProductCatalog = () => {
         {/* Grid */}
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {(() => {
+              // Group variants by groupId; preserve original order using the
+              // first occurrence of each group.
+              const seen = new Set<string>();
+              const cards: { key: string; variants: typeof filteredProducts }[] = [];
+              for (const p of filteredProducts) {
+                const key = p.groupId ?? p.id;
+                if (seen.has(key)) continue;
+                seen.add(key);
+                const variants = p.groupId
+                  ? filteredProducts.filter((x) => x.groupId === p.groupId)
+                  : [p];
+                cards.push({ key, variants });
+              }
+              return cards.map(({ key, variants }) => (
+                <ProductCard key={key} product={variants[0]} variants={variants} />
+              ));
+            })()}
           </div>
         ) : (
           <div className="py-16 text-center">

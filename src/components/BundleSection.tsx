@@ -203,9 +203,9 @@ const BundleSection = () => {
           })}
         </div>
 
-        {/* Compliance footnote */}
-        <p className="mt-8 text-center font-mono text-[10px] uppercase tracking-wider text-muted-foreground/70">
-          For laboratory research use only · Not for human or veterinary use
+        {/* Compact compliance mark */}
+        <p className="mt-10 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/60">
+          Research Use Only
         </p>
       </div>
     </section>

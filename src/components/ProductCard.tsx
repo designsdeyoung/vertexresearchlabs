@@ -14,13 +14,23 @@ import {
 
 interface ProductCardProps {
   product: Product;
+  /** All variants in the same group (including `product`). When length > 1,
+   *  size selector pills are shown and switching swaps image, price, and the
+   *  underlying product used for cart + detail link. */
+  variants?: Product[];
 }
 
 const formatPrice = (p: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(p);
 
-const ProductCard = ({ product }: ProductCardProps) => {
-  const { name, subtitle, size, price, purity, image, category } = product;
+const ProductCard = ({ product, variants }: ProductCardProps) => {
+  const allVariants =
+    variants && variants.length > 0 ? variants : [product];
+  const [selectedId, setSelectedId] = useState(product.id);
+  const selected =
+    allVariants.find((v) => v.id === selectedId) ?? allVariants[0];
+
+  const { name, subtitle, size, price, image, category } = selected;
   const { addItem, openCart } = useInquiryCart();
   const [subOpen, setSubOpen] = useState(false);
 
@@ -28,7 +38,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const subPrice = salePrice * (1 - AUTOSHIP_DISCOUNT);
 
   const handleAdd = (autoship: boolean) => {
-    addItem(product, { isAutoship: autoship });
+    addItem(selected, { isAutoship: autoship });
     toast({
       title: autoship ? "Subscription added" : "Added to cart",
       description: `${name} ${size}`,
@@ -42,9 +52,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
     >
       {/* Image */}
       <Link
-        to={`/product/${product.id}`}
+        to={`/product/${selected.id}`}
         className="relative block h-[200px] overflow-hidden rounded-t-xl bg-background/40"
-        aria-label={`View ${name} details`}
+        aria-label={`View ${name} ${size} details`}
       >
         {image ? (
           <img
@@ -75,7 +85,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         {/* Name */}
         <div>
           <h3 className="font-display text-base font-semibold text-foreground">
-            <Link to={`/product/${product.id}`} className="hover:text-primary transition-colors">
+            <Link to={`/product/${selected.id}`} className="hover:text-primary transition-colors">
               {name}
             </Link>
           </h3>
@@ -86,6 +96,30 @@ const ProductCard = ({ product }: ProductCardProps) => {
             {size} · Research Grade
           </p>
         </div>
+
+        {/* Size variant pills */}
+        {allVariants.length > 1 && (
+          <div className="flex flex-wrap gap-1.5">
+            {allVariants.map((v) => {
+              const active = v.id === selected.id;
+              return (
+                <button
+                  key={v.id}
+                  type="button"
+                  onClick={() => setSelectedId(v.id)}
+                  aria-pressed={active}
+                  className={`rounded-md border px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider transition-colors ${
+                    active
+                      ? "border-primary/60 bg-primary/10 text-primary"
+                      : "border-border bg-transparent text-muted-foreground hover:border-primary/30 hover:text-foreground"
+                  }`}
+                >
+                  {v.size}
+                </button>
+              );
+            })}
+          </div>
+        )}
 
         {/* Price */}
         <div className="mt-auto flex items-baseline gap-2 pt-1">

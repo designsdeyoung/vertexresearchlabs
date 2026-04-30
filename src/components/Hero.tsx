@@ -34,8 +34,8 @@ const Hero = () => {
             </Button>
           </div>
 
-          <p className="mt-6 text-xs text-amber-400/90">
-            For research use only. Not for human consumption.
+          <p className="mt-8 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/70">
+            Research Use Only
           </p>
         </div>
       </div>

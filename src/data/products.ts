@@ -37,6 +37,10 @@ export interface Reference {
 
 export interface Product {
   id: string;
+  /** Optional grouping key — multiple products with the same groupId are merged
+   *  into a single catalog card with size variants. Each variant keeps its own
+   *  id, image, price, and detail page. */
+  groupId?: string;
   name: string;
   subtitle?: string;
   size: string;
@@ -58,6 +62,7 @@ export interface Product {
 export const products: Product[] = [
   {
     id: "ghk-cu",
+    groupId: "ghk-cu",
     name: "GHK-Cu",
     subtitle: "Research Grade",
     size: "50mg",
@@ -90,6 +95,7 @@ export const products: Product[] = [
   },
   {
     id: "ghk-cu-100",
+    groupId: "ghk-cu",
     name: "GHK-Cu",
     subtitle: "Research Grade",
     size: "100mg",
@@ -353,6 +359,7 @@ export const products: Product[] = [
   },
   {
     id: "mots-c",
+    groupId: "mots-c",
     name: "MOTS-C",
     subtitle: "Research Grade",
     size: "10mg",
@@ -384,6 +391,7 @@ export const products: Product[] = [
   },
   {
     id: "mots-c-40",
+    groupId: "mots-c",
     name: "MOTS-C",
     subtitle: "Research Grade",
     size: "40mg",

@@ -367,6 +367,26 @@ const ProductDetail = () => {
                   Add 3-Pack
                 </Button>
               </div>
+
+              {/* 3-Pack Subscribe (90 days) */}
+              <div className="mt-3 flex items-center justify-between rounded-md border border-primary/30 bg-primary/5 px-4 py-3">
+                <div>
+                  <div className="flex items-center gap-2 text-sm text-foreground">
+                    <Package size={14} className="text-primary" />
+                    Subscribe 3-Pack — every 90 days
+                  </div>
+                  <p className="mt-0.5 font-mono text-xs text-muted-foreground">
+                    {formatPrice(threePackSubTotal)} / 90 days · {formatPrice(threePackSubUnit)} ea · 3-Pack 10% + Subscribe 10%
+                  </p>
+                </div>
+                <Button
+                  size="sm"
+                  onClick={handle3PackSubscribe}
+                  className="bg-primary text-primary-foreground hover:bg-primary/90"
+                >
+                  Subscribe
+                </Button>
+              </div>
               </>
               )}
 

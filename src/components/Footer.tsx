@@ -60,6 +60,11 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/track" className="text-muted-foreground hover:text-foreground">
+                  Track Order
+                </Link>
+              </li>
+              <li>
                 <Link to="/rewards" className="text-muted-foreground hover:text-foreground">
                   Rewards
                 </Link>

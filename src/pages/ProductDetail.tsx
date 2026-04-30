@@ -503,11 +503,12 @@ const ProductDetail = () => {
             </p>
           </div>
           <Button
-            className="ml-auto h-11 flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
+            disabled={product.outOfStock}
+            className="ml-auto h-11 flex-1 bg-primary text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
             onClick={handleAdd}
           >
             <Plus size={16} />
-            Add to Cart
+            {product.outOfStock ? "Out of Stock" : "Add to Cart"}
           </Button>
         </div>
       </div>

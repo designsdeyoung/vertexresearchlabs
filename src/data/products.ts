@@ -383,6 +383,31 @@ export const products: Product[] = [
     ]
   },
   {
+    id: "mots-c-40",
+    name: "MOTS-C",
+    subtitle: "Research Grade",
+    size: "40mg",
+    price: 140,
+    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: motsC40Image,
+    category: "Peptide",
+    isNew: true,
+    references: [
+      {
+        authors: "Lee C et al.",
+        journal: "Cell Metabolism",
+        year: 2015,
+        title: "MOTS-c Peptide Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/25738459/"
+      }
+    ]
+  },
+  {
     id: "kisspeptin",
     name: "Kisspeptin",
     subtitle: "Research Grade",

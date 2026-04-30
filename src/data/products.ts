@@ -95,6 +95,7 @@ export const products: Product[] = [
   },
   {
     id: "ghk-cu-100",
+    groupId: "ghk-cu",
     name: "GHK-Cu",
     subtitle: "Research Grade",
     size: "100mg",

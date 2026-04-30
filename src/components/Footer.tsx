@@ -11,7 +11,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <Link to="/" className="inline-block">
-              <img src={logo} alt="Vertex Research Labs" className="h-10 w-auto" />
+              <img src={logo} alt="Vertex Research Labs" className="h-20 w-auto" />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
               Research-grade materials for analytical applications.

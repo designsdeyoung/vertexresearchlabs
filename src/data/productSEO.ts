@@ -542,6 +542,271 @@ export const productSEO: Record<string, ProductSEOData> = {
     relatedProducts: ["mots-c-40", "nad-plus", "epithalon", "tesamorelin"],
   },
 
+  "kisspeptin": {
+    metaTitle: "Kisspeptin 5mg | ≥99% Purity Neuropeptide Research Material",
+    metaDescription:
+      "Buy Kisspeptin-10 5mg research peptide. ≥99% purity, HPLC verified, COA included. KISS1-derived neuropeptide reference material for endocrinology laboratory research.",
+    keywords: [
+      "Kisspeptin",
+      "buy Kisspeptin",
+      "Kisspeptin research peptide",
+      "Kisspeptin-10",
+      "Kisspeptin 5mg",
+      "KiSS-1 peptide",
+      "metastin research",
+      "Kisspeptin purity",
+      "Kisspeptin COA",
+      "GnRH signaling research",
+      "neuropeptide endocrinology research",
+      "high purity Kisspeptin",
+      "Kisspeptin research grade",
+    ],
+    researchSummary:
+      "Kisspeptin (encoded by the KISS1 gene) is a neuropeptide that activates the GPR54 (KISS1R) receptor and plays a key role in regulating gonadotropin-releasing hormone (GnRH) secretion. Research published in Nature, Journal of Biological Chemistry, and Physiological Reviews has established Kisspeptin as a central regulator of the hypothalamic-pituitary-gonadal axis in preclinical models.",
+    faqs: [
+      {
+        question: "What is Kisspeptin?",
+        answer:
+          "Kisspeptin is a family of neuropeptides encoded by the KISS1 gene that binds the GPR54/KISS1R receptor. In research settings it is studied as a key regulator of GnRH secretion and reproductive axis signaling. Vertex Research Labs supplies it as a laboratory reference material.",
+      },
+      {
+        question: "What form of Kisspeptin do you supply?",
+        answer:
+          "We supply Kisspeptin-10 (the 10-amino acid C-terminal fragment), which is the most widely used form in laboratory research and retains full receptor binding activity.",
+      },
+      {
+        question: "What purity is your Kisspeptin?",
+        answer:
+          "Our Kisspeptin is independently verified at ≥99% purity by HPLC, with a Certificate of Analysis included with every order.",
+      },
+      {
+        question: "What receptors does Kisspeptin bind?",
+        answer:
+          "Kisspeptin binds the GPR54 receptor (also known as KISS1R). This interaction has been extensively studied in the context of GnRH pulse regulation in preclinical and clinical research.",
+      },
+    ],
+    relatedProducts: ["pt-141", "tesamorelin", "tesamorelin-10mg", "semax"],
+  },
+
+  "tesamorelin": {
+    metaTitle: "Tesamorelin 2mg | ≥99% Purity GHRH Analog Research Peptide",
+    metaDescription:
+      "Buy Tesamorelin 2mg research peptide. ≥99% purity, HPLC verified, COA included. Growth hormone-releasing hormone analog reference material for laboratory research.",
+    keywords: [
+      "Tesamorelin",
+      "buy Tesamorelin",
+      "Tesamorelin research peptide",
+      "Tesamorelin 2mg",
+      "GHRH analog research",
+      "growth hormone releasing hormone",
+      "Tesamorelin purity",
+      "Tesamorelin COA",
+      "Tesamorelin for sale",
+      "high purity Tesamorelin",
+      "best Tesamorelin peptide",
+      "Tesamorelin research grade",
+      "GHRH peptide research",
+    ],
+    researchSummary:
+      "Tesamorelin is a synthetic analog of Growth Hormone-Releasing Hormone (GHRH) consisting of the full 44-amino-acid GHRH sequence with a trans-3-hexenoic acid modification. It has been studied extensively in clinical trials, with research published in the New England Journal of Medicine, AIDS journal, and Journal of Clinical Endocrinology & Metabolism examining its GH secretagogue properties.",
+    faqs: [
+      {
+        question: "What is Tesamorelin?",
+        answer:
+          "Tesamorelin is a synthetic GHRH analog — a modified form of the 44-amino-acid Growth Hormone-Releasing Hormone with improved stability. It is studied as a GH secretagogue in preclinical and clinical research contexts. Vertex Research Labs supplies it as a laboratory reference material only.",
+      },
+      {
+        question: "Is Tesamorelin FDA-approved?",
+        answer:
+          "Tesamorelin (brand name Egrifta) is FDA-approved for a specific clinical indication. However, Vertex Research Labs supplies it exclusively as a research reference material and not for any clinical or human use purposes.",
+      },
+      {
+        question: "What purity is your Tesamorelin?",
+        answer:
+          "Our Tesamorelin is independently verified at ≥99% purity by HPLC, with a batch-specific Certificate of Analysis included with every order.",
+      },
+      {
+        question: "How does Tesamorelin differ from Sermorelin or CJC-1295?",
+        answer:
+          "All three are GHRH-related research peptides, but they differ structurally. Tesamorelin is the full 44-amino-acid GHRH with a fatty acid modification. Sermorelin is the first 29 amino acids of GHRH. CJC-1295 (No DAC) is a further modified GHRH analog with extended half-life properties studied in research settings.",
+      },
+      {
+        question: "Is there a larger size Tesamorelin available?",
+        answer:
+          "Yes. We offer a 10mg bulk format for researchers requiring larger quantities for extended protocols.",
+      },
+    ],
+    relatedProducts: ["tesamorelin-10mg", "cjc-ipa-blend", "mots-c", "kisspeptin"],
+  },
+
+  "tesamorelin-10mg": {
+    metaTitle: "Tesamorelin 10mg | ≥99% Purity Bulk GHRH Analog Research Peptide",
+    metaDescription:
+      "Buy Tesamorelin 10mg bulk research peptide. ≥99% purity, HPLC verified, COA included. Best value GHRH analog reference material for extended laboratory protocols.",
+    keywords: [
+      "Tesamorelin 10mg",
+      "bulk Tesamorelin",
+      "buy Tesamorelin 10mg",
+      "GHRH analog bulk research",
+      "Tesamorelin bulk research grade",
+      "high purity Tesamorelin 10mg",
+    ],
+    researchSummary:
+      "The 10mg bulk format of Tesamorelin is designed for extended research protocols requiring consistent GHRH analog reference material. Identical ≥99% purity standard to the 2mg format with batch-specific COA documentation.",
+    faqs: [
+      {
+        question: "Why choose the 10mg Tesamorelin over the 2mg?",
+        answer:
+          "The 10mg format provides better per-milligram value for larger studies or longitudinal research protocols requiring repeated use of Tesamorelin reference material.",
+      },
+      {
+        question: "Is the purity the same as the 2mg size?",
+        answer:
+          "Yes. Both sizes are verified at ≥99% purity with independent batch Certificates of Analysis.",
+      },
+    ],
+    relatedProducts: ["tesamorelin", "cjc-ipa-blend", "mots-c"],
+  },
+
+  "pt-141": {
+    metaTitle: "PT-141 (Bremelanotide) 10mg | ≥99% Purity Research Peptide",
+    metaDescription:
+      "Buy PT-141 (Bremelanotide) 10mg research peptide. ≥99% purity, HPLC verified, COA included. Melanocortin receptor agonist reference material for laboratory research.",
+    keywords: [
+      "PT-141",
+      "buy PT-141",
+      "PT-141 research peptide",
+      "Bremelanotide",
+      "PT-141 10mg",
+      "PT-141 for sale",
+      "melanocortin receptor agonist",
+      "PT-141 purity",
+      "PT-141 COA",
+      "high purity PT-141",
+      "best PT-141 peptide",
+      "PT-141 research grade",
+      "MC4R agonist research",
+    ],
+    researchSummary:
+      "PT-141 (Bremelanotide) is a cyclic heptapeptide analog of alpha-melanocyte-stimulating hormone (α-MSH) that activates melanocortin receptors MC3R and MC4R. Clinical research published in the Journal of Sexual Medicine has examined its receptor pharmacology. It is FDA-approved under a different formulation for a clinical indication, and is studied as a melanocortin receptor reference tool in laboratory settings.",
+    faqs: [
+      {
+        question: "What is PT-141?",
+        answer:
+          "PT-141, also known as Bremelanotide, is a cyclic heptapeptide derived from the alpha-MSH sequence. It binds and activates melanocortin receptors (MC3R and MC4R) and is used as a research tool in melanocortin receptor pharmacology studies.",
+      },
+      {
+        question: "What purity is your PT-141?",
+        answer:
+          "Our PT-141 is independently verified at ≥99% purity by HPLC, with a Certificate of Analysis included with every order.",
+      },
+      {
+        question: "How does PT-141 differ from MT2 (Melanotan II)?",
+        answer:
+          "Both are melanocortin receptor agonists derived from α-MSH. PT-141 is a cyclic peptide (Bremelanotide) that primarily activates MC3R/MC4R. MT2 (Melanotan II) is a linear cyclic analog that also activates MC1R, making them distinct reference tools for receptor subtype research.",
+      },
+      {
+        question: "Is PT-141 the same as the FDA-approved drug?",
+        answer:
+          "Bremelanotide (Vyleesi) is FDA-approved for a specific clinical indication. Vertex Research Labs supplies PT-141 solely as a laboratory reference material and not for any clinical, therapeutic, or human use.",
+      },
+    ],
+    relatedProducts: ["mt2", "kisspeptin", "semax", "selank"],
+  },
+
+  "mt2": {
+    metaTitle: "MT2 Melanotan II 10mg | ≥99% Purity Melanocortin Research Peptide",
+    metaDescription:
+      "Buy MT2 (Melanotan II) 10mg research peptide. ≥99% purity, HPLC verified, COA included. Melanocortin receptor agonist reference material for laboratory research.",
+    keywords: [
+      "MT2",
+      "Melanotan II",
+      "buy Melanotan II",
+      "MT2 research peptide",
+      "Melanotan 2",
+      "MT2 10mg",
+      "MT2 for sale",
+      "melanocortin agonist research",
+      "MT2 purity",
+      "MT2 COA",
+      "high purity Melanotan II",
+      "best MT2 peptide",
+      "MT2 research grade",
+      "alpha-MSH analog research",
+    ],
+    researchSummary:
+      "Melanotan II (MT2) is a cyclic lactam analog of alpha-melanocyte-stimulating hormone (α-MSH). Research published in Endocrinology (Hadley ME et al., 1999) characterized its binding profile at melanocortin receptor subtypes including MC1R, MC3R, MC4R, and MC5R. It is used in laboratory research as a broad-spectrum melanocortin receptor agonist reference material.",
+    faqs: [
+      {
+        question: "What is MT2 (Melanotan II)?",
+        answer:
+          "Melanotan II is a cyclic lactam analog of α-MSH that acts as a broad agonist at melanocortin receptor subtypes (MC1R, MC3R, MC4R, MC5R). It is used as a reference material in melanocortin receptor pharmacology research.",
+      },
+      {
+        question: "What purity is your MT2?",
+        answer:
+          "Our MT2 is independently verified at ≥99% purity by HPLC, with a Certificate of Analysis included with every order.",
+      },
+      {
+        question: "What is the difference between MT1 (Melanotan I) and MT2?",
+        answer:
+          "Melanotan I (Afamelanotide) is a linear α-MSH analog studied primarily for MC1R activation. Melanotan II is a cyclic analog with broader receptor subtype activity including MC3R and MC4R, making them distinct tools for receptor selectivity research.",
+      },
+      {
+        question: "Is MT2 legal to purchase for research?",
+        answer:
+          "In the United States, Melanotan II is not FDA-approved and is legal to purchase as a laboratory research reference material. Vertex Research Labs supplies it strictly for laboratory use only, not for human or veterinary use.",
+      },
+    ],
+    relatedProducts: ["pt-141", "kisspeptin", "semax"],
+  },
+
+  "dsip": {
+    metaTitle: "DSIP (Delta Sleep-Inducing Peptide) 5mg | ≥99% Purity Research Material",
+    metaDescription:
+      "Buy DSIP (Delta Sleep-Inducing Peptide) 5mg research peptide. ≥99% purity, HPLC verified, COA included. Nonapeptide reference material for neuroendocrinology laboratory research.",
+    keywords: [
+      "DSIP",
+      "Delta Sleep-Inducing Peptide",
+      "buy DSIP",
+      "DSIP research peptide",
+      "DSIP 5mg",
+      "DSIP for sale",
+      "DSIP purity",
+      "DSIP COA",
+      "sleep peptide research",
+      "neuroendocrine peptide research",
+      "high purity DSIP",
+      "DSIP research grade",
+      "nonapeptide research",
+    ],
+    researchSummary:
+      "DSIP (Delta Sleep-Inducing Peptide) is a nonapeptide (Trp-Ala-Gly-Gly-Asp-Ala-Ser-Gly-Glu) first isolated from rabbit cerebral venous blood. Research published in Peptides (Graf MV & Kastin AJ, 1984) and subsequent studies have examined its neuromodulatory properties in animal sleep and stress models. It is used as a neuropeptide reference material in neuroendocrinology research.",
+    faqs: [
+      {
+        question: "What is DSIP?",
+        answer:
+          "DSIP (Delta Sleep-Inducing Peptide) is a nonapeptide originally isolated from rabbit cerebral venous blood during slow-wave sleep induction. It is used as a reference material in neuroendocrinology research examining neuropeptide signaling.",
+      },
+      {
+        question: "What purity is your DSIP?",
+        answer:
+          "Our DSIP is independently verified at ≥99% purity by HPLC, with a Certificate of Analysis included with every order.",
+      },
+      {
+        question: "What is the amino acid sequence of DSIP?",
+        answer:
+          "DSIP has the sequence Trp-Ala-Gly-Gly-Asp-Ala-Ser-Gly-Glu (WAGGDАСGE), with a molecular weight of approximately 848.8 Da.",
+      },
+      {
+        question: "How does DSIP differ from other neuropeptides like Semax or Selank?",
+        answer:
+          "DSIP is a nonapeptide studied in the context of sleep and stress neuromodulation, while Semax is an ACTH-derived heptapeptide and Selank is a Tuftsin-derived heptapeptide. All three are neuropeptide reference materials but target distinct receptor pathways.",
+      },
+    ],
+    relatedProducts: ["selank", "semax", "epithalon", "bpc-157"],
+  },
+
   "mots-c-40": {
     metaTitle: "MOTS-c 40mg | ≥99% Purity Bulk Mitochondrial Peptide Research Material",
     metaDescription:

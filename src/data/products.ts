@@ -37,6 +37,10 @@ export interface Reference {
 
 export interface Product {
   id: string;
+  /** Optional grouping key — multiple products with the same groupId are merged
+   *  into a single catalog card with size variants. Each variant keeps its own
+   *  id, image, price, and detail page. */
+  groupId?: string;
   name: string;
   subtitle?: string;
   size: string;

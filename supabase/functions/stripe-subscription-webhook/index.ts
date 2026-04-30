@@ -113,7 +113,7 @@ Deno.serve(async (req) => {
                 quantity: Number(line.quantity || 1),
                 is_3pack: !!line.is3Pack,
                 unit_amount: Number(line.unitAmount || 0),
-                interval_days: 30,
+                interval_days: Number(line.intervalDays) > 0 ? Number(line.intervalDays) : (line.is3Pack ? 90 : 30),
                 current_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
                 cancel_at_period_end: !!sub.cancel_at_period_end,
                 shipping_address: shippingAddress,

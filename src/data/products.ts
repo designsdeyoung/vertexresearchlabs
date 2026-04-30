@@ -319,6 +319,38 @@ export const products: Product[] = [
     ]
   },
   {
+    id: "glutathione",
+    name: "Glutathione",
+    subtitle: "Research Grade",
+    size: "600mg",
+    price: 65,
+    description: "Tripeptide antioxidant reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: glutathioneImage,
+    category: "Antioxidant",
+    isNew: true,
+    references: [
+      {
+        authors: "Pizzorno J",
+        journal: "Integrative Medicine",
+        year: 2014,
+        title: "Glutathione!",
+        url: "https://pubmed.ncbi.nlm.nih.gov/26770075/"
+      },
+      {
+        authors: "Wu G et al.",
+        journal: "Journal of Nutrition",
+        year: 2004,
+        title: "Glutathione Metabolism and Its Implications for Health",
+        url: "https://pubmed.ncbi.nlm.nih.gov/14988435/"
+      }
+    ]
+  },
+  {
     id: "mots-c",
     name: "MOTS-C",
     subtitle: "Research Grade",

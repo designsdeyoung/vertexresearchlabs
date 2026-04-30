@@ -155,11 +155,26 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
           {selected.outOfStock ? "Out of Stock" : "Add to Cart"}
         </Button>
 
+        {/* 3-Pack quick add (hidden when out of stock) */}
+        {!selected.outOfStock && (
+          <Button
+            variant="outline"
+            onClick={handle3Pack}
+            className="h-9 w-full justify-between border-primary/30 bg-primary/5 px-3 text-xs text-foreground hover:bg-primary/10 hover:text-foreground"
+          >
+            <span className="inline-flex items-center gap-1.5">
+              <Package size={13} className="text-primary" />
+              3-Pack — Save 10%
+            </span>
+            <span className="font-mono text-primary">{formatPrice(threePackTotal)}</span>
+          </Button>
+        )}
+
         {/* Subscribe accordion (hidden when out of stock) */}
         {!selected.outOfStock && (
         <Collapsible open={subOpen} onOpenChange={setSubOpen}>
           <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md py-1.5 text-xs text-muted-foreground transition-colors hover:text-primary">
-            <span>Subscribe & save 10%</span>
+            <span>Subscribe & save extra 10% (stacks with 3-Pack & sale)</span>
             <ChevronDown
               size={14}
               className={`transition-transform ${subOpen ? "rotate-180" : ""}`}
@@ -171,7 +186,7 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
                 <span className="font-mono font-medium text-foreground">
                   {formatPrice(subPrice)}
                 </span>{" "}
-                / 30 days · Cancel anytime
+                / 30 days · Cancel anytime · Extra 10% off even on 3-Packs
               </p>
               <Button
                 size="sm"

@@ -35,8 +35,16 @@ const Header = () => {
       <div className="container mx-auto px-6">
         <div className="flex h-[72px] items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center" aria-label="Vertex Research Labs home">
-            <img src={logo} alt="Vertex Research Labs" className="h-12 w-auto object-contain" />
+          <Link
+            to="/"
+            className="relative flex items-center -my-4"
+            aria-label="Vertex Research Labs home"
+          >
+            <img
+              src={logo}
+              alt="Vertex Research Labs"
+              className="h-20 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop nav */}

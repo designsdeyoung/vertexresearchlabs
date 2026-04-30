@@ -166,6 +166,42 @@ const InquiryCart = () => {
               ))}
             </div>
 
+            {/* 3-Pack Upsell */}
+            {threePackCandidates.length > 0 && (
+              <div className="mt-3 space-y-2">
+                {threePackCandidates.map((item) => {
+                  const single = item.product.price;
+                  const threePackTotal = single * 3 * (1 - THREE_PACK_DISCOUNT);
+                  const savings = single * 3 - threePackTotal;
+                  return (
+                    <div
+                      key={`3pack-upsell-${item.product.id}`}
+                      className="p-3 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/30"
+                    >
+                      <div className="flex items-start gap-2 mb-2">
+                        <Package size={16} className="text-primary mt-0.5 shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-foreground">
+                            Upgrade {item.product.name} to a 3-Pack
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            Save {formatPrice(savings)} ({Math.round(THREE_PACK_DISCOUNT * 100)}% off · {formatPrice(threePackTotal / 3)} ea)
+                          </p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => add3Pack(item.product)}
+                        className="w-full flex items-center justify-center gap-1.5 p-2 rounded-md bg-primary/15 hover:bg-primary/25 border border-primary/40 hover:border-primary text-primary text-xs font-medium transition-all"
+                      >
+                        <PlusIcon size={14} />
+                        Add 3-Pack — {formatPrice(threePackTotal)}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
             {/* BAC Water Upsell */}
             {showBacUpsell && bacWater3ml && bacWater10ml && (
               <div className="mt-3 p-3 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/30">

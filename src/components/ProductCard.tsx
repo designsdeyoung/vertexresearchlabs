@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, FlaskConical } from "lucide-react";
-import { useInquiryCart, AUTOSHIP_DISCOUNT } from "@/contexts/InquiryCartContext";
+import { ChevronDown, FlaskConical, Package } from "lucide-react";
+import { useInquiryCart, AUTOSHIP_DISCOUNT, THREE_PACK_DISCOUNT } from "@/contexts/InquiryCartContext";
 import { SITEWIDE_SALE } from "@/config/sale";
 import type { Product } from "@/data/products";
 import { toast } from "@/hooks/use-toast";

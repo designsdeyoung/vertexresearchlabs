@@ -197,15 +197,60 @@ const ProductDetail = () => {
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground text-lg">Price</span>
                   <div className="flex items-center gap-3">
-                    {SITEWIDE_SALE.active && (
+                    {(SITEWIDE_SALE.active || isAutoship) && (
                       <>
                         <span className="text-muted-foreground line-through text-lg">{formatPrice(price)}</span>
-                        <span className="text-xs font-bold text-destructive bg-destructive/10 px-2 py-1 rounded">-{SITEWIDE_SALE.discount * 100}%</span>
+                        {SITEWIDE_SALE.active && (
+                          <span className="text-xs font-bold text-destructive bg-destructive/10 px-2 py-1 rounded">-{SITEWIDE_SALE.discount * 100}%</span>
+                        )}
                       </>
                     )}
-                    <span className="text-2xl font-semibold text-primary">{formatPrice(salePrice)}</span>
+                    <span className="text-2xl font-semibold text-primary">{formatPrice(singleDisplayPrice)}</span>
                   </div>
                 </div>
+              </div>
+
+              {/* Subscribe & Save toggle */}
+              <div className="glass-card rounded-lg p-6 mb-6">
+                <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-3 flex items-center gap-2">
+                  <Repeat size={16} className="text-primary" />
+                  Purchase Option
+                </h2>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setIsAutoship(false)}
+                    className={`text-left p-4 rounded-lg border transition-all ${
+                      !isAutoship
+                        ? "border-primary bg-primary/10"
+                        : "border-border/50 bg-background/30 hover:border-border"
+                    }`}
+                  >
+                    <div className="text-sm font-semibold text-foreground mb-1">One-time</div>
+                    <div className="text-xs text-muted-foreground">{formatPrice(salePrice)}</div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsAutoship(true)}
+                    className={`text-left p-4 rounded-lg border transition-all ${
+                      isAutoship
+                        ? "border-primary bg-primary/10 shadow-[0_0_16px_-2px_hsl(var(--primary)/0.5)]"
+                        : "border-border/50 bg-background/30 hover:border-border"
+                    }`}
+                  >
+                    <div className="flex items-center gap-1 text-sm font-semibold text-primary mb-1">
+                      <Repeat size={12} /> Subscribe & Save
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      {formatPrice(autoshipUnitPrice)} • every 30d • 2× points
+                    </div>
+                  </button>
+                </div>
+                {isAutoship && (
+                  <p className="text-xs text-primary/80 mt-3 flex items-center gap-1">
+                    <Sparkles size={10} /> Cancel or skip anytime from your dashboard.
+                  </p>
+                )}
               </div>
 
               {/* 3-Pack Offer */}

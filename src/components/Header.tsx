@@ -1,220 +1,147 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown, Truck, Sparkles, User, Zap, BookOpen } from "lucide-react";
+import { Menu, X, User, Sparkles } from "lucide-react";
 import logo from "@/assets/logo.png";
-import { SITEWIDE_SALE } from "@/config/sale";
 import CartButton from "./CartButton";
-import ThemeToggle from "./ThemeToggle";
 import { useAuth } from "@/contexts/AuthContext";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
+const navLinks = [
+  { label: "Products", href: "/#products", isHash: true },
+  { label: "Quality", href: "/quality", isHash: false },
+  { label: "Shipping", href: "/shipping", isHash: false },
+  { label: "Contact", href: "/#contact", isHash: true },
+];
 
 const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
   const { user, profile } = useAuth();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const qualitySubLinks = [
-    { label: "Quality Hub", href: "/quality" },
-    { label: "Testing & COAs", href: "/quality/testing" },
-    { label: "Testing Methods", href: "/quality/methods" },
-    { label: "Chain of Custody", href: "/quality/chain-of-custody" },
-  ];
-
-  const navLinks = [
-    { label: "Products", href: "/#products" },
-    { label: "Quality", href: "/quality", hasDropdown: true },
-    { label: "Learn", href: "/learn", icon: BookOpen },
-    { label: "Rewards", href: "/rewards" },
-    { label: "Shipping", href: "/shipping" },
-    { label: "Contact", href: "/#contact" },
-  ];
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-background/95 backdrop-blur-md border-b border-border/50"
-          : "bg-transparent"
+      className={`fixed left-0 right-0 top-0 z-50 transition-colors duration-200 ${
+        scrolled
+          ? "border-b border-border bg-popover/95 backdrop-blur-md"
+          : "bg-popover/80 backdrop-blur-sm"
       }`}
     >
-      {/* Sale Banner */}
-      {SITEWIDE_SALE.active && (
-        <div className="bg-destructive text-destructive-foreground py-2 px-4 text-center text-xs font-bold animate-pulse">
-          <div className="container flex items-center justify-center gap-2">
-            <Zap className="h-3.5 w-3.5" />
-            <span>🔥 {SITEWIDE_SALE.label} 🔥</span>
-            <Zap className="h-3.5 w-3.5" />
-          </div>
-        </div>
-      )}
-      {/* Free Shipping Banner */}
-      <div className="bg-primary text-primary-foreground py-1.5 px-4 text-center text-xs font-medium">
-        <div className="container flex items-center justify-center gap-2">
-          <Truck className="h-3.5 w-3.5" />
-          <span>Free US Shipping on Orders Over $99</span>
-        </div>
-      </div>
-      
       <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="flex h-[60px] items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <img src={logo} alt="Vertex Research Labs" className="h-12 md:h-16 w-auto" />
+          <Link to="/" className="flex items-center" aria-label="Vertex Research Labs home">
+            <img src={logo} alt="Vertex Research Labs" className="h-9 w-auto" />
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              link.hasDropdown ? (
-                <DropdownMenu key={link.label}>
-                  <DropdownMenuTrigger className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 outline-none">
-                    {link.label}
-                    <ChevronDown size={14} />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="w-48">
-                    {qualitySubLinks.map((subLink) => (
-                      <DropdownMenuItem key={subLink.href} asChild>
-                        <Link to={subLink.href} className="cursor-pointer">
-                          {subLink.label}
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : link.href.startsWith("/") && !link.href.includes("#") ? (
-                <Link
-                  key={link.label}
-                  to={link.href}
-                  className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-                >
-                  {link.icon && <link.icon size={14} />}
-                  {link.label}
-                </Link>
-              ) : (
+          {/* Desktop nav */}
+          <nav className="hidden items-center gap-7 md:flex">
+            {navLinks.map((l) =>
+              l.isHash ? (
                 <a
-                  key={link.label}
-                  href={link.href}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                  key={l.label}
+                  href={l.href}
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  {link.label}
+                  {l.label}
                 </a>
+              ) : (
+                <Link
+                  key={l.label}
+                  to={l.href}
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {l.label}
+                </Link>
               )
-            ))}
-            <ThemeToggle />
+            )}
+          </nav>
+
+          {/* Right cluster */}
+          <div className="hidden items-center gap-2 md:flex">
             <CartButton />
             {user ? (
               <Link
                 to="/dashboard"
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 hover:bg-primary/20 transition-colors"
+                className="flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 transition-colors hover:bg-primary/20"
               >
-                <Sparkles size={14} className="text-primary" />
-                <span className="text-xs font-medium text-primary">
-                  {profile?.points_balance?.toLocaleString() || 0} pts
+                <Sparkles size={12} className="text-primary" />
+                <span className="font-mono text-[11px] font-medium text-primary">
+                  {profile?.points_balance?.toLocaleString() ?? 0}
                 </span>
               </Link>
             ) : (
-              <Button variant="ghost" size="sm" asChild>
+              <Button variant="ghost" size="sm" asChild className="text-muted-foreground hover:text-foreground">
                 <Link to="/auth">
-                  <User size={16} />
+                  <User size={14} />
                   Sign In
                 </Link>
               </Button>
             )}
-            <Button variant="catalog" size="sm" asChild>
-              <a href="/#products">Browse Catalog</a>
-            </Button>
-          </nav>
+          </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile toggle */}
           <button
-            className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            type="button"
+            className="md:hidden p-2 text-muted-foreground transition-colors hover:text-foreground"
+            onClick={() => setOpen((o) => !o)}
+            aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {open ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border/50 animate-fade-in">
-            <nav className="flex flex-col gap-2">
-              {navLinks.map((link) => (
-                link.hasDropdown ? (
-                  <div key={link.label} className="py-2">
-                    <span className="text-muted-foreground font-medium">{link.label}</span>
-                    <div className="ml-4 mt-2 flex flex-col gap-2">
-                      {qualitySubLinks.map((subLink) => (
-                        <Link
-                          key={subLink.href}
-                          to={subLink.href}
-                          className="text-muted-foreground hover:text-foreground transition-colors py-1 text-sm"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          {subLink.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                ) : link.href.startsWith("/") && !link.href.includes("#") ? (
-                  <Link
-                    key={link.label}
-                    to={link.href}
-                    className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {link.icon && <link.icon size={14} />}
-                    {link.label}
-                  </Link>
-                ) : (
+        {/* Mobile menu */}
+        {open && (
+          <div className="border-t border-border py-4 md:hidden">
+            <nav className="flex flex-col gap-1">
+              {navLinks.map((l) =>
+                l.isHash ? (
                   <a
-                    key={link.label}
-                    href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    key={l.label}
+                    href={l.href}
+                    className="px-1 py-2 text-sm text-muted-foreground hover:text-foreground"
+                    onClick={() => setOpen(false)}
                   >
-                    {link.label}
+                    {l.label}
                   </a>
+                ) : (
+                  <Link
+                    key={l.label}
+                    to={l.href}
+                    className="px-1 py-2 text-sm text-muted-foreground hover:text-foreground"
+                    onClick={() => setOpen(false)}
+                  >
+                    {l.label}
+                  </Link>
                 )
-              ))}
-              <div className="flex items-center gap-3 mt-2">
-                <ThemeToggle />
+              )}
+              <div className="mt-3 flex items-center gap-2">
                 <CartButton />
                 {user ? (
                   <Link
                     to="/dashboard"
-                    className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5"
+                    onClick={() => setOpen(false)}
                   >
-                    <Sparkles size={14} className="text-primary" />
-                    <span className="text-xs font-medium text-primary">
-                      {profile?.points_balance?.toLocaleString() || 0} pts
+                    <Sparkles size={12} className="text-primary" />
+                    <span className="font-mono text-[11px] text-primary">
+                      {profile?.points_balance?.toLocaleString() ?? 0}
                     </span>
                   </Link>
                 ) : (
                   <Button variant="ghost" size="sm" asChild>
-                    <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link to="/auth" onClick={() => setOpen(false)}>
                       <User size={14} />
                       Sign In
                     </Link>
                   </Button>
                 )}
-                <Button variant="catalog" size="sm" className="w-fit" asChild>
-                  <a href="/#products" onClick={() => setIsMobileMenuOpen(false)}>Browse Catalog</a>
-                </Button>
               </div>
             </nav>
           </div>

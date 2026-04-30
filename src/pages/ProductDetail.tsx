@@ -4,25 +4,26 @@ import { products } from "@/data/products";
 import { productSEO } from "@/data/productSEO";
 import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
+import ComplianceBanner from "@/components/ComplianceBanner";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { useInquiryCart } from "@/contexts/InquiryCartContext";
-import { THREE_PACK_DISCOUNT, AUTOSHIP_DISCOUNT } from "@/contexts/InquiryCartContext";
+import { Input } from "@/components/ui/input";
+import {
+  useInquiryCart,
+  THREE_PACK_DISCOUNT,
+  AUTOSHIP_DISCOUNT,
+} from "@/contexts/InquiryCartContext";
 import { SITEWIDE_SALE } from "@/config/sale";
 import { toast } from "@/hooks/use-toast";
-import { 
-  ArrowLeft, 
-  FileText, 
-  FlaskConical, 
-  Shield, 
-  Plus, 
-  AlertTriangle,
-  CheckCircle2,
-  BookOpen,
+import {
+  ArrowLeft,
+  ChevronDown,
   ExternalLink,
+  FileText,
+  FlaskConical,
+  Mail,
   Package,
-  Repeat,
-  Sparkles
+  Plus,
 } from "lucide-react";
 import {
   Dialog,
@@ -37,25 +38,36 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+
+const formatPrice = (p: number) =>
+  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(p);
 
 const ProductDetail = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
   const { addItem, add3Pack, openCart } = useInquiryCart();
-  const [isAutoship, setIsAutoship] = useState(false);
+  const [qty, setQty] = useState(1);
+  const [subOpen, setSubOpen] = useState(false);
 
-  const product = products.find(p => p.id === productId);
+  const product = products.find((p) => p.id === productId);
   const seo = productId ? productSEO[productId] : undefined;
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-background flex flex-col">
+      <div className="flex min-h-screen flex-col bg-background">
+        <ComplianceBanner />
         <Header />
-        <main className="flex-1 flex items-center justify-center">
+        <main className="flex flex-1 items-center justify-center pt-24">
           <div className="text-center">
-            <h1 className="text-2xl font-semibold text-foreground mb-4">Product Not Found</h1>
-            <p className="text-muted-foreground mb-6">The product you're looking for doesn't exist.</p>
-            <Button variant="hero" onClick={() => navigate("/")}>
+            <h1 className="font-display text-2xl font-semibold text-foreground">
+              Product Not Found
+            </h1>
+            <Button className="mt-6" onClick={() => navigate("/")}>
               Return to Catalog
             </Button>
           </div>
@@ -65,33 +77,28 @@ const ProductDetail = () => {
     );
   }
 
-  const { name, subtitle, description, purity, testing, documentation, intendedUse, disclaimer, image, category, coa, references, price } = product;
+  const { name, subtitle, size, purity, image, category, coa, references, price } = product;
 
   const salePrice = SITEWIDE_SALE.active ? price * (1 - SITEWIDE_SALE.discount) : price;
-  const autoshipUnitPrice = salePrice * (1 - AUTOSHIP_DISCOUNT);
-  const singleDisplayPrice = isAutoship ? autoshipUnitPrice : salePrice;
-  const threePackUnitPrice = salePrice * (1 - THREE_PACK_DISCOUNT) * (isAutoship ? (1 - AUTOSHIP_DISCOUNT) : 1);
-  const threePackTotal = threePackUnitPrice * 3;
+  const subPrice = salePrice * (1 - AUTOSHIP_DISCOUNT);
+  const threePackUnit = salePrice * (1 - THREE_PACK_DISCOUNT);
+  const threePackTotal = threePackUnit * 3;
 
-  const formatPrice = (p: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(p);
-
-  const handleAddToCart = () => {
-    addItem(product, { isAutoship });
-    toast({
-      title: isAutoship ? "Autoship added" : "Added to cart",
-      description: isAutoship
-        ? `${name} — ships every 30 days, 10% off + 2× points.`
-        : `${name} has been added to your list.`,
-    });
+  const handleAdd = () => {
+    for (let i = 0; i < qty; i++) addItem(product, { isAutoship: false });
+    toast({ title: "Added to cart", description: `${name} ${size} × ${qty}` });
     openCart();
   };
 
-  const handleAdd3Pack = () => {
-    add3Pack(product, { isAutoship });
-    toast({
-      title: isAutoship ? "Autoship 3-Pack added" : "3-Pack added!",
-      description: `${name} × 3 added with 10% savings${isAutoship ? " + 10% autoship" : ""}.`,
-    });
+  const handleSubscribe = () => {
+    addItem(product, { isAutoship: true });
+    toast({ title: "Subscription added", description: `${name} ships every 30 days.` });
+    openCart();
+  };
+
+  const handle3Pack = () => {
+    add3Pack(product, { isAutoship: false });
+    toast({ title: "3-Pack added", description: `${name} × 3` });
     openCart();
   };
 
@@ -112,12 +119,6 @@ const ProductDetail = () => {
       url: `${BASE_URL}/product/${product.id}`,
       seller: { "@type": "Organization", name: "Vertex Research Labs" },
     },
-    additionalProperty: [
-      { "@type": "PropertyValue", name: "Purity", value: product.purity },
-      { "@type": "PropertyValue", name: "Size", value: product.size },
-      { "@type": "PropertyValue", name: "Testing", value: product.testing },
-      { "@type": "PropertyValue", name: "Intended Use", value: product.intendedUse },
-    ],
   };
 
   const breadcrumbSchema = {
@@ -126,7 +127,7 @@ const ProductDetail = () => {
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
       { "@type": "ListItem", position: 2, name: "Catalog", item: `${BASE_URL}/#products` },
-      { "@type": "ListItem", position: 3, name: name, item: `${BASE_URL}/product/${product.id}` },
+      { "@type": "ListItem", position: 3, name, item: `${BASE_URL}/product/${product.id}` },
     ],
   };
 
@@ -143,275 +144,285 @@ const ProductDetail = () => {
     : null;
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="flex min-h-screen flex-col bg-background">
       <SEOHead
-        title={seo?.metaTitle ?? `${name} ${product.size} | Research Grade Peptide`}
-        description={seo?.metaDescription ?? product.description}
+        title={seo?.metaTitle ?? `${name} ${size} | Research Grade Reference Material`}
+        description={
+          seo?.metaDescription ??
+          `${name} ${size} — research-grade reference material with ≥99% purity. CoA available. For laboratory research use only.`
+        }
         canonical={`/product/${product.id}`}
         ogType="product"
         keywords={seo?.keywords ?? []}
         jsonLd={[productSchema, breadcrumbSchema, ...(faqSchema ? [faqSchema] : [])]}
       />
+      <ComplianceBanner />
       <Header />
 
-      <main className="flex-1 pt-24 pb-16">
+      <main className="flex-1 pb-32 pt-24 md:pb-16">
         <div className="container mx-auto px-6">
-          {/* Back button */}
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="mb-8 -ml-2"
+          <Button
+            variant="ghost"
+            size="sm"
+            className="-ml-2 mb-6 text-muted-foreground hover:text-foreground"
             onClick={() => navigate("/#products")}
           >
-            <ArrowLeft size={16} />
+            <ArrowLeft size={14} />
             Back to Catalog
           </Button>
 
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-            {/* Product Image */}
-            <div className="relative">
-              <div className="aspect-square rounded-xl overflow-hidden bg-secondary/30 border border-border/50">
-                {image ? (
-                  <img 
-                    src={image} 
-                    alt={name} 
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <FlaskConical size={80} className="text-muted-foreground/30" />
-                  </div>
-                )}
+          <div className="grid gap-12 lg:grid-cols-[2fr_3fr]">
+            {/* Left: Image */}
+            <div>
+              <div className="overflow-hidden rounded-xl border border-border bg-card">
+                <div className="aspect-square">
+                  {image ? (
+                    <img
+                      src={image}
+                      alt={`${name} ${size} research material`}
+                      className="h-full w-full object-contain p-10"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center">
+                      <FlaskConical size={64} className="text-muted-foreground/30" />
+                    </div>
+                  )}
+                </div>
               </div>
-              
-              {/* Category badge */}
-              <div className="absolute top-4 left-4">
-                <span className="px-3 py-1.5 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 text-xs text-muted-foreground uppercase tracking-wider">
+
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <span className="rounded-md bg-primary/10 px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-wider text-primary">
+                  ≥99% Purity
+                </span>
+                <span className="rounded-md border border-border px-2 py-1 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
                   {category}
                 </span>
-              </div>
-
-              {/* Purity badge */}
-              <div className="absolute top-4 right-4">
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-sm">
-                  <div className="w-2 h-2 rounded-full bg-primary" />
-                  <span className="text-sm text-primary font-medium">{purity}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Product Info */}
-            <div className="flex flex-col">
-              {/* Title */}
-              <div className="mb-6">
-                <div className="flex items-center gap-3 mb-2">
-                  <FlaskConical size={24} className="text-primary" />
-                  <h1 className="text-3xl md:text-4xl font-semibold text-foreground">
-                    {name}
-                  </h1>
-                </div>
-                {subtitle && (
-                  <span className="text-sm text-muted-foreground">({subtitle})</span>
-                )}
-              </div>
-
-              {/* Description */}
-              <p className="text-muted-foreground leading-relaxed mb-8">
-                {description}
-              </p>
-
-              {/* Specifications Card */}
-              <div className="glass-card rounded-lg p-6 mb-6">
-                <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
-                  <Shield size={16} className="text-primary" />
-                  Specifications
-                </h2>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Purity</span>
-                    <span className="text-foreground font-mono">{purity}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Testing</span>
-                    <span className="text-foreground text-right max-w-[60%]">{testing}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Documentation</span>
-                    <span className="text-foreground text-right max-w-[60%]">{documentation}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Intended Use */}
-              <div className="glass-card rounded-lg p-6 mb-6">
-                <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-3 flex items-center gap-2">
-                  <CheckCircle2 size={16} className="text-primary" />
-                  Intended Use
-                </h2>
-                <p className="text-muted-foreground">{intendedUse}</p>
-              </div>
-
-              {/* Price Display */}
-              <div className="glass-card rounded-lg p-6 mb-6">
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground text-lg">Price</span>
-                  <div className="flex items-center gap-3">
-                    {(SITEWIDE_SALE.active || isAutoship) && (
-                      <>
-                        <span className="text-muted-foreground line-through text-lg">{formatPrice(price)}</span>
-                        {SITEWIDE_SALE.active && (
-                          <span className="text-xs font-bold text-destructive bg-destructive/10 px-2 py-1 rounded">-{SITEWIDE_SALE.discount * 100}%</span>
-                        )}
-                      </>
-                    )}
-                    <span className="text-2xl font-semibold text-primary">{formatPrice(singleDisplayPrice)}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Subscribe & Save toggle */}
-              <div className="glass-card rounded-lg p-6 mb-6">
-                <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-3 flex items-center gap-2">
-                  <Repeat size={16} className="text-primary" />
-                  Purchase Option
-                </h2>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setIsAutoship(false)}
-                    className={`text-left p-4 rounded-lg border transition-all ${
-                      !isAutoship
-                        ? "border-primary bg-primary/10"
-                        : "border-border/50 bg-background/30 hover:border-border"
-                    }`}
-                  >
-                    <div className="text-sm font-semibold text-foreground mb-1">One-time</div>
-                    <div className="text-xs text-muted-foreground">{formatPrice(salePrice)}</div>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setIsAutoship(true)}
-                    className={`text-left p-4 rounded-lg border transition-all ${
-                      isAutoship
-                        ? "border-primary bg-primary/10 shadow-[0_0_16px_-2px_hsl(var(--primary)/0.5)]"
-                        : "border-border/50 bg-background/30 hover:border-border"
-                    }`}
-                  >
-                    <div className="flex items-center gap-1 text-sm font-semibold text-primary mb-1">
-                      <Repeat size={12} /> Subscribe & Save
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      {formatPrice(autoshipUnitPrice)} • every 30d • 2× points
-                    </div>
-                  </button>
-                </div>
-                {isAutoship && (
-                  <p className="text-xs text-primary/80 mt-3 flex items-center gap-1">
-                    <Sparkles size={10} /> Cancel or skip anytime from your dashboard.
-                  </p>
-                )}
-              </div>
-
-              {/* 3-Pack Offer */}
-              <div className="glass-card rounded-lg p-6 mb-6 border-primary/30 bg-primary/5">
-                <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3 flex items-center gap-2">
-                  <Package size={16} className="text-primary" />
-                  3-Pack — Save {SITEWIDE_SALE.active ? '~19%' : '10%'}
-                </h2>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-muted-foreground">3 × {formatPrice(threePackUnitPrice)} each</span>
-                  <div className="flex items-center gap-3">
-                    <span className="text-muted-foreground line-through text-sm">{formatPrice(price * 3)}</span>
-                    <span className="text-xl font-semibold text-primary">{formatPrice(threePackTotal)}</span>
-                  </div>
-                </div>
-                <Button 
-                  variant="hero" 
-                  size="lg" 
-                  className="w-full"
-                  onClick={handleAdd3Pack}
-                >
-                  <Package size={18} />
-                  Add 3-Pack to Cart
-                </Button>
-              </div>
-
-              {/* Actions */}
-              <div className="flex flex-col sm:flex-row gap-3 mb-6">
-                <Button 
-                  variant="heroOutline" 
-                  size="lg" 
-                  className="flex-1"
-                  onClick={handleAddToCart}
-                >
-                  <Plus size={18} />
-                  Add Single to Cart
-                </Button>
-                
                 {coa && (
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button variant="heroOutline" size="lg" className="flex-1">
-                        <FileText size={18} />
-                        View COA
-                      </Button>
+                      <button className="ml-auto inline-flex items-center gap-1 text-xs text-primary hover:underline">
+                        <FileText size={12} />
+                        CoA Available Upon Request
+                      </button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-4xl max-h-[90vh] overflow-auto">
+                    <DialogContent className="max-h-[90vh] max-w-3xl overflow-auto">
                       <DialogHeader>
-                        <DialogTitle className="flex items-center gap-2">
-                          <FileText size={20} className="text-primary" />
-                          Certificate of Analysis - {name}
-                        </DialogTitle>
+                        <DialogTitle>Certificate of Analysis — {name}</DialogTitle>
                       </DialogHeader>
-                      <div className="mt-4">
-                        <img 
-                          src={coa} 
-                          alt={`Certificate of Analysis for ${name}`}
-                          className="w-full h-auto rounded-lg border border-border"
-                        />
-                      </div>
+                      <img
+                        src={coa}
+                        alt={`Certificate of Analysis for ${name}`}
+                        className="mt-2 w-full rounded-md border border-border"
+                      />
                     </DialogContent>
                   </Dialog>
                 )}
               </div>
+            </div>
 
-              {/* Disclaimer */}
-              <div className="flex items-start gap-2 p-4 rounded-lg bg-destructive/5 border border-destructive/20">
-                <AlertTriangle size={16} className="text-destructive/70 mt-0.5 flex-shrink-0" />
-                <p className="text-xs text-muted-foreground">{disclaimer}</p>
+            {/* Right: Info */}
+            <div>
+              <h1 className="font-display text-3xl font-bold text-foreground md:text-4xl">
+                {name}
+              </h1>
+              {subtitle && (
+                <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
+              )}
+
+              {/* Spec key-values */}
+              <dl className="mt-6 grid grid-cols-3 gap-4 border-y border-border py-4 text-sm">
+                <div>
+                  <dt className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                    Size
+                  </dt>
+                  <dd className="mt-1 text-foreground">{size}</dd>
+                </div>
+                <div>
+                  <dt className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                    Grade
+                  </dt>
+                  <dd className="mt-1 text-foreground">Research</dd>
+                </div>
+                <div>
+                  <dt className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                    Category
+                  </dt>
+                  <dd className="mt-1 text-foreground">{category}</dd>
+                </div>
+              </dl>
+
+              {/* Price */}
+              <div className="mt-6 flex items-baseline gap-3">
+                <span className="font-display text-3xl font-bold text-primary">
+                  {formatPrice(salePrice)}
+                </span>
+                {SITEWIDE_SALE.active && (
+                  <span className="text-sm text-muted-foreground line-through">
+                    {formatPrice(price)}
+                  </span>
+                )}
+              </div>
+
+              {/* Quantity + add */}
+              <div className="mt-5 flex items-center gap-3">
+                <div className="flex items-center rounded-md border border-border bg-card">
+                  <button
+                    type="button"
+                    className="px-3 py-2 text-muted-foreground hover:text-foreground"
+                    onClick={() => setQty((q) => Math.max(1, q - 1))}
+                    aria-label="Decrease quantity"
+                  >
+                    −
+                  </button>
+                  <Input
+                    type="number"
+                    min={1}
+                    max={10}
+                    value={qty}
+                    onChange={(e) =>
+                      setQty(Math.min(10, Math.max(1, parseInt(e.target.value) || 1)))
+                    }
+                    className="h-10 w-14 border-0 bg-transparent text-center font-mono text-sm focus-visible:ring-0"
+                  />
+                  <button
+                    type="button"
+                    className="px-3 py-2 text-muted-foreground hover:text-foreground"
+                    onClick={() => setQty((q) => Math.min(10, q + 1))}
+                    aria-label="Increase quantity"
+                  >
+                    +
+                  </button>
+                </div>
+                <Button
+                  size="lg"
+                  className="h-11 flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
+                  onClick={handleAdd}
+                >
+                  <Plus size={16} />
+                  Add to Cart
+                </Button>
+              </div>
+
+              {/* Subscribe */}
+              <Collapsible open={subOpen} onOpenChange={setSubOpen} className="mt-4">
+                <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground hover:border-primary/30">
+                  <span>Subscribe & save 10%</span>
+                  <ChevronDown
+                    size={14}
+                    className={`transition-transform ${subOpen ? "rotate-180" : ""}`}
+                  />
+                </CollapsibleTrigger>
+                <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                  <div className="mt-2 rounded-md border border-border bg-card p-4">
+                    <p className="text-sm text-muted-foreground">
+                      <span className="font-mono font-medium text-foreground">
+                        {formatPrice(subPrice)}
+                      </span>{" "}
+                      / 30 days · Cancel anytime
+                    </p>
+                    <Button
+                      variant="outline"
+                      onClick={handleSubscribe}
+                      className="mt-3 w-full border-primary/40 text-primary hover:bg-primary/10 hover:text-primary"
+                    >
+                      Subscribe — {formatPrice(subPrice)}/mo
+                    </Button>
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
+
+              {/* 3-Pack */}
+              <div className="mt-3 flex items-center justify-between rounded-md border border-border bg-card px-4 py-3">
+                <div>
+                  <div className="flex items-center gap-2 text-sm text-foreground">
+                    <Package size={14} className="text-primary" />
+                    3-Pack — Save 10%
+                  </div>
+                  <p className="mt-0.5 font-mono text-xs text-muted-foreground">
+                    {formatPrice(threePackTotal)} ({formatPrice(threePackUnit)} each)
+                  </p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handle3Pack}
+                  className="border-border"
+                >
+                  Add 3-Pack
+                </Button>
+              </div>
+
+              {/* Compliance */}
+              <p className="mt-6 text-xs text-amber-400/90">
+                For research use only. Not for human consumption.
+              </p>
+
+              {/* Spec table */}
+              <div className="mt-8 border-t border-border pt-6">
+                <h2 className="mb-4 font-display text-sm font-semibold uppercase tracking-wider text-foreground">
+                  Specifications
+                </h2>
+                <dl className="space-y-2 text-sm">
+                  <div className="flex justify-between border-b border-border/60 py-2">
+                    <dt className="text-muted-foreground">Purity</dt>
+                    <dd className="font-mono text-foreground">{purity}</dd>
+                  </div>
+                  <div className="flex justify-between border-b border-border/60 py-2">
+                    <dt className="text-muted-foreground">Testing</dt>
+                    <dd className="text-foreground">Independent analytical verification</dd>
+                  </div>
+                  <div className="flex justify-between py-2">
+                    <dt className="text-muted-foreground">Documentation</dt>
+                    <dd className="text-foreground">CoA available upon request</dd>
+                  </div>
+                </dl>
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="mt-4 border-border"
+                >
+                  <a href={`mailto:info@vertexresearchlabs.com?subject=CoA Request — ${name} ${size}`}>
+                    <Mail size={14} />
+                    Request CoA
+                  </a>
+                </Button>
               </div>
             </div>
           </div>
 
-          {/* Research Summary */}
+          {/* Research summary (kept for SEO) */}
           {seo?.researchSummary && (
-            <div className="mt-16 glass-card rounded-xl border-border/50 p-6">
-              <h2 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
-                <BookOpen size={20} className="text-primary" />
+            <div className="mt-16 rounded-xl border border-border bg-card p-6">
+              <h2 className="font-display text-lg font-semibold text-foreground">
                 Research Overview
               </h2>
-              <p className="text-muted-foreground leading-relaxed">{seo.researchSummary}</p>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {seo.researchSummary}
+              </p>
             </div>
           )}
 
-          {/* FAQ Section */}
+          {/* FAQs */}
           {seo?.faqs && seo.faqs.length > 0 && (
             <div className="mt-8">
-              <h2 className="text-xl font-semibold text-foreground mb-4">
-                Frequently Asked Questions — {name}
+              <h2 className="mb-4 font-display text-xl font-semibold text-foreground">
+                Frequently Asked Questions
               </h2>
-              <Accordion type="multiple" className="w-full space-y-2">
+              <Accordion type="multiple" className="space-y-2">
                 {seo.faqs.map((faq, i) => (
                   <AccordionItem
                     key={i}
                     value={`faq-${i}`}
-                    className="glass-card rounded-xl border-border/50 px-6"
+                    className="rounded-lg border border-border bg-card px-5"
                   >
-                    <AccordionTrigger className="hover:no-underline text-left py-4">
-                      <span className="font-medium text-foreground">{faq.question}</span>
+                    <AccordionTrigger className="py-4 text-left hover:no-underline">
+                      <span className="text-sm font-medium text-foreground">
+                        {faq.question}
+                      </span>
                     </AccordionTrigger>
-                    <AccordionContent className="pb-4">
-                      <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
+                    <AccordionContent className="pb-4 text-sm leading-relaxed text-muted-foreground">
+                      {faq.answer}
                     </AccordionContent>
                   </AccordionItem>
                 ))}
@@ -419,44 +430,50 @@ const ProductDetail = () => {
             </div>
           )}
 
-          {/* Selected Research & References Section */}
+          {/* References */}
           {references && references.length > 0 && (
             <div className="mt-8">
-              <Accordion type="single" collapsible className="w-full">
-                <AccordionItem value="references" className="glass-card rounded-xl border-border/50">
-                  <AccordionTrigger className="px-6 py-4 hover:no-underline">
-                    <div className="flex items-center gap-2">
-                      <BookOpen size={20} className="text-primary" />
-                      <span className="text-lg font-semibold text-foreground">Selected Research & References</span>
-                    </div>
+              <Accordion type="single" collapsible>
+                <AccordionItem
+                  value="references"
+                  className="rounded-lg border border-border bg-card px-5"
+                >
+                  <AccordionTrigger className="py-4 hover:no-underline">
+                    <span className="text-sm font-semibold text-foreground">
+                      Selected Research & References
+                    </span>
                   </AccordionTrigger>
-                  <AccordionContent className="px-6 pb-6">
-                    <p className="text-sm text-muted-foreground mb-6 p-4 rounded-lg bg-secondary/30 border border-border/50">
-                      The following peer-reviewed publications are provided for general scientific reference only. 
-                      These citations are not endorsements, claims, or recommendations. All materials supplied by 
-                      Vertex Research Labs are intended strictly for laboratory research use.
+                  <AccordionContent className="pb-5">
+                    <p className="mb-4 rounded-md border border-border bg-background/40 p-3 text-xs text-muted-foreground">
+                      The following peer-reviewed publications are provided for general
+                      scientific reference only. They are not endorsements or claims.
+                      All materials are for laboratory research use only.
                     </p>
-                    <div className="space-y-3">
-                      {references.map((ref, index) => (
-                        <div 
-                          key={index}
-                          className="p-4 rounded-lg bg-secondary/20 border border-border/30"
+                    <ul className="space-y-2">
+                      {references.map((ref, idx) => (
+                        <li
+                          key={idx}
+                          className="rounded-md border border-border/60 bg-background/30 p-3"
                         >
-                          <p className="text-sm text-foreground mb-2">
-                            {ref.authors}, <span className="text-muted-foreground">{ref.journal}</span> ({ref.year})
+                          <p className="text-sm text-foreground">
+                            {ref.authors},{" "}
+                            <span className="text-muted-foreground">
+                              {ref.journal}
+                            </span>{" "}
+                            ({ref.year})
                           </p>
-                          <a 
+                          <a
                             href={ref.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline"
+                            className="mt-1 inline-flex items-center gap-1 text-xs text-primary hover:underline"
                           >
-                            <span>{ref.url}</span>
-                            <ExternalLink size={14} />
+                            {ref.url}
+                            <ExternalLink size={12} />
                           </a>
-                        </div>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -464,7 +481,28 @@ const ProductDetail = () => {
           )}
         </div>
       </main>
-      
+
+      {/* Mobile sticky add to cart */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-popover/95 px-4 py-3 backdrop-blur-md md:hidden">
+        <div className="flex items-center gap-3">
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+              {size}
+            </p>
+            <p className="font-display text-base font-bold text-primary">
+              {formatPrice(salePrice)}
+            </p>
+          </div>
+          <Button
+            className="ml-auto h-11 flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
+            onClick={handleAdd}
+          >
+            <Plus size={16} />
+            Add to Cart
+          </Button>
+        </div>
+      </div>
+
       <Footer />
     </div>
   );

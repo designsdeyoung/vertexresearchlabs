@@ -58,12 +58,16 @@ Deno.serve(async (req) => {
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
     for (const line of autoshipLines) {
+      const intervalDays = Number(line.intervalDays) > 0
+        ? Number(line.intervalDays)
+        : (line.is3Pack ? 90 : 30);
+      const cadenceLabel = intervalDays === 90 ? "every 90 days" : "every 30 days";
       const price = await stripe.prices.create({
         currency: "usd",
         unit_amount: Math.round(line.unitAmount * 100),
-        recurring: { interval: "day", interval_count: 30 },
+        recurring: { interval: "day", interval_count: intervalDays },
         product_data: {
-          name: `${line.productName}${line.is3Pack ? " (3-Pack)" : ""} — Autoship`,
+          name: `${line.productName}${line.is3Pack ? " (3-Pack)" : ""} — Autoship ${cadenceLabel}`,
         },
       });
       lineItems.push({ price: price.id, quantity: line.quantity });

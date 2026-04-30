@@ -19,7 +19,8 @@ import {
   BookOpen,
   ExternalLink,
   Package,
-  Repeat
+  Repeat,
+  Sparkles
 } from "lucide-react";
 import {
   Dialog,

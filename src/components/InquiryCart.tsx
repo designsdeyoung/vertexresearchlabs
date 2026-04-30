@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { useInquiryCart } from "@/contexts/InquiryCartContext";
+import { useInquiryCart, computeUnitPrice } from "@/contexts/InquiryCartContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, Trash2, FlaskConical, ShieldCheck, ArrowRight, Truck, Sparkles, Package, Droplet, Plus as PlusIcon } from "lucide-react";
+import { Minus, Plus, Trash2, FlaskConical, ShieldCheck, ArrowRight, Truck, Sparkles, Package, Droplet, Plus as PlusIcon, Repeat } from "lucide-react";
 import { FREE_SHIPPING_THRESHOLD, FLAT_RATE_SHIPPING, THREE_PACK_DISCOUNT } from "@/contexts/InquiryCartContext";
 import { calculatePointsForPrice } from "@/hooks/useRewards";
 import { products } from "@/data/products";

@@ -12,6 +12,7 @@ import {
   useInquiryCart,
   THREE_PACK_DISCOUNT,
   AUTOSHIP_DISCOUNT,
+  THREE_PACK_AUTOSHIP_INTERVAL_DAYS,
 } from "@/contexts/InquiryCartContext";
 import { SITEWIDE_SALE } from "@/config/sale";
 import { toast } from "@/hooks/use-toast";

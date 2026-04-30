@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, FlaskConical } from "lucide-react";
-import { useInquiryCart, AUTOSHIP_DISCOUNT } from "@/contexts/InquiryCartContext";
+import { ChevronDown, FlaskConical, Package } from "lucide-react";
+import { useInquiryCart, AUTOSHIP_DISCOUNT, THREE_PACK_DISCOUNT } from "@/contexts/InquiryCartContext";
 import { SITEWIDE_SALE } from "@/config/sale";
 import type { Product } from "@/data/products";
 import { toast } from "@/hooks/use-toast";
@@ -31,11 +31,13 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
     allVariants.find((v) => v.id === selectedId) ?? allVariants[0];
 
   const { name, subtitle, size, price, image, category } = selected;
-  const { addItem, openCart } = useInquiryCart();
+  const { addItem, add3Pack, openCart } = useInquiryCart();
   const [subOpen, setSubOpen] = useState(false);
 
   const salePrice = SITEWIDE_SALE.active ? price * (1 - SITEWIDE_SALE.discount) : price;
   const subPrice = salePrice * (1 - AUTOSHIP_DISCOUNT);
+  const threePackUnit = salePrice * (1 - THREE_PACK_DISCOUNT);
+  const threePackTotal = threePackUnit * 3;
 
   const handleAdd = (autoship: boolean) => {
     addItem(selected, { isAutoship: autoship });
@@ -43,6 +45,12 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
       title: autoship ? "Subscription added" : "Added to cart",
       description: `${name} ${size}`,
     });
+    openCart();
+  };
+
+  const handle3Pack = () => {
+    add3Pack(selected, { isAutoship: false });
+    toast({ title: "3-Pack added", description: `${name} × 3` });
     openCart();
   };
 
@@ -147,11 +155,26 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
           {selected.outOfStock ? "Out of Stock" : "Add to Cart"}
         </Button>
 
+        {/* 3-Pack quick add (hidden when out of stock) */}
+        {!selected.outOfStock && (
+          <Button
+            variant="outline"
+            onClick={handle3Pack}
+            className="h-9 w-full justify-between border-primary/30 bg-primary/5 px-3 text-xs text-foreground hover:bg-primary/10 hover:text-foreground"
+          >
+            <span className="inline-flex items-center gap-1.5">
+              <Package size={13} className="text-primary" />
+              3-Pack — Save 10%
+            </span>
+            <span className="font-mono text-primary">{formatPrice(threePackTotal)}</span>
+          </Button>
+        )}
+
         {/* Subscribe accordion (hidden when out of stock) */}
         {!selected.outOfStock && (
         <Collapsible open={subOpen} onOpenChange={setSubOpen}>
           <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md py-1.5 text-xs text-muted-foreground transition-colors hover:text-primary">
-            <span>Subscribe & save 10%</span>
+            <span>Subscribe & save extra 10% (stacks with 3-Pack & sale)</span>
             <ChevronDown
               size={14}
               className={`transition-transform ${subOpen ? "rotate-180" : ""}`}
@@ -163,7 +186,7 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
                 <span className="font-mono font-medium text-foreground">
                   {formatPrice(subPrice)}
                 </span>{" "}
-                / 30 days · Cancel anytime
+                / 30 days · Cancel anytime · Extra 10% off even on 3-Packs
               </p>
               <Button
                 size="sm"

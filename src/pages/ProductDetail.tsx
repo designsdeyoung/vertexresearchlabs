@@ -325,7 +325,7 @@ const ProductDetail = () => {
                       <span className="font-mono font-medium text-foreground">
                         {formatPrice(subPrice)}
                       </span>{" "}
-                      / 30 days · Cancel anytime
+                      / 30 days · Cancel anytime · Extra 10% off even on 3-Packs
                     </p>
                     <Button
                       variant="outline"

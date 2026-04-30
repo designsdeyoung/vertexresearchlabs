@@ -129,7 +129,11 @@ const InquiryCart = () => {
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {item.product.size}
-                      {item.isAutoship && <span className="text-primary/70"> • every 30 days</span>}
+                      {item.isAutoship && (
+                        <span className="text-primary/70">
+                          {" "}• every {item.intervalDays ?? (item.is3Pack ? 90 : 30)} days
+                        </span>
+                      )}
                     </p>
                     {item.is3Pack || item.isAutoship ? (
                       <div className="flex items-center gap-1.5">

@@ -649,14 +649,19 @@ const Checkout = () => {
 
                 <div className="space-y-3 mb-6">
                   {items.map((item) => (
-                    <div key={item.product.id} className="flex justify-between items-start py-2 border-b border-border/30 last:border-0">
+                    <div key={`${item.product.id}-${item.is3Pack ? "3" : "1"}-${item.isAutoship ? "a" : "o"}`} className="flex justify-between items-start py-2 border-b border-border/30 last:border-0">
                       <div className="flex-1">
-                        <p className="text-sm font-medium text-foreground">{item.product.name}</p>
+                        <p className="text-sm font-medium text-foreground">
+                          {item.product.name}
+                          {item.isAutoship && <span className="ml-1.5 text-[10px] text-primary font-medium">· Autoship</span>}
+                          {item.is3Pack && <span className="ml-1.5 text-[10px] text-primary font-medium">· 3-Pack</span>}
+                        </p>
                         <p className="text-xs text-muted-foreground">
                           {item.product.size} × {item.quantity}
+                          {item.isAutoship && " · every 30d"}
                         </p>
                       </div>
-                      <span className="text-sm font-medium text-foreground">{formatPrice(item.product.price * item.quantity)}</span>
+                      <span className="text-sm font-medium text-foreground">{formatPrice(computeUnitPrice(item) * item.quantity)}</span>
                     </div>
                   ))}
                 </div>

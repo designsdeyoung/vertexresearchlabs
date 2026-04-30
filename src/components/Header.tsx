@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown, Truck, Sparkles, User, Zap } from "lucide-react";
+import { Menu, X, ChevronDown, Truck, Sparkles, User, Zap, BookOpen } from "lucide-react";
 import logo from "@/assets/logo.png";
 import { SITEWIDE_SALE } from "@/config/sale";
 import CartButton from "./CartButton";
@@ -37,6 +37,7 @@ const Header = () => {
   const navLinks = [
     { label: "Products", href: "/#products" },
     { label: "Quality", href: "/quality", hasDropdown: true },
+    { label: "Learn", href: "/learn", icon: BookOpen },
     { label: "Rewards", href: "/rewards" },
     { label: "Shipping", href: "/shipping" },
     { label: "Contact", href: "/#contact" },
@@ -98,8 +99,9 @@ const Header = () => {
                 <Link
                   key={link.label}
                   to={link.href}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                  className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 >
+                  {link.icon && <link.icon size={14} />}
                   {link.label}
                 </Link>
               ) : (
@@ -171,9 +173,10 @@ const Header = () => {
                   <Link
                     key={link.label}
                     to={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors py-2"
+                    className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
+                    {link.icon && <link.icon size={14} />}
                     {link.label}
                   </Link>
                 ) : (

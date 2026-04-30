@@ -9,7 +9,7 @@ const Footer = () => {
     <footer className="border-t border-border/50 py-12">
       <div className="container mx-auto px-6">
         {/* Main footer content */}
-        <div className="grid md:grid-cols-5 gap-8 mb-12">
+        <div className="grid md:grid-cols-6 gap-8 mb-12">
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="mb-4">
@@ -51,6 +51,38 @@ const Footer = () => {
                 <a href="/#contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Contact
                 </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Research Library */}
+          <div>
+            <h4 className="text-sm font-medium text-foreground mb-4">Research Library</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/learn" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  All Articles
+                </Link>
+              </li>
+              <li>
+                <Link to="/learn/bpc-157-research-overview" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  BPC-157 Research
+                </Link>
+              </li>
+              <li>
+                <Link to="/learn/retatrutide-triple-agonist-research" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Retatrutide Research
+                </Link>
+              </li>
+              <li>
+                <Link to="/learn/how-to-read-peptide-coa" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  How to Read a COA
+                </Link>
+              </li>
+              <li>
+                <Link to="/learn/research-grade-peptide-purity-standards" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Purity Standards
+                </Link>
               </li>
             </ul>
           </div>

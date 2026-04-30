@@ -297,7 +297,7 @@ export const products: Product[] = [
     name: "NAD+",
     subtitle: "Research Grade",
     size: "1000mg",
-    price: 160,
+    price: 150,
     description: "Coenzyme reference material supplied exclusively for laboratory research and analytical applications.",
     purity: "≥99%",
     testing: "Independent analytical verification",

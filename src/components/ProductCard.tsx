@@ -246,7 +246,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             onClick={handleAdd3Pack}
           >
             <Package size={14} />
-            Add 3-Pack & Save 10%
+            {isAutoship ? "Subscribe to 3-Pack — Save 19%" : "Add 3-Pack One-Time — Save 10%"}
           </Button>
         </div>
       </div>

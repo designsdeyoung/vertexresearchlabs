@@ -391,6 +391,7 @@ export const products: Product[] = [
   },
   {
     id: "mots-c-40",
+    groupId: "mots-c",
     name: "MOTS-C",
     subtitle: "Research Grade",
     size: "40mg",

@@ -61,12 +61,17 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
             src={image}
             alt={`${name} ${size} research material`}
             loading="lazy"
-            className="h-full w-full object-contain p-6"
+            className={`h-full w-full object-contain p-6 ${selected.outOfStock ? "opacity-40 grayscale" : ""}`}
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
             <FlaskConical size={48} className="text-muted-foreground/30" />
           </div>
+        )}
+        {selected.outOfStock && (
+          <span className="absolute left-3 top-3 rounded-md border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-amber-400">
+            Out of Stock
+          </span>
         )}
       </Link>
 
@@ -136,12 +141,14 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
         {/* Add to cart */}
         <Button
           onClick={() => handleAdd(false)}
-          className="h-10 w-full bg-primary text-primary-foreground hover:bg-primary/90"
+          disabled={selected.outOfStock}
+          className="h-10 w-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          Add to Cart
+          {selected.outOfStock ? "Out of Stock" : "Add to Cart"}
         </Button>
 
-        {/* Subscribe accordion */}
+        {/* Subscribe accordion (hidden when out of stock) */}
+        {!selected.outOfStock && (
         <Collapsible open={subOpen} onOpenChange={setSubOpen}>
           <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md py-1.5 text-xs text-muted-foreground transition-colors hover:text-primary">
             <span>Subscribe & save 10%</span>
@@ -169,6 +176,7 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
             </div>
           </CollapsibleContent>
         </Collapsible>
+        )}
       </div>
     </article>
   );

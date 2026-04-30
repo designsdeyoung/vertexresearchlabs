@@ -1045,7 +1045,7 @@ export const articles: Article[] = [
           "Both CJC-1295 and Ipamorelin in the blend are independently verified at ≥99% purity. The blend ships with a Certificate of Analysis covering both components.",
       },
     ],
-    relatedProducts: ["cjc-ipa-blend", "tesamorelin", "tesamorelin-10mg", "mots-c"],
+    relatedProducts: ["cjc-ipa-blend", "tesamorelin", "mots-c"],
     relatedSlugs: [
       "retatrutide-triple-agonist-research",
       "research-grade-peptide-purity-standards",

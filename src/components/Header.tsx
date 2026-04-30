@@ -33,10 +33,10 @@ const Header = () => {
       }`}
     >
       <div className="container mx-auto px-6">
-        <div className="flex h-[60px] items-center justify-between">
+        <div className="flex h-[72px] items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center" aria-label="Vertex Research Labs home">
-            <img src={logo} alt="Vertex Research Labs" className="h-9 w-auto" />
+            <img src={logo} alt="Vertex Research Labs" className="h-12 w-auto object-contain" />
           </Link>
 
           {/* Desktop nav */}

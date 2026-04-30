@@ -103,7 +103,7 @@ const ProductCatalog = () => {
         </div>
 
         {/* Sticky filter bar */}
-        <div className="sticky top-[60px] z-30 -mx-6 mb-8 border-y border-border bg-popover/95 px-6 py-3 backdrop-blur-md">
+        <div className="sticky top-[72px] z-30 -mx-6 mb-8 border-y border-border bg-popover/95 px-6 py-3 backdrop-blur-md">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             {/* Category pills */}
             <div className="-mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1 md:pb-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">

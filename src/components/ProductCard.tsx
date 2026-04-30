@@ -54,6 +54,16 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
     openCart();
   };
 
+  const handle3PackSubscribe = () => {
+    add3Pack(selected, { isAutoship: true, intervalDays: THREE_PACK_AUTOSHIP_INTERVAL_DAYS });
+    toast({ title: "3-Pack subscription added", description: `${name} × 3 · every 90 days` });
+    openCart();
+  };
+
+  // 3-Pack on subscribe: 3-pack discount + autoship discount stacked
+  const threePackSubUnit = threePackUnit * (1 - AUTOSHIP_DISCOUNT);
+  const threePackSubTotal = threePackSubUnit * 3;
+
   return (
     <article
       className="group flex h-full flex-col rounded-xl border border-border bg-card transition-all duration-150 ease-out hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"

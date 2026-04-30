@@ -148,7 +148,7 @@ export const productSEO: Record<string, ProductSEOData> = {
           "Phase 2 trial findings were published in the New England Journal of Medicine (Jastreboff AM et al., 2023), examining its metabolic receptor activity profile. This is among the most cited recent peptide research publications.",
       },
     ],
-    relatedProducts: ["bpc-157", "tesamorelin", "tesamorelin-10mg", "mots-c"],
+    relatedProducts: ["bpc-157", "tesamorelin", "mots-c"],
   },
 
   "bpc-157": {
@@ -585,7 +585,7 @@ export const productSEO: Record<string, ProductSEOData> = {
           "Kisspeptin binds the GPR54 receptor (also known as KISS1R). This interaction has been extensively studied in the context of GnRH pulse regulation in preclinical and clinical research.",
       },
     ],
-    relatedProducts: ["pt-141", "tesamorelin", "tesamorelin-10mg", "semax"],
+    relatedProducts: ["pt-141", "tesamorelin", "semax"],
   },
 
   "tesamorelin": {
@@ -636,36 +636,7 @@ export const productSEO: Record<string, ProductSEOData> = {
           "Yes. We offer a 10mg bulk format for researchers requiring larger quantities for extended protocols.",
       },
     ],
-    relatedProducts: ["tesamorelin-10mg", "cjc-ipa-blend", "mots-c", "kisspeptin"],
-  },
-
-  "tesamorelin-10mg": {
-    metaTitle: "Tesamorelin 10mg | ≥99% Purity Bulk GHRH Analog Research Peptide",
-    metaDescription:
-      "Buy Tesamorelin 10mg bulk research peptide. ≥99% purity, HPLC verified, COA included. Best value GHRH analog reference material for extended laboratory protocols.",
-    keywords: [
-      "Tesamorelin 10mg",
-      "bulk Tesamorelin",
-      "buy Tesamorelin 10mg",
-      "GHRH analog bulk research",
-      "Tesamorelin bulk research grade",
-      "high purity Tesamorelin 10mg",
-    ],
-    researchSummary:
-      "The 10mg bulk format of Tesamorelin is designed for extended research protocols requiring consistent GHRH analog reference material. Identical ≥99% purity standard to the 2mg format with batch-specific COA documentation.",
-    faqs: [
-      {
-        question: "Why choose the 10mg Tesamorelin over the 2mg?",
-        answer:
-          "The 10mg format provides better per-milligram value for larger studies or longitudinal research protocols requiring repeated use of Tesamorelin reference material.",
-      },
-      {
-        question: "Is the purity the same as the 2mg size?",
-        answer:
-          "Yes. Both sizes are verified at ≥99% purity with independent batch Certificates of Analysis.",
-      },
-    ],
-    relatedProducts: ["tesamorelin", "cjc-ipa-blend", "mots-c"],
+    relatedProducts: ["cjc-ipa-blend", "mots-c", "kisspeptin"],
   },
 
   "pt-141": {
@@ -961,7 +932,7 @@ export const productSEO: Record<string, ProductSEOData> = {
           "The blend contains an equal 1:1 ratio — 5mg CJC-1295 (No DAC) and 5mg Ipamorelin per 10mg vial.",
       },
     ],
-    relatedProducts: ["tesamorelin", "tesamorelin-10mg", "mots-c", "wolverine-blend"],
+    relatedProducts: ["tesamorelin", "mots-c", "wolverine-blend"],
   },
 
   "bac-water-3ml": {

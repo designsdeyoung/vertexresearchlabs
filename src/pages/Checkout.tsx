@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useCompliance } from "@/contexts/ComplianceContext";
-import { useInquiryCart } from "@/contexts/InquiryCartContext";
+import { useInquiryCart, computeUnitPrice } from "@/contexts/InquiryCartContext";
 import { FREE_SHIPPING_THRESHOLD, FLAT_RATE_SHIPPING } from "@/contexts/InquiryCartContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";

@@ -62,6 +62,7 @@ export interface Product {
 export const products: Product[] = [
   {
     id: "ghk-cu",
+    groupId: "ghk-cu",
     name: "GHK-Cu",
     subtitle: "Research Grade",
     size: "50mg",

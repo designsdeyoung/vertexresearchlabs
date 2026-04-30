@@ -121,6 +121,11 @@ const Dashboard = () => {
             <OrderHistory orders={orders} />
           </div>
 
+          {/* Subscriptions */}
+          <div className="mt-8">
+            <SubscriptionsList profileId={profile.id} />
+          </div>
+
           {/* Recent Activity */}
           {transactions.length > 0 && (
             <div className="mt-8">

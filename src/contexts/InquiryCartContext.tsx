@@ -8,12 +8,15 @@ export const FLAT_RATE_SHIPPING = 9.99;
 export const THREE_PACK_DISCOUNT = 0.10; // 10% off
 export const AUTOSHIP_DISCOUNT = 0.10; // 10% off Subscribe & Save
 export const AUTOSHIP_INTERVAL_DAYS = 30;
+export const THREE_PACK_AUTOSHIP_INTERVAL_DAYS = 90;
 
 export interface CartItem {
   product: Product;
   quantity: number;
   is3Pack?: boolean;
   isAutoship?: boolean;
+  /** Autoship cadence in days. Defaults to 30 for singles, 90 for 3-Packs when omitted. */
+  intervalDays?: number;
 }
 
 interface InquiryCartContextType {

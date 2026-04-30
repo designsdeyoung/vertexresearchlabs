@@ -39,9 +39,10 @@ const ProductDetail = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
   const { addItem, add3Pack, openCart } = useInquiryCart();
-  
+  const [isAutoship, setIsAutoship] = useState(false);
+
   const product = products.find(p => p.id === productId);
-  
+
   if (!product) {
     return (
       <div className="min-h-screen bg-background flex flex-col">
@@ -63,25 +64,29 @@ const ProductDetail = () => {
   const { name, subtitle, description, purity, testing, documentation, intendedUse, disclaimer, image, category, coa, references, price } = product;
 
   const salePrice = SITEWIDE_SALE.active ? price * (1 - SITEWIDE_SALE.discount) : price;
-  const threePackUnitPrice = salePrice * (1 - THREE_PACK_DISCOUNT);
+  const autoshipUnitPrice = salePrice * (1 - AUTOSHIP_DISCOUNT);
+  const singleDisplayPrice = isAutoship ? autoshipUnitPrice : salePrice;
+  const threePackUnitPrice = salePrice * (1 - THREE_PACK_DISCOUNT) * (isAutoship ? (1 - AUTOSHIP_DISCOUNT) : 1);
   const threePackTotal = threePackUnitPrice * 3;
 
   const formatPrice = (p: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(p);
 
   const handleAddToCart = () => {
-    addItem(product);
+    addItem(product, { isAutoship });
     toast({
-      title: "Added to cart",
-      description: `${name} has been added to your list.`,
+      title: isAutoship ? "Autoship added" : "Added to cart",
+      description: isAutoship
+        ? `${name} — ships every 30 days, 10% off + 2× points.`
+        : `${name} has been added to your list.`,
     });
     openCart();
   };
 
   const handleAdd3Pack = () => {
-    add3Pack(product);
+    add3Pack(product, { isAutoship });
     toast({
-      title: "3-Pack added!",
-      description: `${name} × 3 added with 10% savings.`,
+      title: isAutoship ? "Autoship 3-Pack added" : "3-Pack added!",
+      description: `${name} × 3 added with 10% savings${isAutoship ? " + 10% autoship" : ""}.`,
     });
     openCart();
   };

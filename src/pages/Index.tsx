@@ -48,6 +48,7 @@ const Index = () => {
       <main className="flex-1">
         <Hero />
         <TrustBar />
+        <BundleSection />
         <ProductCatalog />
         <ContactSection />
       </main>

@@ -8,6 +8,7 @@ import PointsBalance from "@/components/dashboard/PointsBalance";
 import RewardsLadder from "@/components/dashboard/RewardsLadder";
 import ReferralSection from "@/components/dashboard/ReferralSection";
 import OrderHistory from "@/components/dashboard/OrderHistory";
+import SubscriptionsList from "@/components/dashboard/SubscriptionsList";
 import { Button } from "@/components/ui/button";
 import { Sparkles, LogOut } from "lucide-react";
 

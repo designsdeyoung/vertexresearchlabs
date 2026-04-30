@@ -588,7 +588,7 @@ const Checkout = () => {
                 {!showPayment ? (
                   <Button type="submit" variant="hero" size="xl" className="w-full" disabled={!isFormValid || isSubmitting}>
                     <CreditCard size={18} />
-                    {finalTotal === 0 ? "Complete Order" : "Continue to Payment"}
+                    {hasAutoship ? (isSubmitting ? "Redirecting…" : "Continue to Subscription Checkout") : (finalTotal === 0 ? "Complete Order" : "Continue to Payment")}
                   </Button>
                 ) : finalTotal === 0 ? (
                   <div id="stripe-payment-section" className="glass-card rounded-lg p-6 border-l-4 border-l-primary">

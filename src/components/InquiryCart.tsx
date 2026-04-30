@@ -16,6 +16,7 @@ const InquiryCart = () => {
     updateQuantity, 
     clearCart,
     addItem,
+    add3Pack,
     subtotal,
     shippingCost,
     total,
@@ -30,6 +31,11 @@ const InquiryCart = () => {
   const showBacUpsell = hasPeptide && !hasBacWater;
   const bacWater3ml = products.find(p => p.id === "bac-water-3ml");
   const bacWater10ml = products.find(p => p.id === "bac-water-10ml");
+
+  // 3-Pack upsell: items that are single (not 3-pack), not autoship, not diluent
+  const threePackCandidates = items.filter(
+    (i) => !i.is3Pack && !i.isAutoship && i.product.category !== "Diluent" && !i.product.outOfStock
+  );
 
   const handleProceedToAccess = () => {
     closeCart();

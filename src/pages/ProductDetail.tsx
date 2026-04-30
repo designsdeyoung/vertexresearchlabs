@@ -180,7 +180,7 @@ const ProductDetail = () => {
                     <img
                       src={image}
                       alt={`${name} ${size} research material`}
-                      className="h-full w-full object-contain p-10"
+                      className="h-full w-full object-contain object-center scale-[1.5]"
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center">

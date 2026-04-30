@@ -295,14 +295,21 @@ const ProductDetail = () => {
                 </div>
                 <Button
                   size="lg"
-                  className="h-11 flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
+                  disabled={product.outOfStock}
+                  className="h-11 flex-1 bg-primary text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
                   onClick={handleAdd}
                 >
                   <Plus size={16} />
-                  Add to Cart
+                  {product.outOfStock ? "Out of Stock" : "Add to Cart"}
                 </Button>
               </div>
 
+              {product.outOfStock ? (
+                <p className="mt-4 rounded-md border border-amber-500/30 bg-amber-500/5 px-4 py-3 font-mono text-xs uppercase tracking-wider text-amber-400">
+                  Currently out of stock — restock pending
+                </p>
+              ) : (
+              <>
               {/* Subscribe */}
               <Collapsible open={subOpen} onOpenChange={setSubOpen} className="mt-4">
                 <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground hover:border-primary/30">
@@ -351,6 +358,8 @@ const ProductDetail = () => {
                   Add 3-Pack
                 </Button>
               </div>
+              </>
+              )}
 
               {/* Compliance */}
               <p className="mt-6 text-xs text-amber-400/90">

@@ -115,12 +115,20 @@ const InquiryCart = () => {
                           <Package size={10} /> 3-Pack
                         </span>
                       )}
+                      {item.isAutoship && (
+                        <span className="ml-1.5 inline-flex items-center gap-1 text-[10px] text-primary font-medium">
+                          <Repeat size={10} /> Autoship
+                        </span>
+                      )}
                     </p>
-                    <p className="text-xs text-muted-foreground">{item.product.size}</p>
-                    {item.is3Pack ? (
+                    <p className="text-xs text-muted-foreground">
+                      {item.product.size}
+                      {item.isAutoship && <span className="text-primary/70"> • every 30 days</span>}
+                    </p>
+                    {item.is3Pack || item.isAutoship ? (
                       <div className="flex items-center gap-1.5">
                         <span className="text-xs text-muted-foreground line-through">{formatPrice(item.product.price)}</span>
-                        <span className="text-sm font-medium text-primary">{formatPrice(item.product.price * (1 - THREE_PACK_DISCOUNT))}</span>
+                        <span className="text-sm font-medium text-primary">{formatPrice(computeUnitPrice(item))}</span>
                         <span className="text-[10px] text-primary/70">ea</span>
                       </div>
                     ) : (

@@ -31,8 +31,6 @@ const ProductCatalog = () => {
     "mots-c",
     "cjc-ipa-blend",
     "wolverine-blend",
-    "bac-water-3ml",
-    "bac-water-10ml",
     "bpc-157",
     "nad-plus",
     "nad-plus-1000",
@@ -49,6 +47,9 @@ const ProductCatalog = () => {
     "selank",
     "dsip",
     "epithalon",
+    // Diluents — always last; surfaced as upsell in cart instead.
+    "bac-water-3ml",
+    "bac-water-10ml",
   ];
   const rankOf = (id: string) => {
     const i = salesRank.indexOf(id);

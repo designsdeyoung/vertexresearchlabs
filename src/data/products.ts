@@ -279,6 +279,7 @@ export const products: Product[] = [
   },
   {
     id: "nad-plus",
+    groupId: "nad-plus",
     name: "NAD+",
     subtitle: "Research Grade",
     size: "500mg",
@@ -303,6 +304,7 @@ export const products: Product[] = [
   },
   {
     id: "nad-plus-1000",
+    groupId: "nad-plus",
     name: "NAD+",
     subtitle: "Research Grade",
     size: "1000mg",

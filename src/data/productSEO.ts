@@ -807,6 +807,230 @@ export const productSEO: Record<string, ProductSEOData> = {
     relatedProducts: ["selank", "semax", "epithalon", "bpc-157"],
   },
 
+  "epithalon": {
+    metaTitle: "Epithalon (Epitalon) 10mg | ≥99% Purity Tetrapeptide Research Material",
+    metaDescription:
+      "Buy Epithalon (Epitalon) 10mg research peptide. ≥99% purity, HPLC verified, COA included. Ala-Glu-Asp-Gly tetrapeptide reference material for longevity and telomere research.",
+    keywords: [
+      "Epithalon",
+      "Epitalon",
+      "buy Epithalon",
+      "Epithalon research peptide",
+      "Epitalon peptide",
+      "Epithalon 10mg",
+      "Epithalon for sale",
+      "telomerase research peptide",
+      "Epithalon purity",
+      "Epithalon COA",
+      "longevity peptide research",
+      "anti-aging peptide research",
+      "high purity Epithalon",
+      "best Epithalon peptide",
+      "Epithalon research grade",
+      "tetrapeptide longevity research",
+      "trending longevity peptides",
+    ],
+    researchSummary:
+      "Epithalon (Ala-Glu-Asp-Gly) is a synthetic tetrapeptide derived from Epithalamin, a polypeptide extract of the pineal gland. Research by Khavinson VK et al. published in Bulletin of Experimental Biology and Medicine has examined its interactions with telomerase activity and chromatin remodeling in cell culture models. It is among the most searched peptides in the longevity research space.",
+    faqs: [
+      {
+        question: "What is Epithalon?",
+        answer:
+          "Epithalon (also spelled Epitalon) is a synthetic tetrapeptide with the sequence Ala-Glu-Asp-Gly. It was developed from Epithalamin, a pineal gland-derived polypeptide, and is used in laboratory research as a reference material for studying chromatin and telomere biology.",
+      },
+      {
+        question: "Why is Epithalon considered a trending longevity peptide?",
+        answer:
+          "Preclinical research has examined Epithalon's interactions with telomerase, the enzyme involved in telomere maintenance. This has generated significant interest in the longevity research community, making it one of the most searched peptide research materials in the anti-aging science space.",
+      },
+      {
+        question: "What purity is your Epithalon?",
+        answer:
+          "Our Epithalon is independently verified at ≥99% purity by HPLC, with a Certificate of Analysis included with every order.",
+      },
+      {
+        question: "What is the molecular weight of Epithalon?",
+        answer:
+          "Epithalon has a molecular weight of approximately 390.35 Da and the amino acid sequence Ala-Glu-Asp-Gly.",
+      },
+      {
+        question: "Is Epithalon the same as Epithalamin?",
+        answer:
+          "No. Epithalamin is a complex polypeptide extract from bovine pineal glands. Epithalon is a synthetic tetrapeptide identified as the active sequence within Epithalamin and is the standard form used in modern research.",
+      },
+    ],
+    relatedProducts: ["ghk-cu", "mots-c", "dsip", "bpc-157"],
+  },
+
+  "wolverine-blend": {
+    metaTitle: "Wolverine Blend BPC-157 + TB-500 10mg | ≥99% Purity Research Peptide",
+    metaDescription:
+      "Buy Wolverine Blend — BPC-157 (5mg) + TB-500 (5mg) in a single research vial. ≥99% purity, HPLC verified, COA included. Most popular peptide combination for laboratory research.",
+    keywords: [
+      "BPC-157 TB-500 blend",
+      "Wolverine blend",
+      "BPC-157 and TB-500",
+      "buy BPC-157 TB-500 combo",
+      "peptide blend research",
+      "BPC-157 TB-500 10mg",
+      "Wolverine blend peptide",
+      "best peptide blend research",
+      "BPC-157 TB-500 stack research",
+      "high purity peptide blend",
+      "BPC-157 thymosin beta-4 blend",
+      "research peptide combo",
+    ],
+    researchSummary:
+      "The Wolverine Blend combines BPC-157 (5mg) and TB-500 / Thymosin Beta-4 Acetate (5mg) into a single research vial. Both peptides are extensively studied individually in preclinical settings. This combination format is designed for researchers who wish to study both reference materials simultaneously with a single COA-verified source.",
+    faqs: [
+      {
+        question: "What is the Wolverine Blend?",
+        answer:
+          "The Wolverine Blend is a co-lyophilized research vial containing BPC-157 (5mg) and TB-500 / Thymosin Beta-4 Acetate (5mg). It is supplied as a laboratory reference material for researchers studying both peptides in the same experimental protocol.",
+      },
+      {
+        question: "Why combine BPC-157 and TB-500 in one vial?",
+        answer:
+          "BPC-157 and TB-500 are among the most co-researched peptide pairs in the preclinical literature. Combining them in a single verified vial simplifies procurement, reduces cost versus buying separately, and ensures both materials come from the same independently tested batch.",
+      },
+      {
+        question: "What purity is the Wolverine Blend?",
+        answer:
+          "Both components are verified at ≥99% individual purity. The blend ships with a Certificate of Analysis covering both peptides.",
+      },
+      {
+        question: "Can I buy BPC-157 and TB-500 separately?",
+        answer:
+          "Yes — we offer BPC-157 and TB-500 individually for researchers who need single-peptide reference materials. The Wolverine Blend is offered as a convenience and value option.",
+      },
+      {
+        question: "Does the Wolverine Blend save money vs buying separately?",
+        answer:
+          "Yes. The Wolverine Blend (10mg total, 5mg each) is priced at a discount versus purchasing BPC-157 5mg and TB-500 5mg as separate vials.",
+      },
+    ],
+    relatedProducts: ["bpc-157", "tb-500", "ghk-cu", "epithalon"],
+  },
+
+  "cjc-ipa-blend": {
+    metaTitle: "CJC-1295 / Ipamorelin Blend 10mg | ≥99% Purity GHRH + GHS Research Peptide",
+    metaDescription:
+      "Buy CJC-1295 No DAC + Ipamorelin blend 10mg research peptide. ≥99% purity, HPLC verified, COA included. GHRH analog and GH secretagogue reference material for laboratory research.",
+    keywords: [
+      "CJC-1295 Ipamorelin blend",
+      "CJC-1295 No DAC",
+      "Ipamorelin",
+      "buy CJC-1295 Ipamorelin",
+      "CJC Ipa blend research",
+      "GHRH GH secretagogue research",
+      "CJC-1295 Ipamorelin 10mg",
+      "CJC-1295 for sale",
+      "Ipamorelin for sale",
+      "growth hormone secretagogue research",
+      "high purity CJC Ipamorelin",
+      "best CJC-1295 Ipamorelin",
+      "CJC-1295 Ipamorelin research grade",
+      "peptide GH research",
+    ],
+    researchSummary:
+      "The CJC/IPA Blend combines CJC-1295 (No DAC) — a GHRH analog — and Ipamorelin — a selective GH secretagogue pentapeptide — in a single research vial. CJC-1295 research has been published in the Journal of Clinical Endocrinology & Metabolism (Teichman SL et al., 2006). Ipamorelin GH secretagogue properties were characterized in European Journal of Endocrinology (Raun K et al., 1998). Together they represent complementary GH-axis research tools.",
+    faqs: [
+      {
+        question: "What is CJC-1295 (No DAC)?",
+        answer:
+          "CJC-1295 (No DAC) is a modified GHRH analog consisting of the first 29 amino acids of GHRH with chemical substitutions for improved stability. 'No DAC' refers to the absence of the Drug Affinity Complex modification, resulting in a shorter half-life more suitable for pulsatile GH secretion research.",
+      },
+      {
+        question: "What is Ipamorelin?",
+        answer:
+          "Ipamorelin is a selective pentapeptide growth hormone secretagogue that activates the GHS-R1a (ghrelin) receptor. Research has characterized it as highly selective for GH release with minimal effect on other pituitary hormones in animal models.",
+      },
+      {
+        question: "Why combine CJC-1295 and Ipamorelin?",
+        answer:
+          "CJC-1295 acts on GHRH receptors while Ipamorelin acts on GHS-R1a receptors — two distinct GH-axis pathways. Studying them together allows researchers to examine synergistic GH-axis signaling in a single experimental protocol.",
+      },
+      {
+        question: "What purity is the CJC/IPA Blend?",
+        answer:
+          "Both components are independently verified at ≥99% purity. The blend ships with a Certificate of Analysis documenting both peptides.",
+      },
+      {
+        question: "What is the ratio of CJC-1295 to Ipamorelin in the blend?",
+        answer:
+          "The blend contains an equal 1:1 ratio — 5mg CJC-1295 (No DAC) and 5mg Ipamorelin per 10mg vial.",
+      },
+    ],
+    relatedProducts: ["tesamorelin", "tesamorelin-10mg", "mots-c", "wolverine-blend"],
+  },
+
+  "bac-water-3ml": {
+    metaTitle: "BAC Water 3mL | USP Grade Bacteriostatic Water Research Diluent",
+    metaDescription:
+      "Buy BAC Water (Bacteriostatic Water) 3mL. USP grade, sterility tested. Standard laboratory diluent for peptide reconstitution. Research use only.",
+    keywords: [
+      "BAC water",
+      "bacteriostatic water",
+      "buy BAC water",
+      "peptide diluent",
+      "BAC water 3ml",
+      "bacteriostatic water for research",
+      "peptide reconstitution diluent",
+      "USP grade bacteriostatic water",
+      "sterile peptide diluent",
+    ],
+    researchSummary:
+      "Bacteriostatic Water (BAC Water) is a USP-grade sterile diluent containing 0.9% benzyl alcohol as a preservative. It is the standard laboratory diluent used for reconstituting lyophilized peptide reference materials.",
+    faqs: [
+      {
+        question: "What is BAC Water?",
+        answer:
+          "BAC Water (Bacteriostatic Water) is a sterile water solution containing 0.9% benzyl alcohol. It is the standard diluent used in laboratory settings for reconstituting lyophilized peptides.",
+      },
+      {
+        question: "Why use BAC Water instead of regular sterile water?",
+        answer:
+          "The 0.9% benzyl alcohol in BAC Water inhibits bacterial growth, allowing a single vial to be used for multiple reconstitutions while maintaining sterility — important for research consistency.",
+      },
+      {
+        question: "Is BAC Water included with peptide orders?",
+        answer:
+          "BAC Water is available as a separate add-on. We offer both 3mL and 10mL formats to match your research protocol volume needs.",
+      },
+    ],
+    relatedProducts: ["bac-water-10ml", "bpc-157", "tb-500", "wolverine-blend"],
+  },
+
+  "bac-water-10ml": {
+    metaTitle: "BAC Water 10mL | USP Grade Bacteriostatic Water Research Diluent",
+    metaDescription:
+      "Buy BAC Water (Bacteriostatic Water) 10mL. USP grade, sterility tested. Larger format laboratory diluent for peptide reconstitution. Research use only.",
+    keywords: [
+      "BAC water 10ml",
+      "bacteriostatic water 10ml",
+      "buy BAC water 10ml",
+      "peptide diluent 10ml",
+      "bulk bacteriostatic water",
+      "USP grade BAC water large",
+      "sterile diluent research",
+    ],
+    researchSummary:
+      "The 10mL BAC Water format is suited for researchers reconstituting multiple peptide vials or larger volume preparations. Same USP-grade, sterility-tested formulation as the 3mL format.",
+    faqs: [
+      {
+        question: "When should I use 10mL BAC Water vs 3mL?",
+        answer:
+          "The 10mL format is ideal for researchers who are working with multiple peptide vials simultaneously or need a larger volume diluent supply for extended experimental protocols.",
+      },
+      {
+        question: "Is the 10mL the same quality as the 3mL?",
+        answer:
+          "Yes — both are USP-grade, sterility-tested bacteriostatic water with 0.9% benzyl alcohol.",
+      },
+    ],
+    relatedProducts: ["bac-water-3ml", "bpc-157", "tb-500", "cjc-ipa-blend"],
+  },
+
   "mots-c-40": {
     metaTitle: "MOTS-c 40mg | ≥99% Purity Bulk Mitochondrial Peptide Research Material",
     metaDescription:

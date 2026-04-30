@@ -152,10 +152,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
         {/* 3-Pack Upgrade */}
         <div className="mb-4 p-3 rounded-lg bg-primary/5 border border-primary/20">
-          <div className="flex items-center gap-1.5 mb-1">
-            <Package size={14} className="text-primary" />
-            <span className="text-xs font-semibold text-primary">
-              3-Pack — Save {SITEWIDE_SALE.active ? '~19%' : '10%'}
+          <div className="flex items-center justify-between mb-1">
+            <div className="flex items-center gap-1.5">
+              <Package size={14} className="text-primary" />
+              <span className="text-xs font-semibold text-primary">
+                3-Pack — Save 10%{isAutoship ? " + 10% Autoship" : ""}
+              </span>
+            </div>
+            <span className="text-[9px] uppercase tracking-wider text-muted-foreground">
+              {isAutoship ? "Recurring" : "One-time"}
             </span>
           </div>
           <div className="flex items-center justify-between">
@@ -167,6 +172,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
               <span className="text-sm font-semibold text-primary">{formatPrice(threePackTotal)}</span>
             </div>
           </div>
+          <p className="text-[10px] text-muted-foreground/80 mt-1.5 leading-snug">
+            Toggle <span className="text-primary font-medium">Subscribe</span> above to make your 3-Pack recurring every 30 days for an extra 10% off + 2× points.
+          </p>
         </div>
 
         {/* Description */}
@@ -238,7 +246,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             onClick={handleAdd3Pack}
           >
             <Package size={14} />
-            Add 3-Pack & Save 10%
+            {isAutoship ? "Subscribe to 3-Pack — Save 19%" : "Add 3-Pack One-Time — Save 10%"}
           </Button>
         </div>
       </div>

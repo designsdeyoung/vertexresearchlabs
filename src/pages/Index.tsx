@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import ComplianceBanner from "@/components/ComplianceBanner";
 import Hero from "@/components/Hero";
 import TrustBar from "@/components/TrustBar";
+import BundleSection from "@/components/BundleSection";
 import ProductCatalog from "@/components/ProductCatalog";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";

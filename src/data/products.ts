@@ -15,6 +15,7 @@ import nadPlusImage from "@/assets/products/nad-plus.png";
 import nadPlus1000Image from "@/assets/products/nad-plus-1000.png";
 import glutathioneImage from "@/assets/products/glutathione.png";
 import motsCImage from "@/assets/products/mots-c.png";
+import motsC40Image from "@/assets/products/mots-c-40.png";
 import kisspeptinImage from "@/assets/products/kisspeptin.png";
 import tesamorelinImage from "@/assets/products/tesamorelin.png";
 import pt141Image from "@/assets/products/pt-141.png";
@@ -378,6 +379,31 @@ export const products: Product[] = [
         year: 2015,
         title: "Mitochondrial-derived Peptide MOTS-c",
         url: "https://www.cell.com/cell-metabolism/fulltext/S1550-4131(15)00061-3"
+      }
+    ]
+  },
+  {
+    id: "mots-c-40",
+    name: "MOTS-C",
+    subtitle: "Research Grade",
+    size: "40mg",
+    price: 140,
+    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: motsC40Image,
+    category: "Peptide",
+    isNew: true,
+    references: [
+      {
+        authors: "Lee C et al.",
+        journal: "Cell Metabolism",
+        year: 2015,
+        title: "MOTS-c Peptide Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/25738459/"
       }
     ]
   },

@@ -22,7 +22,7 @@ export interface CartItem {
 interface InquiryCartContextType {
   items: CartItem[];
   addItem: (product: Product, opts?: { isAutoship?: boolean }) => void;
-  add3Pack: (product: Product, opts?: { isAutoship?: boolean }) => void;
+  add3Pack: (product: Product, opts?: { isAutoship?: boolean; intervalDays?: number }) => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;

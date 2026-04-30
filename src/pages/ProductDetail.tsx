@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
-import { THREE_PACK_DISCOUNT } from "@/contexts/InquiryCartContext";
+import { THREE_PACK_DISCOUNT, AUTOSHIP_DISCOUNT } from "@/contexts/InquiryCartContext";
 import { SITEWIDE_SALE } from "@/config/sale";
 import { toast } from "@/hooks/use-toast";
 import { 

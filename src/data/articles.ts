@@ -323,4 +323,324 @@ export const articles: Article[] = [
       "how-to-read-peptide-coa",
     ],
   },
+
+  {
+    slug: "mots-c-mitochondrial-peptide-research",
+    title: "MOTS-c: The Mitochondrial-Derived Peptide Redefining Longevity Research",
+    metaTitle: "MOTS-c Research Overview: Mitochondrial-Derived Peptide | Vertex Research Labs",
+    metaDescription:
+      "Research overview of MOTS-c, a mitochondria-encoded peptide identified in Cell Metabolism (2015). Covers its mitochondrial origin, metabolic signaling research, and why it is trending in longevity science.",
+    keywords: [
+      "MOTS-c research",
+      "mitochondrial derived peptide",
+      "MOTS-c Cell Metabolism",
+      "MOTS-c longevity research",
+      "MOTS-c metabolic signaling",
+      "mitokine research",
+      "MOTS-c 12S rRNA",
+      "MOTS-c preclinical",
+      "trending longevity peptides 2025",
+    ],
+    publishedDate: "2025-02-10",
+    modifiedDate: "2025-04-01",
+    category: "Research Overview",
+    readTime: 7,
+    excerpt:
+      "MOTS-c is a 16-amino-acid peptide encoded within the mitochondrial genome — an entirely new class of signaling molecule. Since its landmark identification in Cell Metabolism (2015), it has become one of the most actively studied peptides in longevity and metabolic research.",
+    sections: [
+      {
+        heading: "What Is MOTS-c?",
+        content:
+          "MOTS-c (Mitochondrial Open Reading Frame of the 12S rRNA Type-c) is a 16-amino-acid peptide encoded by a short open reading frame within the 12S ribosomal RNA gene of the human mitochondrial genome. Its discovery, reported by Lee C et al. in Cell Metabolism (2015), established a new category of bioactive molecules: mitochondria-derived peptides (MDPs), also called mitokines. MOTS-c's sequence is MRWQEMGYIFYPRKLR.",
+      },
+      {
+        heading: "A New Category: Mitochondria-Derived Peptides",
+        content:
+          "For decades, the mitochondrial genome was considered to encode only 13 proteins, 22 tRNAs, and 2 rRNAs — all components of the oxidative phosphorylation machinery. The discovery of MOTS-c and other short open reading frames within mitochondrial non-coding regions expanded this understanding fundamentally. MDPs are now recognized as a distinct class of signaling molecules that can translocate from mitochondria to the cytoplasm and nucleus, acting as retrograde signals between mitochondria and the rest of the cell.",
+        list: [
+          "Source: Mitochondrial 12S rRNA gene small open reading frame",
+          "Length: 16 amino acids",
+          "Sequence: MRWQEMGYIFYPRKLR",
+          "Molecular weight: ~2174.5 Da",
+          "Classification: Mitochondria-Derived Peptide (MDP) / Mitokine",
+        ],
+      },
+      {
+        heading: "Published Research: Metabolic Signaling",
+        content:
+          "The landmark 2015 Cell Metabolism paper (Lee C et al., DOI: 10.1016/j.cmet.2015.01.020) demonstrated that MOTS-c regulates the AMPK pathway and methionine metabolism via the folate cycle in cell and animal models. Subsequent research has examined MOTS-c's translocation to the nucleus under stress conditions and its interactions with ARE (Antioxidant Response Element) pathways. All findings to date are preclinical.",
+      },
+      {
+        heading: "Why MOTS-c Is Trending in Longevity Research",
+        content:
+          "Several factors have converged to make MOTS-c one of the most-discussed peptides in longevity science circles as of 2024–2025.",
+        list: [
+          "Published in Cell Metabolism — one of the highest-impact journals in metabolic biology",
+          "Novel mechanism: mitochondrial genome origin was unexpected",
+          "AMPK pathway relevance connects it to established longevity research (metformin, rapamycin literature)",
+          "Age-related decline in circulating MOTS-c levels observed in published studies",
+          "Active ongoing research from multiple independent laboratories",
+        ],
+      },
+      {
+        heading: "Research Grade MOTS-c Specifications",
+        content:
+          "MOTS-c is available from Vertex Research Labs in 10mg and 40mg formats, both independently verified at ≥99% purity by HPLC with batch-specific COA documentation. Given its relatively short sequence and unique amino acid composition, identity confirmation via mass spectrometry is standard in our quality protocol.",
+      },
+      {
+        heading: "Disclaimer",
+        content:
+          "MOTS-c reference materials from Vertex Research Labs are supplied exclusively for laboratory research use. No claims are made regarding any therapeutic, health, or clinical application. All research findings cited are preclinical and do not establish safety or efficacy in humans.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Where is MOTS-c encoded in the human genome?",
+        answer:
+          "MOTS-c is encoded within a short open reading frame in the 12S ribosomal RNA gene of the mitochondrial genome — not the nuclear genome. This makes it part of a newly discovered class called mitochondria-derived peptides (MDPs).",
+      },
+      {
+        question: "What pathway does MOTS-c research focus on?",
+        answer:
+          "Published research has primarily focused on MOTS-c's interactions with the AMPK (AMP-activated protein kinase) pathway and methionine metabolism via the folate cycle, as identified in the 2015 Cell Metabolism paper by Lee et al.",
+      },
+      {
+        question: "Is MOTS-c levels known to change with age?",
+        answer:
+          "Published studies have reported an age-related decline in circulating MOTS-c levels in both mice and humans, which has contributed to significant interest in this peptide within the longevity research community.",
+      },
+      {
+        question: "What sizes is MOTS-c available in for research?",
+        answer:
+          "Vertex Research Labs offers MOTS-c in 10mg (standard) and 40mg (bulk) formats, both at ≥99% purity with independent COA documentation.",
+      },
+    ],
+    relatedProducts: ["mots-c", "mots-c-40", "nad-plus", "epithalon"],
+    relatedSlugs: [
+      "epithalon-research-overview",
+      "research-grade-peptide-purity-standards",
+      "bpc-157-research-overview",
+    ],
+  },
+
+  {
+    slug: "epithalon-research-overview",
+    title: "Epithalon (Epitalon) Research: A Tetrapeptide Overview",
+    metaTitle: "Epithalon (Epitalon) Research Overview: Telomere & Longevity Science | Vertex Research Labs",
+    metaDescription:
+      "Research overview of Epithalon (Epitalon), the synthetic tetrapeptide Ala-Glu-Asp-Gly studied for telomerase interactions and pineal biology. Covers structure, published studies, and research specifications.",
+    keywords: [
+      "Epithalon research",
+      "Epitalon research",
+      "Epithalon telomere research",
+      "Epithalon telomerase",
+      "Epitalon peptide studies",
+      "Epithalon Khavinson",
+      "pineal peptide research",
+      "tetrapeptide longevity research",
+      "Epithalon preclinical",
+      "anti-aging peptide research",
+    ],
+    publishedDate: "2025-02-18",
+    modifiedDate: "2025-04-01",
+    category: "Research Overview",
+    readTime: 6,
+    excerpt:
+      "Epithalon (Ala-Glu-Asp-Gly) is a synthetic tetrapeptide derived from Epithalamin, a pineal gland extract. Research by Khavinson and colleagues has examined its interactions with telomerase activity and chromatin structure in cell culture models, making it one of the most discussed peptides in longevity research.",
+    sections: [
+      {
+        heading: "What Is Epithalon?",
+        content:
+          "Epithalon (also spelled Epitalon; IUPAC: Ala-Glu-Asp-Gly) is a synthetic tetrapeptide developed by Professor Vladimir Khavinson at the St. Petersburg Institute of Bioregulation and Gerontology. It was derived from Epithalamin — a complex polypeptide extract of the bovine pineal gland that Khavinson's group studied beginning in the 1980s. Epithalon represents the isolated active tetrapeptide sequence from that larger extract and is the form used in modern research.",
+        list: [
+          "Sequence: Ala-Glu-Asp-Gly (AEDG)",
+          "Molecular weight: ~390.35 Da",
+          "Formula: C₁₄H₂₂N₄O₁₀",
+          "Classification: Synthetic tetrapeptide / bioregulator",
+          "Source of derivation: Epithalamin (bovine pineal extract)",
+        ],
+      },
+      {
+        heading: "Pineal Biology and Research Context",
+        content:
+          "The pineal gland is a small endocrine structure in the brain responsible for melatonin secretion and involved in circadian rhythm regulation. Khavinson's research group pursued the hypothesis that peptide bioregulators derived from various organs carry tissue-specific biological information. Epithalamin (and subsequently Epithalon) was their pineal-derived candidate. The majority of foundational Epithalon research originates from Khavinson's laboratory and affiliated Russian institutes.",
+      },
+      {
+        heading: "Telomerase Research",
+        content:
+          "The area of Epithalon research attracting the most contemporary attention involves telomerase — the enzyme responsible for maintaining telomere length at chromosome ends. A study published in Bulletin of Experimental Biology and Medicine (Khavinson VK et al., 2003) reported telomerase activation in human somatic cells treated with Epithalon in vitro. This single finding has generated substantial interest, though independent replication in peer-reviewed literature remains limited. Researchers should interpret these findings in that context.",
+      },
+      {
+        heading: "Chromatin and Gene Expression Research",
+        content:
+          "Beyond telomerase, Khavinson's group has published research examining Epithalon's interactions with chromatin structure and gene promoter regions. The proposed mechanism involves Epithalon binding to histone proteins and influencing chromatin accessibility, which would affect transcription factor binding. These findings are from cell culture and animal models only.",
+      },
+      {
+        heading: "Why Epithalon Is Trending",
+        content:
+          "Several factors explain Epithalon's growing search volume and community interest in 2024–2025.",
+        list: [
+          "Telomere biology has become a high-profile research area following Nobel Prize recognition (Blackburn, Greider, Szostak, 2009)",
+          "Longevity research is experiencing broader public and scientific interest",
+          "Epithalon is one of the few peptides with published (though limited) telomerase interaction data",
+          "It is relatively affordable as a research material compared to longer peptides",
+          "Active discussion in longevity research communities online has driven search interest",
+        ],
+      },
+      {
+        heading: "Research Grade Specifications",
+        content:
+          "Epithalon is supplied by Vertex Research Labs in 10mg vials at ≥99% purity, independently verified by HPLC with batch-specific COA documentation. As a tetrapeptide, it is among the smaller peptide reference materials in our catalog, which contributes to its stability and relatively accessible price point.",
+      },
+      {
+        heading: "Disclaimer",
+        content:
+          "Epithalon reference materials from Vertex Research Labs are supplied for laboratory research use only. Published research on Epithalon is predominantly from a single research group and has not been extensively independently replicated. No therapeutic, anti-aging, or health claims are made. This material is not for human or veterinary use.",
+      },
+    ],
+    faqs: [
+      {
+        question: "What is the difference between Epithalon and Epithalamin?",
+        answer:
+          "Epithalamin is a complex polypeptide extract derived from bovine pineal glands. Epithalon (Ala-Glu-Asp-Gly) is the synthetic tetrapeptide identified as the active sequence within Epithalamin and is the standard form used in modern research.",
+      },
+      {
+        question: "What is Epithalon's proposed interaction with telomerase?",
+        answer:
+          "A 2003 publication in Bulletin of Experimental Biology and Medicine by Khavinson et al. reported telomerase activation in human somatic cells treated with Epithalon in vitro. Independent replication of this finding in peer-reviewed literature remains limited.",
+      },
+      {
+        question: "Is Epithalon the same as Epitalon?",
+        answer:
+          "Yes. Epithalon and Epitalon are two common spellings of the same tetrapeptide (Ala-Glu-Asp-Gly). The 'Epithalon' spelling is more common in English-language scientific literature.",
+      },
+      {
+        question: "What purity is research-grade Epithalon?",
+        answer:
+          "Vertex Research Labs supplies Epithalon at ≥99% purity verified by HPLC, with a Certificate of Analysis included with every 10mg order.",
+      },
+    ],
+    relatedProducts: ["epithalon", "ghk-cu", "mots-c", "dsip"],
+    relatedSlugs: [
+      "mots-c-mitochondrial-peptide-research",
+      "ghk-cu-copper-peptide-guide",
+      "research-grade-peptide-purity-standards",
+    ],
+  },
+
+  {
+    slug: "how-to-read-peptide-coa",
+    title: "How to Read a Peptide Certificate of Analysis (COA)",
+    metaTitle: "How to Read a Peptide Certificate of Analysis (COA) | Vertex Research Labs",
+    metaDescription:
+      "A complete guide to reading and verifying a peptide Certificate of Analysis. Covers HPLC purity data, mass spectrometry identity confirmation, batch numbers, and what to look for when evaluating a supplier.",
+    keywords: [
+      "how to read peptide COA",
+      "peptide certificate of analysis",
+      "HPLC peptide purity",
+      "peptide COA explained",
+      "peptide batch documentation",
+      "verify peptide purity",
+      "what is peptide COA",
+      "research peptide quality verification",
+      "mass spectrometry peptide identity",
+      "peptide purity standards",
+    ],
+    publishedDate: "2025-03-01",
+    modifiedDate: "2025-04-01",
+    category: "Research Guide",
+    readTime: 8,
+    excerpt:
+      "A Certificate of Analysis (COA) is the primary document for verifying peptide quality in research settings. This guide explains every section of a COA — from HPLC chromatograms to mass spec data — and what standards to hold suppliers to.",
+    sections: [
+      {
+        heading: "What Is a Certificate of Analysis?",
+        content:
+          "A Certificate of Analysis (COA) is a quality assurance document issued for a specific batch of a compound. For research peptides, it provides analytical evidence that the material meets specified purity, identity, and quality standards. A COA is not a guarantee of safety or fitness for any particular use — it is a technical document confirming what the material is and how pure it is. Every serious research peptide supplier should provide a batch-specific COA, not a generic document reused across multiple lots.",
+      },
+      {
+        heading: "Key Sections of a Peptide COA",
+        content:
+          "A complete peptide COA should contain the following elements. Absence of any of these sections is a red flag when evaluating a supplier.",
+        list: [
+          "Product name and catalog number",
+          "Batch / lot number (must be batch-specific, not generic)",
+          "Date of analysis",
+          "Testing laboratory name (third-party independent is the gold standard)",
+          "Purity result (% by HPLC, with chromatogram)",
+          "Identity confirmation (mass spectrometry or amino acid analysis)",
+          "Appearance description (e.g. white lyophilized powder)",
+          "Storage conditions",
+          "Analyst signature or laboratory stamp",
+        ],
+      },
+      {
+        heading: "Understanding HPLC Purity Data",
+        content:
+          "High-Performance Liquid Chromatography (HPLC) is the standard method for determining peptide purity. In a reverse-phase HPLC run, the peptide is separated from impurities based on hydrophobicity. The result is a chromatogram — a graph of UV absorbance (y-axis) versus time (x-axis). The main peak represents your peptide; smaller peaks represent impurities. Purity is calculated as the area of the main peak divided by the total area of all peaks, expressed as a percentage. Research-grade peptides should show ≥99% purity by this method, meaning the main peak accounts for at least 99% of total peak area.",
+      },
+      {
+        heading: "Understanding Mass Spectrometry Identity Confirmation",
+        content:
+          "HPLC tells you how pure the material is but not definitively what it is. Mass spectrometry (MS) — typically ESI-MS or MALDI-TOF — provides molecular weight confirmation. The measured molecular ion (M+H)⁺ or (M+2H)²⁺ should match the theoretical molecular weight of the peptide within acceptable mass accuracy (typically ±0.1 Da for ESI-MS). For example, BPC-157 has a theoretical MW of 1419.5 Da; a COA showing [M+H]⁺ = 1420.5 is consistent. A mismatch indicates wrong identity or significant structural modification.",
+      },
+      {
+        heading: "Third-Party vs. In-House Testing",
+        content:
+          "There is an important distinction between in-house COAs and third-party independent COAs. An in-house COA is generated by the supplier's own laboratory — there is a conflict of interest since the supplier is testing their own product. A third-party independent COA is generated by a laboratory with no commercial relationship to the supplier. Third-party COAs are the gold standard in research peptide quality verification. At Vertex Research Labs, all COAs are produced by independent analytical laboratories.",
+      },
+      {
+        heading: "Batch-Specific vs. Generic COAs",
+        content:
+          "A batch-specific COA references a unique lot number that can be traced to a specific production run. A generic COA may show impressive purity numbers but applies to no specific batch — it cannot verify the material you actually received. Always check that the lot number on your COA matches the lot number on your vial label. If a supplier cannot provide a batch-specific COA, that is a significant quality concern.",
+      },
+      {
+        heading: "Red Flags to Watch For",
+        content:
+          "When evaluating a peptide COA, these are common indicators of low-quality documentation.",
+        list: [
+          "No lot number or a generic lot number (e.g. 'Lot: 2024')",
+          "No testing laboratory identified",
+          "HPLC purity listed without a chromatogram",
+          "No mass spectrometry data",
+          "Analysis date that predates the supplier's business existence",
+          "Purity stated as 'tested by manufacturer' with no third-party reference",
+          "COA with no analyst name or laboratory signature",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What does ≥99% purity by HPLC mean?",
+        answer:
+          "It means that in the HPLC chromatogram, the peak corresponding to the target peptide accounts for at least 99% of the total peak area. The remaining ≤1% may include synthesis byproducts, degradation products, or residual reagents.",
+      },
+      {
+        question: "Is HPLC purity the same as mass spectrometry identity?",
+        answer:
+          "No — they measure different things. HPLC measures purity (how much of the sample is the target compound vs. impurities). Mass spectrometry confirms molecular identity (that the compound has the correct molecular weight). Both should be present on a complete COA.",
+      },
+      {
+        question: "Should a COA come from a third-party lab?",
+        answer:
+          "Third-party independent COAs are the gold standard because there is no conflict of interest — the testing laboratory has no financial stake in the result. In-house COAs are less reliable for this reason.",
+      },
+      {
+        question: "How do I match a COA to my specific vial?",
+        answer:
+          "Check the lot/batch number. The lot number on your COA should exactly match the lot number printed on your vial label. If these don't match, the COA does not apply to your material.",
+      },
+      {
+        question: "What purity should I expect for research-grade peptides?",
+        answer:
+          "The accepted benchmark for research-grade peptides is ≥99% purity by HPLC. Materials below 98% are generally considered below research grade and may introduce confounding variables into experimental results.",
+      },
+    ],
+    relatedProducts: ["bpc-157", "ghk-cu", "tb-500", "retatrutide"],
+    relatedSlugs: [
+      "research-grade-peptide-purity-standards",
+      "bpc-157-research-overview",
+      "ghk-cu-copper-peptide-guide",
+    ],
+  },
 ];

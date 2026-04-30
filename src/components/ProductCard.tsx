@@ -31,11 +31,13 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
     allVariants.find((v) => v.id === selectedId) ?? allVariants[0];
 
   const { name, subtitle, size, price, image, category } = selected;
-  const { addItem, openCart } = useInquiryCart();
+  const { addItem, add3Pack, openCart } = useInquiryCart();
   const [subOpen, setSubOpen] = useState(false);
 
   const salePrice = SITEWIDE_SALE.active ? price * (1 - SITEWIDE_SALE.discount) : price;
   const subPrice = salePrice * (1 - AUTOSHIP_DISCOUNT);
+  const threePackUnit = salePrice * (1 - THREE_PACK_DISCOUNT);
+  const threePackTotal = threePackUnit * 3;
 
   const handleAdd = (autoship: boolean) => {
     addItem(selected, { isAutoship: autoship });
@@ -43,6 +45,12 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
       title: autoship ? "Subscription added" : "Added to cart",
       description: `${name} ${size}`,
     });
+    openCart();
+  };
+
+  const handle3Pack = () => {
+    add3Pack(selected, { isAutoship: false });
+    toast({ title: "3-Pack added", description: `${name} × 3` });
     openCart();
   };
 

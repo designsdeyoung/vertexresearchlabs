@@ -52,9 +52,9 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
     >
       {/* Image */}
       <Link
-        to={`/product/${product.id}`}
+        to={`/product/${selected.id}`}
         className="relative block h-[200px] overflow-hidden rounded-t-xl bg-background/40"
-        aria-label={`View ${name} details`}
+        aria-label={`View ${name} ${size} details`}
       >
         {image ? (
           <img
@@ -85,7 +85,7 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
         {/* Name */}
         <div>
           <h3 className="font-display text-base font-semibold text-foreground">
-            <Link to={`/product/${product.id}`} className="hover:text-primary transition-colors">
+            <Link to={`/product/${selected.id}`} className="hover:text-primary transition-colors">
               {name}
             </Link>
           </h3>
@@ -96,6 +96,30 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
             {size} · Research Grade
           </p>
         </div>
+
+        {/* Size variant pills */}
+        {allVariants.length > 1 && (
+          <div className="flex flex-wrap gap-1.5">
+            {allVariants.map((v) => {
+              const active = v.id === selected.id;
+              return (
+                <button
+                  key={v.id}
+                  type="button"
+                  onClick={() => setSelectedId(v.id)}
+                  aria-pressed={active}
+                  className={`rounded-md border px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider transition-colors ${
+                    active
+                      ? "border-primary/60 bg-primary/10 text-primary"
+                      : "border-border bg-transparent text-muted-foreground hover:border-primary/30 hover:text-foreground"
+                  }`}
+                >
+                  {v.size}
+                </button>
+              );
+            })}
+          </div>
+        )}
 
         {/* Price */}
         <div className="mt-auto flex items-baseline gap-2 pt-1">

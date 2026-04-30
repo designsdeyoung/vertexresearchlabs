@@ -27,7 +27,7 @@ const BUNDLES: Bundle[] = [
     blurb:
       "The three compounds researchers add to nearly every order. Pre-bundled at a research-grade discount.",
     icon: Layers,
-    productIds: ["retatrutide", "ghk-cu", "bac-water-3ml"],
+    productIds: ["retatrutide", "ghk-cu", "bac-water-10ml"],
     bundleDiscountPct: 10,
   },
   {

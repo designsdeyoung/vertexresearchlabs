@@ -23,6 +23,38 @@ const ProductCatalog = () => {
     return ["All", ...cats];
   }, []);
 
+  // Sales-based ranking (units sold, all-time). Lower index = higher rank.
+  // Products not listed fall to the bottom in their original order.
+  const salesRank: string[] = [
+    "retatrutide",
+    "ghk-cu",
+    "mots-c",
+    "cjc-ipa-blend",
+    "wolverine-blend",
+    "bac-water-3ml",
+    "bac-water-10ml",
+    "bpc-157",
+    "nad-plus",
+    "nad-plus-1000",
+    "semax",
+    "kisspeptin",
+    "mt2",
+    "pt-141",
+    "tb-500",
+    "tesamorelin",
+    "tesamorelin-10mg",
+    "ghk-cu-100",
+    "mots-c-40",
+    "glutathione",
+    "selank",
+    "dsip",
+    "epithalon",
+  ];
+  const rankOf = (id: string) => {
+    const i = salesRank.indexOf(id);
+    return i === -1 ? Number.MAX_SAFE_INTEGER : i;
+  };
+
   const filteredProducts = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     let list = products.filter((p) => {

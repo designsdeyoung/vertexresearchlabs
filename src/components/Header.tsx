@@ -26,7 +26,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed left-0 right-0 top-0 z-50 transition-colors duration-200 ${
+      className={`sticky top-0 z-50 transition-colors duration-200 ${
         scrolled
           ? "border-b border-border bg-popover/95 backdrop-blur-md"
           : "bg-popover/80 backdrop-blur-sm"

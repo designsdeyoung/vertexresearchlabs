@@ -236,6 +236,7 @@ const Checkout = () => {
             unitAmount: computeUnitPrice(i),
             quantity: i.quantity,
             is3Pack: !!i.is3Pack,
+            intervalDays: i.intervalDays ?? (i.is3Pack ? 90 : 30),
           }));
         const oneTimeLines = items
           .filter((i) => !i.isAutoship)

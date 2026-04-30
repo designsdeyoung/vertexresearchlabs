@@ -12,6 +12,7 @@ import {
   useInquiryCart,
   THREE_PACK_DISCOUNT,
   AUTOSHIP_DISCOUNT,
+  THREE_PACK_AUTOSHIP_INTERVAL_DAYS,
 } from "@/contexts/InquiryCartContext";
 import { SITEWIDE_SALE } from "@/config/sale";
 import { toast } from "@/hooks/use-toast";
@@ -83,6 +84,8 @@ const ProductDetail = () => {
   const subPrice = salePrice * (1 - AUTOSHIP_DISCOUNT);
   const threePackUnit = salePrice * (1 - THREE_PACK_DISCOUNT);
   const threePackTotal = threePackUnit * 3;
+  const threePackSubUnit = threePackUnit * (1 - AUTOSHIP_DISCOUNT);
+  const threePackSubTotal = threePackSubUnit * 3;
 
   const handleAdd = () => {
     for (let i = 0; i < qty; i++) addItem(product, { isAutoship: false });
@@ -99,6 +102,12 @@ const ProductDetail = () => {
   const handle3Pack = () => {
     add3Pack(product, { isAutoship: false });
     toast({ title: "3-Pack added", description: `${name} × 3` });
+    openCart();
+  };
+
+  const handle3PackSubscribe = () => {
+    add3Pack(product, { isAutoship: true, intervalDays: THREE_PACK_AUTOSHIP_INTERVAL_DAYS });
+    toast({ title: "3-Pack subscription added", description: `${name} × 3 · every 90 days` });
     openCart();
   };
 
@@ -356,6 +365,26 @@ const ProductDetail = () => {
                   className="border-border"
                 >
                   Add 3-Pack
+                </Button>
+              </div>
+
+              {/* 3-Pack Subscribe (90 days) */}
+              <div className="mt-3 flex items-center justify-between rounded-md border border-primary/30 bg-primary/5 px-4 py-3">
+                <div>
+                  <div className="flex items-center gap-2 text-sm text-foreground">
+                    <Package size={14} className="text-primary" />
+                    Subscribe 3-Pack — every 90 days
+                  </div>
+                  <p className="mt-0.5 font-mono text-xs text-muted-foreground">
+                    {formatPrice(threePackSubTotal)} / 90 days · {formatPrice(threePackSubUnit)} ea · 3-Pack 10% + Subscribe 10%
+                  </p>
+                </div>
+                <Button
+                  size="sm"
+                  onClick={handle3PackSubscribe}
+                  className="bg-primary text-primary-foreground hover:bg-primary/90"
+                >
+                  Subscribe
                 </Button>
               </div>
               </>

@@ -8,18 +8,21 @@ export const FLAT_RATE_SHIPPING = 9.99;
 export const THREE_PACK_DISCOUNT = 0.10; // 10% off
 export const AUTOSHIP_DISCOUNT = 0.10; // 10% off Subscribe & Save
 export const AUTOSHIP_INTERVAL_DAYS = 30;
+export const THREE_PACK_AUTOSHIP_INTERVAL_DAYS = 90;
 
 export interface CartItem {
   product: Product;
   quantity: number;
   is3Pack?: boolean;
   isAutoship?: boolean;
+  /** Autoship cadence in days. Defaults to 30 for singles, 90 for 3-Packs when omitted. */
+  intervalDays?: number;
 }
 
 interface InquiryCartContextType {
   items: CartItem[];
   addItem: (product: Product, opts?: { isAutoship?: boolean }) => void;
-  add3Pack: (product: Product, opts?: { isAutoship?: boolean }) => void;
+  add3Pack: (product: Product, opts?: { isAutoship?: boolean; intervalDays?: number }) => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
@@ -68,24 +71,29 @@ export const InquiryCartProvider = ({ children }: { children: ReactNode }) => {
     });
   }, []);
 
-  const add3Pack = useCallback((product: Product, opts?: { isAutoship?: boolean }) => {
+  const add3Pack = useCallback((product: Product, opts?: { isAutoship?: boolean; intervalDays?: number }) => {
     const isAutoship = !!opts?.isAutoship;
+    const intervalDays = isAutoship
+      ? (opts?.intervalDays ?? THREE_PACK_AUTOSHIP_INTERVAL_DAYS)
+      : undefined;
     setItems((prev) => {
       // Remove single items of same product with the same autoship flag, then add/merge 3-pack
       const filtered = prev.filter(
         (item) => !(item.product.id === product.id && !item.is3Pack && !!item.isAutoship === isAutoship)
       );
       const existing3Pack = prev.find(
-        (item) => item.product.id === product.id && item.is3Pack && !!item.isAutoship === isAutoship
+        (item) =>
+          item.product.id === product.id &&
+          item.is3Pack &&
+          !!item.isAutoship === isAutoship &&
+          (item.intervalDays ?? undefined) === intervalDays
       );
       if (existing3Pack) {
         return prev.map((item) =>
-          item.product.id === product.id && item.is3Pack && !!item.isAutoship === isAutoship
-            ? { ...item, quantity: item.quantity + 3 }
-            : item
+          item === existing3Pack ? { ...item, quantity: item.quantity + 3 } : item
         );
       }
-      return [...filtered, { product, quantity: 3, is3Pack: true, isAutoship }];
+      return [...filtered, { product, quantity: 3, is3Pack: true, isAutoship, intervalDays }];
     });
   }, []);
 

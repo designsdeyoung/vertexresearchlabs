@@ -36,6 +36,7 @@ const handler = async (req: Request): Promise<Response> => {
       JODI30: { discount: 0.30, freeShipping: true, firstOrderOnly: true },
       GLOWUP: { discount: 0.20, freeShipping: true, expiresAt: "2026-04-27T04:59:59Z" },
       SHAWN10: { discount: 0.10, freeShipping: true },
+      LISA10: { discount: 0.10, freeShipping: true },
     };
 
     if (SPECIAL_PROMOS[normalizedCode]) {

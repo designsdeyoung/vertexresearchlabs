@@ -21,10 +21,27 @@ const RewardsLadder = ({ balance, onRedeemed }: RewardsLadderProps) => {
         body: { points },
       });
 
-      if (error || !data?.success) {
+      let errorMessage: string | null = null;
+      if (error) {
+        // supabase-js wraps non-2xx in FunctionsHttpError; parse the response body for our error field
+        const ctx = (error as any).context;
+        if (ctx && typeof ctx.json === "function") {
+          try {
+            const body = await ctx.json();
+            errorMessage = body?.error ?? null;
+          } catch {
+            // ignore parse errors
+          }
+        }
+        errorMessage = errorMessage || error.message;
+      } else if (!data?.success) {
+        errorMessage = data?.error || "Please try again.";
+      }
+
+      if (errorMessage) {
         toast({
           title: "Unable to redeem",
-          description: data?.error || error?.message || "Please try again.",
+          description: errorMessage,
           variant: "destructive",
         });
         return;

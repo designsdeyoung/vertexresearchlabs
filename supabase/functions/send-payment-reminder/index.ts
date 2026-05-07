@@ -30,7 +30,7 @@ serve(async (req) => {
 </div></body></html>`;
 
     const result = await resend.emails.send({
-      from: "Vertex Research Labs <orders@vertexresearchlabs.com>",
+      from: "Vertex Research Labs <info@vertexresearchlabs.com>",
       to: [to],
       reply_to: "info@vertexresearchlabs.com",
       subject: `Complete your order ${orderNumber} — $${total.toFixed(2)}`,

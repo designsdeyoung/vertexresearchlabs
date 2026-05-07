@@ -249,11 +249,6 @@ const TrackOrder = () => {
                       </ul>
                     </div>
 
-                    {order.status === "pending" && order.payment_method === "bitcoin" && (
-                      <div className="mt-4 p-3 rounded-lg bg-yellow-500/10 text-yellow-500 text-xs">
-                        Awaiting Bitcoin payment confirmation. Your order ships once payment is received.
-                      </div>
-                    )}
                     {order.status === "shipped" && (
                       <div className="mt-4 p-3 rounded-lg bg-primary/10 text-primary text-xs">
                         Your order has shipped. Tracking details were emailed to you.

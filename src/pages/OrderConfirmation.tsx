@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import { CountUp } from "@/components/checkout/CountUp";
-// BitcoinReminder removed — payments now processed via Stripe
+
 import ShareAndEarn from "@/components/checkout/ShareAndEarn";
 import {
   CheckCircle2,

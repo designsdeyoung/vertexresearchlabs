@@ -32,7 +32,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Special promo codes
     const SPECIAL_PROMOS: Record<string, { discount: number; freeShipping: boolean; firstOrderOnly?: boolean; expiresAt?: string }> = {
       PATRICIA10: { discount: 0.10, freeShipping: true },
-      ADAM10: { discount: 0.10, freeShipping: false },
+      ADAM10: { discount: 0.10, freeShipping: true },
       JODI30: { discount: 0.30, freeShipping: true, firstOrderOnly: true },
       GLOWUP: { discount: 0.20, freeShipping: true, expiresAt: "2026-04-27T04:59:59Z" },
       SHAWN10: { discount: 0.10, freeShipping: true },

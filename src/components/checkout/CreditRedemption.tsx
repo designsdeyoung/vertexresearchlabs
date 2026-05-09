@@ -30,6 +30,20 @@ const formatPrice = (price: number) =>
 
 const rewardTiersDescending = [...REWARD_TIERS].sort((a, b) => b.points - a.points);
 
+const getFunctionErrorMessage = async (error: unknown, fallback: string) => {
+  const context = (error as { context?: { json?: () => Promise<{ error?: string }> } })?.context;
+  if (context && typeof context.json === "function") {
+    try {
+      const body = await context.json();
+      if (body?.error) return body.error;
+    } catch {
+      // Fall through to the generic error message.
+    }
+  }
+
+  return error instanceof Error ? error.message : fallback;
+};
+
 const CreditRedemption = ({
   profileId,
   email,
@@ -94,7 +108,7 @@ const CreditRedemption = ({
         body: { points },
       });
       if (error || data?.error) {
-        toast.error(data?.error || error?.message || "Could not redeem points");
+        toast.error(data?.error || (await getFunctionErrorMessage(error, "Could not redeem points")));
         return;
       }
       toast.success("Credit unlocked & ready to apply!");

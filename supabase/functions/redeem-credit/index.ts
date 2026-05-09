@@ -64,96 +64,36 @@ const handler = async (req: Request): Promise<Response> => {
       });
     }
 
-    const { data: profile, error: profileError } = await supabaseAdmin
-      .from("profiles")
-      .select("id, points_balance")
-      .eq("user_id", user.id)
-      .maybeSingle();
-
-    if (profileError || !profile) {
-      return new Response(JSON.stringify({ error: "Profile not found" }), {
-        status: 404,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    if (profile.points_balance < selectedTier.points) {
-      return new Response(JSON.stringify({ error: "Not enough points" }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    const { data: activeCredit } = await supabaseAdmin
-      .from("credits")
-      .select("id")
-      .eq("profile_id", profile.id)
-      .eq("status", "active")
-      .maybeSingle();
-
-    if (activeCredit) {
-      return new Response(JSON.stringify({ error: "An unused credit already exists" }), {
-        status: 409,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    const newBalance = profile.points_balance - selectedTier.points;
-
-    const { data: credit, error: creditError } = await supabaseAdmin
-      .from("credits")
-      .insert({
-        profile_id: profile.id,
-        amount: selectedTier.credit,
-        points_cost: selectedTier.points,
-        min_cart: selectedTier.minCart,
-        max_percent: selectedTier.maxPercent,
-        status: "active",
+    const { data: redemption, error: redemptionError } = await supabaseAdmin
+      .rpc("redeem_reward_credit", {
+        _user_id: user.id,
+        _points: selectedTier.points,
       })
-      .select("id, amount, points_cost, min_cart, max_percent")
       .single();
 
-    if (creditError || !credit) {
-      return new Response(JSON.stringify({ error: "Unable to create credit" }), {
-        status: 500,
+    if (redemptionError || !redemption) {
+      const message = redemptionError?.message || "Unable to redeem points";
+      const status = message.includes("Profile not found") ? 404 : 400;
+
+      return new Response(JSON.stringify({ error: message }), {
+        status,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    const { error: transactionError } = await supabaseAdmin
-      .from("points_transactions")
-      .insert({
-        profile_id: profile.id,
-        amount: -selectedTier.points,
-        type: "redemption",
-        description: `Redeemed ${selectedTier.label}`,
-        order_reference: credit.id,
-      });
-
-    if (transactionError) {
-      return new Response(JSON.stringify({ error: "Unable to record redemption" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    const { error: updateError } = await supabaseAdmin
-      .from("profiles")
-      .update({ points_balance: newBalance })
-      .eq("id", profile.id);
-
-    if (updateError) {
-      return new Response(JSON.stringify({ error: "Unable to update points balance" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
+    const credit = {
+      id: redemption.credit_id,
+      amount: redemption.credit_amount,
+      points_cost: redemption.credit_points_cost,
+      min_cart: redemption.credit_min_cart,
+      max_percent: redemption.credit_max_percent,
+    };
 
     return new Response(
       JSON.stringify({
         success: true,
         credit,
-        pointsBalance: newBalance,
+        pointsBalance: redemption.new_points_balance,
       }),
       {
         status: 200,

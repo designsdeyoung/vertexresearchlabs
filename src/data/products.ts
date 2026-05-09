@@ -432,6 +432,7 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     image: kisspeptinImage,
+    outOfStock: true,
     category: "Peptide",
     references: [
       {

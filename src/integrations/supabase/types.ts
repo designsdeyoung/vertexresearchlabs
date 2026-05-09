@@ -348,7 +348,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      redeem_reward_credit: {
+        Args: { _points: number; _user_id: string }
+        Returns: {
+          credit_amount: number
+          credit_id: string
+          credit_max_percent: number
+          credit_min_cart: number
+          credit_points_cost: number
+          new_points_balance: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

@@ -6,7 +6,7 @@ const Hero = () => {
       <div className="container mx-auto px-6 pb-24 pt-32 md:pt-40">
         <div className="mx-auto max-w-[700px] text-center">
           <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.18em] text-primary">
-            Research Grade Materials · Deploy Check ✓
+            Research Grade Materials
           </p>
           <h1 className="font-display text-4xl font-bold leading-[1.1] tracking-tight text-foreground md:text-5xl">
             High-Purity Peptide Research Materials

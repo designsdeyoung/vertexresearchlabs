@@ -356,7 +356,7 @@ const Rewards = () => {
                 },
                 {
                   q: "How do I redeem my points?",
-                  a: "Once you reach a reward tier (starting at 500 points), visit your dashboard to convert points into Vertex Credit. The credit will be available to apply at checkout.",
+                  a: "Right at checkout. Your live points balance loads automatically and you'll see every credit tier you qualify for based on your cart — pick one with a single click and it's applied to your order. No need to pre-redeem.",
                 },
                 {
                   q: "Can I stack credits or combine with a discount code?",

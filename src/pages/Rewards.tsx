@@ -102,8 +102,8 @@ const Rewards = () => {
               {
                 icon: Gift,
                 step: "03",
-                title: "Redeem for Credit",
-                desc: "Hit a reward tier and convert your points into Vertex Credit — applied directly to your next order.",
+                title: "Redeem at Checkout",
+                desc: "Hit a reward tier and pick your Vertex Credit at checkout — applied instantly to your order, no pre-claiming required.",
               },
             ].map((item, i) => (
               <motion.div

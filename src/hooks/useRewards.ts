@@ -16,6 +16,7 @@ export interface RewardTier {
 }
 
 export const REWARD_TIERS: RewardTier[] = [
+  { points: 250, credit: 10, minCart: 75, maxPercent: 100, label: "$10 Vertex Credit" },
   { points: 500, credit: 20, minCart: 100, maxPercent: 100, label: "$20 Vertex Credit" },
   { points: 750, credit: 30, minCart: 120, maxPercent: 100, label: "$30 Vertex Credit" },
   { points: 1000, credit: 40, minCart: 150, maxPercent: 100, label: "$40 Vertex Credit" },

@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { REWARD_TIERS } from "@/hooks/useRewards";
-import { Gift, Lock, CheckCircle2, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Gift, Lock, CheckCircle2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/hooks/use-toast";
 
 interface RewardsLadderProps {
   balance: number;
@@ -17,8 +15,7 @@ interface ActiveCredit {
   expires_at: string;
 }
 
-const RewardsLadder = ({ balance, profileId, onRedeemed }: RewardsLadderProps) => {
-  const [redeemingPoints, setRedeemingPoints] = useState<number | null>(null);
+const RewardsLadder = ({ balance, profileId }: RewardsLadderProps) => {
   const [activeCredit, setActiveCredit] = useState<ActiveCredit | null>(null);
 
   useEffect(() => {
@@ -41,73 +38,6 @@ const RewardsLadder = ({ balance, profileId, onRedeemed }: RewardsLadderProps) =
       });
   }, [profileId]);
 
-  const handleRedeem = async (points: number) => {
-    if (activeCredit) {
-      toast({
-        title: "Credit already active",
-        description: "Use your existing checkout credit before redeeming another one.",
-      });
-      return;
-    }
-
-    setRedeemingPoints(points);
-
-    try {
-      const { data, error } = await supabase.functions.invoke("redeem-credit", {
-        body: { points },
-      });
-
-      let errorMessage: string | null = null;
-      if (error) {
-        // supabase-js wraps non-2xx in FunctionsHttpError; parse the response body for our error field
-        const ctx = (error as any).context;
-        if (ctx && typeof ctx.json === "function") {
-          try {
-            const body = await ctx.json();
-            errorMessage = body?.error ?? null;
-          } catch {
-            // ignore parse errors
-          }
-        }
-        errorMessage = errorMessage || error.message;
-      } else if (!data?.success) {
-        errorMessage = data?.error || "Please try again.";
-      }
-
-      if (errorMessage) {
-        toast({
-          title: errorMessage.includes("unused credit") ? "Credit already active" : "Unable to redeem",
-          description: errorMessage.includes("unused credit")
-            ? "Use your existing checkout credit before redeeming another one."
-            : errorMessage,
-          variant: errorMessage.includes("unused credit") ? "default" : "destructive",
-        });
-        return;
-      }
-
-      toast({
-        title: "Credit ready",
-        description: `${data.credit.amount ? `$${data.credit.amount}` : "Your"} credit is now available at checkout.`,
-      });
-
-      setActiveCredit({
-        id: data.credit.id,
-        amount: data.credit.amount,
-        expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
-      });
-
-      await onRedeemed?.();
-    } catch (error) {
-      toast({
-        title: "Unable to redeem",
-        description: error instanceof Error ? error.message : "Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setRedeemingPoints(null);
-    }
-  };
-
   return (
     <div className="glass-card rounded-xl p-6">
       <div className="flex items-center gap-2 mb-5">
@@ -119,30 +49,29 @@ const RewardsLadder = ({ balance, profileId, onRedeemed }: RewardsLadderProps) =
 
       {activeCredit ? (
         <div className="mb-4 rounded-lg border border-primary/30 bg-primary/5 p-3">
-          <p className="text-sm font-medium text-foreground">${activeCredit.amount} credit is already active</p>
-          <p className="text-xs text-muted-foreground">Use it at checkout before redeeming another reward.</p>
+          <p className="text-sm font-medium text-foreground">${activeCredit.amount} credit ready at checkout</p>
+          <p className="text-xs text-muted-foreground">Apply it on your next order before it expires.</p>
         </div>
       ) : null}
 
       <div className="space-y-3">
         {REWARD_TIERS.map((tier) => {
           const unlocked = balance >= tier.points;
-          const canRedeem = unlocked && !activeCredit;
           return (
             <div
               key={tier.points}
               className={`flex items-center gap-4 p-3 rounded-lg border transition-all ${
-                canRedeem
+                unlocked
                   ? "border-primary/30 bg-primary/5"
                   : "border-border/50 bg-secondary/20 opacity-70"
               }`}
             >
               <div
                 className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 ${
-                  canRedeem ? "bg-primary/20" : "bg-secondary"
+                  unlocked ? "bg-primary/20" : "bg-secondary"
                 }`}
               >
-                {canRedeem ? (
+                {unlocked ? (
                   <CheckCircle2 size={18} className="text-primary" />
                 ) : (
                   <Lock size={14} className="text-muted-foreground" />
@@ -157,25 +86,21 @@ const RewardsLadder = ({ balance, profileId, onRedeemed }: RewardsLadderProps) =
                 </p>
               </div>
               {unlocked ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleRedeem(tier.points)}
-                  disabled={redeemingPoints !== null || !!activeCredit}
-                  className="shrink-0"
-                >
-                  <Sparkles size={14} />
-                  {activeCredit ? "Active" : redeemingPoints === tier.points ? "Redeeming..." : "Redeem"}
-                </Button>
-              ) : null}
+                <span className="shrink-0 text-[11px] font-medium text-primary uppercase tracking-wider">
+                  Unlocked
+                </span>
+              ) : (
+                <span className="shrink-0 text-[11px] text-muted-foreground">
+                  {(tier.points - balance).toLocaleString()} pts to go
+                </span>
+              )}
             </div>
           );
         })}
       </div>
 
-      <p className="text-[10px] text-muted-foreground/60 mt-4">
-        Credits cannot stack or be used on the same order earned. Expire after 12 months of inactivity.
+      <p className="text-[11px] text-muted-foreground/70 mt-4 text-center">
+        Redeem your unlocked rewards at checkout — pick the credit that fits your cart.
       </p>
     </div>
   );

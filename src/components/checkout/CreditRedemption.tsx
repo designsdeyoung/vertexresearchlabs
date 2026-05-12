@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Sparkles, Gift, X, Zap, Lock, Loader2 } from "lucide-react";
+import { Sparkles, Gift, X, Zap, Lock, Loader2, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { REWARD_TIERS } from "@/hooks/useRewards";
 import { toast } from "sonner";
@@ -28,7 +28,7 @@ interface CreditRedemptionProps {
 const formatPrice = (price: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(price);
 
-const rewardTiersDescending = [...REWARD_TIERS].sort((a, b) => b.points - a.points);
+const rewardTiersAscending = [...REWARD_TIERS].sort((a, b) => a.points - b.points);
 
 const getFunctionErrorMessage = async (error: unknown, fallback: string) => {
   const context = (error as { context?: { json?: () => Promise<{ error?: string }> } })?.context;
@@ -48,7 +48,7 @@ const CreditRedemption = ({
   profileId,
   email,
   cartTotal,
-  pointsBalance = 0,
+  pointsBalance: pointsBalanceProp = 0,
   isAuthenticated = false,
   selectedCredit,
   onSelectCredit,
@@ -56,6 +56,13 @@ const CreditRedemption = ({
   const [credits, setCredits] = useState<Credit[]>([]);
   const [redeemingPoints, setRedeemingPoints] = useState<number | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [guestPointsBalance, setGuestPointsBalance] = useState<number | null>(null);
+  const [guestProfileFound, setGuestProfileFound] = useState(false);
+
+  // Logged-in: live balance from profile prop. Guest: from email lookup.
+  const livePointsBalance = isAuthenticated
+    ? pointsBalanceProp
+    : guestPointsBalance ?? 0;
 
   // Load credits when logged in via profileId
   useEffect(() => {
@@ -71,12 +78,14 @@ const CreditRedemption = ({
       });
   }, [profileId, refreshKey]);
 
-  // Load credits via email lookup (guest checkout) — debounced
+  // Load credits + points balance via email lookup (guest checkout) — debounced
   useEffect(() => {
     if (profileId) return;
     const trimmed = (email || "").trim();
     if (!trimmed || !trimmed.includes("@") || trimmed.length < 5) {
       setCredits([]);
+      setGuestPointsBalance(null);
+      setGuestProfileFound(false);
       return;
     }
     const timer = setTimeout(async () => {
@@ -84,10 +93,13 @@ const CreditRedemption = ({
         const { data } = await supabase.functions.invoke("lookup-credits", {
           body: { email: trimmed },
         });
-        if (data?.credits) setCredits(data.credits as Credit[]);
-        else setCredits([]);
+        setCredits((data?.credits as Credit[]) || []);
+        setGuestPointsBalance(typeof data?.pointsBalance === "number" ? data.pointsBalance : 0);
+        setGuestProfileFound(Boolean(data?.profileId));
       } catch {
         setCredits([]);
+        setGuestPointsBalance(null);
+        setGuestProfileFound(false);
       }
     }, 600);
     return () => clearTimeout(timer);
@@ -95,13 +107,13 @@ const CreditRedemption = ({
 
   const hasActiveCredit = credits.length > 0;
 
-  // Show redeemable tiers only when logged in AND no active credit exists
-  const availableTiers = useMemo(() => {
-    if (!isAuthenticated || hasActiveCredit) return [];
-    return rewardTiersDescending;
-  }, [isAuthenticated, hasActiveCredit]);
-
   const handleRedeem = async (points: number) => {
+    if (!isAuthenticated) {
+      toast.info("Sign in to redeem your points", {
+        description: "Use the email magic link from your dashboard to redeem.",
+      });
+      return;
+    }
     setRedeemingPoints(points);
     try {
       const { data, error } = await supabase.functions.invoke("redeem-credit", {
@@ -111,8 +123,7 @@ const CreditRedemption = ({
         toast.error(data?.error || (await getFunctionErrorMessage(error, "Could not redeem points")));
         return;
       }
-      toast.success("Credit unlocked & ready to apply!");
-      // Auto-apply the new credit
+      toast.success("Credit unlocked & applied!");
       if (data?.credit) {
         onSelectCredit({
           id: data.credit.id,
@@ -130,10 +141,16 @@ const CreditRedemption = ({
     }
   };
 
-  // Hide entirely if guest with no credits found
-  if (!isAuthenticated && credits.length === 0) return null;
-  // Hide if logged in but has no points and no credits
-  if (isAuthenticated && credits.length === 0 && pointsBalance < REWARD_TIERS[0].points) return null;
+  // Helper text under the balance
+  const balanceSubtitle = useMemo(() => {
+    if (isAuthenticated) return "Live balance — pick a tier to apply instantly";
+    const trimmed = (email || "").trim();
+    if (!trimmed || !trimmed.includes("@")) {
+      return "Enter your email above to load your rewards balance";
+    }
+    if (guestProfileFound) return "Sign in to redeem your points at checkout";
+    return "No rewards account yet — you'll start earning on this order";
+  }, [isAuthenticated, email, guestProfileFound]);
 
   return (
     <div className="glass-card rounded-lg p-6">
@@ -142,11 +159,21 @@ const CreditRedemption = ({
           <Gift size={20} className="text-primary" />
           Vertex Rewards
         </h2>
-        {isAuthenticated && (
-          <span className="text-xs text-muted-foreground">
-            <span className="text-primary font-semibold">{pointsBalance.toLocaleString()}</span> pts available
+      </div>
+
+      {/* Live points balance — always visible, real-time */}
+      <div className="mb-4 rounded-lg border border-primary/20 bg-gradient-to-br from-primary/10 to-primary/5 p-4">
+        <div className="flex items-baseline justify-between">
+          <span className="text-xs uppercase tracking-wider text-muted-foreground">Your points</span>
+          <span className="text-[10px] text-primary/70 font-medium">REAL-TIME</span>
+        </div>
+        <div className="flex items-baseline gap-2 mt-1">
+          <span className="text-3xl font-bold text-primary tabular-nums">
+            {livePointsBalance.toLocaleString()}
           </span>
-        )}
+          <span className="text-sm text-muted-foreground">pts</span>
+        </div>
+        <p className="text-xs text-muted-foreground mt-1">{balanceSubtitle}</p>
       </div>
 
       {selectedCredit ? (
@@ -168,6 +195,7 @@ const CreditRedemption = ({
         </div>
       ) : hasActiveCredit ? (
         <div className="space-y-2">
+          <p className="text-xs text-muted-foreground mb-2">You have a credit ready to use:</p>
           {credits.map((credit) => {
             const meetsMinCart = cartTotal >= credit.min_cart;
             const maxDiscount = Math.min(credit.amount, cartTotal * (credit.max_percent / 100));
@@ -198,7 +226,7 @@ const CreditRedemption = ({
                     <p className="text-xs text-muted-foreground">
                       {meetsMinCart
                         ? `Saves up to ${formatPrice(maxDiscount)}`
-                        : `Min cart ${formatPrice(credit.min_cart)} required`}
+                        : `Add ${formatPrice(credit.min_cart - cartTotal)} more to unlock`}
                     </p>
                   </div>
                   {meetsMinCart && (
@@ -212,37 +240,84 @@ const CreditRedemption = ({
       ) : (
         <>
           <p className="text-xs text-muted-foreground mb-3">
-            Redeem your points instantly — applies to this order.
+            Pick a credit to apply to this order:
           </p>
           <div className="space-y-2">
-            {availableTiers.map((tier) => {
-              const canAfford = pointsBalance >= tier.points;
+            {rewardTiersAscending.map((tier) => {
+              const canAfford = livePointsBalance >= tier.points;
               const meetsMinCart = cartTotal >= tier.minCart;
+              const isReady = canAfford && meetsMinCart && isAuthenticated;
               const isRedeeming = redeemingPoints === tier.points;
-              const disabled = !canAfford || !meetsMinCart || isRedeeming;
+              const pointsShort = Math.max(0, tier.points - livePointsBalance);
+              const cartShort = Math.max(0, tier.minCart - cartTotal);
+
+              // Progress to this tier (capped at 100)
+              const progress = Math.min(100, Math.round((livePointsBalance / tier.points) * 100));
+
+              let statusEl: React.ReactNode;
+              if (isRedeeming) {
+                statusEl = <Loader2 size={14} className="animate-spin text-primary" />;
+              } else if (isReady) {
+                statusEl = <span className="text-primary font-medium">Redeem & apply →</span>;
+              } else if (canAfford && !meetsMinCart) {
+                statusEl = (
+                  <span className="text-muted-foreground">
+                    Add {formatPrice(cartShort)} to cart
+                  </span>
+                );
+              } else if (canAfford && !isAuthenticated) {
+                statusEl = <span className="text-muted-foreground">Sign in to redeem</span>;
+              } else {
+                statusEl = (
+                  <span className="text-muted-foreground">
+                    {pointsShort.toLocaleString()} pts to unlock
+                  </span>
+                );
+              }
 
               return (
                 <button
                   key={tier.points}
-                  disabled={disabled}
+                  disabled={!isReady || isRedeeming}
                   onClick={() => handleRedeem(tier.points)}
-                  className={`w-full text-left p-3 rounded-lg border transition-all ${
-                    !disabled
-                      ? "border-primary/30 bg-primary/5 hover:border-primary hover:bg-primary/10 cursor-pointer"
-                      : "border-border/50 bg-secondary/20 opacity-60 cursor-not-allowed"
+                  className={`w-full text-left p-3 rounded-lg border transition-all relative overflow-hidden ${
+                    isReady
+                      ? "border-primary/40 bg-primary/5 hover:border-primary hover:bg-primary/10 cursor-pointer"
+                      : "border-border/50 bg-secondary/20 cursor-not-allowed"
                   }`}
                 >
-                  <div className="flex items-center justify-between gap-3">
+                  {/* Progress bar fill (only when locked by points) */}
+                  {!canAfford && progress > 0 && (
+                    <div
+                      className="absolute inset-y-0 left-0 bg-primary/5 pointer-events-none"
+                      style={{ width: `${progress}%` }}
+                    />
+                  )}
+                  <div className="relative flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0">
                       <div
                         className={`h-9 w-9 rounded-full flex items-center justify-center shrink-0 ${
-                          canAfford ? "bg-primary/15 text-primary" : "bg-muted text-muted-foreground"
+                          isReady
+                            ? "bg-primary/20 text-primary"
+                            : canAfford
+                            ? "bg-primary/10 text-primary/70"
+                            : "bg-muted text-muted-foreground"
                         }`}
                       >
-                        {canAfford ? <Zap size={16} /> : <Lock size={14} />}
+                        {isReady ? (
+                          <Zap size={16} />
+                        ) : canAfford ? (
+                          <CheckCircle2 size={16} />
+                        ) : (
+                          <Lock size={14} />
+                        )}
                       </div>
                       <div className="min-w-0">
-                        <p className="text-sm font-medium text-foreground">
+                        <p
+                          className={`text-sm font-medium ${
+                            canAfford ? "text-foreground" : "text-muted-foreground"
+                          }`}
+                        >
                           {formatPrice(tier.credit)} off
                         </p>
                         <p className="text-xs text-muted-foreground">
@@ -250,19 +325,7 @@ const CreditRedemption = ({
                         </p>
                       </div>
                     </div>
-                    <span className="text-xs font-medium shrink-0">
-                      {isRedeeming ? (
-                        <Loader2 size={14} className="animate-spin text-primary" />
-                      ) : !canAfford ? (
-                        <span className="text-muted-foreground">
-                          {(tier.points - pointsBalance).toLocaleString()} pts to unlock
-                        </span>
-                      ) : !meetsMinCart ? (
-                        <span className="text-muted-foreground">Add more to cart</span>
-                      ) : (
-                        <span className="text-primary">Redeem & apply →</span>
-                      )}
-                    </span>
+                    <span className="text-xs shrink-0 text-right">{statusEl}</span>
                   </div>
                 </button>
               );
@@ -272,7 +335,7 @@ const CreditRedemption = ({
       )}
 
       <p className="text-[10px] text-muted-foreground/60 mt-3">
-        One credit per order. {selectedCredit ? "Credit can cover up to the full order total." : "Points are deducted at redemption."}
+        One credit per order. Points are deducted at the moment you redeem.
       </p>
     </div>
   );

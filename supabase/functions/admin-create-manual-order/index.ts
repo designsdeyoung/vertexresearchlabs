@@ -125,7 +125,7 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Vertex Research Labs <orders@notify.vertexresearchlabs.com>",
+        from: "Vertex Research Labs <info@vertexresearchlabs.com>",
         to: [email],
         bcc: bcc ? [bcc] : undefined,
         subject: `Claim your ${pointsEarned} loyalty points — Order ${order.order_number}`,

@@ -68,7 +68,7 @@ serve(async (req) => {
         total,
         credit_applied: 0,
         points_earned: pointsEarned,
-        status: "paid",
+        status: "confirmed",
         is_autoship: false,
         payment_method: "cash",
         discount_amount: discountAmount,

@@ -173,6 +173,17 @@ const handler = async (req: Request): Promise<Response> => {
         console.error("Error updating profile points:", updateError);
       }
 
+      // Fire points-earned email to the buyer (non-blocking)
+      try {
+        await supabaseAdmin.functions.invoke("send-points-earned-email", {
+          body: {
+            profileId: profile.id,
+            pointsEarned,
+            reason: `Thanks for your order — you earned`,
+          },
+        });
+      } catch (e) { console.error("buyer points email failed:", e); }
+
       // Mark credit as used
       if (creditId && creditApplied && creditApplied > 0) {
         const { error: creditError } = await supabaseAdmin

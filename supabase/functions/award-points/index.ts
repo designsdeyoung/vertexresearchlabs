@@ -173,6 +173,17 @@ const handler = async (req: Request): Promise<Response> => {
         console.error("Error updating profile points:", updateError);
       }
 
+      // Fire points-earned email to the buyer (non-blocking)
+      try {
+        await supabaseAdmin.functions.invoke("send-points-earned-email", {
+          body: {
+            profileId: profile.id,
+            pointsEarned,
+            reason: `Thanks for your order — you earned`,
+          },
+        });
+      } catch (e) { console.error("buyer points email failed:", e); }
+
       // Mark credit as used
       if (creditId && creditApplied && creditApplied > 0) {
         const { error: creditError } = await supabaseAdmin
@@ -261,6 +272,17 @@ const handler = async (req: Request): Promise<Response> => {
                     .eq("id", referrerProfile.id);
 
                   console.log(`Awarded ${referralPointsAwarded} referral points to ${referrerProfile.id}`);
+
+                  // Notify referrer about earned points
+                  try {
+                    await supabaseAdmin.functions.invoke("send-points-earned-email", {
+                      body: {
+                        profileId: referrerProfile.id,
+                        pointsEarned: referralPointsAwarded,
+                        reason: `Your referral just placed an order — you earned`,
+                      },
+                    });
+                  } catch (e) { console.error("referrer email failed:", e); }
                 }
               }
 

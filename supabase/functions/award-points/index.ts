@@ -261,6 +261,17 @@ const handler = async (req: Request): Promise<Response> => {
                     .eq("id", referrerProfile.id);
 
                   console.log(`Awarded ${referralPointsAwarded} referral points to ${referrerProfile.id}`);
+
+                  // Notify referrer about earned points
+                  try {
+                    await supabaseAdmin.functions.invoke("send-points-earned-email", {
+                      body: {
+                        profileId: referrerProfile.id,
+                        pointsEarned: referralPointsAwarded,
+                        reason: `Your referral just placed an order — you earned`,
+                      },
+                    });
+                  } catch (e) { console.error("referrer email failed:", e); }
                 }
               }
 

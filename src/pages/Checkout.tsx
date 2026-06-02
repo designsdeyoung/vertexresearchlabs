@@ -17,6 +17,8 @@ import { calculatePointsForPrice } from "@/hooks/useRewards";
 import { getStoredReferralCode } from "@/hooks/useReferralCapture";
 import CreditRedemption from "@/components/checkout/CreditRedemption";
 import StripePayment from "@/components/checkout/StripePayment";
+import { finalizeOrder, PENDING_ORDER_KEY, type PendingOrder } from "@/lib/finalizeOrder";
+
 import {
   Shield,
   Building2,
@@ -292,9 +294,7 @@ const Checkout = () => {
     }, 100);
   };
 
-  const handleStripeSuccess = async (stripePaymentIntentId: string) => {
-    setIsSubmitting(true);
-
+  const buildPendingOrder = (stripePaymentIntentId: string): PendingOrder => {
     const orderItems = items.map((item) => ({
       productId: item.product.id,
       productName: item.product.name,
@@ -303,69 +303,43 @@ const Checkout = () => {
       quantity: item.quantity,
       lineTotal: item.product.price * item.quantity,
     }));
+    const effectivePaymentMethod = finalTotal === 0 ? "credit" : paymentMethod;
+    const referralCode = discountValid ? discountCode.trim().toUpperCase() : getStoredReferralCode();
+    return {
+      paymentIntentId: stripePaymentIntentId,
+      customer: formData,
+      eligibilityType,
+      items: orderItems,
+      subtotal,
+      shipping: effectiveShipping,
+      total: finalTotal,
+      creditApplied: creditDiscount,
+      creditId: selectedCredit?.id || null,
+      referrerCode: referralCode || null,
+      discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
+      discountAmount,
+      paymentMethod: effectivePaymentMethod,
+      pointsEarnedFallback: pointsEarned,
+    };
+  };
 
-    // Build order data for email (will be re-sent with orderNumber after award-points)
-    const orderItems2 = orderItems;
-
+  const persistPendingOrder = (stripePaymentIntentId: string) => {
     try {
-      const effectivePaymentMethod = finalTotal === 0 ? "credit" : paymentMethod;
+      localStorage.setItem(
+        PENDING_ORDER_KEY,
+        JSON.stringify(buildPendingOrder(stripePaymentIntentId))
+      );
+    } catch (e) {
+      console.error("persistPendingOrder failed", e);
+    }
+  };
 
-      // Award points via edge function FIRST to get order number
-      // Use discount code as referrer if applied, otherwise fall back to URL-captured code
-      const referralCode = discountValid ? discountCode.trim().toUpperCase() : getStoredReferralCode();
-      const { data: awardData, error: awardError } = await supabase.functions.invoke("award-points", {
-        body: {
-          customerEmail: formData.email,
-          customerName: formData.fullName,
-          items: orderItems,
-          subtotal,
-          shipping: effectiveShipping,
-          total: finalTotal,
-          creditApplied: creditDiscount,
-          creditId: selectedCredit?.id || null,
-          referrerCode: referralCode,
-          discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
-          discountAmount: discountAmount,
-          paymentMethod: effectivePaymentMethod,
-          stripePaymentIntentId,
-        },
-      });
-
-      if (awardError) {
-        console.error("Error awarding points:", awardError);
-      } else {
-        console.log("Points awarded:", awardData);
-      }
-
-      const orderNumber = awardData?.orderNumber || null;
-
-      // Build order data for email with order number + rewards data
-      const orderData = {
-        customer: formData,
-        eligibilityType,
-        items: orderItems2,
-        subtotal,
-        shipping: effectiveShipping,
-        total: finalTotal,
-        orderNumber,
-        pointsEarned: awardData?.pointsEarned || pointsEarned,
-        referralCode: awardData?.referralCode || null,
-        isNewAccount: awardData?.accountCreated || false,
-        discountAmount: discountAmount,
-        discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
-        paymentMethod: effectivePaymentMethod,
-      };
-      // Send order confirmation email with order number
-      const { error: emailError } = await supabase.functions.invoke("send-order-confirmation", {
-        body: orderData,
-      });
-
-      if (emailError) {
-        console.error("Error sending order confirmation:", emailError);
-      }
-
-      // Welcome email is now triggered automatically by the award-points function
-      // for new accounts (delayed 4 minutes via Resend scheduled send)
+  const handleStripeSuccess = async (stripePaymentIntentId: string) => {
+    setIsSubmitting(true);
+    try {
+      const pending = buildPendingOrder(stripePaymentIntentId);
+      const result = await finalizeOrder(pending);
+      try { localStorage.removeItem(PENDING_ORDER_KEY); } catch { /* noop */ }
 
       toast({
         title: "Order Submitted",
@@ -376,12 +350,12 @@ const Checkout = () => {
       resetCompliance();
       navigate("/order-confirmation", {
         state: {
-          pointsEarned: awardData?.pointsEarned || pointsEarned,
-          creditApplied: creditDiscount,
-          total: finalTotal,
-          orderNumber,
-          referralCode: awardData?.referralCode || null,
-          paymentMethod: effectivePaymentMethod,
+          pointsEarned: result.pointsEarned,
+          creditApplied: result.creditApplied,
+          total: result.total,
+          orderNumber: result.orderNumber,
+          referralCode: result.referralCode,
+          paymentMethod: result.paymentMethod,
         },
       });
     } catch (err) {
@@ -395,6 +369,7 @@ const Checkout = () => {
       setIsSubmitting(false);
     }
   };
+
 
   const handleCoveredByCredits = () => {
     void handleStripeSuccess(`credit-${Date.now()}`);
@@ -630,7 +605,9 @@ const Checkout = () => {
                       }}
                       disabled={isSubmitting}
                       onSuccess={handleStripeSuccess}
+                      onBeforeConfirm={persistPendingOrder}
                     />
+
                     <button
                       type="button"
                       onClick={() => setShowPayment(false)}

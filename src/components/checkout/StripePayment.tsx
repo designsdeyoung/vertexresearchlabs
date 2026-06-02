@@ -23,17 +23,23 @@ interface StripePaymentProps {
   metadata?: Record<string, string | number | boolean | null>;
   disabled?: boolean;
   onSuccess: (paymentIntentId: string) => void | Promise<void>;
+  onBeforeConfirm?: (paymentIntentId: string) => void | Promise<void>;
 }
 
 const PaymentForm = ({
   disabled,
   onSuccess,
+  onBeforeConfirm,
   amount,
+  paymentIntentId,
 }: {
   disabled?: boolean;
   amount: number;
+  paymentIntentId: string;
   onSuccess: (paymentIntentId: string) => void | Promise<void>;
+  onBeforeConfirm?: (paymentIntentId: string) => void | Promise<void>;
 }) => {
+
   const stripe = useStripe();
   const elements = useElements();
   const [processing, setProcessing] = useState(false);
@@ -53,6 +59,16 @@ const PaymentForm = ({
       return;
     }
 
+    // Persist pending order BEFORE confirm — redirect payment methods (Klarna,
+    // Cash App, Amazon Pay) navigate away and only come back via return_url.
+    if (onBeforeConfirm) {
+      try {
+        await onBeforeConfirm(paymentIntentId);
+      } catch (e) {
+        console.error("onBeforeConfirm failed", e);
+      }
+    }
+
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       redirect: "if_required",
@@ -60,6 +76,7 @@ const PaymentForm = ({
         return_url: `${window.location.origin}/order-confirmation`,
       },
     });
+
 
     if (error) {
       toast({
@@ -104,7 +121,7 @@ const PaymentForm = ({
   );
 };
 
-const StripePayment = ({ amount, email, metadata, disabled, onSuccess }: StripePaymentProps) => {
+const StripePayment = ({ amount, email, metadata, disabled, onSuccess, onBeforeConfirm }: StripePaymentProps) => {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -163,7 +180,14 @@ const StripePayment = ({ amount, email, metadata, disabled, onSuccess }: StripeP
         },
       }}
     >
-      <PaymentForm amount={amount} disabled={disabled} onSuccess={onSuccess} />
+      <PaymentForm
+        amount={amount}
+        disabled={disabled}
+        onSuccess={onSuccess}
+        onBeforeConfirm={onBeforeConfirm}
+        paymentIntentId={clientSecret.split("_secret_")[0]}
+      />
+
     </Elements>
   );
 };

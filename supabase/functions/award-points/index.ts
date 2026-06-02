@@ -30,7 +30,10 @@ interface AwardPointsRequest {
   referrerCode?: string;
   discountCode?: string;
   discountAmount?: number;
+  stripePaymentIntentId?: string;
+  paymentMethod?: string;
 }
+
 
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
@@ -46,11 +49,35 @@ const handler = async (req: Request): Promise<Response> => {
     const body: AwardPointsRequest = await req.json();
     console.log("Award points request:", JSON.stringify(body, null, 2));
 
-    const { customerEmail, customerName, items, subtotal, shipping, total, creditApplied, creditId, referrerCode, discountCode, discountAmount } = body;
+    const { customerEmail, customerName, items, subtotal, shipping, total, creditApplied, creditId, referrerCode, discountCode, discountAmount, stripePaymentIntentId, paymentMethod } = body;
 
     if (!customerEmail || !items || items.length === 0) {
       throw new Error("Missing required fields: customerEmail, items");
     }
+
+    // Idempotency: if this PaymentIntent already produced an order, return it
+    if (stripePaymentIntentId) {
+      const { data: existingOrder } = await supabaseAdmin
+        .from("orders")
+        .select("id, order_number, points_earned")
+        .eq("stripe_payment_intent_id", stripePaymentIntentId)
+        .maybeSingle();
+
+      if (existingOrder) {
+        console.log("Idempotent return for PaymentIntent", stripePaymentIntentId, existingOrder.id);
+        return new Response(
+          JSON.stringify({
+            success: true,
+            orderId: existingOrder.id,
+            orderNumber: existingOrder.order_number,
+            pointsEarned: existingOrder.points_earned,
+            alreadyProcessed: true,
+          }),
+          { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
+    }
+
 
     // Calculate points earned
     const pointsEarned = Math.floor(subtotal * POINTS_PER_DOLLAR);
@@ -130,7 +157,11 @@ const handler = async (req: Request): Promise<Response> => {
       is_autoship: false,
       discount_code: discountCode || null,
       discount_amount: discountAmount || 0,
+      stripe_payment_intent_id: stripePaymentIntentId || null,
+      payment_method: paymentMethod || "stripe",
+      paid_at: stripePaymentIntentId ? new Date().toISOString() : null,
     };
+
 
     const { data: order, error: orderError } = await supabaseAdmin
       .from("orders")
@@ -325,6 +356,8 @@ const handler = async (req: Request): Promise<Response> => {
         profileFound: !!profile,
         accountCreated: isNewAccount,
         referralCode: customerReferralCode,
+        alreadyProcessed: false,
+
       }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );

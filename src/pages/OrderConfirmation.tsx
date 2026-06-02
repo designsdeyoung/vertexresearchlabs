@@ -1,10 +1,13 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
+import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { motion } from "framer-motion";
 import { CountUp } from "@/components/checkout/CountUp";
+import { finalizeOrder, PENDING_ORDER_KEY, type FinalizeResult, type PendingOrder } from "@/lib/finalizeOrder";
 
 import ShareAndEarn from "@/components/checkout/ShareAndEarn";
 import {
@@ -16,19 +19,59 @@ import {
   ArrowRight,
   Phone,
   ShieldCheck,
+  Loader2,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const OrderConfirmation = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const { user } = useAuth();
+  const { clearCart } = useInquiryCart();
 
   const state = location.state as { pointsEarned?: number; creditApplied?: number; total?: number; orderNumber?: string; referralCode?: string; paymentMethod?: string } | null;
-  const pointsEarned = state?.pointsEarned || 0;
-  const creditApplied = state?.creditApplied || 0;
-  const orderNumber = state?.orderNumber || null;
-  const referralCode = state?.referralCode || null;
+
+  const [finalizedResult, setFinalizedResult] = useState<FinalizeResult | null>(null);
+  const [finalizing, setFinalizing] = useState(false);
+  const ranRef = useRef(false);
+
+  useEffect(() => {
+    if (ranRef.current) return;
+    ranRef.current = true;
+
+    const paymentIntentParam = searchParams.get("payment_intent");
+    const redirectStatus = searchParams.get("redirect_status");
+    if (redirectStatus !== "succeeded" || !paymentIntentParam) return;
+
+    let raw: string | null = null;
+    try { raw = localStorage.getItem(PENDING_ORDER_KEY); } catch { /* noop */ }
+    if (!raw) return;
+
+    let pending: PendingOrder | null = null;
+    try { pending = JSON.parse(raw) as PendingOrder; } catch { return; }
+    if (!pending || pending.paymentIntentId !== paymentIntentParam) return;
+
+    setFinalizing(true);
+    finalizeOrder(pending)
+      .then((res) => {
+        setFinalizedResult(res);
+        try { localStorage.removeItem(PENDING_ORDER_KEY); } catch { /* noop */ }
+        clearCart();
+      })
+      .catch((e) => {
+        console.error("OrderConfirmation finalize failed", e);
+      })
+      .finally(() => setFinalizing(false));
+  }, [searchParams, clearCart]);
+
+  const displayed = finalizedResult ?? state ?? {};
+  const pointsEarned = (displayed as { pointsEarned?: number }).pointsEarned || 0;
+  const creditApplied = (displayed as { creditApplied?: number }).creditApplied || 0;
+  const orderNumber = (displayed as { orderNumber?: string | null }).orderNumber || null;
+  const referralCode = (displayed as { referralCode?: string | null }).referralCode || null;
+  const totalAmount = (displayed as { total?: number }).total;
+
   
 
   return (
@@ -37,7 +80,14 @@ const OrderConfirmation = () => {
 
       <main className="flex-1 pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-2xl">
+          {finalizing && (
+            <div className="mb-6 flex items-center justify-center gap-2 text-sm text-muted-foreground glass-card rounded-lg py-3">
+              <Loader2 size={16} className="animate-spin text-primary" />
+              Finalizing your order…
+            </div>
+          )}
           {/* Success Header */}
+
           <div className="text-center mb-12">
             <motion.div
               initial={{ scale: 0 }}
@@ -87,7 +137,7 @@ const OrderConfirmation = () => {
           </div>
 
           {/* Payment Confirmed Block */}
-          {state?.total ? (
+          {totalAmount ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -103,7 +153,7 @@ const OrderConfirmation = () => {
                   </div>
                 </div>
                 <span className="text-lg font-semibold text-foreground">
-                  ${state.total.toFixed(2)}
+                  ${totalAmount.toFixed(2)}
                 </span>
               </div>
             </motion.div>

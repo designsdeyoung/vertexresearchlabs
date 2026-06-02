@@ -157,7 +157,11 @@ const handler = async (req: Request): Promise<Response> => {
       is_autoship: false,
       discount_code: discountCode || null,
       discount_amount: discountAmount || 0,
+      stripe_payment_intent_id: stripePaymentIntentId || null,
+      payment_method: paymentMethod || "stripe",
+      paid_at: stripePaymentIntentId ? new Date().toISOString() : null,
     };
+
 
     const { data: order, error: orderError } = await supabaseAdmin
       .from("orders")

@@ -80,7 +80,14 @@ const OrderConfirmation = () => {
 
       <main className="flex-1 pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-2xl">
+          {finalizing && (
+            <div className="mb-6 flex items-center justify-center gap-2 text-sm text-muted-foreground glass-card rounded-lg py-3">
+              <Loader2 size={16} className="animate-spin text-primary" />
+              Finalizing your order…
+            </div>
+          )}
           {/* Success Header */}
+
           <div className="text-center mb-12">
             <motion.div
               initial={{ scale: 0 }}

@@ -59,6 +59,16 @@ const PaymentForm = ({
       return;
     }
 
+    // Persist pending order BEFORE confirm — redirect payment methods (Klarna,
+    // Cash App, Amazon Pay) navigate away and only come back via return_url.
+    if (onBeforeConfirm) {
+      try {
+        await onBeforeConfirm(paymentIntentId);
+      } catch (e) {
+        console.error("onBeforeConfirm failed", e);
+      }
+    }
+
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       redirect: "if_required",
@@ -66,6 +76,7 @@ const PaymentForm = ({
         return_url: `${window.location.origin}/order-confirmation`,
       },
     });
+
 
     if (error) {
       toast({

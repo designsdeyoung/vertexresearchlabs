@@ -17,6 +17,8 @@ import { calculatePointsForPrice } from "@/hooks/useRewards";
 import { getStoredReferralCode } from "@/hooks/useReferralCapture";
 import CreditRedemption from "@/components/checkout/CreditRedemption";
 import StripePayment from "@/components/checkout/StripePayment";
+import { finalizeOrder, PENDING_ORDER_KEY, type PendingOrder } from "@/lib/finalizeOrder";
+
 import {
   Shield,
   Building2,

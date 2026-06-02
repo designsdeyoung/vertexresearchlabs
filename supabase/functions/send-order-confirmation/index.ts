@@ -258,10 +258,12 @@ const handler = async (req: Request): Promise<Response> => {
             ` : ''}
 
             <!-- Shipping Address -->
+            ${customer.addressLine1 ? `
             <div style="background: rgba(51, 65, 85, 0.4); border-radius: 12px; padding: 24px; margin: 24px 0; border: 1px solid rgba(100, 116, 139, 0.3);">
               <h3 style="color: #00b4d8; font-size: 14px; margin: 0 0 12px 0; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">Shipping Address</h3>
               <p style="color: #f1f5f9; font-size: 14px; margin: 0; white-space: pre-line; line-height: 1.6;">${formatAddress(customer)}</p>
             </div>
+            ` : ''}
 
             <!-- Research Notice -->
             <div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%); border-left: 3px solid #f59e0b; border-radius: 0 12px 12px 0; padding: 16px 20px; margin: 24px 0;">

@@ -146,7 +146,7 @@ const OrderConfirmation = () => {
                   </div>
                 </div>
                 <span className="text-lg font-semibold text-foreground">
-                  ${state.total.toFixed(2)}
+                  ${totalAmount.toFixed(2)}
                 </span>
               </div>
             </motion.div>

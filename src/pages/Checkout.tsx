@@ -605,7 +605,9 @@ const Checkout = () => {
                       }}
                       disabled={isSubmitting}
                       onSuccess={handleStripeSuccess}
+                      onBeforeConfirm={persistPendingOrder}
                     />
+
                     <button
                       type="button"
                       onClick={() => setShowPayment(false)}

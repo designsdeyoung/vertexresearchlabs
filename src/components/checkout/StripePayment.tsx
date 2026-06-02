@@ -121,7 +121,7 @@ const PaymentForm = ({
   );
 };
 
-const StripePayment = ({ amount, email, metadata, disabled, onSuccess }: StripePaymentProps) => {
+const StripePayment = ({ amount, email, metadata, disabled, onSuccess, onBeforeConfirm }: StripePaymentProps) => {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

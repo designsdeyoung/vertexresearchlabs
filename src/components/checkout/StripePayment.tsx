@@ -23,17 +23,23 @@ interface StripePaymentProps {
   metadata?: Record<string, string | number | boolean | null>;
   disabled?: boolean;
   onSuccess: (paymentIntentId: string) => void | Promise<void>;
+  onBeforeConfirm?: (paymentIntentId: string) => void | Promise<void>;
 }
 
 const PaymentForm = ({
   disabled,
   onSuccess,
+  onBeforeConfirm,
   amount,
+  paymentIntentId,
 }: {
   disabled?: boolean;
   amount: number;
+  paymentIntentId: string;
   onSuccess: (paymentIntentId: string) => void | Promise<void>;
+  onBeforeConfirm?: (paymentIntentId: string) => void | Promise<void>;
 }) => {
+
   const stripe = useStripe();
   const elements = useElements();
   const [processing, setProcessing] = useState(false);

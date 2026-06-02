@@ -180,7 +180,14 @@ const StripePayment = ({ amount, email, metadata, disabled, onSuccess, onBeforeC
         },
       }}
     >
-      <PaymentForm amount={amount} disabled={disabled} onSuccess={onSuccess} />
+      <PaymentForm
+        amount={amount}
+        disabled={disabled}
+        onSuccess={onSuccess}
+        onBeforeConfirm={onBeforeConfirm}
+        paymentIntentId={clientSecret.split("_secret_")[0]}
+      />
+
     </Elements>
   );
 };

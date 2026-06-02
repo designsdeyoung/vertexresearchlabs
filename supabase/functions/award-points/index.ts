@@ -356,6 +356,8 @@ const handler = async (req: Request): Promise<Response> => {
         profileFound: !!profile,
         accountCreated: isNewAccount,
         referralCode: customerReferralCode,
+        alreadyProcessed: false,
+
       }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );

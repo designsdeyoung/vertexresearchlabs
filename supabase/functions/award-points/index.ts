@@ -30,7 +30,10 @@ interface AwardPointsRequest {
   referrerCode?: string;
   discountCode?: string;
   discountAmount?: number;
+  stripePaymentIntentId?: string;
+  paymentMethod?: string;
 }
+
 
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {

@@ -1,0 +1,12 @@
+{
+  "bucket": "email-assets",
+  "public": true,
+  "objects": [
+    {
+      "path": "logo.png",
+      "local_file": "migration/storage/logo.png",
+      "content_type": "image/png",
+      "size_bytes": 274764
+    }
+  ]
+}

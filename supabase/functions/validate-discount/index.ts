@@ -38,6 +38,9 @@ const handler = async (req: Request): Promise<Response> => {
       SHAWN10: { discount: 0.10, freeShipping: true },
       LISA10: { discount: 0.10, freeShipping: true },
       KEN10: { discount: 0.10, freeShipping: true },
+      // KLOW 4-vial bundle via Lauryn: 19% (stacked 10% + 10% = 0.9 x 0.9 = 0.81).
+      // $516 -> $417.96. Lauryn (LAURYN10) is credited 3x referral points on this order.
+      KLOW4LAURYN: { discount: 0.19, freeShipping: true },
     };
 
     if (SPECIAL_PROMOS[normalizedCode]) {

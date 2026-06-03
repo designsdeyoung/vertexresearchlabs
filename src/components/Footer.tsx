@@ -111,7 +111,11 @@ const Footer = () => {
             All products sold by Vertex Research Labs are intended for laboratory research and
             analytical applications only. Not for human consumption. Not for veterinary use.
             Must be handled by qualified research personnel in appropriate laboratory settings.
-            These statements have not been evaluated by the FDA.
+            No product is a drug, supplement, or medical device. Nothing on this site is medical
+            advice or a health claim, and no product description or research summary is an
+            endorsement of any use in humans or animals. These statements have not been evaluated
+            by the FDA, and these products are not intended to diagnose, treat, cure, or prevent
+            any disease.
           </p>
           <p className="mt-4 text-xs text-muted-foreground">
             © {year} Vertex Research Labs. All rights reserved.

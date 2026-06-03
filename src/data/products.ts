@@ -26,6 +26,7 @@ import epithalonImage from "@/assets/products/epithalon.png";
 import dsipImage from "@/assets/products/dsip.png";
 import cjcIpaImage from "@/assets/products/cjc-ipa.png";
 import wolverineBlendImage from "@/assets/products/wolverine-blend.png";
+import klowImage from "@/assets/products/klow.png";
 
 export interface Reference {
   authors: string;
@@ -124,6 +125,52 @@ export const products: Product[] = [
         year: 2018,
         title: "GHK Peptide as a Natural Modulator of Multiple Cellular Pathways",
         url: "https://pubmed.ncbi.nlm.nih.gov/29986520/"
+      }
+    ]
+  },
+  {
+    id: "klow",
+    name: "KLOW",
+    subtitle: "4-Peptide Blend • Research Grade",
+    size: "80mg",
+    price: 129,
+    description: "Four-peptide research blend combining GHK-Cu (50mg), BPC-157 (10mg), TB-500 (10mg), and KPV (10mg) in a single 80mg vial. Reference material supplied exclusively for laboratory research and analytical applications. Not for human consumption.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    category: "Peptide Blend",
+    image: klowImage,
+    isNew: true,
+    references: [
+      {
+        authors: "Pickart L, Margolina A",
+        journal: "International Journal of Molecular Sciences",
+        year: 2018,
+        title: "GHK Peptide as a Natural Modulator of Multiple Cellular Pathways",
+        url: "https://pubmed.ncbi.nlm.nih.gov/29986520/"
+      },
+      {
+        authors: "Sikiric P et al.",
+        journal: "Current Pharmaceutical Design",
+        year: 2011,
+        title: "BPC-157 Peptide Studies",
+        url: "https://pubmed.ncbi.nlm.nih.gov/21548867/"
+      },
+      {
+        authors: "Philp D et al.",
+        journal: "FASEB Journal",
+        year: 2011,
+        title: "Thymosin β4 (TB-500) Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/22074294/"
+      },
+      {
+        authors: "Dalmasso G et al.",
+        journal: "Gastroenterology",
+        year: 2008,
+        title: "KPV Tripeptide Research",
+        url: "https://pubmed.ncbi.nlm.nih.gov/18061177/"
       }
     ]
   },

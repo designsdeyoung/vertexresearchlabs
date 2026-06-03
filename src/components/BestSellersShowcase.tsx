@@ -8,16 +8,18 @@ import tb500Vial from "@/assets/showcase/tb-500-png.png";
 import tesamorelinVial from "@/assets/showcase/tesamorelin-png.png";
 import nadVial from "@/assets/showcase/nad-plus-png.png";
 import semaxVial from "@/assets/showcase/semax-png.png";
+import klowVial from "@/assets/showcase/klow-png.png";
 import FloatingParticles from "./FloatingParticles";
 
 // Curated best sellers (most popular)
 const vials = [
-  { src: bpcVial, alt: "BPC-157 Peptide Research Vial", name: "BPC-157", tagline: "Recovery & repair research", productId: "bpc-157" },
-  { src: ghkVial, alt: "GHK-Cu Copper Peptide Research Vial", name: "GHK-Cu", tagline: "Skin & tissue research", productId: "ghk-cu" },
-  { src: tb500Vial, alt: "TB-500 Peptide Research Vial", name: "TB-500", tagline: "Tissue regeneration research", productId: "tb-500" },
-  { src: nadVial, alt: "NAD+ Research Vial", name: "NAD+", tagline: "Cellular energy research", productId: "nad-plus" },
-  { src: tesamorelinVial, alt: "Tesamorelin Peptide Research Vial", name: "Tesamorelin", tagline: "Metabolic research", productId: "tesamorelin" },
-  { src: semaxVial, alt: "Semax Peptide Research Vial", name: "Semax", tagline: "Cognitive research", productId: "semax" },
+  { src: bpcVial, alt: "BPC-157 Peptide Research Vial", name: "BPC-157", tagline: "Pentadecapeptide · research grade", productId: "bpc-157" },
+  { src: klowVial, alt: "KLOW Peptide Blend Research Vial", name: "KLOW", tagline: "Four-peptide blend · research grade", productId: "klow" },
+  { src: ghkVial, alt: "GHK-Cu Copper Peptide Research Vial", name: "GHK-Cu", tagline: "Copper tripeptide · research grade", productId: "ghk-cu" },
+  { src: tb500Vial, alt: "TB-500 Peptide Research Vial", name: "TB-500", tagline: "Thymosin β4 fragment · research grade", productId: "tb-500" },
+  { src: nadVial, alt: "NAD+ Research Vial", name: "NAD+", tagline: "Coenzyme · research grade", productId: "nad-plus" },
+  { src: tesamorelinVial, alt: "Tesamorelin Peptide Research Vial", name: "Tesamorelin", tagline: "GHRH analog · research grade", productId: "tesamorelin" },
+  { src: semaxVial, alt: "Semax Peptide Research Vial", name: "Semax", tagline: "Heptapeptide · research grade", productId: "semax" },
 ];
 
 const BestSellersShowcase = () => {

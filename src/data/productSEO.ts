@@ -151,6 +151,53 @@ export const productSEO: Record<string, ProductSEOData> = {
     relatedProducts: ["bpc-157", "tesamorelin", "mots-c"],
   },
 
+  "klow": {
+    metaTitle: "KLOW 80mg Blend | GHK-Cu BPC-157 TB-500 KPV | ≥99% Purity",
+    metaDescription:
+      "Buy KLOW 80mg peptide blend — GHK-Cu (50mg), BPC-157 (10mg), TB-500 (10mg), KPV (10mg). ≥99% purity, independent COA included. Four-peptide research reference material, lab use only.",
+    keywords: [
+      "KLOW",
+      "buy KLOW",
+      "KLOW blend",
+      "KLOW peptide",
+      "KLOW 80mg",
+      "KLOW peptide blend",
+      "GHK-Cu BPC-157 TB-500 KPV",
+      "KLOW blend composition",
+      "BPC-157 TB-500 KPV GHK-Cu",
+      "four peptide research blend",
+      "KLOW COA",
+      "KLOW purity",
+      "research grade peptide blend",
+      "KLOW for sale",
+    ],
+    researchSummary:
+      "KLOW is a four-peptide research blend combining GHK-Cu (50mg), BPC-157 (10mg), TB-500 (10mg), and KPV (10mg) in a single 80mg vial. GHK-Cu is a copper-binding tripeptide, BPC-157 is a pentadecapeptide, TB-500 is a synthetic fragment of thymosin β4, and KPV is a tripeptide derived from alpha-MSH. Each component is independently verified at ≥99% purity by HPLC, with a batch-specific Certificate of Analysis included. Supplied for laboratory research use only — not for human or veterinary use.",
+    faqs: [
+      {
+        question: "What is KLOW?",
+        answer:
+          "KLOW is a four-peptide research blend supplied by Vertex Research Labs as a reference material for laboratory use only. Each 80mg vial combines GHK-Cu, BPC-157, TB-500, and KPV. It is supplied strictly for research and analytical use — not for human or veterinary use.",
+      },
+      {
+        question: "What's in the KLOW blend?",
+        answer:
+          "Each 80mg KLOW vial contains GHK-Cu (50mg), BPC-157 (10mg), TB-500 (10mg), and KPV (10mg) — the standard KLOW formulation. This composition is provided for reference only and describes the contents of the research material, not any intended use.",
+      },
+      {
+        question: "What purity is your KLOW?",
+        answer:
+          "Each peptide in our KLOW blend is independently verified at ≥99% purity by HPLC analysis, with a batch-specific Certificate of Analysis included with every order.",
+      },
+      {
+        question: "Is KLOW for human use?",
+        answer:
+          "No. KLOW is supplied exclusively as a laboratory reference material for research and analytical applications. It is not for human or veterinary use.",
+      },
+    ],
+    relatedProducts: ["bpc-157", "tb-500", "ghk-cu"],
+  },
+
   "bpc-157": {
     metaTitle: "BPC-157 5mg | ≥99% Purity Research Peptide with COA",
     metaDescription:
@@ -794,7 +841,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       "Epithalon purity",
       "Epithalon COA",
       "longevity peptide research",
-      "anti-aging peptide research",
+      "longevity peptide research",
       "high purity Epithalon",
       "best Epithalon peptide",
       "Epithalon research grade",
@@ -812,7 +859,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "Why is Epithalon considered a trending longevity peptide?",
         answer:
-          "Preclinical research has examined Epithalon's interactions with telomerase, the enzyme involved in telomere maintenance. This has generated significant interest in the longevity research community, making it one of the most searched peptide research materials in the anti-aging science space.",
+          "Preclinical research has examined Epithalon's interactions with telomerase, the enzyme involved in telomere maintenance. This has generated significant interest in the longevity research community, making it one of the most searched peptide research materials in the longevity research space.",
       },
       {
         question: "What purity is your Epithalon?",

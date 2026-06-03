@@ -27,6 +27,7 @@ const ProductCatalog = () => {
   // Products not listed fall to the bottom in their original order.
   const salesRank: string[] = [
     "retatrutide",
+    "klow",
     "ghk-cu",
     "mots-c",
     "cjc-ipa-blend",

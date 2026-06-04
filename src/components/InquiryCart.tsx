@@ -69,8 +69,11 @@ const InquiryCart = () => {
           </div>
         ) : (
           <>
+            {/* Scrollable region: notices, line items, and upsells all live here so
+                they can never overlap. The totals/CTA below stay pinned. */}
+            <div className="flex-1 min-h-0 overflow-y-auto mt-4 space-y-3 -mr-3 pr-3">
             {/* Free Shipping Progress */}
-            <div className="p-3 rounded-lg bg-secondary/30 border border-border/50 mt-4">
+            <div className="p-3 rounded-lg bg-secondary/30 border border-border/50">
               <div className="flex items-center gap-2 mb-2">
                 <Truck size={16} className={qualifiesForFreeShipping ? "text-primary" : "text-muted-foreground"} />
                 {qualifiesForFreeShipping ? (
@@ -100,7 +103,7 @@ const InquiryCart = () => {
               </p>
             </div>
 
-            <div className="flex-1 overflow-y-auto mt-4 space-y-3">
+            <div className="space-y-3">
               {items.map(item => (
                 <div
                   key={lineKey(item)}
@@ -246,8 +249,9 @@ const InquiryCart = () => {
                 </div>
               </div>
             )}
+            </div>
 
-            <div className="pt-4 border-t border-border/50 space-y-3 mt-4">
+            <div className="pt-4 border-t border-border/50 space-y-3 mt-4 shrink-0">
               {/* Points earned preview */}
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground flex items-center gap-1">

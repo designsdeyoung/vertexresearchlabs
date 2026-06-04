@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useInquiryCart, computeUnitPrice } from "@/contexts/InquiryCartContext";
+import { useInquiryCart, computeUnitPrice, lineKey } from "@/contexts/InquiryCartContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2, FlaskConical, ShieldCheck, ArrowRight, Truck, Sparkles, Package, Droplet, Plus as PlusIcon, Repeat } from "lucide-react";
@@ -103,7 +103,7 @@ const InquiryCart = () => {
             <div className="flex-1 overflow-y-auto mt-4 space-y-3">
               {items.map(item => (
                 <div
-                  key={item.product.id}
+                  key={lineKey(item)}
                   className="flex items-center gap-3 p-3 rounded-lg bg-secondary/30 border border-border/50"
                 >
                   {item.product.image && (
@@ -145,26 +145,32 @@ const InquiryCart = () => {
                       <p className="text-sm font-medium text-primary">{formatPrice(item.product.price)}</p>
                     )}
                   </div>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1 shrink-0">
                     <button
-                      onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                      className="p-1 rounded hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"
+                      type="button"
+                      aria-label="Decrease quantity"
+                      onClick={() => updateQuantity(lineKey(item), item.quantity - 1)}
+                      className="flex h-9 w-9 items-center justify-center rounded-md border border-border bg-background text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground active:bg-secondary touch-manipulation select-none"
                     >
-                      <Minus size={14} />
+                      <Minus size={16} />
                     </button>
-                    <span className="w-6 text-center text-sm">{item.quantity}</span>
+                    <span className="w-7 text-center text-sm tabular-nums">{item.quantity}</span>
                     <button
-                      onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                      className="p-1 rounded hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"
+                      type="button"
+                      aria-label="Increase quantity"
+                      onClick={() => updateQuantity(lineKey(item), item.quantity + 1)}
+                      className="flex h-9 w-9 items-center justify-center rounded-md border border-border bg-background text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground active:bg-secondary touch-manipulation select-none"
                     >
-                      <Plus size={14} />
+                      <Plus size={16} />
                     </button>
                   </div>
                   <button
-                    onClick={() => removeItem(item.product.id)}
-                    className="p-1.5 rounded hover:bg-destructive/20 text-muted-foreground hover:text-destructive transition-colors"
+                    type="button"
+                    aria-label="Remove item"
+                    onClick={() => removeItem(lineKey(item))}
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-destructive/20 hover:text-destructive active:bg-destructive/20 touch-manipulation select-none"
                   >
-                    <Trash2 size={14} />
+                    <Trash2 size={16} />
                   </button>
                 </div>
               ))}

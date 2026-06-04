@@ -23,8 +23,8 @@ interface InquiryCartContextType {
   items: CartItem[];
   addItem: (product: Product, opts?: { isAutoship?: boolean }) => void;
   add3Pack: (product: Product, opts?: { isAutoship?: boolean; intervalDays?: number }) => void;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
+  removeItem: (lineKey: string) => void;
+  updateQuantity: (lineKey: string, quantity: number) => void;
   clearCart: () => void;
   isOpen: boolean;
   openCart: () => void;
@@ -40,6 +40,14 @@ interface InquiryCartContextType {
 }
 
 const InquiryCartContext = createContext<InquiryCartContextType | undefined>(undefined);
+
+// Stable per-line identity. The same product can appear as distinct lines
+// (single vs 3-Pack vs autoship vs different autoship cadence), so we cannot
+// key/target a line by product.id alone.
+export const lineKey = (
+  item: Pick<CartItem, "product" | "is3Pack" | "isAutoship" | "intervalDays">
+): string =>
+  `${item.product.id}|${item.is3Pack ? "3" : "1"}|${item.isAutoship ? "a" : "o"}|${item.intervalDays ?? ""}`;
 
 // Compute the effective unit price for a cart line (post-discounts, pre-quantity)
 export const computeUnitPrice = (item: CartItem): number => {
@@ -97,18 +105,18 @@ export const InquiryCartProvider = ({ children }: { children: ReactNode }) => {
     });
   }, []);
 
-  const removeItem = useCallback((productId: string) => {
-    setItems((prev) => prev.filter((item) => item.product.id !== productId));
+  const removeItem = useCallback((key: string) => {
+    setItems((prev) => prev.filter((item) => lineKey(item) !== key));
   }, []);
 
   const updateQuantity = useCallback(
-    (productId: string, quantity: number) => {
+    (key: string, quantity: number) => {
       if (quantity <= 0) {
-        removeItem(productId);
+        removeItem(key);
         return;
       }
       setItems((prev) =>
-        prev.map((item) => (item.product.id === productId ? { ...item, quantity } : item))
+        prev.map((item) => (lineKey(item) === key ? { ...item, quantity } : item))
       );
     },
     [removeItem]

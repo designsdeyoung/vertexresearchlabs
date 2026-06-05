@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, FlaskConical, Package } from "lucide-react";
+import { AlertTriangle, ChevronDown, FlaskConical, Package } from "lucide-react";
 import { useInquiryCart, AUTOSHIP_DISCOUNT, THREE_PACK_DISCOUNT, THREE_PACK_AUTOSHIP_INTERVAL_DAYS } from "@/contexts/InquiryCartContext";
 import { SITEWIDE_SALE } from "@/config/sale";
 import type { Product } from "@/data/products";
@@ -22,6 +22,9 @@ interface ProductCardProps {
 
 const formatPrice = (p: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(p);
+
+/** Show the "Low stock — order soon" badge when this many units or fewer remain. */
+const LOW_STOCK_THRESHOLD = 5;
 
 const ProductCard = ({ product, variants }: ProductCardProps) => {
   const allVariants =
@@ -155,6 +158,17 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
             </span>
           )}
         </div>
+
+        {/* Low stock warning */}
+        {!selected.outOfStock &&
+          selected.stock !== undefined &&
+          selected.stock > 0 &&
+          selected.stock <= LOW_STOCK_THRESHOLD && (
+            <p className="flex items-center gap-1.5 font-mono text-[11px] font-medium uppercase tracking-wider text-amber-500">
+              <AlertTriangle size={12} className="shrink-0" />
+              Low stock — order soon
+            </p>
+          )}
 
         {/* Add to cart */}
         <Button

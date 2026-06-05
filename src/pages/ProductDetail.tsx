@@ -17,6 +17,7 @@ import {
 import { SITEWIDE_SALE } from "@/config/sale";
 import { toast } from "@/hooks/use-toast";
 import {
+  AlertTriangle,
   ArrowLeft,
   ChevronDown,
   ExternalLink,
@@ -319,6 +320,14 @@ const ProductDetail = () => {
                 </p>
               ) : (
               <>
+              {product.stock !== undefined &&
+                product.stock > 0 &&
+                product.stock <= 5 && (
+                  <p className="mt-4 flex items-center gap-1.5 font-mono text-xs font-medium uppercase tracking-wider text-amber-500">
+                    <AlertTriangle size={13} className="shrink-0" />
+                    Low stock — order soon
+                  </p>
+                )}
               {/* Subscribe */}
               <Collapsible open={subOpen} onOpenChange={setSubOpen} className="mt-4">
                 <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground hover:border-primary/30">

@@ -59,6 +59,9 @@ export interface Product {
   references?: Reference[];
   isNew?: boolean;
   outOfStock?: boolean;
+  /** Units on hand. Drives the "Low stock — order soon" badge when 1–5 remain.
+   *  A value of 0 means sold out; pair it with outOfStock: true. */
+  stock?: number;
 }
 
 export const products: Product[] = [
@@ -78,6 +81,7 @@ export const products: Product[] = [
     image: ghkCuImage,
     category: "Copper Peptide",
     coa: ghkCuCoa,
+    stock: 30,
     references: [
       {
         authors: "Pickart L, Margolina A",
@@ -111,6 +115,7 @@ export const products: Product[] = [
     image: ghkCu100Image,
     category: "Copper Peptide",
     coa: ghkCuCoa,
+    stock: 1,
     references: [
       {
         authors: "Pickart L, Margolina A",
@@ -189,6 +194,7 @@ export const products: Product[] = [
     image: retatrutideImage,
     category: "Peptide",
     coa: retatrutideCoa,
+    stock: 22,
     references: [
       {
         authors: "Jastreboff AM et al.",
@@ -221,6 +227,8 @@ export const products: Product[] = [
     image: bpc157Image,
     category: "Peptide",
     coa: tb500Coa,
+    stock: 0,
+    outOfStock: true,
     references: [
       {
         authors: "Sikiric P et al.",
@@ -253,6 +261,7 @@ export const products: Product[] = [
     image: tb500Image,
     category: "Peptide",
     coa: tb500Coa,
+    stock: 4,
     references: [
       {
         authors: "Philp D et al.",
@@ -284,6 +293,7 @@ export const products: Product[] = [
     disclaimer: "Not for human consumption or veterinary use.",
     image: semaxImage,
     category: "Peptide",
+    stock: 15,
     references: [
       {
         authors: "Dolotov OV et al.",
@@ -340,6 +350,8 @@ export const products: Product[] = [
     disclaimer: "Not for human consumption or veterinary use.",
     image: nadPlusImage,
     category: "Coenzyme",
+    stock: 0,
+    outOfStock: true,
     references: [
       {
         authors: "Bogan KL, Brenner C",
@@ -365,6 +377,7 @@ export const products: Product[] = [
     disclaimer: "Not for human consumption or veterinary use.",
     image: nadPlus1000Image,
     category: "Coenzyme",
+    stock: 6,
     references: [
       {
         authors: "Bogan KL, Brenner C",
@@ -391,6 +404,7 @@ export const products: Product[] = [
     image: glutathioneImage,
     category: "Antioxidant",
     isNew: true,
+    stock: 7,
     references: [
       {
         authors: "Pizzorno J",
@@ -603,6 +617,7 @@ export const products: Product[] = [
     disclaimer: "Not for human consumption or veterinary use.",
     image: mt2Image,
     category: "Peptide",
+    stock: 5,
     references: [
       {
         authors: "Hadley ME et al.",
@@ -678,6 +693,7 @@ export const products: Product[] = [
     category: "Peptide Blend",
     image: wolverineBlendImage,
     isNew: true,
+    stock: 1,
     references: [
       {
         authors: "Sikiric P et al.",
@@ -710,6 +726,7 @@ export const products: Product[] = [
     image: cjcIpaImage,
     category: "Peptide Blend",
     isNew: true,
+    stock: 6,
     references: [
       {
         authors: "Teichman SL et al.",

@@ -23,3 +23,12 @@ verify_jwt = false
 
 [functions.lookup-order]
 verify_jwt = false
+
+[functions.subscribe]
+verify_jwt = false
+
+[functions.send-restock-reminder]
+verify_jwt = false
+
+[functions.send-new-compound-announcement]
+verify_jwt = false

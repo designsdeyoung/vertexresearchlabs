@@ -30,7 +30,11 @@ const handler = async (req: Request): Promise<Response> => {
     const normalizedCode = code.trim().toUpperCase();
 
     // Special promo codes
-    const SPECIAL_PROMOS: Record<string, { discount: number; freeShipping: boolean; firstOrderOnly?: boolean; expiresAt?: string }> = {
+    // globalSingleUse defaults to true for firstOrderOnly codes (personal codes
+    // that may only ever be redeemed once). VERTEX10 is a mass welcome code, so
+    // it sets globalSingleUse:false — enforced per-customer-first-order only.
+    const SPECIAL_PROMOS: Record<string, { discount: number; freeShipping: boolean; firstOrderOnly?: boolean; globalSingleUse?: boolean; expiresAt?: string }> = {
+      VERTEX10: { discount: 0.10, freeShipping: false, firstOrderOnly: true, globalSingleUse: false },
       PATRICIA10: { discount: 0.10, freeShipping: true },
       ADAM10: { discount: 0.10, freeShipping: true },
       JODI30: { discount: 0.30, freeShipping: true, firstOrderOnly: true },
@@ -87,12 +91,16 @@ const handler = async (req: Request): Promise<Response> => {
           }
         }
 
-        // Also check if this code was already used in any order
-        const { count: usedCount } = await supabaseAdmin
-          .from("orders")
-          .select("id", { count: "exact", head: true })
-          .eq("discount_code", normalizedCode)
-          .eq("status", "paid");
+        // Also check if this code was already used in any order — but only for
+        // single-use personal codes. Mass codes (globalSingleUse:false, e.g.
+        // VERTEX10) skip this so one redemption doesn't lock out everyone else.
+        const { count: usedCount } = promo.globalSingleUse === false
+          ? { count: 0 }
+          : await supabaseAdmin
+              .from("orders")
+              .select("id", { count: "exact", head: true })
+              .eq("discount_code", normalizedCode)
+              .eq("status", "paid");
 
         if ((usedCount ?? 0) > 0) {
           return new Response(

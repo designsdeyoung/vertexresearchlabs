@@ -6,6 +6,7 @@ import {
   AlertTriangle,
   ArrowLeft,
   Check,
+  Download,
   Droplets,
   ExternalLink,
   FileText,
@@ -174,6 +175,36 @@ export const makeBespokePage = (config: BespokeConfig): ComponentType<BespokePro
     const specs = buildSpecs(product, config);
     const isBlend = Boolean(config.composition?.length);
 
+    // Size/variant selector: sibling products sharing this product's groupId.
+    const siblings = product.groupId
+      ? products.filter((p) => p.groupId === product.groupId)
+      : [];
+
+    // COA download: links to /public/coas/{id}.pdf when present, otherwise
+    // falls back to the request-by-email flow. TODO: drop batch COA PDFs into
+    // /public/coas/<product-id>.pdf (or wire to a CMS/storage URL) to enable
+    // direct downloads.
+    const handleCoaDownload = async () => {
+      const url = `/coas/${product.id}.pdf`;
+      try {
+        const res = await fetch(url, { method: "HEAD" });
+        // Require a real PDF — SPA hosts return 200 + index.html for missing
+        // files, so an OK status alone isn't enough to trust.
+        const isPdf = res.ok && (res.headers.get("content-type") || "").includes("pdf");
+        if (isPdf) {
+          window.open(url, "_blank", "noopener");
+          return;
+        }
+      } catch {
+        /* fall through to request flow */
+      }
+      console.warn(`[COA] No PDF found at ${url} — falling back to request-by-email.`);
+      toast({
+        title: "COA available upon request",
+        description: "Email us and we'll send the batch COA for this product.",
+      });
+    };
+
     const BASE_URL = "https://vertexresearchlabs.com";
     const productSchema = {
       "@context": "https://schema.org",
@@ -318,6 +349,35 @@ export const makeBespokePage = (config: BespokeConfig): ComponentType<BespokePro
                           <span className="text-muted-foreground">{c.dose}</span>
                         </span>
                       ))}
+                    </div>
+                  )}
+
+                  {/* Size / variant selector */}
+                  {siblings.length > 1 && (
+                    <div className="mt-6">
+                      <p className="mb-2 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                        Size
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {siblings.map((v) => {
+                          const active = v.id === product.id;
+                          return (
+                            <button
+                              key={v.id}
+                              type="button"
+                              onClick={() => !active && navigate(`/product/${v.id}`)}
+                              aria-pressed={active}
+                              className={`rounded-lg border px-3.5 py-2 font-mono text-xs uppercase tracking-wider transition-colors ${
+                                active
+                                  ? "border-primary/60 bg-primary/10 text-primary"
+                                  : "border-border bg-transparent text-muted-foreground hover:border-primary/30 hover:text-foreground"
+                              }`}
+                            >
+                              {v.size}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
                   )}
 
@@ -506,6 +566,16 @@ export const makeBespokePage = (config: BespokeConfig): ComponentType<BespokePro
                   ))}
                 </dl>
                 <div className="mt-4 flex flex-wrap gap-3">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={handleCoaDownload}
+                    className="border-primary/30 text-primary hover:bg-primary/10"
+                  >
+                    <Download size={14} />
+                    Download COA
+                  </Button>
                   {coa && (
                     <Dialog>
                       <DialogTrigger asChild>

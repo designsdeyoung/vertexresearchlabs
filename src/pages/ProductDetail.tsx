@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { products } from "@/data/products";
 import { productSEO } from "@/data/productSEO";
+import { customProductPages } from "@/pages/products/customPages";
 import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import ComplianceBanner from "@/components/ComplianceBanner";
@@ -77,6 +78,13 @@ const ProductDetail = () => {
         <Footer />
       </div>
     );
+  }
+
+  // Fully bespoke pages take over rendering when registered; others use the
+  // shared template below.
+  const BespokePage = customProductPages[product.id];
+  if (BespokePage) {
+    return <BespokePage product={product} seo={seo} />;
   }
 
   const { name, subtitle, size, purity, image, category, coa, references, price } = product;

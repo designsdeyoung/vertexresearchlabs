@@ -1,4 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
+import { scheduleRestockReminder, subscribeEmail } from "./resend";
+
+const RESTOCK_REMINDER_DAYS = 14;
 
 export const PENDING_ORDER_KEY = "vrl_pending_order";
 
@@ -40,6 +43,8 @@ export interface PendingOrder {
   discountAmount: number;
   paymentMethod: string;
   pointsEarnedFallback: number;
+  /** Customer opted in to updates/new-release emails at checkout. */
+  marketingConsent?: boolean;
 }
 
 export interface FinalizeResult {
@@ -101,6 +106,32 @@ export async function finalizeOrder(pending: PendingOrder): Promise<FinalizeResu
     });
     if (emailError) {
       console.error("finalizeOrder: send-order-confirmation error", emailError);
+    }
+
+    // Retention: schedule the day-14 reorder reminder (fire-and-forget).
+    try {
+      const scheduledAt = new Date(
+        Date.now() + RESTOCK_REMINDER_DAYS * 24 * 60 * 60 * 1000,
+      ).toISOString();
+      void scheduleRestockReminder({
+        email: pending.customer.email,
+        fullName: pending.customer.fullName,
+        items: pending.items.map((i) => ({
+          productId: i.productId,
+          productName: i.productName,
+          size: i.size,
+        })),
+        orderNumber: orderNumber ?? undefined,
+        scheduledAt,
+      });
+    } catch (e) {
+      console.error("finalizeOrder: restock reminder scheduling failed", e);
+    }
+
+    // If the customer opted in at checkout, add them to the updates audience.
+    // (Order confirmation is transactional and already sent above regardless.)
+    if (pending.marketingConsent) {
+      void subscribeEmail(pending.customer.email, { sendWelcome: false, source: "checkout-consent" });
     }
   }
 

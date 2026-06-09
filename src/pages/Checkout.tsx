@@ -30,6 +30,7 @@ import {
   Sparkles,
   CreditCard,
   CheckCircle2,
+  Lock,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -162,6 +163,9 @@ const Checkout = () => {
   }, [autoApplyDone, discountCode, discountValid, discountLoading, formData.email]);
 
   const [finalConfirmation, setFinalConfirmation] = useState(false);
+  // Single, unchecked-by-default marketing opt-in (order confirmations are
+  // transactional and send regardless). Explicit opt-in keeps us compliant.
+  const [marketingConsent, setMarketingConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Redirect if not acknowledged
@@ -320,6 +324,7 @@ const Checkout = () => {
       discountAmount,
       paymentMethod: effectivePaymentMethod,
       pointsEarnedFallback: pointsEarned,
+      marketingConsent,
     };
   };
 
@@ -560,6 +565,20 @@ const Checkout = () => {
                   </div>
                 </div>
 
+                {/* Email opt-in (single, unchecked-by-default) */}
+                <div className="flex items-start gap-3 px-1">
+                  <Checkbox
+                    id="marketingConsent"
+                    checked={marketingConsent}
+                    onCheckedChange={(checked) => setMarketingConsent(checked === true)}
+                    className="mt-0.5"
+                  />
+                  <Label htmlFor="marketingConsent" className="cursor-pointer text-sm leading-relaxed text-muted-foreground">
+                    Keep me updated — send my order confirmation plus occasional research updates and
+                    new compound releases. Unsubscribe anytime.
+                  </Label>
+                </div>
+
                 {/* Continue to Payment OR Stripe Payment */}
                 {!showPayment ? (
                   <Button type="submit" variant="hero" size="xl" className="w-full" disabled={!isFormValid || isSubmitting}>
@@ -593,8 +612,9 @@ const Checkout = () => {
                       <CreditCard size={20} className="text-primary" />
                       Payment — {formatPrice(finalTotal)}
                     </h2>
-                    <p className="text-xs text-muted-foreground mb-4">
-                      Secure payment powered by Stripe. Apple Pay, Google Pay, and all major cards accepted.
+                    <p className="text-xs text-muted-foreground mb-4 flex items-center gap-1.5">
+                      <Lock size={12} className="text-primary shrink-0" />
+                      Secure checkout — powered by Stripe. Apple Pay, Google Pay, and all major cards accepted.
                     </p>
                     <StripePayment
                       amount={finalTotal}

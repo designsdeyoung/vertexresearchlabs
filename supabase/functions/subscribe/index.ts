@@ -2,7 +2,6 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
-const AUDIENCE_ID = Deno.env.get("RESEND_AUDIENCE_ID");
 // First-order welcome discount. Must match the code wired into validate-discount.
 const WELCOME_CODE = "VERTEX10";
 
@@ -61,30 +60,23 @@ const handler = async (req: Request): Promise<Response> => {
       return json({ error: "Invalid email" }, 400);
     }
 
-    // 1) Add to the Resend audience. Duplicate contacts are not a failure —
-    //    we still want to (re)send the welcome email below.
-    if (AUDIENCE_ID) {
-      try {
-        const res = await fetch(`https://api.resend.com/audiences/${AUDIENCE_ID}/contacts`, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${Deno.env.get("RESEND_API_KEY")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: normalized, unsubscribed: false }),
-        });
-        if (!res.ok) {
-          const detail = await res.text();
-          // 409/422 = already a contact — fine. Log anything else.
-          if (res.status !== 409 && res.status !== 422) {
-            console.warn("Resend audience add non-OK:", res.status, detail);
-          }
-        }
-      } catch (e) {
-        console.warn("Resend audience add failed (continuing):", e);
+    // 1) Add to the account audience via the unified Contacts API — no audience
+    //    id required (Resend places it in the default audience). Duplicates
+    //    (409/422) aren't a failure; we still send the welcome email below.
+    try {
+      const res = await fetch("https://api.resend.com/contacts", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${Deno.env.get("RESEND_API_KEY")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: normalized, unsubscribed: false }),
+      });
+      if (!res.ok && res.status !== 409 && res.status !== 422) {
+        console.warn("Resend contact add non-OK:", res.status, await res.text());
       }
-    } else {
-      console.warn("RESEND_AUDIENCE_ID not set — skipping audience add");
+    } catch (e) {
+      console.warn("Resend contact add failed (continuing):", e);
     }
 
     // 2) Send the welcome + discount email (only when requested).

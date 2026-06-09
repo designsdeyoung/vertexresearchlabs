@@ -21,7 +21,7 @@ serve(async (req) => {
     const { data: linkData, error: lErr } = await admin.auth.admin.generateLink({
       type: "magiclink",
       email,
-      options: { redirectTo: redirectTo || "https://vertexresearchlabs.lovable.app/shop" },
+      options: { redirectTo: redirectTo || "https://vertexresearchlabs.com/dashboard" },
     });
     if (lErr) throw lErr;
     const magicLink = linkData.properties?.action_link;

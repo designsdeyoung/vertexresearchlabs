@@ -19,7 +19,7 @@ const REWARD_TIERS = [
   { points: 5000, credit: 250, minCart: 500 },
 ];
 
-const SITE = "https://vertexresearchlabs.lovable.app";
+const SITE = "https://vertexresearchlabs.com";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });

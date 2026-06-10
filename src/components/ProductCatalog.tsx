@@ -1,5 +1,7 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import ProductCard from "./ProductCard";
+import { CATEGORY_GROUPS, groupByKey } from "@/data/categoryGroups";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -15,13 +17,26 @@ type SortKey = "featured" | "price-asc" | "price-desc" | "name-asc";
 
 const ProductCatalog = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [selectedGroup, setSelectedGroup] = useState<string>("all");
   const [sort, setSort] = useState<SortKey>("featured");
+  const [searchParams] = useSearchParams();
 
-  const categories = useMemo(() => {
-    const cats = Array.from(new Set(products.map((p) => p.category))).sort();
-    return ["All", ...cats];
-  }, []);
+  // Seed search/category from URL params so the header search bar, category
+  // cards, and footer shop links can deep-link into a filtered catalog
+  // (`/?q=term#products`, `/?cat=peptides#products`).
+  useEffect(() => {
+    const q = searchParams.get("q");
+    const cat = searchParams.get("cat");
+    // Reset absent params so stale filters from a previous deep-link don't
+    // combine with the new one (e.g. ?q=nad followed by ?cat=blends).
+    setSearchQuery(q ?? "");
+    setSelectedGroup(cat && groupByKey(cat) ? cat : "all");
+    if (q || (cat && groupByKey(cat))) {
+      requestAnimationFrame(() => {
+        document.getElementById("products")?.scrollIntoView({ behavior: "smooth" });
+      });
+    }
+  }, [searchParams]);
 
   // Sales-based ranking (units sold, all-time). Lower index = higher rank.
   // Products not listed fall to the bottom in their original order.
@@ -58,14 +73,14 @@ const ProductCatalog = () => {
 
   const filteredProducts = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
+    const group = groupByKey(selectedGroup);
     let list = products.filter((p) => {
       const matchesSearch =
         q === "" ||
         p.name.toLowerCase().includes(q) ||
         p.category.toLowerCase().includes(q) ||
         (p.subtitle ?? "").toLowerCase().includes(q);
-      const matchesCategory =
-        selectedCategory === "All" || p.category === selectedCategory;
+      const matchesCategory = !group || group.categories.includes(p.category);
       return matchesSearch && matchesCategory;
     });
 
@@ -84,7 +99,7 @@ const ProductCatalog = () => {
         break;
     }
     return list;
-  }, [searchQuery, selectedCategory, sort]);
+  }, [searchQuery, selectedGroup, sort]);
 
   return (
     <section id="products" className="bg-background py-16 md:py-20">
@@ -108,19 +123,19 @@ const ProductCatalog = () => {
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             {/* Category pills */}
             <div className="-mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1 md:pb-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-              {categories.map((cat) => {
-                const active = selectedCategory === cat;
+              {[{ key: "all", label: "All" }, ...CATEGORY_GROUPS].map((g) => {
+                const active = selectedGroup === g.key;
                 return (
                   <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
+                    key={g.key}
+                    onClick={() => setSelectedGroup(g.key)}
                     className={`whitespace-nowrap rounded-full border px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider transition-colors ${
                       active
                         ? "border-primary/60 bg-primary/10 text-primary"
                         : "border-border bg-transparent text-muted-foreground hover:border-primary/30 hover:text-foreground"
                     }`}
                   >
-                    {cat}
+                    {g.label}
                   </button>
                 );
               })}

@@ -64,8 +64,8 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        display: ['"DM Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['"Instrument Sans"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['Archivo', '"Instrument Sans"', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'Fira Code', 'monospace'],
       },
       keyframes: {
@@ -81,11 +81,26 @@ export default {
           from: { transform: "translateX(0)" },
           to: { transform: "translateX(-50%)" },
         },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-12px)" },
+        },
+        "float-sm": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-6px)" },
+        },
+        "glow-pulse": {
+          "0%, 100%": { opacity: "0.5" },
+          "50%": { opacity: "0.9" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         ticker: "ticker 45s linear infinite",
+        float: "float 7s ease-in-out infinite",
+        "float-sm": "float-sm 5s ease-in-out infinite",
+        "glow-pulse": "glow-pulse 4s ease-in-out infinite",
       },
     },
   },

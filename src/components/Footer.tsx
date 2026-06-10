@@ -1,45 +1,66 @@
 import { Link } from "react-router-dom";
+import { FlaskConical } from "lucide-react";
 import logo from "@/assets/logo.png";
+import { CATEGORY_GROUPS } from "@/data/categoryGroups";
+
+const companyLinks = [
+  { label: "Quality", to: "/quality" },
+  { label: "COAs", to: "/quality/testing" },
+  { label: "Testing Methods", to: "/quality/methods" },
+  { label: "Learn", to: "/learn" },
+  { label: "Contact", href: "/#contact" },
+];
+
+const supportLinks = [
+  { label: "Shipping & Returns", to: "/shipping" },
+  { label: "Track Order", to: "/track" },
+  { label: "Rewards", to: "/rewards" },
+  { label: "Terms of Service", to: "/terms" },
+  { label: "Privacy Policy", to: "/privacy" },
+  { label: "Disclaimer", to: "/disclaimer" },
+];
 
 const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-background">
+    <footer className="border-t border-border bg-popover/40">
       <div className="container mx-auto px-6 py-14">
-        <div className="grid gap-10 md:grid-cols-4">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-6">
           {/* Brand */}
-          <div>
+          <div className="lg:col-span-2">
             <Link to="/" className="inline-block">
-              <img src={logo} alt="Vertex Research Labs" className="h-28 w-auto" />
+              <img src={logo} alt="Vertex Research Labs" className="h-24 w-auto" />
             </Link>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              Research-grade materials for analytical applications.
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
+              Research-grade peptides and analytical reference materials with
+              verified Certificates of Analysis.
+            </p>
+            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/70">
+              Designed for researchers. Built on trust.
             </p>
           </div>
 
-          {/* Products */}
+          {/* Shop */}
           <div>
-            <h4 className="mb-3 font-display text-sm font-semibold text-foreground">Products</h4>
+            <h4 className="mb-3 font-display text-sm font-semibold text-foreground">Shop</h4>
             <ul className="space-y-2 text-sm">
+              {CATEGORY_GROUPS.map((g) => (
+                <li key={g.key}>
+                  <Link
+                    to={`/?cat=${g.key}#products`}
+                    className="text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {g.label}
+                  </Link>
+                </li>
+              ))}
               <li>
-                <a href="/#products" className="text-muted-foreground hover:text-foreground">
-                  Peptides
-                </a>
-              </li>
-              <li>
-                <a href="/#products" className="text-muted-foreground hover:text-foreground">
-                  Heptapeptides
-                </a>
-              </li>
-              <li>
-                <a href="/#products" className="text-muted-foreground hover:text-foreground">
-                  Coenzymes
-                </a>
-              </li>
-              <li>
-                <a href="/#products" className="text-muted-foreground hover:text-foreground">
-                  Blends
+                <a
+                  href="/#products"
+                  className="text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  All Products
                 </a>
               </li>
             </ul>
@@ -49,59 +70,55 @@ const Footer = () => {
           <div>
             <h4 className="mb-3 font-display text-sm font-semibold text-foreground">Company</h4>
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link to="/quality" className="text-muted-foreground hover:text-foreground">
-                  Quality
-                </Link>
-              </li>
-              <li>
-                <Link to="/shipping" className="text-muted-foreground hover:text-foreground">
-                  Shipping
-                </Link>
-              </li>
-              <li>
-                <Link to="/track" className="text-muted-foreground hover:text-foreground">
-                  Track Order
-                </Link>
-              </li>
-              <li>
-                <Link to="/rewards" className="text-muted-foreground hover:text-foreground">
-                  Rewards
-                </Link>
-              </li>
-              <li>
-                <a href="/#contact" className="text-muted-foreground hover:text-foreground">
-                  Contact
-                </a>
-              </li>
+              {companyLinks.map((l) => (
+                <li key={l.label}>
+                  {l.to ? (
+                    <Link
+                      to={l.to}
+                      className="text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {l.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={l.href}
+                      className="text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {l.label}
+                    </a>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Legal */}
+          {/* Support */}
           <div>
-            <h4 className="mb-3 font-display text-sm font-semibold text-foreground">Legal</h4>
+            <h4 className="mb-3 font-display text-sm font-semibold text-foreground">Support</h4>
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link to="/privacy" className="text-muted-foreground hover:text-foreground">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms" className="text-muted-foreground hover:text-foreground">
-                  Terms
-                </Link>
-              </li>
-              <li>
-                <Link to="/shipping" className="text-muted-foreground hover:text-foreground">
-                  Returns
-                </Link>
-              </li>
-              <li>
-                <Link to="/disclaimer" className="text-muted-foreground hover:text-foreground">
-                  Disclaimer
-                </Link>
-              </li>
+              {supportLinks.map((l) => (
+                <li key={l.label}>
+                  <Link
+                    to={l.to}
+                    className="text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
+          </div>
+
+          {/* Research Use Only */}
+          <div>
+            <h4 className="mb-3 flex items-center gap-1.5 font-display text-sm font-semibold text-foreground">
+              <FlaskConical size={13} className="text-primary" aria-hidden="true" />
+              Research Use Only
+            </h4>
+            <p className="text-xs leading-relaxed text-muted-foreground">
+              All products are intended for laboratory research purposes only.
+              Not for human consumption.
+            </p>
           </div>
         </div>
 

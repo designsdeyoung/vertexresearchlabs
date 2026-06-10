@@ -3,11 +3,12 @@ import Header from "@/components/Header";
 import ComplianceBanner from "@/components/ComplianceBanner";
 import Hero from "@/components/Hero";
 import TrustBar from "@/components/TrustBar";
-import BundleSection from "@/components/BundleSection";
-import BestSellersShowcase from "@/components/BestSellersShowcase";
+import FeaturedPeptides from "@/components/FeaturedPeptides";
+import CategoryCards from "@/components/CategoryCards";
 import ProductCatalog from "@/components/ProductCatalog";
-import TickerBar from "@/components/TickerBar";
-import PuritySection from "@/components/PuritySection";
+import QualityTransparency from "@/components/QualityTransparency";
+import WhyVertex from "@/components/WhyVertex";
+import NewsletterSection from "@/components/NewsletterSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
@@ -51,11 +52,12 @@ const Index = () => {
       <main className="flex-1">
         <Hero />
         <TrustBar />
-        <BestSellersShowcase />
-        <BundleSection />
-        <TickerBar />
+        <FeaturedPeptides />
+        <CategoryCards />
         <ProductCatalog />
-        <PuritySection />
+        <QualityTransparency />
+        <WhyVertex />
+        <NewsletterSection />
         <ContactSection />
       </main>
       <Footer />

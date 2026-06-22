@@ -244,10 +244,11 @@ function printPackingSlip(order: Order) {
       <div style="flex:1;">
         <div class="award-amount"><span>$</span>${unlocked.credit}<span style="font-size:12px;color:#b8860b;"> OFF</span></div>
         <div class="award-subtitle">Ready to use · min. order $${unlocked.minCart}</div>
+        <div style="font-size:7px;color:#8b6400;margin-top:3px;line-height:1.3;font-weight:600;">Magic link — scan to sign in instantly, no password. Then redeem in one tap.</div>
       </div>
       <div style="text-align:center;">
-        <img src="${qrUrl}" width="50" height="50" style="display:block;"/>
-        <div style="font-size:6.5px;font-weight:800;letter-spacing:1px;color:#6b4c00;margin-top:1px;">SCAN TO REDEEM</div>
+        <img src="${qrUrl}" width="50" height="50" style="display:block;margin:0 auto;"/>
+        <div style="font-size:6.5px;font-weight:800;letter-spacing:0.5px;color:#6b4c00;margin-top:1px;white-space:nowrap;">SCAN TO REDEEM</div>
       </div>
     </div>
   </div>` : ""}

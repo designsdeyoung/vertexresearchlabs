@@ -58,6 +58,7 @@ interface Order {
     zip_code: string | null;
     points_balance: number;
     magic_token: string | null;
+    referral_code: string | null;
   } | null;
 }
 
@@ -81,6 +82,7 @@ function printPackingSlip(order: Order) {
     month: "long", day: "numeric", year: "numeric",
   });
   const orderNum = order.order_number || order.id.slice(0, 8);
+  const referralCode = profile?.referral_code || null;
   const magicUrl = profile?.magic_token
     ? `https://vertexresearchlabs.com/magic?t=${profile.magic_token}`
     : `https://vertexresearchlabs.com/welcome?email=${encodeURIComponent(profile?.email || "")}`;
@@ -200,6 +202,18 @@ function printPackingSlip(order: Order) {
   .footer-text a { color:#000; text-decoration:none; font-weight:600; }
   .qr-label { font-size:7px; color:#888; text-align:center; margin-top:2px; }
   .points-badge { display:inline-block; background:#000; color:#fff; font-size:8px; font-weight:700; padding:2px 6px; border-radius:10px; letter-spacing:0.5px; }
+  .how-points { margin-top:8px; padding:8px 9px; background:#fafafa; border:1px solid #eee; border-radius:4px; }
+  .how-points .hp-title { font-size:7px; letter-spacing:1.2px; text-transform:uppercase; color:#888; font-weight:700; margin-bottom:3px; }
+  .how-points .hp-body { font-size:8.5px; color:#333; line-height:1.5; }
+  .how-points .hp-x { font-weight:800; color:#000; }
+  .how-points .hp-fine { font-size:7px; color:#999; margin-top:3px; }
+  .referral-box { margin-top:8px; border:1.5px solid #000; border-radius:5px; overflow:hidden; }
+  .referral-head { background:#000; color:#fff; font-size:7.5px; letter-spacing:1.5px; text-transform:uppercase; font-weight:700; padding:4px 9px; text-align:center; }
+  .referral-body { padding:9px; text-align:center; }
+  .referral-code { display:inline-block; border:1.5px dashed #000; border-radius:4px; padding:5px 16px; font-size:16px; font-weight:900; letter-spacing:2px; color:#000; margin-bottom:5px; }
+  .referral-body .rf-line { font-size:8.5px; color:#333; line-height:1.5; }
+  .referral-body .rf-bold { font-weight:800; color:#000; }
+  .referral-body .rf-fine { font-size:7px; color:#888; margin-top:4px; line-height:1.4; }
 </style>
 </head>
 <body>
@@ -285,6 +299,24 @@ function printPackingSlip(order: Order) {
     </div>
     ${next ? `<div class="next-tier">Earn <strong>${(next.points - balance).toLocaleString()} more pts</strong> → unlock <strong>${fmt(next.credit)}</strong> store credit</div>` : `<div class="next-tier" style="font-weight:700;">🏆 Top tier unlocked — you're maxed out!</div>`}
   </div>
+
+  <!-- How points work -->
+  <div class="how-points">
+    <div class="hp-title">How your points work</div>
+    <div class="hp-body">Every <span class="hp-x">$1</span> you spend earns <span class="hp-x">3 points</span> — credited instantly and they <span class="hp-x">never expire</span>. Stack them up and redeem for store credit at checkout.</div>
+    <div class="hp-fine">Full terms at vertexresearchlabs.com/rewards</div>
+  </div>
+
+  <!-- Referral code -->
+  ${referralCode ? `
+  <div class="referral-box">
+    <div class="referral-head">★ Your Referral Code — Share &amp; Earn ★</div>
+    <div class="referral-body">
+      <div class="referral-code">${referralCode}</div>
+      <div class="rf-line">Friends get <span class="rf-bold">10% off</span> their first order. You earn <span class="rf-bold">3× points</span> on every dollar they spend — as a thank you.</div>
+      <div class="rf-fine">Once someone uses your code, they're linked to your account <span style="color:#000;font-weight:700;">for life</span> — you keep earning points on all their future orders, redeemable for discounts &amp; promotions.</div>
+    </div>
+  </div>` : ""}
 
   <!-- Footer with QR -->
   <div class="footer-row">

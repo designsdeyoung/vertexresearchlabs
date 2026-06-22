@@ -307,7 +307,12 @@ function printPackingSlip(order: Order) {
 const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated: () => void }) => {
   const [expanded, setExpanded] = useState(false);
   const [generating, setGenerating] = useState(false);
-  const [preview, setPreview] = useState<{ rate: string; service: string; delivery_days: number | null; shipment_id: string; rate_id: string } | null>(null);
+  const [preview, setPreview] = useState<{
+    rate: string; service: string; delivery_days: number | null; shipment_id: string; rate_id: string;
+    parcel?: string;
+    to?: { name: string; street1: string; street2: string; city: string; state: string; zip: string };
+    from?: { company: string; name: string; street1: string; city: string; state: string; zip: string };
+  } | null>(null);
   const [manualAddr, setManualAddr] = useState({ name: "", street1: "", street2: "", city: "", state: "", zip: "" });
   const profile = order.profiles;
   const name = order.shipping_name || profile?.full_name || "—";
@@ -447,17 +452,49 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
           )}
 
           {preview && (
-            <div className="p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30 space-y-2">
-              <p className="text-xs text-yellow-400 font-semibold uppercase tracking-wider">Confirm Label Purchase</p>
-              <p className="text-sm text-foreground">
-                <span className="font-semibold">{preview.service}</span> — <span className="text-primary font-bold">${parseFloat(preview.rate).toFixed(2)}</span>
-                {preview.delivery_days ? ` · Est. ${preview.delivery_days} day${preview.delivery_days !== 1 ? "s" : ""}` : ""}
+            <div className="p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30 space-y-3">
+              <div className="flex items-center justify-between">
+                <p className="text-xs text-yellow-400 font-semibold uppercase tracking-wider">Preview Label — Verify Before Buying</p>
+                <span className="text-xs text-muted-foreground">
+                  <span className="font-bold text-primary">${parseFloat(preview.rate).toFixed(2)}</span>
+                  {preview.delivery_days ? ` · ${preview.delivery_days}d` : ""}
+                </span>
+              </div>
+
+              {/* Visual 4x6 label mockup — what will print */}
+              <div className="bg-white text-black rounded-md p-3 font-sans mx-auto" style={{ maxWidth: 300 }}>
+                <div className="flex items-center justify-between border-b-2 border-black pb-1.5 mb-2">
+                  <span className="text-[10px] font-black tracking-widest">USPS PRIORITY MAIL</span>
+                  <span className="text-[8px] text-gray-500">{preview.parcel?.includes("Flat Rate") ? "FLAT RATE" : ""}</span>
+                </div>
+                {/* FROM */}
+                <div className="mb-2">
+                  <p className="text-[7px] uppercase tracking-wider text-gray-400 mb-0.5">From</p>
+                  <p className="text-[9px] leading-tight">
+                    {preview.from?.company}<br />
+                    {preview.from?.name}<br />
+                    {preview.from?.street1}<br />
+                    {preview.from?.city}, {preview.from?.state} {preview.from?.zip}
+                  </p>
+                </div>
+                {/* TO — prominent */}
+                <div className="border-t border-gray-300 pt-2">
+                  <p className="text-[7px] uppercase tracking-wider text-gray-400 mb-0.5">Ship To</p>
+                  <p className="text-[13px] font-bold leading-tight">{preview.to?.name}</p>
+                  <p className="text-[12px] leading-snug">
+                    {preview.to?.street1}{preview.to?.street2 ? <>, {preview.to.street2}</> : null}<br />
+                    {preview.to?.city}, {preview.to?.state} {preview.to?.zip}
+                  </p>
+                </div>
+              </div>
+              <p className="text-[11px] text-center text-muted-foreground">
+                ☝︎ This is the destination on your label. Confirm it's correct before paying.
               </p>
-              <p className="text-xs text-muted-foreground">→ {name}, {addr1}, {city} {state} {zip}</p>
+
               <div className="flex gap-2 pt-1">
                 <Button size="sm" variant="hero" onClick={handleBuyLabel} disabled={generating}>
                   <Truck size={14} className="mr-1" />
-                  {generating ? "Buying..." : `Buy Label — $${parseFloat(preview.rate).toFixed(2)}`}
+                  {generating ? "Buying..." : `Looks right — Buy $${parseFloat(preview.rate).toFixed(2)}`}
                 </Button>
                 <Button size="sm" variant="outline" onClick={() => setPreview(null)} disabled={generating}>
                   Cancel
@@ -473,7 +510,7 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
             {!isShipped && !preview && (
               <Button size="sm" variant="hero" onClick={handlePreviewLabel} disabled={generating}>
                 <Truck size={14} className="mr-1" />
-                {generating ? "Fetching rate..." : "Generate USPS Label"}
+                {generating ? "Loading preview..." : "Preview USPS Label"}
               </Button>
             )}
           </div>

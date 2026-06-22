@@ -132,7 +132,8 @@ serve(async (req) => {
 
     if (!flatRate) throw new Error("No USPS rates returned from EasyPost");
 
-    // Preview mode — return rate info without buying
+    // Preview mode — return rate + full address info (no purchase) so the UI
+    // can render a faithful label mockup for verification before buying.
     if (preview_only) {
       return new Response(
         JSON.stringify({
@@ -145,6 +146,23 @@ serve(async (req) => {
           delivery_days: flatRate.delivery_days,
           to_name: toName,
           to_address: `${toStreet1}, ${toCity}, ${toState} ${toZip}`,
+          to: {
+            name: toName,
+            street1: toStreet1,
+            street2: toStreet2 || "",
+            city: toCity,
+            state: toState,
+            zip: toZip,
+          },
+          from: {
+            company: "Level Up Health Solutions LLC DBA",
+            name: "Vertex Research Labs",
+            street1: Deno.env.get("SHIP_FROM_STREET1") || "",
+            city: Deno.env.get("SHIP_FROM_CITY") || "",
+            state: Deno.env.get("SHIP_FROM_STATE") || "",
+            zip: Deno.env.get("SHIP_FROM_ZIP") || "",
+          },
+          parcel: "USPS Priority Mail · Small Flat Rate Box",
         }),
         { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );

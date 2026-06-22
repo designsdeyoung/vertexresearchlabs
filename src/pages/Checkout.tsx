@@ -17,6 +17,7 @@ import { calculatePointsForPrice } from "@/hooks/useRewards";
 import { getStoredReferralCode } from "@/hooks/useReferralCapture";
 import CreditRedemption from "@/components/checkout/CreditRedemption";
 import StripePayment from "@/components/checkout/StripePayment";
+import AddressAutocomplete from "@/components/checkout/AddressAutocomplete";
 import { finalizeOrder, PENDING_ORDER_KEY, type PendingOrder } from "@/lib/finalizeOrder";
 
 import {
@@ -457,7 +458,21 @@ const Checkout = () => {
                   <div className="space-y-4">
                     <div className="space-y-2">
                       <Label htmlFor="addressLine1">Address Line 1 *</Label>
-                      <Input id="addressLine1" required maxLength={200} value={formData.addressLine1} onChange={(e) => setFormData((prev) => ({ ...prev, addressLine1: e.target.value }))} placeholder="123 Research Drive, Building A" className="bg-secondary/50" />
+                      <AddressAutocomplete
+                        value={formData.addressLine1}
+                        onChange={(v) => setFormData((prev) => ({ ...prev, addressLine1: v }))}
+                        onAddressSelect={({ address1, city, state, zip }) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            addressLine1: address1,
+                            city,
+                            state,
+                            zipCode: zip,
+                          }))
+                        }
+                        placeholder="Start typing your address..."
+                        className="bg-secondary/50"
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="addressLine2">Address Line 2 (Optional)</Label>

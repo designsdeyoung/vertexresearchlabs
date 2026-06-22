@@ -7,6 +7,7 @@ const corsHeaders = {
 };
 
 const SITE = "https://vertexresearchlabs.com";
+const LOGO_URL = "https://qgritvsluilqptgtvayv.supabase.co/storage/v1/object/public/email-assets/logo-avatar.png";
 const REWARD_TIERS = [
   { points: 250, credit: 10, minCart: 75 },
   { points: 500, credit: 20, minCart: 100 },
@@ -96,22 +97,27 @@ serve(async (req) => {
 
   ${pointsHeader(balance, firstName)}
 
-  <!-- Header -->
-  <div style="background:#0a0a0a;padding:28px 28px 20px;border-bottom:1px solid #1a1a1a">
-    <div style="color:#2DD4BF;font-size:10px;letter-spacing:3px;font-weight:700;text-transform:uppercase;margin-bottom:10px">Vertex Research Labs</div>
-    <div style="font-size:28px;font-weight:800;color:#fff;line-height:1.2">📦 Your order is on its way, ${firstName}.</div>
-    <div style="color:#9ca3af;font-size:14px;margin-top:8px">Order ${order?.order_number || orderId.slice(0,8)} has shipped via USPS Priority Mail.</div>
+  <!-- Logo -->
+  <div style="text-align:center;padding:22px 0 4px">
+    <img src="${LOGO_URL}" alt="Vertex Research Labs" width="52" height="52" style="display:inline-block;border-radius:12px"/>
+    <div style="color:#2DD4BF;font-size:10px;letter-spacing:3px;font-weight:700;text-transform:uppercase;margin-top:8px">Vertex Research Labs</div>
   </div>
 
-  <!-- Tracking -->
-  <div style="padding:24px 28px;border-bottom:1px solid #1a1a1a">
+  <!-- Header -->
+  <div style="padding:6px 28px 20px;border-bottom:1px solid #1a1a1a">
+    <div style="font-size:28px;font-weight:800;color:#fff;line-height:1.2">📦 Your order has shipped, ${firstName}!</div>
+    <div style="color:#9ca3af;font-size:14px;margin-top:8px">Order ${order?.order_number || orderId.slice(0,8)} is on its way via USPS Priority Mail. Watch it move in real time below.</div>
+  </div>
+
+  <!-- Live tracker CTA (our own animated tracker) -->
+  <div style="padding:24px 28px;border-bottom:1px solid #1a1a1a;text-align:center">
     <div style="color:#6b7280;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px">Tracking Number</div>
-    <div style="background:#111;border:1px solid #2DD4BF33;border-radius:8px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between">
+    <div style="background:#111;border:1px solid #2DD4BF33;border-radius:8px;padding:14px 20px;margin-bottom:16px">
       <span style="font-family:monospace;font-size:16px;font-weight:700;color:#fff;letter-spacing:1px">${tracking || "—"}</span>
     </div>
-    ${trackUrl ? `<div style="margin-top:12px;text-align:center">
-      <a href="${trackUrl}" style="display:inline-block;background:#2DD4BF;color:#000;font-weight:800;font-size:14px;padding:13px 32px;border-radius:6px;text-decoration:none;letter-spacing:0.3px">Track on USPS →</a>
-    </div>` : ""}
+    <a href="${SITE}/track?t=${tracking}" style="display:inline-block;background:#2DD4BF;color:#000;font-weight:800;font-size:15px;padding:15px 40px;border-radius:8px;text-decoration:none;letter-spacing:0.3px">📡 Track My Package — Live</a>
+    <div style="color:#4b5563;font-size:11px;margin-top:10px">Real-time progress · no login needed</div>
+    ${trackUrl ? `<div style="margin-top:8px"><a href="${trackUrl}" style="color:#6b7280;font-size:11px;text-decoration:underline">or view on USPS.com</a></div>` : ""}
   </div>
 
   <!-- Items -->
@@ -148,7 +154,7 @@ serve(async (req) => {
         from: "Vertex Research Labs <info@vertexresearchlabs.com>",
         reply_to: "info@vertexresearchlabs.com",
         to: [email],
-        subject: `📦 Your order shipped — tracking: ${tracking}`,
+        subject: `📦 Your order has shipped, ${firstName}! Track it live`,
         html,
       }),
     });

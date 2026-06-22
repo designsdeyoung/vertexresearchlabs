@@ -192,8 +192,14 @@ serve(async (req) => {
       .eq("id", order_id);
     if (uErr) throw uErr;
 
-    // Note: no email on label creation. The customer gets 3 USPS-driven emails
-    // via the EasyPost webhook: in_transit → out_for_delivery → delivered.
+    // "Your order has shipped" email — sent now, on label purchase. Links to our
+    // own live animated tracker (/track?t=<tracking>). The 3 USPS-scan emails
+    // (in_transit → out_for_delivery → delivered) follow via the EasyPost webhook.
+    try {
+      await admin.functions.invoke("send-shipped-email", {
+        body: { orderId: order_id, trackingNumber: tracking, trackingUrl },
+      });
+    } catch (e) { console.error("send-shipped-email failed (non-fatal):", e); }
 
     return new Response(
       JSON.stringify({ tracking_number: tracking, label_url: labelUrl, tracking_url: trackingUrl }),

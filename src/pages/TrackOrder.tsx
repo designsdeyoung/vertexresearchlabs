@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { supabase } from "@/integrations/supabase/client";
+import PackageTracker, { TrackData } from "@/components/PackageTracker";
 import {
   Package, Search, Truck, CheckCircle2, Clock,
   MapPin, ExternalLink, AlertCircle, ScanLine, ArrowRight,
@@ -51,6 +53,9 @@ const stageIndex = (status: string) => {
 };
 
 export default function TrackOrder() {
+  const [searchParams] = useSearchParams();
+  const deepTracking = searchParams.get("t") || searchParams.get("track");
+
   const [fullName, setFullName]       = useState("");
   const [orderNumber, setOrderNumber] = useState("");
   const [email, setEmail]             = useState("");
@@ -58,6 +63,34 @@ export default function TrackOrder() {
   const [loading, setLoading]         = useState(false);
   const [error, setError]             = useState<string | null>(null);
   const [results, setResults]         = useState<OrderResult[] | null>(null);
+
+  // Deep-link mode: ?t=<tracking> auto-loads the animated tracker
+  const [trackData, setTrackData]   = useState<TrackData | null>(null);
+  const [trackLoading, setTrackLoading] = useState(!!deepTracking);
+
+  useEffect(() => {
+    if (!deepTracking) return;
+    let active = true;
+    (async () => {
+      setTrackLoading(true);
+      try {
+        const { data, error } = await supabase.functions.invoke("track-order", {
+          body: { tracking: deepTracking },
+        });
+        if (!active) return;
+        if (error || !data || (data as any).error || !(data as any).found) {
+          setTrackData({ found: false });
+        } else {
+          setTrackData(data as TrackData);
+        }
+      } catch {
+        if (active) setTrackData({ found: false });
+      } finally {
+        if (active) setTrackLoading(false);
+      }
+    })();
+    return () => { active = false; };
+  }, [deepTracking]);
 
   const handleLookup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,6 +124,47 @@ export default function TrackOrder() {
       <Header />
 
       <main className="flex-1 pt-28 pb-20">
+
+        {/* ── Deep-link mode: animated tracker auto-loaded from ?t=<tracking> ── */}
+        {deepTracking && (
+          <section className="container mx-auto px-4 max-w-xl mb-12">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+                <ScanLine size={14} className="text-primary" />
+                <span className="text-xs font-medium text-primary tracking-wider uppercase">Live Tracking</span>
+              </div>
+              <h1 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">Your Package</h1>
+            </div>
+
+            {trackLoading ? (
+              <div className="glass-panel rounded-2xl p-16 text-center">
+                <svg className="animate-spin w-7 h-7 mx-auto text-primary" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                </svg>
+                <p className="text-sm text-muted-foreground mt-4">Pulling live tracking…</p>
+              </div>
+            ) : trackData?.found ? (
+              <PackageTracker data={trackData} />
+            ) : (
+              <div className="glass-panel rounded-2xl p-10 text-center">
+                <Package size={24} className="mx-auto text-muted-foreground/50 mb-3" />
+                <p className="font-semibold text-foreground mb-1">Tracking not found yet</p>
+                <p className="text-sm text-muted-foreground">
+                  This can take a few hours after a label is created. Check back soon, or{" "}
+                  <a href="/track" className="text-primary hover:underline">look up by name</a>.
+                </p>
+              </div>
+            )}
+
+            <p className="mt-8 text-center text-xs text-muted-foreground">
+              Need help?{" "}
+              <a href="mailto:info@vertexresearchlabs.com" className="text-primary hover:underline font-semibold">info@vertexresearchlabs.com</a>
+            </p>
+          </section>
+        )}
+
+        {!deepTracking && (<>
 
         {/* ── Hero ── */}
         <section className="container mx-auto px-6 text-center mb-16">
@@ -363,6 +437,8 @@ export default function TrackOrder() {
             </a>
           </p>
         </div>
+
+        </>)}
 
       </main>
       <Footer />

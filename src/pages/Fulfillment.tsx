@@ -93,7 +93,7 @@ function printPackingSlip(order: Order) {
   const welcomeUrl = `https://vertexresearchlabs.com/welcome?email=${encodeURIComponent(profile?.email || "")}`;
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=${encodeURIComponent(welcomeUrl)}&color=000000&bgcolor=ffffff`;
 
-  const items = Array.isArray(order.items) ? order.items : [];
+  const items = Array.isArray(order.items) ? order.items : (typeof order.items === "string" ? JSON.parse(order.items) : []);
   const itemRows = items.map((item: any) => {
     const itemName = item.productName || item.name || item.product_name || "Item";
     const size = item.size ? ` · ${item.size}` : "";

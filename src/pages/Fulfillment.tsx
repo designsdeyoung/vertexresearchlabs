@@ -257,6 +257,7 @@ function printPackingSlip(order: Order) {
 const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated: () => void }) => {
   const [expanded, setExpanded] = useState(false);
   const [generating, setGenerating] = useState(false);
+  const [preview, setPreview] = useState<{ rate: string; service: string; delivery_days: number | null; shipment_id: string; rate_id: string } | null>(null);
   const profile = order.profiles;
   const name = order.shipping_name || profile?.full_name || "—";
   const addr1 = order.shipping_address1 || profile?.address_line1 || "";
@@ -265,7 +266,24 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
   const zip = order.shipping_zip || profile?.zip_code || "";
   const isShipped = order.status === "shipped" || !!order.tracking_number;
 
-  const handleGenerateLabel = async () => {
+  const handlePreviewLabel = async () => {
+    setGenerating(true);
+    setPreview(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("generate-shipping-label", {
+        body: { order_id: order.id, preview_only: true },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setPreview(data);
+    } catch (e: any) {
+      toast({ title: "Rate fetch failed", description: e.message, variant: "destructive" });
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  const handleBuyLabel = async () => {
     setGenerating(true);
     try {
       const { data, error } = await supabase.functions.invoke("generate-shipping-label", {
@@ -273,7 +291,8 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
-      toast({ title: "Label generated!", description: `Tracking: ${data.tracking_number}` });
+      setPreview(null);
+      toast({ title: "Label purchased!", description: `Tracking: ${data.tracking_number}` });
       onLabelGenerated();
     } catch (e: any) {
       toast({ title: "Label failed", description: e.message, variant: "destructive" });
@@ -352,14 +371,34 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
             </div>
           )}
 
+          {preview && (
+            <div className="p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30 space-y-2">
+              <p className="text-xs text-yellow-400 font-semibold uppercase tracking-wider">Confirm Label Purchase</p>
+              <p className="text-sm text-foreground">
+                <span className="font-semibold">{preview.service}</span> — <span className="text-primary font-bold">${parseFloat(preview.rate).toFixed(2)}</span>
+                {preview.delivery_days ? ` · Est. ${preview.delivery_days} day${preview.delivery_days !== 1 ? "s" : ""}` : ""}
+              </p>
+              <p className="text-xs text-muted-foreground">→ {name}, {addr1}, {city} {state} {zip}</p>
+              <div className="flex gap-2 pt-1">
+                <Button size="sm" variant="hero" onClick={handleBuyLabel} disabled={generating}>
+                  <Truck size={14} className="mr-1" />
+                  {generating ? "Buying..." : `Buy Label — $${parseFloat(preview.rate).toFixed(2)}`}
+                </Button>
+                <Button size="sm" variant="outline" onClick={() => setPreview(null)} disabled={generating}>
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          )}
+
           <div className="flex flex-wrap gap-2">
             <Button size="sm" variant="outline" onClick={() => printPackingSlip(order)}>
               <Printer size={14} className="mr-1" /> Print Packing Slip
             </Button>
-            {!isShipped && (
-              <Button size="sm" variant="hero" onClick={handleGenerateLabel} disabled={generating}>
+            {!isShipped && !preview && (
+              <Button size="sm" variant="hero" onClick={handlePreviewLabel} disabled={generating}>
                 <Truck size={14} className="mr-1" />
-                {generating ? "Generating..." : "Generate USPS Label"}
+                {generating ? "Fetching rate..." : "Generate USPS Label"}
               </Button>
             )}
           </div>

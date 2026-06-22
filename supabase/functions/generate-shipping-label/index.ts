@@ -33,7 +33,7 @@ serve(async (req) => {
   );
 
   try {
-    const { order_id } = await req.json();
+    const { order_id, preview_only } = await req.json();
     if (!order_id) throw new Error("order_id required");
 
     // Load order + profile
@@ -70,7 +70,7 @@ serve(async (req) => {
           email: profile?.email,
         },
         from_address: {
-          name: "Vertex Research Labs",
+          name: Deno.env.get("SHIP_FROM_NAME") || "Vertex Research Labs",
           street1: Deno.env.get("SHIP_FROM_STREET1") || "",
           city: Deno.env.get("SHIP_FROM_CITY") || "",
           state: Deno.env.get("SHIP_FROM_STATE") || "",
@@ -94,6 +94,24 @@ serve(async (req) => {
     ) || uspsRates[0] || rates[0];
 
     if (!flatRate) throw new Error("No USPS rates returned from EasyPost");
+
+    // Preview mode — return rate info without buying
+    if (preview_only) {
+      return new Response(
+        JSON.stringify({
+          preview: true,
+          shipment_id: shipment.id,
+          rate_id: flatRate.id,
+          rate: flatRate.rate,
+          service: flatRate.service,
+          carrier: flatRate.carrier,
+          delivery_days: flatRate.delivery_days,
+          to_name: toName,
+          to_address: `${toStreet1}, ${toCity}, ${toState} ${toZip}`,
+        }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
 
     // Buy the label
     const bought = await easypost(`/shipments/${shipment.id}/buy`, "POST", {

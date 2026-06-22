@@ -115,7 +115,7 @@ const handler = async (req: Request): Promise<Response> => {
     if (userId) {
       const { data: existingProfile } = await supabaseAdmin
         .from("profiles")
-        .select("id, user_id, points_balance, lifetime_points")
+        .select("id, user_id, points_balance, lifetime_points, referred_by")
         .eq("user_id", userId)
         .maybeSingle();
 
@@ -234,102 +234,111 @@ const handler = async (req: Request): Promise<Response> => {
       console.log(`Awarded ${pointsEarned} points to profile ${profile.id}`);
     }
 
-    // Handle referral attribution
-    if (referrerCode && profile) {
+    // Handle referral attribution — lifetime earning for referrers
+    if (profile) {
       try {
-        // Find the referrer profile by referral_code
-        const { data: referrerProfile } = await supabaseAdmin
-          .from("profiles")
-          .select("id, user_id, email")
-          .eq("referral_code", referrerCode)
-          .maybeSingle();
+        // Determine which referrer to credit this order to
+        let referrerIdToAward: string | null = null;
+        let isFirstReferral = false;
 
-        if (referrerProfile) {
-          // Block self-referrals (same email or same profile)
-          const isSelfReferral = referrerProfile.email === customerEmail || referrerProfile.id === profile.id;
+        if (referrerCode) {
+          // Referral code explicitly entered (first order or re-entered)
+          const { data: referrerByCode } = await supabaseAdmin
+            .from("profiles")
+            .select("id, email")
+            .eq("referral_code", referrerCode)
+            .maybeSingle();
 
-          if (!isSelfReferral) {
-            // Check for duplicate referral (same referred email)
-            const { data: existingReferral } = await supabaseAdmin
-              .from("referrals")
-              .select("id")
-              .eq("referrer_id", referrerProfile.id)
-              .eq("referred_email", customerEmail)
-              .maybeSingle();
-
-            if (!existingReferral) {
-              // Calculate 3x points on referred order subtotal
-              const referralPointsAwarded = Math.floor(subtotal * 3);
-
-              // Create referral record with points
-              const { error: refError } = await supabaseAdmin
+          if (referrerByCode) {
+            const isSelf = referrerByCode.email === customerEmail || referrerByCode.id === profile.id;
+            if (!isSelf) {
+              // Check if this referral relationship already exists
+              const { data: existingReferral } = await supabaseAdmin
                 .from("referrals")
-                .insert({
-                  referrer_id: referrerProfile.id,
+                .select("id")
+                .eq("referrer_id", referrerByCode.id)
+                .eq("referred_email", customerEmail)
+                .maybeSingle();
+
+              if (!existingReferral) {
+                // First-ever referral — create the relationship record
+                await supabaseAdmin.from("referrals").insert({
+                  referrer_id: referrerByCode.id,
                   referred_email: customerEmail,
                   referred_profile_id: profile.id,
                   status: "completed",
-                  points_awarded: referralPointsAwarded,
+                  points_awarded: 0, // updated below after we know the multiplier
                 });
-
-              if (refError) {
-                console.error("Error creating referral:", refError);
-              } else {
-                console.log(`Referral created: ${referrerProfile.id} referred ${customerEmail}, awarded ${referralPointsAwarded} pts`);
-
-                // Award 3x points to referrer immediately
-                const { data: referrerProfileData } = await supabaseAdmin
-                  .from("profiles")
-                  .select("id, points_balance, lifetime_points")
-                  .eq("id", referrerProfile.id)
-                  .single();
-
-                if (referrerProfileData) {
-                  await supabaseAdmin
-                    .from("points_transactions")
-                    .insert({
-                      profile_id: referrerProfile.id,
-                      amount: referralPointsAwarded,
-                      type: "referral",
-                      description: `Referral bonus: ${customerEmail} (3× on $${subtotal})`,
-                    });
-
+                // Persist the lifetime link on the customer's profile
+                if (!profile.referred_by) {
                   await supabaseAdmin
                     .from("profiles")
-                    .update({
-                      points_balance: referrerProfileData.points_balance + referralPointsAwarded,
-                      lifetime_points: referrerProfileData.lifetime_points + referralPointsAwarded,
-                    })
-                    .eq("id", referrerProfile.id);
-
-                  console.log(`Awarded ${referralPointsAwarded} referral points to ${referrerProfile.id}`);
-
-                  // Notify referrer about earned points
-                  try {
-                    await supabaseAdmin.functions.invoke("send-points-earned-email", {
-                      body: {
-                        profileId: referrerProfile.id,
-                        pointsEarned: referralPointsAwarded,
-                        reason: `Your referral just placed an order — you earned`,
-                      },
-                    });
-                  } catch (e) { console.error("referrer email failed:", e); }
+                    .update({ referred_by: referrerByCode.id })
+                    .eq("id", profile.id);
                 }
+                isFirstReferral = true;
               }
-
-              // Store referred_by on the new profile
-              await supabaseAdmin
-                .from("profiles")
-                .update({ referred_by: referrerProfile.id })
-                .eq("id", profile.id);
+              referrerIdToAward = referrerByCode.id;
             } else {
-              console.log("Duplicate referral blocked:", customerEmail);
+              console.log("Self-referral blocked:", customerEmail);
             }
           } else {
-            console.log("Self-referral blocked:", customerEmail);
+            console.log("Referrer code not found:", referrerCode);
           }
-        } else {
-          console.log("Referrer code not found:", referrerCode);
+        } else if (profile.referred_by) {
+          // No code this order, but customer has a lifetime referral link — always credit referrer
+          referrerIdToAward = profile.referred_by;
+        }
+
+        // Award the referrer for this order
+        if (referrerIdToAward) {
+          const { data: referrerData } = await supabaseAdmin
+            .from("profiles")
+            .select("id, email, full_name, points_balance, lifetime_points, referral_points_multiplier")
+            .eq("id", referrerIdToAward)
+            .single();
+
+          if (referrerData) {
+            const multiplier = referrerData.referral_points_multiplier || 3;
+            const referralPoints = Math.floor(subtotal * multiplier);
+
+            await supabaseAdmin.from("points_transactions").insert({
+              profile_id: referrerData.id,
+              amount: referralPoints,
+              type: "referral",
+              description: isFirstReferral
+                ? `New referral: ${customerName} (${multiplier}× on $${subtotal.toFixed(2)})`
+                : `Referral order: ${customerName} (${multiplier}× on $${subtotal.toFixed(2)})`,
+            });
+
+            const newBalance = referrerData.points_balance + referralPoints;
+            await supabaseAdmin
+              .from("profiles")
+              .update({
+                points_balance: newBalance,
+                lifetime_points: referrerData.lifetime_points + referralPoints,
+              })
+              .eq("id", referrerData.id);
+
+            console.log(`Referral: awarded ${referralPoints} pts (${multiplier}×) to ${referrerData.id} for order by ${customerEmail}`);
+
+            // Send beautiful referral notification email (fire-and-forget)
+            try {
+              await supabaseAdmin.functions.invoke("send-referral-notification", {
+                body: {
+                  referrerProfileId: referrerData.id,
+                  referrerEmail: referrerData.email,
+                  customerName,
+                  customerEmail,
+                  subtotal,
+                  pointsEarned: referralPoints,
+                  multiplier,
+                  newBalance,
+                  isFirstReferral,
+                },
+              });
+            } catch (e) { console.error("referral notification email failed:", e); }
+          }
         }
       } catch (refErr) {
         console.error("Error processing referral:", refErr);

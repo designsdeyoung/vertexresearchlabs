@@ -236,7 +236,7 @@ function printPackingSlip(order: Order) {
     <div class="footer-text">
       <strong>Scan to sign in &amp; redeem your points</strong><br/>
       <a>vertexresearchlabs.com/rewards</a><br/><br/>
-      Questions? <a>support@vertexresearchlabs.com</a><br/>
+      Questions? <a>info@vertexresearchlabs.com</a><br/>
       All products for laboratory research use only.
     </div>
     <div style="text-align:center;">
@@ -258,20 +258,23 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
   const [expanded, setExpanded] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [preview, setPreview] = useState<{ rate: string; service: string; delivery_days: number | null; shipment_id: string; rate_id: string } | null>(null);
+  const [manualAddr, setManualAddr] = useState({ name: "", street1: "", street2: "", city: "", state: "", zip: "" });
   const profile = order.profiles;
   const name = order.shipping_name || profile?.full_name || "—";
   const addr1 = order.shipping_address1 || profile?.address_line1 || "";
   const city = order.shipping_city || profile?.city || "";
   const state = order.shipping_state || profile?.state || "";
   const zip = order.shipping_zip || profile?.zip_code || "";
+  const hasAddress = !!(addr1 && city && state && zip);
   const isShipped = order.status === "shipped" || !!order.tracking_number;
 
   const handlePreviewLabel = async () => {
     setGenerating(true);
     setPreview(null);
+    const override = !hasAddress && manualAddr.street1 ? manualAddr : undefined;
     try {
       const { data, error } = await supabase.functions.invoke("generate-shipping-label", {
-        body: { order_id: order.id, preview_only: true },
+        body: { order_id: order.id, preview_only: true, override_address: override },
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
@@ -285,9 +288,10 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
 
   const handleBuyLabel = async () => {
     setGenerating(true);
+    const override = !hasAddress && manualAddr.street1 ? manualAddr : undefined;
     try {
       const { data, error } = await supabase.functions.invoke("generate-shipping-label", {
-        body: { order_id: order.id },
+        body: { order_id: order.id, override_address: override },
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
@@ -367,6 +371,21 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
                     <ExternalLink size={14} className="mr-1" /> Track
                   </Button>
                 )}
+              </div>
+            </div>
+          )}
+
+          {!isShipped && !hasAddress && (
+            <div className="p-3 rounded-lg bg-orange-500/10 border border-orange-500/30 space-y-2">
+              <p className="text-xs text-orange-400 font-semibold uppercase tracking-wider">No address on file — enter shipping address</p>
+              <div className="grid grid-cols-2 gap-2">
+                <input className="col-span-2 bg-background border border-border rounded px-2 py-1.5 text-sm text-foreground" placeholder="Full name" value={manualAddr.name} onChange={e => setManualAddr(a => ({ ...a, name: e.target.value }))} />
+                <input className="col-span-2 bg-background border border-border rounded px-2 py-1.5 text-sm text-foreground" placeholder="Street address" value={manualAddr.street1} onChange={e => setManualAddr(a => ({ ...a, street1: e.target.value }))} />
+                <input className="bg-background border border-border rounded px-2 py-1.5 text-sm text-foreground" placeholder="City" value={manualAddr.city} onChange={e => setManualAddr(a => ({ ...a, city: e.target.value }))} />
+                <div className="flex gap-2">
+                  <input className="w-16 bg-background border border-border rounded px-2 py-1.5 text-sm text-foreground" placeholder="ST" maxLength={2} value={manualAddr.state} onChange={e => setManualAddr(a => ({ ...a, state: e.target.value.toUpperCase() }))} />
+                  <input className="flex-1 bg-background border border-border rounded px-2 py-1.5 text-sm text-foreground" placeholder="ZIP" value={manualAddr.zip} onChange={e => setManualAddr(a => ({ ...a, zip: e.target.value }))} />
+                </div>
               </div>
             </div>
           )}

@@ -33,7 +33,7 @@ serve(async (req) => {
   );
 
   try {
-    const { order_id, preview_only } = await req.json();
+    const { order_id, preview_only, override_address } = await req.json();
     if (!order_id) throw new Error("order_id required");
 
     // Load order + profile
@@ -45,12 +45,24 @@ serve(async (req) => {
     if (oErr || !order) throw new Error("Order not found");
 
     const profile = (order as any).profiles;
-    const toName = order.shipping_name || profile?.full_name || "Customer";
-    const toStreet1 = order.shipping_address1 || profile?.address_line1 || "";
-    const toStreet2 = order.shipping_address2 || profile?.address_line2 || "";
-    const toCity = order.shipping_city || profile?.city || "";
-    const toState = order.shipping_state || profile?.state || "";
-    const toZip = order.shipping_zip || profile?.zip_code || "";
+    const toName = override_address?.name || order.shipping_name || profile?.full_name || "Customer";
+    const toStreet1 = override_address?.street1 || order.shipping_address1 || profile?.address_line1 || "";
+    const toStreet2 = override_address?.street2 || order.shipping_address2 || profile?.address_line2 || "";
+    const toCity = override_address?.city || order.shipping_city || profile?.city || "";
+    const toState = override_address?.state || order.shipping_state || profile?.state || "";
+    const toZip = override_address?.zip || order.shipping_zip || profile?.zip_code || "";
+
+    // Persist override address to order for future use
+    if (override_address && (override_address.street1 || override_address.city)) {
+      await admin.from("orders").update({
+        shipping_name: toName,
+        shipping_address1: toStreet1,
+        shipping_address2: toStreet2 || null,
+        shipping_city: toCity,
+        shipping_state: toState,
+        shipping_zip: toZip,
+      }).eq("id", order_id);
+    }
 
     if (!toStreet1 || !toCity || !toState || !toZip) {
       throw new Error("Incomplete shipping address for this order");

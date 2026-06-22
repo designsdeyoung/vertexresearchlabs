@@ -90,7 +90,8 @@ function printPackingSlip(order: Order) {
     month: "long", day: "numeric", year: "numeric",
   });
   const orderNum = order.order_number || order.id.slice(0, 8);
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=https://vertexresearchlabs.com/rewards&color=000000&bgcolor=ffffff`;
+  const welcomeUrl = `https://vertexresearchlabs.com/welcome?email=${encodeURIComponent(profile?.email || "")}`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=${encodeURIComponent(welcomeUrl)}&color=000000&bgcolor=ffffff`;
 
   const items = Array.isArray(order.items) ? order.items : [];
   const itemRows = items.map((item: any) => {
@@ -161,8 +162,11 @@ function printPackingSlip(order: Order) {
   <!-- Header -->
   <div class="logo-row">
     <div>
-      <div class="logo-text">VERTEX</div>
-      <div class="logo-sub">RESEARCH LABS</div>
+      <img src="https://vertexresearchlabs.com/logo-black.png" alt="Vertex Research Labs" style="height:36px;width:auto;display:block;" onerror="this.style.display='none';document.getElementById('logo-text').style.display='block'"/>
+      <div id="logo-text" style="display:none;">
+        <div class="logo-text">VERTEX</div>
+        <div class="logo-sub">RESEARCH LABS</div>
+      </div>
     </div>
     <div class="order-meta">
       <div class="label">Packing Slip</div>
@@ -230,14 +234,14 @@ function printPackingSlip(order: Order) {
   <!-- Footer with QR -->
   <div class="footer-row">
     <div class="footer-text">
-      <strong>Redeem your points at:</strong><br/>
+      <strong>Scan to sign in &amp; redeem your points</strong><br/>
       <a>vertexresearchlabs.com/rewards</a><br/><br/>
       Questions? <a>support@vertexresearchlabs.com</a><br/>
       All products for laboratory research use only.
     </div>
     <div style="text-align:center;">
       <img src="${qrUrl}" width="80" height="80" style="display:block;"/>
-      <div class="qr-label">Scan to redeem</div>
+      <div class="qr-label">One tap sign-in</div>
     </div>
   </div>
 </body>

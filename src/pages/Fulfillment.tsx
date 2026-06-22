@@ -86,6 +86,7 @@ function printPackingSlip(order: Order) {
   const balance = profile?.points_balance ?? 0;
   const pointsEarned = order.points_earned ?? 0;
   const next = nextTier(balance);
+  const unlocked = [...TIERS].reverse().find((t) => balance >= t.points) || null;
   const orderDate = new Date(order.created_at).toLocaleDateString("en-US", {
     month: "long", day: "numeric", year: "numeric",
   });
@@ -220,15 +221,21 @@ function printPackingSlip(order: Order) {
   <!-- Rewards -->
   <div class="rewards-box">
     <div class="rewards-title">⭐ Vertex Rewards</div>
+    ${unlocked ? `
+    <div style="background:#000;color:#fff;border-radius:3px;padding:6px 8px;margin-bottom:6px;text-align:center;">
+      <div style="font-size:7px;letter-spacing:1.5px;text-transform:uppercase;opacity:0.7;margin-bottom:2px;">You've unlocked</div>
+      <div style="font-size:15px;font-weight:900;line-height:1;">${fmt(unlocked.credit)} OFF</div>
+      <div style="font-size:7px;opacity:0.7;margin-top:2px;">your next order $${unlocked.minCart}+ · scan to redeem</div>
+    </div>` : ""}
     <div class="rewards-row">
       <span class="rlabel">Earned this order</span>
       <span class="rval">+${pointsEarned} pts</span>
     </div>
     <div class="rewards-row">
-      <span class="rlabel">Your total balance</span>
+      <span class="rlabel">Total balance</span>
       <span class="rval">${balance.toLocaleString()} pts</span>
     </div>
-    ${next ? `<div class="next-tier">Earn <strong>${(next.points - balance).toLocaleString()} more pts</strong> → unlock <strong>${fmt(next.credit)}</strong> store credit</div>` : `<div class="next-tier">🎉 You've unlocked our highest reward tier!</div>`}
+    ${next ? `<div class="next-tier">Earn <strong>${(next.points - balance).toLocaleString()} more pts</strong> → unlock <strong>${fmt(next.credit)}</strong> store credit</div>` : `<div class="next-tier" style="font-weight:700;">🏆 Top tier unlocked — max it out at checkout!</div>`}
   </div>
 
   <!-- Footer with QR -->

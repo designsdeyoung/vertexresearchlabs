@@ -262,18 +262,10 @@ const Fulfillment = () => {
 
   const fetchOrders = useCallback(async () => {
     setLoading(true);
-    let query = supabase
-      .from("orders")
-      .select(`*, profiles!orders_profile_id_fkey(full_name, email, address_line1, address_line2, city, state, zip_code)`)
-      .order("created_at", { ascending: false })
-      .limit(100);
-
-    if (filter === "unfulfilled") {
-      query = query.not("status", "eq", "shipped").is("tracking_number", null);
-    }
-
-    const { data, error } = await query;
-    if (!error && data) setOrders(data as Order[]);
+    const { data, error } = await supabase.functions.invoke("get-fulfillment-orders", {
+      body: { filter },
+    });
+    if (!error && data?.orders) setOrders(data.orders as Order[]);
     setLoading(false);
   }, [filter]);
 

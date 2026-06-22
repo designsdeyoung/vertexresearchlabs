@@ -258,7 +258,7 @@ const Fulfillment = () => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"unfulfilled" | "all">("unfulfilled");
 
-  const isAdmin = user && ADMIN_EMAILS.includes(user.email || "");
+  const isAdmin = !!user && ADMIN_EMAILS.includes(user.email || "");
 
   const fetchOrders = useCallback(async () => {
     setLoading(true);
@@ -278,14 +278,21 @@ const Fulfillment = () => {
   }, [filter]);
 
   useEffect(() => {
-    if (!authLoading && !isAdmin) navigate("/");
-  }, [authLoading, isAdmin, navigate]);
+    if (authLoading) return;
+    if (!user) { navigate("/auth"); return; }
+    if (!isAdmin) navigate("/");
+  }, [authLoading, user, isAdmin, navigate]);
 
   useEffect(() => {
     if (isAdmin) fetchOrders();
   }, [isAdmin, fetchOrders]);
 
-  if (authLoading || !isAdmin) return null;
+  if (authLoading) return (
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <RefreshCw size={24} className="animate-spin text-muted-foreground" />
+    </div>
+  );
+  if (!isAdmin) return null;
 
   const unfulfilled = orders.filter((o) => o.status !== "shipped" && !o.tracking_number);
   const shipped = orders.filter((o) => o.status === "shipped" || !!o.tracking_number);

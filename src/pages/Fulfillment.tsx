@@ -95,13 +95,13 @@ function printPackingSlip(order: Order) {
 
   const items = Array.isArray(order.items) ? order.items : [];
   const itemRows = items.map((item: any) => {
-    const itemName = item.name || item.product_name || "Item";
-    const weight = item.weight ? ` · ${item.weight}` : "";
+    const itemName = item.productName || item.name || item.product_name || "Item";
+    const size = item.size ? ` · ${item.size}` : "";
     const qty = item.quantity || 1;
-    const lineTotal = fmt(Number(item.price || 0) * qty);
+    const lineTotal = fmt(Number(item.lineTotal || item.price || 0));
     return `
       <tr>
-        <td style="padding:5px 4px;border-bottom:1px solid #eee;font-size:10px;">${itemName}${weight}</td>
+        <td style="padding:5px 4px;border-bottom:1px solid #eee;font-size:10px;">${itemName}${size}</td>
         <td style="padding:5px 4px;border-bottom:1px solid #eee;text-align:center;font-size:10px;">${qty}</td>
         <td style="padding:5px 4px;border-bottom:1px solid #eee;text-align:right;font-size:10px;">${lineTotal}</td>
       </tr>`;

@@ -36,7 +36,7 @@ serve(async (req) => {
       .limit(200);
 
     if (filter === "unfulfilled") {
-      query = query.not("status", "eq", "shipped").is("tracking_number", null);
+      query = query.not("status", "in", '("shipped","delivered","cancelled")').is("tracking_number", null);
     }
 
     const { data, error } = await query;

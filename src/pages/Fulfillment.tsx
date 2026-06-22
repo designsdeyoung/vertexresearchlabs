@@ -96,9 +96,9 @@ function printPackingSlip(order: Order) {
     const lineTotal = fmt(Number(item.lineTotal || item.price || 0));
     return `
       <tr>
-        <td style="padding:3px 4px;border-bottom:1px solid #eee;font-size:9.5px;">${itemName}${size}</td>
-        <td style="padding:3px 4px;border-bottom:1px solid #eee;text-align:center;font-size:9.5px;">${qty}</td>
-        <td style="padding:3px 4px;border-bottom:1px solid #eee;text-align:right;font-size:9.5px;">${lineTotal}</td>
+        <td style="padding:2px 4px;border-bottom:1px solid #eee;font-size:9.5px;">${itemName}${size}</td>
+        <td style="padding:2px 4px;border-bottom:1px solid #eee;text-align:center;font-size:9.5px;">${qty}</td>
+        <td style="padding:2px 4px;border-bottom:1px solid #eee;text-align:right;font-size:9.5px;">${lineTotal}</td>
       </tr>`;
   }).join("");
 
@@ -108,20 +108,22 @@ function printPackingSlip(order: Order) {
 <meta charset="utf-8"/>
 <title>Packing Slip ${orderNum}</title>
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  html { margin:0; padding:0; width:4in; height:6in; }
   body {
     font-family: Arial, Helvetica, sans-serif;
     background: #fff;
     color: #000;
     width: 4in;
     height: 6in;
-    padding: 0.14in 0.2in;
+    padding: 0.1in 0.18in;
     font-size: 10px;
     overflow: hidden;
   }
   @media print {
     @page { size: 4in 6in; margin: 0; }
-    body { padding: 0.14in 0.2in; }
+    html, body { width:4in; height:6in; margin:0; padding:0; }
+    body { padding: 0.1in 0.18in; }
   }
   .logo-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:5px; }
   .logo-text { font-size:13px; font-weight:900; letter-spacing:2px; }
@@ -130,8 +132,8 @@ function printPackingSlip(order: Order) {
   .order-meta .label { font-size:7px; letter-spacing:1px; color:#888; text-transform:uppercase; }
   .order-meta .val { font-size:11px; font-weight:700; }
   .order-meta .date { font-size:8px; color:#555; }
-  .divider { border:none; border-top:1.5px solid #000; margin:3px 0; }
-  .divider-thin { border:none; border-top:1px solid #ddd; margin:3px 0; }
+  .divider { border:none; border-top:1.5px solid #000; margin:2px 0; }
+  .divider-thin { border:none; border-top:1px solid #ddd; margin:2px 0; }
   .section-label { font-size:7px; letter-spacing:1.5px; text-transform:uppercase; color:#888; margin-bottom:2px; }
   .ship-name { font-size:11px; font-weight:700; margin-bottom:1px; }
   .ship-addr { font-size:9px; color:#333; line-height:1.35; }
@@ -152,8 +154,8 @@ function printPackingSlip(order: Order) {
     background: linear-gradient(135deg, #b8860b 0%, #ffd700 50%, #b8860b 100%);
     padding: 3px 8px 2px; font-size:7px; font-weight:900; letter-spacing:2.5px; text-transform:uppercase; color:#3d2800;
   }
-  .award-body { background:#fffdf0; padding: 4px 10px 4px; }
-  .award-amount { font-size:22px; font-weight:900; color:#8b6400; line-height:1; letter-spacing:-0.5px; }
+  .award-body { background:#fffdf0; padding: 3px 10px 3px; }
+  .award-amount { font-size:20px; font-weight:900; color:#8b6400; line-height:1; letter-spacing:-0.5px; }
   .award-amount span { font-size:13px; vertical-align:top; padding-top:4px; display:inline-block; }
   .award-subtitle { font-size:8px; color:#6b4c00; margin-top:2px; font-weight:600; letter-spacing:0.5px; }
   .award-code { display:inline-block; background:#000; color:#ffd700; font-size:8px; font-weight:900; letter-spacing:2px; padding:2px 9px; border-radius:3px; margin-top:4px; }
@@ -244,7 +246,7 @@ function printPackingSlip(order: Order) {
         <div class="award-subtitle">Ready to use · min. order $${unlocked.minCart}</div>
       </div>
       <div style="text-align:center;">
-        <img src="${qrUrl}" width="56" height="56" style="display:block;"/>
+        <img src="${qrUrl}" width="50" height="50" style="display:block;"/>
         <div style="font-size:6.5px;font-weight:800;letter-spacing:1px;color:#6b4c00;margin-top:1px;">SCAN TO REDEEM</div>
       </div>
     </div>

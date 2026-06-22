@@ -96,9 +96,9 @@ function printPackingSlip(order: Order) {
     const lineTotal = fmt(Number(item.lineTotal || item.price || 0));
     return `
       <tr>
-        <td style="padding:5px 4px;border-bottom:1px solid #eee;font-size:10px;">${itemName}${size}</td>
-        <td style="padding:5px 4px;border-bottom:1px solid #eee;text-align:center;font-size:10px;">${qty}</td>
-        <td style="padding:5px 4px;border-bottom:1px solid #eee;text-align:right;font-size:10px;">${lineTotal}</td>
+        <td style="padding:3px 4px;border-bottom:1px solid #eee;font-size:9.5px;">${itemName}${size}</td>
+        <td style="padding:3px 4px;border-bottom:1px solid #eee;text-align:center;font-size:9.5px;">${qty}</td>
+        <td style="padding:3px 4px;border-bottom:1px solid #eee;text-align:right;font-size:9.5px;">${lineTotal}</td>
       </tr>`;
   }).join("");
 
@@ -114,106 +114,65 @@ function printPackingSlip(order: Order) {
     background: #fff;
     color: #000;
     width: 4in;
-    min-height: 6in;
-    padding: 0.18in 0.2in;
+    height: 6in;
+    padding: 0.14in 0.2in;
     font-size: 10px;
+    overflow: hidden;
   }
   @media print {
     @page { size: 4in 6in; margin: 0; }
-    body { padding: 0.18in 0.2in; }
+    body { padding: 0.14in 0.2in; }
   }
-  .logo-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+  .logo-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:5px; }
   .logo-text { font-size:13px; font-weight:900; letter-spacing:2px; }
   .logo-sub { font-size:7px; letter-spacing:1.5px; color:#555; }
   .order-meta { text-align:right; }
   .order-meta .label { font-size:7px; letter-spacing:1px; color:#888; text-transform:uppercase; }
   .order-meta .val { font-size:11px; font-weight:700; }
   .order-meta .date { font-size:8px; color:#555; }
-  .divider { border:none; border-top:1.5px solid #000; margin:6px 0; }
-  .divider-thin { border:none; border-top:1px solid #ddd; margin:5px 0; }
-  .section-label { font-size:7px; letter-spacing:1.5px; text-transform:uppercase; color:#888; margin-bottom:3px; }
-  .ship-name { font-size:12px; font-weight:700; margin-bottom:1px; }
-  .ship-addr { font-size:9px; color:#333; line-height:1.4; }
+  .divider { border:none; border-top:1.5px solid #000; margin:3px 0; }
+  .divider-thin { border:none; border-top:1px solid #ddd; margin:3px 0; }
+  .section-label { font-size:7px; letter-spacing:1.5px; text-transform:uppercase; color:#888; margin-bottom:2px; }
+  .ship-name { font-size:11px; font-weight:700; margin-bottom:1px; }
+  .ship-addr { font-size:9px; color:#333; line-height:1.35; }
   table { width:100%; border-collapse:collapse; }
-  th { font-size:7px; letter-spacing:1px; text-transform:uppercase; color:#888; padding:4px 4px 3px; border-bottom:1.5px solid #000; text-align:left; }
+  th { font-size:7px; letter-spacing:1px; text-transform:uppercase; color:#888; padding:3px 4px 2px; border-bottom:1.5px solid #000; text-align:left; }
   th:nth-child(2) { text-align:center; }
   th:last-child { text-align:right; }
-  .totals-row td { padding:3px 4px; font-size:9px; }
-  .totals-row.grand td { font-size:11px; font-weight:700; border-top:1.5px solid #000; padding-top:5px; }
-  .rewards-box { background:#f5f5f5; border:1px solid #ddd; border-radius:4px; padding:7px 8px; margin-top:8px; }
-  .rewards-title { font-size:8px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:4px; }
-  .rewards-row { display:flex; justify-content:space-between; font-size:9px; margin-bottom:2px; }
+  .totals-row td { padding:2px 4px; font-size:9px; }
+  .totals-row.grand td { font-size:10px; font-weight:700; border-top:1.5px solid #000; padding-top:2px; }
+  .rewards-box { background:#f5f5f5; border:1px solid #ddd; border-radius:4px; padding:5px 8px; margin-top:5px; }
+  .rewards-title { font-size:8px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:3px; }
+  .rewards-row { display:flex; justify-content:space-between; font-size:9px; margin-bottom:1px; }
   .rewards-row .rlabel { color:#555; }
   .rewards-row .rval { font-weight:700; }
-  .next-tier { font-size:8px; color:#555; margin-top:4px; padding-top:4px; border-top:1px solid #ddd; }
-  .award-banner {
-    border:2px solid #b8860b;
-    border-radius:6px;
-    margin-top:8px;
-    overflow:hidden;
-    text-align:center;
-  }
+  .next-tier { font-size:8px; color:#555; margin-top:3px; padding-top:3px; border-top:1px solid #ddd; }
+  .award-banner { border:2px solid #b8860b; border-radius:6px; margin-top:5px; overflow:hidden; text-align:center; }
   .award-header {
     background: linear-gradient(135deg, #b8860b 0%, #ffd700 50%, #b8860b 100%);
-    padding: 5px 8px 3px;
-    font-size:7px;
-    font-weight:900;
-    letter-spacing:2.5px;
-    text-transform:uppercase;
-    color:#3d2800;
+    padding: 3px 8px 2px; font-size:7px; font-weight:900; letter-spacing:2.5px; text-transform:uppercase; color:#3d2800;
   }
-  .award-body {
-    background:#fffdf0;
-    padding: 8px 10px 6px;
-  }
-  .award-amount {
-    font-size:30px;
-    font-weight:900;
-    color:#8b6400;
-    line-height:1;
-    letter-spacing:-0.5px;
-  }
-  .award-amount span { font-size:16px; vertical-align:top; padding-top:5px; display:inline-block; }
-  .award-subtitle {
-    font-size:8px;
-    color:#6b4c00;
-    margin-top:2px;
-    font-weight:600;
-    letter-spacing:0.5px;
-  }
-  .award-code {
-    display:inline-block;
-    background:#000;
-    color:#ffd700;
-    font-size:9px;
-    font-weight:900;
-    letter-spacing:2px;
-    padding:3px 10px;
-    border-radius:3px;
-    margin-top:5px;
-  }
-  .award-fine {
-    font-size:7px;
-    color:#888;
-    margin-top:4px;
-  }
-  .footer-row { display:flex; align-items:flex-end; justify-content:space-between; margin-top:10px; }
-  .footer-text { font-size:7px; color:#777; line-height:1.5; }
+  .award-body { background:#fffdf0; padding: 4px 10px 4px; }
+  .award-amount { font-size:22px; font-weight:900; color:#8b6400; line-height:1; letter-spacing:-0.5px; }
+  .award-amount span { font-size:13px; vertical-align:top; padding-top:4px; display:inline-block; }
+  .award-subtitle { font-size:8px; color:#6b4c00; margin-top:2px; font-weight:600; letter-spacing:0.5px; }
+  .award-code { display:inline-block; background:#000; color:#ffd700; font-size:8px; font-weight:900; letter-spacing:2px; padding:2px 9px; border-radius:3px; margin-top:4px; }
+  .footer-row { display:flex; align-items:flex-end; justify-content:space-between; margin-top:4px; }
+  .footer-text { font-size:7px; color:#777; line-height:1.45; }
   .footer-text a { color:#000; text-decoration:none; font-weight:600; }
   .qr-label { font-size:7px; color:#888; text-align:center; margin-top:2px; }
-  .points-badge { display:inline-block; background:#000; color:#fff; font-size:8px; font-weight:700; padding:2px 6px; border-radius:10px; letter-spacing:0.5px; }
-  .how-points { margin-top:8px; padding:8px 9px; background:#fafafa; border:1px solid #eee; border-radius:4px; }
-  .how-points .hp-title { font-size:7px; letter-spacing:1.2px; text-transform:uppercase; color:#888; font-weight:700; margin-bottom:3px; }
-  .how-points .hp-body { font-size:8.5px; color:#333; line-height:1.5; }
+  .how-points { margin-top:4px; padding:4px 9px; background:#fafafa; border:1px solid #eee; border-radius:4px; }
+  .how-points .hp-title { font-size:7px; letter-spacing:1.2px; text-transform:uppercase; color:#888; font-weight:700; margin-bottom:2px; }
+  .how-points .hp-body { font-size:8px; color:#333; line-height:1.4; }
   .how-points .hp-x { font-weight:800; color:#000; }
-  .how-points .hp-fine { font-size:7px; color:#999; margin-top:3px; }
-  .referral-box { margin-top:8px; border:1.5px solid #000; border-radius:5px; overflow:hidden; }
-  .referral-head { background:#000; color:#fff; font-size:7.5px; letter-spacing:1.5px; text-transform:uppercase; font-weight:700; padding:4px 9px; text-align:center; }
-  .referral-body { padding:9px; text-align:center; }
-  .referral-code { display:inline-block; border:1.5px dashed #000; border-radius:4px; padding:5px 16px; font-size:16px; font-weight:900; letter-spacing:2px; color:#000; margin-bottom:5px; }
-  .referral-body .rf-line { font-size:8.5px; color:#333; line-height:1.5; }
+  .how-points .hp-fine { font-size:7px; color:#999; margin-top:2px; }
+  .referral-box { margin-top:4px; border:1.5px solid #000; border-radius:5px; overflow:hidden; }
+  .referral-head { background:#000; color:#fff; font-size:7.5px; letter-spacing:1.5px; text-transform:uppercase; font-weight:700; padding:3px 9px; text-align:center; }
+  .referral-body { padding:5px 9px; text-align:center; }
+  .referral-code { display:inline-block; border:1.5px dashed #000; border-radius:4px; padding:2px 14px; font-size:14px; font-weight:900; letter-spacing:2px; color:#000; margin-bottom:3px; }
+  .referral-body .rf-line { font-size:8px; color:#333; line-height:1.4; }
   .referral-body .rf-bold { font-weight:800; color:#000; }
-  .referral-body .rf-fine { font-size:7px; color:#888; margin-top:4px; line-height:1.4; }
+  .referral-body .rf-fine { font-size:7px; color:#888; margin-top:2px; line-height:1.3; }
 </style>
 </head>
 <body>
@@ -275,26 +234,30 @@ function printPackingSlip(order: Order) {
     </tbody>
   </table>
 
-  <!-- Unlocked Award Banner -->
+  <!-- Unlocked Award Banner (QR lives here when a reward is unlocked) -->
   ${unlocked ? `
   <div class="award-banner">
     <div class="award-header">🏆 &nbsp; You've Earned a Reward &nbsp; 🏆</div>
-    <div class="award-body">
-      <div class="award-amount"><span>$</span>${unlocked.credit}<span style="font-size:13px;color:#b8860b;padding-top:10px;"> OFF</span></div>
-      <div class="award-subtitle">Ready to use · min. order $${unlocked.minCart}</div>
-      <div class="award-code">SCAN QR TO REDEEM</div>
+    <div class="award-body" style="display:flex;align-items:center;gap:10px;text-align:left;">
+      <div style="flex:1;">
+        <div class="award-amount"><span>$</span>${unlocked.credit}<span style="font-size:12px;color:#b8860b;"> OFF</span></div>
+        <div class="award-subtitle">Ready to use · min. order $${unlocked.minCart}</div>
+      </div>
+      <div style="text-align:center;">
+        <img src="${qrUrl}" width="56" height="56" style="display:block;"/>
+        <div style="font-size:6.5px;font-weight:800;letter-spacing:1px;color:#6b4c00;margin-top:1px;">SCAN TO REDEEM</div>
+      </div>
     </div>
   </div>` : ""}
 
   <!-- Rewards Summary -->
-  <div class="rewards-box" style="margin-top:${unlocked ? "5px" : "8px"};">
-    <div class="rewards-title">⭐ Vertex Rewards</div>
+  <div class="rewards-box" style="margin-top:${unlocked ? "4px" : "6px"};">
     <div class="rewards-row">
-      <span class="rlabel">Earned this order</span>
-      <span class="rval">+${pointsEarned} pts</span>
+      <span class="rlabel" style="font-weight:700;letter-spacing:1px;text-transform:uppercase;font-size:8px;">⭐ Vertex Rewards</span>
+      <span class="rval">+${pointsEarned} this order</span>
     </div>
     <div class="rewards-row">
-      <span class="rlabel">Total balance</span>
+      <span class="rlabel">Total points balance</span>
       <span class="rval">${balance.toLocaleString()} pts</span>
     </div>
     ${next ? `<div class="next-tier">Earn <strong>${(next.points - balance).toLocaleString()} more pts</strong> → unlock <strong>${fmt(next.credit)}</strong> store credit</div>` : `<div class="next-tier" style="font-weight:700;">🏆 Top tier unlocked — you're maxed out!</div>`}
@@ -303,7 +266,7 @@ function printPackingSlip(order: Order) {
   <!-- How points work -->
   <div class="how-points">
     <div class="hp-title">How your points work</div>
-    <div class="hp-body">Every <span class="hp-x">$1</span> you spend earns <span class="hp-x">3 points</span> — credited instantly and they <span class="hp-x">never expire</span>. Stack them up and redeem for store credit at checkout.</div>
+    <div class="hp-body">Every <span class="hp-x">$1</span> earns <span class="hp-x">3 points</span> — credited instantly, <span class="hp-x">never expire</span>. Redeem for store credit at checkout.</div>
     <div class="hp-fine">Full terms at vertexresearchlabs.com/rewards</div>
   </div>
 
@@ -314,22 +277,19 @@ function printPackingSlip(order: Order) {
     <div class="referral-body">
       <div class="referral-code">${referralCode}</div>
       <div class="rf-line">Friends get <span class="rf-bold">10% off</span> their first order. You earn <span class="rf-bold">3× points</span> on every dollar they spend — as a thank you.</div>
-      <div class="rf-fine">Once someone uses your code, they're linked to your account <span style="color:#000;font-weight:700;">for life</span> — you keep earning points on all their future orders, redeemable for discounts &amp; promotions.</div>
+      <div class="rf-fine">Use your code once and you're linked <span style="color:#000;font-weight:700;">for life</span> — keep earning points on all their future orders.</div>
     </div>
   </div>` : ""}
 
-  <!-- Footer with QR -->
+  <!-- Footer (QR shown here only when no reward banner above) -->
   <div class="footer-row">
     <div class="footer-text">
-      <strong>Scan to sign in &amp; redeem your points</strong><br/>
-      <a>vertexresearchlabs.com/rewards</a><br/><br/>
-      Questions? <a>info@vertexresearchlabs.com</a><br/>
-      All products for laboratory research use only.
+      <a>vertexresearchlabs.com/rewards</a> · <a>info@vertexresearchlabs.com</a> · For laboratory research use only.
     </div>
-    <div style="text-align:center;">
-      <img src="${qrUrl}" width="80" height="80" style="display:block;"/>
+    ${!unlocked ? `<div style="text-align:center;">
+      <img src="${qrUrl}" width="58" height="58" style="display:block;"/>
       <div class="qr-label">One tap sign-in</div>
-    </div>
+    </div>` : ""}
   </div>
 </body>
 </html>`;

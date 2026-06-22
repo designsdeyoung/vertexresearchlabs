@@ -45,15 +45,39 @@ serve(async (req) => {
     if (oErr || !order) throw new Error("Order not found");
 
     const profile = (order as any).profiles;
-    const toName = override_address?.name || order.shipping_name || profile?.full_name || "Customer";
-    const toStreet1 = override_address?.street1 || order.shipping_address1 || profile?.address_line1 || "";
-    const toStreet2 = override_address?.street2 || order.shipping_address2 || profile?.address_line2 || "";
-    const toCity = override_address?.city || order.shipping_city || profile?.city || "";
-    const toState = override_address?.state || order.shipping_state || profile?.state || "";
-    const toZip = override_address?.zip || order.shipping_zip || profile?.zip_code || "";
+    let toName = override_address?.name || order.shipping_name || profile?.full_name || "Customer";
+    let toStreet1 = override_address?.street1 || order.shipping_address1 || profile?.address_line1 || "";
+    let toStreet2 = override_address?.street2 || order.shipping_address2 || profile?.address_line2 || "";
+    let toCity = override_address?.city || order.shipping_city || profile?.city || "";
+    let toState = override_address?.state || order.shipping_state || profile?.state || "";
+    let toZip = override_address?.zip || order.shipping_zip || profile?.zip_code || "";
 
-    // Persist override address to order for future use
-    if (override_address && (override_address.street1 || override_address.city)) {
+    // Fall back to Stripe payment intent shipping address if still missing
+    if ((!toStreet1 || !toCity) && order.stripe_payment_intent_id) {
+      try {
+        const stripeKey = Deno.env.get("STRIPE_SECRET_KEY")!;
+        const piRes = await fetch(`https://api.stripe.com/v1/payment_intents/${order.stripe_payment_intent_id}`, {
+          headers: { Authorization: `Bearer ${stripeKey}` },
+        });
+        const pi = await piRes.json();
+        const sa = pi?.shipping?.address;
+        const sn = pi?.shipping?.name;
+        if (sa?.line1) {
+          toName = sn || toName;
+          toStreet1 = sa.line1;
+          toStreet2 = sa.line2 || "";
+          toCity = sa.city;
+          toState = sa.state;
+          toZip = sa.postal_code;
+          console.log("Pulled address from Stripe:", toStreet1, toCity, toState, toZip);
+        }
+      } catch (e) {
+        console.error("Stripe address lookup failed:", e);
+      }
+    }
+
+    // Persist address to order for future use
+    if (toStreet1 && toCity && (!order.shipping_address1)) {
       await admin.from("orders").update({
         shipping_name: toName,
         shipping_address1: toStreet1,

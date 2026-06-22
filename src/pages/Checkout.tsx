@@ -58,6 +58,7 @@ const Checkout = () => {
   const [discountReferrerId, setDiscountReferrerId] = useState<string | null>(null);
   const [promoFreeShipping, setPromoFreeShipping] = useState(false);
   const [discountMessage, setDiscountMessage] = useState<string | null>(null);
+  const [discountRate, setDiscountRate] = useState(0.1);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -66,8 +67,8 @@ const Checkout = () => {
     }).format(price);
   };
 
-  // Apply discount code (10% off subtotal)
-  const discountAmount = discountValid ? subtotal * 0.1 : 0;
+  // Apply discount code — rate comes from validate-discount response
+  const discountAmount = discountValid ? subtotal * discountRate : 0;
 
   // Override shipping when promo grants free shipping
   const effectiveShipping = promoFreeShipping ? 0 : shippingCost;
@@ -102,6 +103,7 @@ const Checkout = () => {
         setDiscountValid(true);
         setDiscountReferrerId(data.referrerId);
         setPromoFreeShipping(!!data.freeShipping);
+        setDiscountRate(data.discount ?? 0.1);
         setDiscountMessage(null);
       }
     } catch {
@@ -320,6 +322,7 @@ const Checkout = () => {
       creditApplied: creditDiscount,
       creditId: selectedCredit?.id || null,
       referrerCode: referralCode || null,
+      referrerProfileId: discountReferrerId || null,
       discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
       discountAmount,
       paymentMethod: effectivePaymentMethod,
@@ -516,7 +519,7 @@ const Checkout = () => {
                   </div>
                   {discountValid === true && (
                     <p className="text-xs text-primary mt-2 flex items-center gap-1">
-                      <Sparkles size={10} /> 10% discount applied{promoFreeShipping ? " + FREE shipping" : ""} — you save {formatPrice(discountAmount + (promoFreeShipping && !qualifiesForFreeShipping ? FLAT_RATE_SHIPPING : 0))}
+                      <Sparkles size={10} /> {Math.round(discountRate * 100)}% discount applied{promoFreeShipping ? " + FREE shipping" : ""} — you save {formatPrice(discountAmount + (promoFreeShipping && !qualifiesForFreeShipping ? FLAT_RATE_SHIPPING : 0))}
                     </p>
                   )}
                   {discountValid === false && (

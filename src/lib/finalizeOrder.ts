@@ -39,6 +39,7 @@ export interface PendingOrder {
   creditApplied: number;
   creditId: string | null;
   referrerCode: string | null;
+  referrerProfileId: string | null;
   discountCode: string | null;
   discountAmount: number;
   paymentMethod: string;
@@ -69,6 +70,15 @@ export async function finalizeOrder(pending: PendingOrder): Promise<FinalizeResu
       creditApplied: pending.creditApplied,
       creditId: pending.creditId,
       referrerCode: pending.referrerCode,
+      referrerProfileId: pending.referrerProfileId,
+      shippingAddress: {
+        name: pending.customer.fullName,
+        address1: pending.customer.addressLine1,
+        address2: pending.customer.addressLine2,
+        city: pending.customer.city,
+        state: pending.customer.state,
+        zip: pending.customer.zipCode,
+      },
       discountCode: pending.discountCode,
       discountAmount: pending.discountAmount,
       paymentMethod: pending.paymentMethod,

@@ -33,7 +33,7 @@ const handler = async (req: Request): Promise<Response> => {
     // globalSingleUse defaults to true for firstOrderOnly codes (personal codes
     // that may only ever be redeemed once). VERTEX10 is a mass welcome code, so
     // it sets globalSingleUse:false — enforced per-customer-first-order only.
-    const SPECIAL_PROMOS: Record<string, { discount: number; freeShipping: boolean; firstOrderOnly?: boolean; globalSingleUse?: boolean; expiresAt?: string }> = {
+    const SPECIAL_PROMOS: Record<string, { discount: number; freeShipping: boolean; firstOrderOnly?: boolean; globalSingleUse?: boolean; expiresAt?: string; influencerProfileId?: string; lockedToEmail?: string }> = {
       VERTEX10: { discount: 0.10, freeShipping: false, firstOrderOnly: true, globalSingleUse: false },
       PATRICIA10: { discount: 0.10, freeShipping: true },
       ADAM10: { discount: 0.10, freeShipping: true },
@@ -45,6 +45,8 @@ const handler = async (req: Request): Promise<Response> => {
       // KLOW 4-vial bundle via Lauryn: 19% (stacked 10% + 10% = 0.9 x 0.9 = 0.81).
       // $516 -> $417.96. Lauryn (LAURYN10) is credited 3x referral points on this order.
       KLOW4LAURYN: { discount: 0.19, freeShipping: true },
+      // Alex Bonnemaiso personal influencer code — 30% off + free shipping, locked to his email only.
+      ALEX30: { discount: 0.30, freeShipping: true, lockedToEmail: "abonnemaiso@icloud.com" },
     };
 
     if (SPECIAL_PROMOS[normalizedCode]) {
@@ -58,6 +60,22 @@ const handler = async (req: Request): Promise<Response> => {
         );
       }
 
+      // Enforce email lock (personal influencer codes)
+      if (promo.lockedToEmail) {
+        const normalizedEmail = (customerEmail || "").trim().toLowerCase();
+        if (!normalizedEmail) {
+          return new Response(
+            JSON.stringify({ valid: false, reason: "Email required for this code" }),
+            { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+          );
+        }
+        if (normalizedEmail !== promo.lockedToEmail) {
+          return new Response(
+            JSON.stringify({ valid: false, reason: "This code is not valid for your account" }),
+            { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+          );
+        }
+      }
 
       // Enforce first-order-only restriction
       if (promo.firstOrderOnly) {

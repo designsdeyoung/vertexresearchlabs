@@ -32,6 +32,14 @@ interface AwardPointsRequest {
   discountAmount?: number;
   stripePaymentIntentId?: string;
   paymentMethod?: string;
+  shippingAddress?: {
+    name?: string;
+    address1?: string;
+    address2?: string;
+    city?: string;
+    state?: string;
+    zip?: string;
+  };
 }
 
 
@@ -49,7 +57,7 @@ const handler = async (req: Request): Promise<Response> => {
     const body: AwardPointsRequest = await req.json();
     console.log("Award points request:", JSON.stringify(body, null, 2));
 
-    const { customerEmail, customerName, items, subtotal, shipping, total, creditApplied, creditId, referrerCode, discountCode, discountAmount, stripePaymentIntentId, paymentMethod } = body;
+    const { customerEmail, customerName, items, subtotal, shipping, total, creditApplied, creditId, referrerCode, discountCode, discountAmount, stripePaymentIntentId, paymentMethod, shippingAddress } = body;
 
     if (!customerEmail || !items || items.length === 0) {
       throw new Error("Missing required fields: customerEmail, items");
@@ -160,6 +168,12 @@ const handler = async (req: Request): Promise<Response> => {
       stripe_payment_intent_id: stripePaymentIntentId || null,
       payment_method: paymentMethod || "stripe",
       paid_at: stripePaymentIntentId ? new Date().toISOString() : null,
+      shipping_name: shippingAddress?.name || customerName || null,
+      shipping_address1: shippingAddress?.address1 || null,
+      shipping_address2: shippingAddress?.address2 || null,
+      shipping_city: shippingAddress?.city || null,
+      shipping_state: shippingAddress?.state || null,
+      shipping_zip: shippingAddress?.zip || null,
     };
 
 

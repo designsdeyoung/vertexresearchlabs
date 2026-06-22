@@ -303,7 +303,13 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
       setPreview(null);
-      toast({ title: "Label purchased!", description: `Tracking: ${data.tracking_number}` });
+      // Open label PDF immediately
+      if (data.label_url) window.open(data.label_url, "_blank");
+      toast({
+        title: "Label purchased — opening now",
+        description: `Tracking: ${data.tracking_number}`,
+        duration: 10000,
+      });
       onLabelGenerated();
     } catch (e: any) {
       toast({ title: "Label failed", description: e.message, variant: "destructive" });

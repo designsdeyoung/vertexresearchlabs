@@ -626,6 +626,14 @@ const Checkout = () => {
                         customer_name: formData.fullName,
                         customer_email: formData.email,
                       }}
+                      shippingAddress={{
+                        name: formData.fullName,
+                        address1: formData.addressLine1,
+                        address2: formData.addressLine2 || "",
+                        city: formData.city,
+                        state: formData.state,
+                        zip: formData.zipCode,
+                      }}
                       disabled={isSubmitting}
                       onSuccess={handleStripeSuccess}
                       onBeforeConfirm={persistPendingOrder}

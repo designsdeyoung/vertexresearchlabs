@@ -21,6 +21,7 @@ interface StripePaymentProps {
   amount: number;
   email: string;
   metadata?: Record<string, string | number | boolean | null>;
+  shippingAddress?: { name: string; address1: string; address2?: string; city: string; state: string; zip: string };
   disabled?: boolean;
   onSuccess: (paymentIntentId: string) => void | Promise<void>;
   onBeforeConfirm?: (paymentIntentId: string) => void | Promise<void>;
@@ -121,7 +122,7 @@ const PaymentForm = ({
   );
 };
 
-const StripePayment = ({ amount, email, metadata, disabled, onSuccess, onBeforeConfirm }: StripePaymentProps) => {
+const StripePayment = ({ amount, email, metadata, shippingAddress, disabled, onSuccess, onBeforeConfirm }: StripePaymentProps) => {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -134,7 +135,7 @@ const StripePayment = ({ amount, email, metadata, disabled, onSuccess, onBeforeC
       setError(null);
       try {
         const { data, error: fnErr } = await supabase.functions.invoke("create-payment-intent", {
-          body: { amount, email, metadata },
+          body: { amount, email, metadata, shippingAddress },
         });
         if (fnErr || !data?.clientSecret) {
           throw new Error(fnErr?.message || data?.error || "Failed to initialize payment");

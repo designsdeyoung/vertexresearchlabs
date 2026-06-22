@@ -16,6 +16,7 @@ Deno.serve(async (req) => {
     const amount = Number(body?.amount);
     const email = String(body?.email || "");
     const metadata = body?.metadata || {};
+    const shippingAddress = body?.shippingAddress || null;
 
     if (!amount || amount < 0.5) {
       return new Response(JSON.stringify({ error: "Invalid amount" }), {
@@ -32,6 +33,19 @@ Deno.serve(async (req) => {
       metadata: Object.fromEntries(
         Object.entries(metadata).map(([k, v]) => [k, String(v ?? "")])
       ),
+      ...(shippingAddress?.address1 ? {
+        shipping: {
+          name: shippingAddress.name || "",
+          address: {
+            line1: shippingAddress.address1,
+            line2: shippingAddress.address2 || undefined,
+            city: shippingAddress.city,
+            state: shippingAddress.state,
+            postal_code: shippingAddress.zip,
+            country: "US",
+          },
+        },
+      } : {}),
     });
 
     return new Response(

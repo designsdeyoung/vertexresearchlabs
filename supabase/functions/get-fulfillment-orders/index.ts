@@ -31,7 +31,7 @@ serve(async (req) => {
 
     let query = admin
       .from("orders")
-      .select(`*, profiles!orders_profile_id_fkey(full_name, email, address_line1, address_line2, city, state, zip_code, points_balance, phone_number)`)
+      .select(`*, profiles!orders_profile_id_fkey(full_name, email, address_line1, address_line2, city, state, zip_code, points_balance, phone_number, magic_token)`)
       .order("created_at", { ascending: false })
       .limit(200);
 

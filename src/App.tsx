@@ -35,6 +35,7 @@ import TrackOrder from "./pages/TrackOrder";
 import ArticlePage from "./pages/ArticlePage";
 import Fulfillment from "./pages/Fulfillment";
 import Welcome from "./pages/Welcome";
+import Magic from "./pages/Magic";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -78,6 +79,7 @@ const App = () => (
                   <Route path="/learn/:slug" element={<ArticlePage />} />
                   <Route path="/fulfillment" element={<Fulfillment />} />
                   <Route path="/welcome" element={<Welcome />} />
+                  <Route path="/magic" element={<Magic />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>

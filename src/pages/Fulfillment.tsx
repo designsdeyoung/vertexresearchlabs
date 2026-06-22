@@ -56,6 +56,7 @@ interface Order {
     state: string | null;
     zip_code: string | null;
     points_balance: number;
+    magic_token: string | null;
   } | null;
 }
 
@@ -91,8 +92,10 @@ function printPackingSlip(order: Order) {
     month: "long", day: "numeric", year: "numeric",
   });
   const orderNum = order.order_number || order.id.slice(0, 8);
-  const welcomeUrl = `https://vertexresearchlabs.com/welcome?email=${encodeURIComponent(profile?.email || "")}`;
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=${encodeURIComponent(welcomeUrl)}&color=000000&bgcolor=ffffff`;
+  const magicUrl = profile?.magic_token
+    ? `https://vertexresearchlabs.com/magic?t=${profile.magic_token}`
+    : `https://vertexresearchlabs.com/welcome?email=${encodeURIComponent(profile?.email || "")}`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=${encodeURIComponent(magicUrl)}&color=000000&bgcolor=ffffff`;
 
   const items = Array.isArray(order.items) ? order.items : (typeof order.items === "string" ? JSON.parse(order.items) : []);
   const itemRows = items.map((item: any) => {

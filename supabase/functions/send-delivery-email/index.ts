@@ -7,6 +7,7 @@ const corsHeaders = {
 };
 
 const SITE = "https://vertexresearchlabs.com";
+const LOGO_URL = "https://qgritvsluilqptgtvayv.supabase.co/storage/v1/object/public/email-assets/logo-avatar.png";
 const REWARD_TIERS = [
   { points: 250, credit: 10, minCart: 75 },
   { points: 500, credit: 20, minCart: 100 },
@@ -18,18 +19,26 @@ const REWARD_TIERS = [
   { points: 5000, credit: 250, minCart: 500 },
 ];
 
+type Phase = "in_transit" | "out_for_delivery" | "delivered";
+
+// Brand logo + wordmark block
+function logoBlock() {
+  return `<div style="text-align:center;padding:22px 0 6px">
+    <img src="${LOGO_URL}" alt="Vertex Research Labs" width="52" height="52" style="display:inline-block;border-radius:12px"/>
+    <div style="color:#2DD4BF;font-size:10px;letter-spacing:3px;font-weight:700;text-transform:uppercase;margin-top:8px">Vertex Research Labs</div>
+  </div>`;
+}
+
 // Points header bar — shown at top of every email
 function pointsHeader(balance: number, firstName: string) {
   const unlocked = [...REWARD_TIERS].reverse().find((t) => balance >= t.points) || null;
   const next = REWARD_TIERS.find((t) => balance < t.points) || null;
   const ptsToNext = next ? next.points - balance : 0;
-
   const rewardLine = unlocked
     ? `<span style="color:#ffd700;font-weight:700">🏆 $${unlocked.credit} OFF unlocked</span> &nbsp;·&nbsp; valid on orders $${unlocked.minCart}+`
     : next
     ? `<span style="color:#2DD4BF">${ptsToNext} pts</span> away from your first $${next.credit} reward`
     : `You've hit the top tier — max it out at checkout!`;
-
   return `
 <div style="background:linear-gradient(135deg,#0d1f1c 0%,#0a1a17 100%);border-bottom:1px solid #1a3a34;padding:12px 24px;text-align:center">
   <span style="color:#9ca3af;font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:600">${firstName}'s Vertex Rewards</span>
@@ -42,7 +51,7 @@ function pointsHeader(balance: number, firstName: string) {
 </div>`;
 }
 
-// Turn a raw USPS message into clean, friendly, human language + an icon.
+// USPS message → clean friendly language + icon
 function friendlyDelivery(detail: string): { icon: string; text: string } {
   const m = (detail || "").toLowerCase();
   if (m.includes("mailbox")) return { icon: "📬", text: "It was placed in your mailbox." };
@@ -64,7 +73,8 @@ serve(async (req) => {
   try {
     const { orderId, phase, deliveryDetail } = await req.json();
     if (!orderId) throw new Error("orderId required");
-    if (phase !== "out_for_delivery" && phase !== "delivered") throw new Error("phase must be out_for_delivery or delivered");
+    const phases: Phase[] = ["in_transit", "out_for_delivery", "delivered"];
+    if (!phases.includes(phase)) throw new Error("phase must be in_transit, out_for_delivery, or delivered");
 
     const admin = createClient(
       Deno.env.get("SUPABASE_URL")!,
@@ -87,32 +97,34 @@ serve(async (req) => {
     const tracking = order?.tracking_number;
     const trackUrl = order?.tracking_url;
     const orderNum = order?.order_number || orderId.slice(0, 8);
-
-    // One-tap login link (logs them straight into the dashboard to use points)
-    const loginUrl = profile?.magic_token
-      ? `${SITE}/magic?t=${profile.magic_token}`
-      : `${SITE}/auth`;
-
+    const loginUrl = profile?.magic_token ? `${SITE}/magic?t=${profile.magic_token}` : `${SITE}/auth`;
     const unlocked = [...REWARD_TIERS].reverse().find((t) => balance >= t.points) || null;
 
-    // Phase-specific copy
+    // Phase-specific hero copy
+    let subject = "", heroEmoji = "", heroTitle = "", heroSub = "";
+    const fd = phase === "delivered" ? friendlyDelivery(deliveryDetail || order?.delivery_detail || "") : null;
+
+    if (phase === "in_transit") {
+      subject = `🚚 On the move — your Vertex order ${orderNum} is in transit`;
+      heroEmoji = "🚚";
+      heroTitle = `${heroEmoji} It's moving, ${firstName}!`;
+      heroSub = `Your order ${orderNum} just entered the USPS network and is on its way to you. Track it anytime below.`;
+    } else if (phase === "out_for_delivery") {
+      subject = `📦 Out for delivery — your Vertex order arrives today`;
+      heroEmoji = "📦";
+      heroTitle = `${heroEmoji} Out for delivery, ${firstName}.`;
+      heroSub = `Your order ${orderNum} is on the truck and arriving today. Keep an eye out!`;
+    } else {
+      heroEmoji = fd?.icon || "✅";
+      subject = `✅ Delivered — your Vertex order ${orderNum} just arrived`;
+      heroTitle = `${heroEmoji} It's here, ${firstName}!`;
+      heroSub = `${fd?.text || "Your package has arrived."} Order ${orderNum}.`;
+    }
+
     const isDelivered = phase === "delivered";
-    const fd = isDelivered ? friendlyDelivery(deliveryDetail || order?.delivery_detail || "") : null;
 
-    const subject = isDelivered
-      ? `✅ Delivered — your Vertex order ${orderNum} just arrived`
-      : `🚚 Out for delivery — your Vertex order arrives today`;
-
-    const heroEmoji = isDelivered ? (fd?.icon || "✅") : "🚚";
-    const heroTitle = isDelivered
-      ? `${heroEmoji} It's here, ${firstName}!`
-      : `${heroEmoji} Out for delivery, ${firstName}.`;
-    const heroSub = isDelivered
-      ? `${fd?.text || "Your package has arrived."} Order ${orderNum}.`
-      : `Your order ${orderNum} is on the truck and arriving today. Keep an eye out!`;
-
-    // The "use your points" block — the star of the delivered email
-    const creditBlock = unlocked
+    // Reward / redeem block — prominent on delivered, lighter on in_transit/out_for_delivery
+    const bigCredit = unlocked
       ? `<div style="background:linear-gradient(135deg,#0d2620 0%,#0a1a17 100%);border:1px solid #1f4d42;border-radius:10px;padding:22px;text-align:center;margin-bottom:18px">
            <div style="color:#9ca3af;font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:6px">You've unlocked a reward</div>
            <div style="color:#ffd700;font-size:34px;font-weight:900;line-height:1">$${unlocked.credit} OFF</div>
@@ -124,8 +136,21 @@ serve(async (req) => {
            <div style="color:#e5e7eb;font-size:15px;font-weight:700;margin-bottom:4px">You have ${balance.toLocaleString()} points</div>
            <div style="color:#9ca3af;font-size:13px;margin-bottom:14px">Keep stacking — they never expire while your account is active.</div>
            <a href="${loginUrl}" style="display:inline-block;background:#2DD4BF;color:#000;font-weight:800;font-size:14px;padding:12px 30px;border-radius:8px;text-decoration:none">Log in to my rewards →</a>
-           <div style="color:#4b5563;font-size:11px;margin-top:10px">One tap — no password needed</div>
          </div>`;
+
+    const lightReward = unlocked
+      ? `<div style="text-align:center;color:#9ca3af;font-size:13px;line-height:1.6">
+           You've got <strong style="color:#ffd700">$${unlocked.credit} OFF</strong> waiting · <a href="${loginUrl}" style="color:#2DD4BF;font-weight:700;text-decoration:none">log in to use it →</a>
+         </div>`
+      : `<div style="text-align:center;color:#9ca3af;font-size:13px;line-height:1.6">
+           Your <strong style="color:#2DD4BF">${balance.toLocaleString()} points</strong> are in your account · <a href="${loginUrl}" style="color:#2DD4BF;font-weight:700;text-decoration:none">log in →</a>
+         </div>`;
+
+    const rewardSection = isDelivered
+      ? `<div style="padding:24px 28px;border-bottom:1px solid #1a1a1a">${bigCredit}
+           <div style="color:#6b7280;font-size:12px;text-align:center;line-height:1.6">Your <strong style="color:#2DD4BF">${balance.toLocaleString()} points</strong> are ready for your next order.</div>
+         </div>`
+      : `<div style="padding:20px 28px;border-bottom:1px solid #1a1a1a">${lightReward}</div>`;
 
     const html = `<!DOCTYPE html>
 <html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/></head>
@@ -133,30 +158,26 @@ serve(async (req) => {
 <div style="max-width:560px;margin:0 auto;background:#0d0d0d;border:1px solid #1f1f1f;border-radius:8px;overflow:hidden">
 
   ${pointsHeader(balance, firstName)}
+  ${logoBlock()}
 
   <!-- Hero -->
-  <div style="background:#0a0a0a;padding:28px 28px 22px;border-bottom:1px solid #1a1a1a">
-    <div style="color:#2DD4BF;font-size:10px;letter-spacing:3px;font-weight:700;text-transform:uppercase;margin-bottom:10px">Vertex Research Labs</div>
+  <div style="padding:8px 28px 22px;border-bottom:1px solid #1a1a1a">
     <div style="font-size:27px;font-weight:800;color:#fff;line-height:1.2">${heroTitle}</div>
     <div style="color:#9ca3af;font-size:14px;margin-top:8px;line-height:1.5">${heroSub}</div>
   </div>
 
-  <!-- Use your points (primary CTA) -->
-  <div style="padding:24px 28px;border-bottom:1px solid #1a1a1a">
-    ${creditBlock}
-    <div style="color:#6b7280;font-size:12px;text-align:center;line-height:1.6">
-      Your <strong style="color:#2DD4BF">${balance.toLocaleString()} points</strong> are in your account, ready for your next order.
-    </div>
-  </div>
+  ${isDelivered ? rewardSection : ""}
 
-  <!-- Tracking reference -->
-  ${tracking ? `<div style="padding:20px 28px;border-bottom:1px solid #1a1a1a">
+  <!-- Tracking -->
+  ${tracking ? `<div style="padding:22px 28px;border-bottom:1px solid #1a1a1a">
     <div style="color:#6b7280;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px">Tracking Number</div>
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-      <span style="font-family:monospace;font-size:14px;color:#e5e7eb;letter-spacing:0.5px">${tracking}</span>
-      ${trackUrl ? `<a href="${trackUrl}" style="color:#2DD4BF;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap">USPS details →</a>` : ""}
+    <div style="background:#111;border:1px solid #2DD4BF33;border-radius:8px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <span style="font-family:monospace;font-size:15px;font-weight:700;color:#fff;letter-spacing:0.5px">${tracking}</span>
+      ${trackUrl ? `<a href="${trackUrl}" style="color:#2DD4BF;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap">USPS →</a>` : ""}
     </div>
   </div>` : ""}
+
+  ${!isDelivered ? rewardSection : ""}
 
   <!-- Footer -->
   <div style="padding:20px 28px;text-align:center">
@@ -182,7 +203,6 @@ serve(async (req) => {
         html,
       }),
     });
-
     const result = await res.json();
     if (!res.ok) throw new Error(JSON.stringify(result));
 

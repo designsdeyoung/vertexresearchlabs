@@ -174,12 +174,8 @@ serve(async (req) => {
       .eq("id", order_id);
     if (uErr) throw uErr;
 
-    // Send shipping notification email (fire-and-forget)
-    try {
-      await admin.functions.invoke("send-shipped-email", {
-        body: { orderId: order_id, trackingNumber: tracking, trackingUrl },
-      });
-    } catch (e) { console.error("send-shipped-email failed (non-fatal):", e); }
+    // Note: no email on label creation. The customer gets 3 USPS-driven emails
+    // via the EasyPost webhook: in_transit → out_for_delivery → delivered.
 
     return new Response(
       JSON.stringify({ tracking_number: tracking, label_url: labelUrl, tracking_url: trackingUrl }),

@@ -55,7 +55,7 @@ serve(async (req) => {
     // Match the order by tracking number
     const { data: order } = await admin
       .from("orders")
-      .select("id, status, out_for_delivery_email_sent_at, delivered_email_sent_at")
+      .select("id, status, in_transit_email_sent_at, out_for_delivery_email_sent_at, delivered_email_sent_at")
       .eq("tracking_number", trackingCode)
       .maybeSingle();
 
@@ -68,8 +68,23 @@ serve(async (req) => {
 
     let action = "none";
 
+    // ── IN TRANSIT (first USPS scan / movement) ──
+    if (status === "in_transit" && !order.in_transit_email_sent_at) {
+      try {
+        await admin.functions.invoke("send-delivery-email", {
+          body: { orderId: order.id, phase: "in_transit", deliveryDetail: detailMessage },
+        });
+      } catch (e) { console.error("in_transit email failed:", e); }
+
+      const { error: itErr } = await admin.from("orders").update({
+        in_transit_email_sent_at: new Date().toISOString(),
+      }).eq("id", order.id);
+      if (itErr) console.error("in_transit update failed:", itErr);
+      action = "sent_in_transit";
+    }
+
     // ── OUT FOR DELIVERY ──
-    if (status === "out_for_delivery" && !order.out_for_delivery_email_sent_at) {
+    else if (status === "out_for_delivery" && !order.out_for_delivery_email_sent_at) {
       try {
         await admin.functions.invoke("send-delivery-email", {
           body: { orderId: order.id, phase: "out_for_delivery", deliveryDetail: detailMessage },

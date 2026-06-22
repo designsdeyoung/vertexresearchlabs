@@ -58,7 +58,7 @@ serve(async (req) => {
     let query = admin
       .from("orders")
       .select(
-        "id, order_number, items, subtotal, shipping, total, status, payment_method, created_at, paid_at"
+        "id, order_number, items, subtotal, shipping, total, status, payment_method, created_at, paid_at, tracking_number, tracking_url, fulfilled_at"
       )
       .order("created_at", { ascending: false })
       .limit(10);

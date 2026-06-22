@@ -249,7 +249,23 @@ const TrackOrder = () => {
                       </ul>
                     </div>
 
-                    {order.status === "shipped" && (
+                    {(order as any).tracking_number && (
+                      <div className="mt-4 p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-sm">
+                        <p className="text-xs text-muted-foreground mb-1 uppercase tracking-wider">Tracking</p>
+                        <p className="font-mono text-foreground">{(order as any).tracking_number}</p>
+                        {(order as any).tracking_url && (
+                          <a
+                            href={(order as any).tracking_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 mt-2 text-xs text-primary hover:underline"
+                          >
+                            Track on USPS →
+                          </a>
+                        )}
+                      </div>
+                    )}
+                    {order.status === "shipped" && !(order as any).tracking_number && (
                       <div className="mt-4 p-3 rounded-lg bg-primary/10 text-primary text-xs">
                         Your order has shipped. Tracking details were emailed to you.
                       </div>

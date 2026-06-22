@@ -171,6 +171,7 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         from: "Vertex Research Labs <info@vertexresearchlabs.com>",
+        reply_to: "info@vertexresearchlabs.com",
         to: [toEmail],
         subject: `🔥 +${pointsEarned} pts — ${subjectSuffix}`,
         html,

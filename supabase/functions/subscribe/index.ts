@@ -84,6 +84,7 @@ const handler = async (req: Request): Promise<Response> => {
       const unsubscribeUrl = `mailto:info@vertexresearchlabs.com?subject=unsubscribe`;
       await resend.emails.send({
         from: "Vertex Research Labs <info@vertexresearchlabs.com>",
+          replyTo: "info@vertexresearchlabs.com",
         to: [normalized],
         subject: "Your 10% discount code — welcome to Vertex Research Labs",
         html: welcomeHtml(unsubscribeUrl),

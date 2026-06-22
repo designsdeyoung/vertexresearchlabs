@@ -81,15 +81,23 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { customer, eligibilityType, items, subtotal, shipping, total, orderNumber, pointsEarned, referralCode, isNewAccount, discountAmount, discountCode, paymentMethod } = orderData;
 
+    // Fetch live points balance for the header bar
+    const supabaseAdminClient = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+    );
+    const { data: profileData } = await supabaseAdminClient
+      .from("profiles")
+      .select("points_balance")
+      .ilike("email", customer.email)
+      .maybeSingle();
+    const liveBalance = profileData?.points_balance ?? 0;
+
     // Generate magic link for new accounts
     let magicLinkUrl = "";
     if (isNewAccount) {
       try {
-        const supabaseAdmin = createClient(
-          Deno.env.get("SUPABASE_URL") ?? "",
-          Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
-        );
-        const { data: linkData, error: linkError } = await supabaseAdmin.auth.admin.generateLink({
+        const { data: linkData, error: linkError } = await supabaseAdminClient.auth.admin.generateLink({
           type: "magiclink",
           email: customer.email,
           options: {
@@ -132,7 +140,10 @@ const handler = async (req: Request): Promise<Response> => {
       </head>
       <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #1a1f2e; margin: 0; padding: 40px 20px;">
         <div style="max-width: 600px; margin: 0 auto; background: linear-gradient(180deg, #1e293b 0%, #1a1f2e 100%); border-radius: 16px; overflow: hidden; border: 1px solid rgba(0, 180, 216, 0.2); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
-          
+
+          <!-- Points header bar -->
+          ${liveBalance > 0 ? `<div style="background:linear-gradient(135deg,#0d1f1c 0%,#0a1a17 100%);border-bottom:1px solid #1a3a34;padding:11px 24px;text-align:center"><span style="color:#9ca3af;font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:600">${customer.fullName.split(" ")[0]}'s Vertex Rewards</span><div style="margin-top:3px"><span style="color:#2DD4BF;font-size:20px;font-weight:800">${liveBalance.toLocaleString()}</span><span style="color:#6b7280;font-size:13px"> pts total balance</span></div></div>` : ""}
+
           <!-- Header with Logo -->
           <div style="background: linear-gradient(135deg, #1e293b 0%, #2d3a4f 50%, #1e293b 100%); padding: 40px 32px; text-align: center; border-bottom: 1px solid rgba(0, 180, 216, 0.15);">
             <img src="${LOGO_URL}" alt="Vertex Research Labs" style="height: 60px; width: auto; margin-bottom: 16px;" />

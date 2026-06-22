@@ -178,6 +178,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Build send options — use scheduledAt for delayed delivery if provided
     const sendOptions: any = {
       from: "Vertex Research Labs <info@vertexresearchlabs.com>",
+          replyTo: "info@vertexresearchlabs.com",
       to: [email],
       subject: subjectLine,
       html: emailHtml,

@@ -129,6 +129,7 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         from: "Vertex Research Labs <info@vertexresearchlabs.com>",
+        reply_to: "info@vertexresearchlabs.com",
         to: [profile.email],
         bcc: bcc ? [bcc] : undefined,
         subject: `+${pointsEarned} points — you're ${ptsToNext > 0 ? `${ptsToNext} away from $${next?.credit} off` : "at the top tier"}`,

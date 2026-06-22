@@ -55,6 +55,7 @@ const handler = async (req: Request): Promise<Response> => {
         batch.map((to) =>
           resend.emails.send({
             from: "Vertex Research Labs <info@vertexresearchlabs.com>",
+          replyTo: "info@vertexresearchlabs.com",
             to: [to],
             subject,
             html,

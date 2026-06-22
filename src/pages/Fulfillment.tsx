@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";
+import { REWARD_TIERS } from "@/hooks/useRewards";
 import {
   Package,
   Printer,
@@ -60,20 +61,8 @@ interface Order {
   } | null;
 }
 
-// Rewards redemption tiers
-const TIERS = [
-  { points: 250, credit: 10 },
-  { points: 500, credit: 20 },
-  { points: 750, credit: 30 },
-  { points: 1000, credit: 40 },
-  { points: 1500, credit: 65 },
-  { points: 2000, credit: 90 },
-  { points: 3000, credit: 140 },
-  { points: 5000, credit: 250 },
-];
-
 function nextTier(balance: number) {
-  return TIERS.find((t) => t.points > balance) || null;
+  return REWARD_TIERS.find((t) => t.points > balance) || null;
 }
 
 function printPackingSlip(order: Order) {
@@ -87,7 +76,7 @@ function printPackingSlip(order: Order) {
   const balance = profile?.points_balance ?? 0;
   const pointsEarned = order.points_earned ?? 0;
   const next = nextTier(balance);
-  const unlocked = [...TIERS].reverse().find((t) => balance >= t.points) || null;
+  const unlocked = [...REWARD_TIERS].reverse().find((t) => balance >= t.points) || null;
   const orderDate = new Date(order.created_at).toLocaleDateString("en-US", {
     month: "long", day: "numeric", year: "numeric",
   });
@@ -155,6 +144,57 @@ function printPackingSlip(order: Order) {
   .rewards-row .rlabel { color:#555; }
   .rewards-row .rval { font-weight:700; }
   .next-tier { font-size:8px; color:#555; margin-top:4px; padding-top:4px; border-top:1px solid #ddd; }
+  .award-banner {
+    border:2px solid #b8860b;
+    border-radius:6px;
+    margin-top:8px;
+    overflow:hidden;
+    text-align:center;
+  }
+  .award-header {
+    background: linear-gradient(135deg, #b8860b 0%, #ffd700 50%, #b8860b 100%);
+    padding: 5px 8px 3px;
+    font-size:7px;
+    font-weight:900;
+    letter-spacing:2.5px;
+    text-transform:uppercase;
+    color:#3d2800;
+  }
+  .award-body {
+    background:#fffdf0;
+    padding: 8px 10px 6px;
+  }
+  .award-amount {
+    font-size:30px;
+    font-weight:900;
+    color:#8b6400;
+    line-height:1;
+    letter-spacing:-0.5px;
+  }
+  .award-amount span { font-size:16px; vertical-align:top; padding-top:5px; display:inline-block; }
+  .award-subtitle {
+    font-size:8px;
+    color:#6b4c00;
+    margin-top:2px;
+    font-weight:600;
+    letter-spacing:0.5px;
+  }
+  .award-code {
+    display:inline-block;
+    background:#000;
+    color:#ffd700;
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:2px;
+    padding:3px 10px;
+    border-radius:3px;
+    margin-top:5px;
+  }
+  .award-fine {
+    font-size:7px;
+    color:#888;
+    margin-top:4px;
+  }
   .footer-row { display:flex; align-items:flex-end; justify-content:space-between; margin-top:10px; }
   .footer-text { font-size:7px; color:#777; line-height:1.5; }
   .footer-text a { color:#000; text-decoration:none; font-weight:600; }
@@ -221,15 +261,20 @@ function printPackingSlip(order: Order) {
     </tbody>
   </table>
 
-  <!-- Rewards -->
-  <div class="rewards-box">
+  <!-- Unlocked Award Banner -->
+  ${unlocked ? `
+  <div class="award-banner">
+    <div class="award-header">🏆 &nbsp; You've Earned a Reward &nbsp; 🏆</div>
+    <div class="award-body">
+      <div class="award-amount"><span>$</span>${unlocked.credit}<span style="font-size:13px;color:#b8860b;padding-top:10px;"> OFF</span></div>
+      <div class="award-subtitle">Ready to use · min. order $${unlocked.minCart}</div>
+      <div class="award-code">SCAN QR TO REDEEM</div>
+    </div>
+  </div>` : ""}
+
+  <!-- Rewards Summary -->
+  <div class="rewards-box" style="margin-top:${unlocked ? "5px" : "8px"};">
     <div class="rewards-title">⭐ Vertex Rewards</div>
-    ${unlocked ? `
-    <div style="background:#000;color:#fff;border-radius:3px;padding:6px 8px;margin-bottom:6px;text-align:center;">
-      <div style="font-size:7px;letter-spacing:1.5px;text-transform:uppercase;opacity:0.7;margin-bottom:2px;">You've unlocked</div>
-      <div style="font-size:15px;font-weight:900;line-height:1;">${fmt(unlocked.credit)} OFF</div>
-      <div style="font-size:7px;opacity:0.7;margin-top:2px;">your next order $${unlocked.minCart}+ · scan to redeem</div>
-    </div>` : ""}
     <div class="rewards-row">
       <span class="rlabel">Earned this order</span>
       <span class="rval">+${pointsEarned} pts</span>
@@ -238,7 +283,7 @@ function printPackingSlip(order: Order) {
       <span class="rlabel">Total balance</span>
       <span class="rval">${balance.toLocaleString()} pts</span>
     </div>
-    ${next ? `<div class="next-tier">Earn <strong>${(next.points - balance).toLocaleString()} more pts</strong> → unlock <strong>${fmt(next.credit)}</strong> store credit</div>` : `<div class="next-tier" style="font-weight:700;">🏆 Top tier unlocked — max it out at checkout!</div>`}
+    ${next ? `<div class="next-tier">Earn <strong>${(next.points - balance).toLocaleString()} more pts</strong> → unlock <strong>${fmt(next.credit)}</strong> store credit</div>` : `<div class="next-tier" style="font-weight:700;">🏆 Top tier unlocked — you're maxed out!</div>`}
   </div>
 
   <!-- Footer with QR -->

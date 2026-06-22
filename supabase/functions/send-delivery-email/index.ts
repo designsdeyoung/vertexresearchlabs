@@ -1,0 +1,198 @@
+import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
+
+const SITE = "https://vertexresearchlabs.com";
+const REWARD_TIERS = [
+  { points: 250, credit: 10, minCart: 75 },
+  { points: 500, credit: 20, minCart: 100 },
+  { points: 750, credit: 30, minCart: 120 },
+  { points: 1000, credit: 40, minCart: 150 },
+  { points: 1500, credit: 65, minCart: 200 },
+  { points: 2000, credit: 90, minCart: 250 },
+  { points: 3000, credit: 140, minCart: 350 },
+  { points: 5000, credit: 250, minCart: 500 },
+];
+
+// Points header bar — shown at top of every email
+function pointsHeader(balance: number, firstName: string) {
+  const unlocked = [...REWARD_TIERS].reverse().find((t) => balance >= t.points) || null;
+  const next = REWARD_TIERS.find((t) => balance < t.points) || null;
+  const ptsToNext = next ? next.points - balance : 0;
+
+  const rewardLine = unlocked
+    ? `<span style="color:#ffd700;font-weight:700">🏆 $${unlocked.credit} OFF unlocked</span> &nbsp;·&nbsp; valid on orders $${unlocked.minCart}+`
+    : next
+    ? `<span style="color:#2DD4BF">${ptsToNext} pts</span> away from your first $${next.credit} reward`
+    : `You've hit the top tier — max it out at checkout!`;
+
+  return `
+<div style="background:linear-gradient(135deg,#0d1f1c 0%,#0a1a17 100%);border-bottom:1px solid #1a3a34;padding:12px 24px;text-align:center">
+  <span style="color:#9ca3af;font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:600">${firstName}'s Vertex Rewards</span>
+  <div style="margin-top:4px">
+    <span style="color:#2DD4BF;font-size:22px;font-weight:800">${balance.toLocaleString()}</span>
+    <span style="color:#6b7280;font-size:13px"> pts</span>
+    <span style="color:#374151;font-size:13px"> &nbsp;·&nbsp; </span>
+    <span style="font-size:12px;color:#9ca3af">${rewardLine}</span>
+  </div>
+</div>`;
+}
+
+// Turn a raw USPS message into clean, friendly, human language + an icon.
+function friendlyDelivery(detail: string): { icon: string; text: string } {
+  const m = (detail || "").toLowerCase();
+  if (m.includes("mailbox")) return { icon: "📬", text: "It was placed in your mailbox." };
+  if (m.includes("parcel locker") || m.includes("parcel pickup")) return { icon: "🔒", text: "It's waiting in your parcel locker." };
+  if (m.includes("front desk") || m.includes("reception") || m.includes("mail room")) return { icon: "🏢", text: "It was left at the front desk / reception." };
+  if (m.includes("neighbor")) return { icon: "🏠", text: "It was left with a neighbor, as requested." };
+  if (m.includes("garage")) return { icon: "🚗", text: "It was left in your garage / a safe spot." };
+  if (m.includes("mail slot") || m.includes("through the door")) return { icon: "✉️", text: "It was delivered through your mail slot." };
+  if (m.includes("po box") || m.includes("p.o. box")) return { icon: "📮", text: "It was delivered to your PO Box." };
+  if (m.includes("left with individual") || m.includes("received by") || m.includes("handed")) return { icon: "🤝", text: "It was handed to someone at the address." };
+  if (m.includes("picked up") || m.includes("postal facility") || m.includes("agent")) return { icon: "🏤", text: "It's ready for pickup at your local post office." };
+  if (m.includes("porch") || m.includes("front door") || m.includes("door")) return { icon: "🚪", text: "It was left at your front door." };
+  return { icon: "📦", text: "Your package has arrived." };
+}
+
+serve(async (req) => {
+  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+
+  try {
+    const { orderId, phase, deliveryDetail } = await req.json();
+    if (!orderId) throw new Error("orderId required");
+    if (phase !== "out_for_delivery" && phase !== "delivered") throw new Error("phase must be out_for_delivery or delivered");
+
+    const admin = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+    );
+
+    const { data: order } = await admin
+      .from("orders")
+      .select("*, profiles!orders_profile_id_fkey(id, full_name, email, points_balance, magic_token)")
+      .eq("id", orderId)
+      .single();
+
+    const profile = order?.profiles;
+    const email = profile?.email;
+    const name = order?.shipping_name || profile?.full_name || "Researcher";
+    if (!email) throw new Error("No email for order");
+
+    const firstName = name.split(" ")[0];
+    const balance = profile?.points_balance ?? 0;
+    const tracking = order?.tracking_number;
+    const trackUrl = order?.tracking_url;
+    const orderNum = order?.order_number || orderId.slice(0, 8);
+
+    // One-tap login link (logs them straight into the dashboard to use points)
+    const loginUrl = profile?.magic_token
+      ? `${SITE}/magic?t=${profile.magic_token}`
+      : `${SITE}/auth`;
+
+    const unlocked = [...REWARD_TIERS].reverse().find((t) => balance >= t.points) || null;
+
+    // Phase-specific copy
+    const isDelivered = phase === "delivered";
+    const fd = isDelivered ? friendlyDelivery(deliveryDetail || order?.delivery_detail || "") : null;
+
+    const subject = isDelivered
+      ? `✅ Delivered — your Vertex order ${orderNum} just arrived`
+      : `🚚 Out for delivery — your Vertex order arrives today`;
+
+    const heroEmoji = isDelivered ? (fd?.icon || "✅") : "🚚";
+    const heroTitle = isDelivered
+      ? `${heroEmoji} It's here, ${firstName}!`
+      : `${heroEmoji} Out for delivery, ${firstName}.`;
+    const heroSub = isDelivered
+      ? `${fd?.text || "Your package has arrived."} Order ${orderNum}.`
+      : `Your order ${orderNum} is on the truck and arriving today. Keep an eye out!`;
+
+    // The "use your points" block — the star of the delivered email
+    const creditBlock = unlocked
+      ? `<div style="background:linear-gradient(135deg,#0d2620 0%,#0a1a17 100%);border:1px solid #1f4d42;border-radius:10px;padding:22px;text-align:center;margin-bottom:18px">
+           <div style="color:#9ca3af;font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:6px">You've unlocked a reward</div>
+           <div style="color:#ffd700;font-size:34px;font-weight:900;line-height:1">$${unlocked.credit} OFF</div>
+           <div style="color:#9ca3af;font-size:13px;margin-top:6px">Ready to use now · min. order $${unlocked.minCart}</div>
+           <a href="${loginUrl}" style="display:inline-block;margin-top:16px;background:#2DD4BF;color:#000;font-weight:800;font-size:15px;padding:14px 36px;border-radius:8px;text-decoration:none;letter-spacing:0.3px">Log in &amp; redeem →</a>
+           <div style="color:#4b5563;font-size:11px;margin-top:10px">One tap — no password needed</div>
+         </div>`
+      : `<div style="background:#111;border:1px solid #1f1f1f;border-radius:10px;padding:22px;text-align:center;margin-bottom:18px">
+           <div style="color:#e5e7eb;font-size:15px;font-weight:700;margin-bottom:4px">You have ${balance.toLocaleString()} points</div>
+           <div style="color:#9ca3af;font-size:13px;margin-bottom:14px">Keep stacking — they never expire while your account is active.</div>
+           <a href="${loginUrl}" style="display:inline-block;background:#2DD4BF;color:#000;font-weight:800;font-size:14px;padding:12px 30px;border-radius:8px;text-decoration:none">Log in to my rewards →</a>
+           <div style="color:#4b5563;font-size:11px;margin-top:10px">One tap — no password needed</div>
+         </div>`;
+
+    const html = `<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/></head>
+<body style="margin:0;padding:0;background:#111;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif">
+<div style="max-width:560px;margin:0 auto;background:#0d0d0d;border:1px solid #1f1f1f;border-radius:8px;overflow:hidden">
+
+  ${pointsHeader(balance, firstName)}
+
+  <!-- Hero -->
+  <div style="background:#0a0a0a;padding:28px 28px 22px;border-bottom:1px solid #1a1a1a">
+    <div style="color:#2DD4BF;font-size:10px;letter-spacing:3px;font-weight:700;text-transform:uppercase;margin-bottom:10px">Vertex Research Labs</div>
+    <div style="font-size:27px;font-weight:800;color:#fff;line-height:1.2">${heroTitle}</div>
+    <div style="color:#9ca3af;font-size:14px;margin-top:8px;line-height:1.5">${heroSub}</div>
+  </div>
+
+  <!-- Use your points (primary CTA) -->
+  <div style="padding:24px 28px;border-bottom:1px solid #1a1a1a">
+    ${creditBlock}
+    <div style="color:#6b7280;font-size:12px;text-align:center;line-height:1.6">
+      Your <strong style="color:#2DD4BF">${balance.toLocaleString()} points</strong> are in your account, ready for your next order.
+    </div>
+  </div>
+
+  <!-- Tracking reference -->
+  ${tracking ? `<div style="padding:20px 28px;border-bottom:1px solid #1a1a1a">
+    <div style="color:#6b7280;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px">Tracking Number</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <span style="font-family:monospace;font-size:14px;color:#e5e7eb;letter-spacing:0.5px">${tracking}</span>
+      ${trackUrl ? `<a href="${trackUrl}" style="color:#2DD4BF;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap">USPS details →</a>` : ""}
+    </div>
+  </div>` : ""}
+
+  <!-- Footer -->
+  <div style="padding:20px 28px;text-align:center">
+    <div style="color:#374151;font-size:11px;line-height:1.8">
+      Questions about your order? <a href="mailto:info@vertexresearchlabs.com" style="color:#2DD4BF;text-decoration:none">info@vertexresearchlabs.com</a><br/>
+      All products are for laboratory research use only.<br/>
+      <a href="${SITE}" style="color:#4b5563;text-decoration:none">vertexresearchlabs.com</a>
+    </div>
+  </div>
+
+</div>
+</body></html>`;
+
+    const resendKey = Deno.env.get("RESEND_API_KEY")!;
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: "Vertex Research Labs <info@vertexresearchlabs.com>",
+        reply_to: "info@vertexresearchlabs.com",
+        to: [email],
+        subject,
+        html,
+      }),
+    });
+
+    const result = await res.json();
+    if (!res.ok) throw new Error(JSON.stringify(result));
+
+    return new Response(JSON.stringify({ success: true, phase, email, resend: result }), {
+      status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  } catch (e: any) {
+    console.error("send-delivery-email error:", e);
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+});

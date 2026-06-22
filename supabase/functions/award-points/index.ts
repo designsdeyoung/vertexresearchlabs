@@ -357,6 +357,66 @@ const handler = async (req: Request): Promise<Response> => {
       } catch (refErr) {
         console.error("Error processing referral:", refErr);
       }
+
+      // ── Referral overrides: admin-approved multi-referrer exceptions ──
+      try {
+        const { data: overrides } = await supabaseAdmin
+          .from("referral_overrides")
+          .select("referrer_profile_id, multiplier")
+          .eq("customer_email", customerEmail.toLowerCase());
+
+        if (overrides && overrides.length > 0) {
+          for (const ov of overrides) {
+            // Skip if this referrer was already credited via the normal flow above
+            if (ov.referrer_profile_id === profile.referred_by) continue;
+
+            const { data: ovReferrer } = await supabaseAdmin
+              .from("profiles")
+              .select("id, email, full_name, points_balance, lifetime_points")
+              .eq("id", ov.referrer_profile_id)
+              .single();
+
+            if (!ovReferrer) continue;
+
+            const ovPoints = Math.floor(subtotal * ov.multiplier);
+
+            await supabaseAdmin.from("points_transactions").insert({
+              profile_id: ovReferrer.id,
+              amount: ovPoints,
+              type: "referral",
+              description: `Override referral: ${customerName} (${ov.multiplier}× on $${subtotal.toFixed(2)})`,
+            });
+
+            await supabaseAdmin
+              .from("profiles")
+              .update({
+                points_balance: ovReferrer.points_balance + ovPoints,
+                lifetime_points: ovReferrer.lifetime_points + ovPoints,
+              })
+              .eq("id", ovReferrer.id);
+
+            console.log(`Override referral: awarded ${ovPoints} pts to ${ovReferrer.full_name} for ${customerEmail}`);
+
+            try {
+              await supabaseAdmin.functions.invoke("send-referral-notification", {
+                body: {
+                  referrerProfileId: ovReferrer.id,
+                  referrerEmail: ovReferrer.email,
+                  customerName,
+                  customerEmail,
+                  subtotal,
+                  pointsEarned: ovPoints,
+                  multiplier: ov.multiplier,
+                  newBalance: ovReferrer.points_balance + ovPoints,
+                  isFirstReferral: false,
+                },
+              });
+            } catch (e) { console.error("override referral notification failed:", e); }
+          }
+        }
+      } catch (ovErr) {
+        console.error("Error processing referral overrides:", ovErr);
+      }
     }
 
     // Fetch the customer's referral code for the confirmation page

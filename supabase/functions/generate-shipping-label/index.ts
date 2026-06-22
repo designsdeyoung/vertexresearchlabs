@@ -106,8 +106,8 @@ serve(async (req) => {
           email: profile?.email,
         },
         from_address: {
-          company: "Level Up Health Solutions LLC DBA Vertex Research Labs",
-          name: Deno.env.get("SHIP_FROM_NAME") || "Vertex Research Labs",
+          company: "Level Up Health Solutions LLC DBA",
+          name: "Vertex Research Labs",
           street1: Deno.env.get("SHIP_FROM_STREET1") || "",
           city: Deno.env.get("SHIP_FROM_CITY") || "",
           state: Deno.env.get("SHIP_FROM_STATE") || "",
@@ -173,6 +173,13 @@ serve(async (req) => {
       })
       .eq("id", order_id);
     if (uErr) throw uErr;
+
+    // Send shipping notification email (fire-and-forget)
+    try {
+      await admin.functions.invoke("send-shipped-email", {
+        body: { orderId: order_id, trackingNumber: tracking, trackingUrl },
+      });
+    } catch (e) { console.error("send-shipped-email failed (non-fatal):", e); }
 
     return new Response(
       JSON.stringify({ tracking_number: tracking, label_url: labelUrl, tracking_url: trackingUrl }),

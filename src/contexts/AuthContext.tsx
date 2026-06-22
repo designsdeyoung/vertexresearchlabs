@@ -91,6 +91,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (event === "SIGNED_OUT") {
           setProfile(null);
         }
+        if (event === "PASSWORD_RECOVERY") {
+          if (window.location.pathname !== "/reset-password") {
+            window.location.replace("/reset-password");
+          }
+        }
         setLoading(false);
       }
     );

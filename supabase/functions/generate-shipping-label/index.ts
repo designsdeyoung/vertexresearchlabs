@@ -106,6 +106,7 @@ serve(async (req) => {
           email: profile?.email,
         },
         from_address: {
+          company: "Level Up Health Solutions LLC DBA Vertex Research Labs",
           name: Deno.env.get("SHIP_FROM_NAME") || "Vertex Research Labs",
           street1: Deno.env.get("SHIP_FROM_STREET1") || "",
           city: Deno.env.get("SHIP_FROM_CITY") || "",

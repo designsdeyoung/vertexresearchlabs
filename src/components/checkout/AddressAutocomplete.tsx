@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 
-const GOOGLE_API_KEY = "AIzaSyCgfGL7fWHPeRcJwGmpAxGx6wAVI-R7oDY";
+const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_PLACES_KEY || "";
 
 interface AddressParts {
   address1: string;

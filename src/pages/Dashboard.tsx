@@ -96,6 +96,7 @@ const Dashboard = () => {
               <h1 className="text-3xl font-semibold text-foreground">
                 Welcome back{profile.full_name ? `, ${profile.full_name.split(" ")[0]}` : ""}
               </h1>
+              <p className="text-sm text-muted-foreground mt-0.5">{profile.email || user.email}</p>
             </div>
             <Button variant="ghost" size="sm" onClick={() => signOut().then(() => navigate("/"))}>
               <LogOut size={16} />

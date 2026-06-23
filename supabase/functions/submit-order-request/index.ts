@@ -15,9 +15,12 @@ const ADMIN_EMAIL = "info@vertexresearchlabs.com"; // support@ does not exist; i
 const SITE = "https://vertexresearchlabs.com";
 const LOGO_URL = "https://qgritvsluilqptgtvayv.supabase.co/storage/v1/object/public/email-assets/logo-avatar.png";
 
-// Temporary payment rail while card processing is paused
+// Temporary payment rail while card processing is paused.
+// Personal Zelle — name the recipient honestly so it matches what shows in the
+// customer's bank app (avoids "who is this?" confusion at payment time).
 const ZELLE_PHONE = "(727) 291-2893";
-const ZELLE_NAME = "Vertex Research Labs";
+const ZELLE_NAME = "Adam DeYoung";
+const ZELLE_NOTE = "Vertex Research Labs is operated by Adam DeYoung — your Zelle will show this name. Your order number in the memo links the payment to your order.";
 
 interface ReqItem { productId?: string; productName: string; size?: string; price: number; quantity: number; lineTotal: number; }
 interface ReqBody {
@@ -197,6 +200,7 @@ serve(async (req) => {
         Open your bank app → Zelle → send <strong style="color:#9ca3af">${fmt(total)}</strong> to
         <strong style="color:#9ca3af">${ZELLE_PHONE}</strong>. Add <strong style="color:#9ca3af">${orderRef}</strong> in the memo so we can match your order.
       </div>
+      <div style="color:#4b5563;font-size:10px;margin-top:10px;padding-top:10px;border-top:1px solid #1a3a34;line-height:1.5">${ZELLE_NOTE}</div>
     </div>
     <p style="color:#6b7280;font-size:12px;margin-top:14px;text-align:center;line-height:1.6">
       Once we receive your Zelle payment, your order ships within 1 business day and your loyalty points are credited. No card has been charged.
@@ -229,6 +233,7 @@ serve(async (req) => {
         method: "zelle",
         zellePhone: ZELLE_PHONE,
         recipient: ZELLE_NAME,
+        recipientNote: ZELLE_NOTE,
         amount: total,
         memo: orderRef,
       },

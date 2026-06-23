@@ -72,7 +72,7 @@ const OrderConfirmation = () => {
   const referralCode = (displayed as { referralCode?: string | null }).referralCode || null;
   const totalAmount = (displayed as { total?: number }).total;
   const isManualInvoice = (state as { manualInvoice?: boolean } | null)?.manualInvoice === true;
-  const payment = (state as { payment?: { method?: string; zellePhone?: string; recipient?: string; amount?: number; memo?: string } } | null)?.payment ?? null;
+  const payment = (state as { payment?: { method?: string; zellePhone?: string; recipient?: string; recipientNote?: string; amount?: number; memo?: string } } | null)?.payment ?? null;
 
   // Emergency manual-invoice fallback confirmation
   if (isManualInvoice) {
@@ -126,6 +126,11 @@ const OrderConfirmation = () => {
                   Open your bank app → Zelle → send the amount above to {payment.zellePhone}. Add{" "}
                   <span className="text-foreground font-semibold">{payment.memo}</span> in the memo so we can match your order.
                 </p>
+                {payment.recipientNote && (
+                  <p className="text-[11px] text-muted-foreground/70 mt-3 pt-3 border-t border-border/30 leading-relaxed text-center">
+                    {payment.recipientNote}
+                  </p>
+                )}
               </div>
             )}
 

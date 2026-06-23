@@ -72,7 +72,7 @@ const OrderConfirmation = () => {
   const referralCode = (displayed as { referralCode?: string | null }).referralCode || null;
   const totalAmount = (displayed as { total?: number }).total;
   const isManualInvoice = (state as { manualInvoice?: boolean } | null)?.manualInvoice === true;
-  const payment = (state as { payment?: { method?: string; zellePhone?: string; recipient?: string; recipientNote?: string; amount?: number; memo?: string } } | null)?.payment ?? null;
+  const payment = (state as { payment?: { amount?: number; memo?: string; note?: string; methods?: { id: string; label: string; emoji: string; to: string }[] } } | null)?.payment ?? null;
 
   // Emergency manual-invoice fallback confirmation
   if (isManualInvoice) {
@@ -96,39 +96,37 @@ const OrderConfirmation = () => {
               </div>
             )}
             <p className="text-muted-foreground max-w-md mx-auto mb-8 leading-relaxed">
-              Your order is reserved. To complete it, send payment by <span className="text-foreground font-medium">Zelle</span> using
-              the details below — we also emailed you a copy. No card has been charged.
+              Your order is reserved. To complete it, send payment using any of the options
+              below — we also emailed you a copy. No card has been charged.
             </p>
 
-            {/* Zelle payment instructions */}
-            {payment?.method === "zelle" && (
+            {/* Payment instructions — pay by any app */}
+            {payment?.methods && payment.methods.length > 0 && (
               <div className="rounded-2xl border border-primary/25 bg-gradient-to-b from-primary/10 to-transparent p-6 mb-6 max-w-md mx-auto text-left">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-primary font-bold text-center mb-4">Pay with Zelle</p>
-                <div className="space-y-0">
-                  <div className="flex items-center justify-between py-2.5 border-b border-border/40">
-                    <span className="text-sm text-muted-foreground">Send to</span>
-                    <span className="text-lg font-bold text-foreground tracking-wide">{payment.zellePhone}</span>
-                  </div>
-                  <div className="flex items-center justify-between py-2.5 border-b border-border/40">
-                    <span className="text-sm text-muted-foreground">Recipient</span>
-                    <span className="text-sm font-semibold text-foreground">{payment.recipient}</span>
-                  </div>
-                  <div className="flex items-center justify-between py-2.5 border-b border-border/40">
-                    <span className="text-sm text-muted-foreground">Amount</span>
-                    <span className="text-xl font-extrabold text-primary">${Number(payment.amount ?? totalAmount ?? 0).toFixed(2)}</span>
-                  </div>
-                  <div className="flex items-center justify-between py-2.5">
-                    <span className="text-sm text-muted-foreground">Memo / Note</span>
-                    <span className="text-sm font-bold text-foreground font-mono">{payment.memo}</span>
-                  </div>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-primary font-bold text-center mb-4">Pay by any of these</p>
+                <div className="flex items-center justify-between py-2.5 border-b border-border/40">
+                  <span className="text-sm text-muted-foreground">Amount</span>
+                  <span className="text-2xl font-extrabold text-primary">${Number(payment.amount ?? totalAmount ?? 0).toFixed(2)}</span>
+                </div>
+                <div className="flex items-center justify-between py-2.5 mb-2">
+                  <span className="text-sm text-muted-foreground">Note / memo</span>
+                  <span className="text-sm font-bold text-foreground font-mono">{payment.memo}</span>
+                </div>
+                <div className="space-y-2">
+                  {payment.methods.map((m) => (
+                    <div key={m.id} className="flex items-center justify-between gap-3 rounded-lg bg-secondary/40 border border-border/40 px-3.5 py-2.5">
+                      <span className="text-sm font-semibold text-foreground">{m.emoji} {m.label}</span>
+                      <span className="text-sm font-bold text-primary font-mono">{m.to}</span>
+                    </div>
+                  ))}
                 </div>
                 <p className="text-xs text-muted-foreground mt-4 leading-relaxed text-center">
-                  Open your bank app → Zelle → send the amount above to {payment.zellePhone}. Add{" "}
-                  <span className="text-foreground font-semibold">{payment.memo}</span> in the memo so we can match your order.
+                  Send the amount above with any option and put{" "}
+                  <span className="text-foreground font-semibold">{payment.memo}</span> in the note so we can match your order.
                 </p>
-                {payment.recipientNote && (
+                {payment.note && (
                   <p className="text-[11px] text-muted-foreground/70 mt-3 pt-3 border-t border-border/30 leading-relaxed text-center">
-                    {payment.recipientNote}
+                    {payment.note}
                   </p>
                 )}
               </div>
@@ -140,7 +138,7 @@ const OrderConfirmation = () => {
                 <p className="text-sm font-medium text-foreground">What happens next</p>
               </div>
               <ol className="text-sm text-muted-foreground space-y-2 list-decimal list-inside">
-                <li>Send your Zelle payment using the details above</li>
+                <li>Send your payment using any option above</li>
                 <li>We confirm payment (usually same day)</li>
                 <li>Your order ships within 1 business day and points are credited</li>
               </ol>

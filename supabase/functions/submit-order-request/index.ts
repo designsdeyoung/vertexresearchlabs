@@ -15,12 +15,18 @@ const ADMIN_EMAIL = "info@vertexresearchlabs.com"; // support@ does not exist; i
 const SITE = "https://vertexresearchlabs.com";
 const LOGO_URL = "https://qgritvsluilqptgtvayv.supabase.co/storage/v1/object/public/email-assets/logo-avatar.png";
 
-// Temporary payment rail while card processing is paused.
-// Personal Zelle — name the recipient honestly so it matches what shows in the
-// customer's bank app (avoids "who is this?" confusion at payment time).
-const ZELLE_PHONE = "(727) 291-2893";
-const ZELLE_NAME = "Adam DeYoung";
-const ZELLE_NOTE = "Vertex Research Labs is operated by Adam DeYoung — your Zelle will show this name. Your order number in the memo links the payment to your order.";
+// Temporary payment rails while card processing is paused. Offer several so the
+// customer pays with whatever app they already have. Only `enabled` methods show.
+// To add Cash App / Venmo: set the handle and flip enabled to true, then redeploy.
+const PAYMENT_RECIPIENT = "Adam DeYoung";
+interface PayMethod { id: string; label: string; emoji: string; to: string; hint: string; enabled: boolean; }
+const PAYMENT_METHODS: PayMethod[] = [
+  { id: "cashapp",   label: "Cash App",   emoji: "💵", to: "$CASHTAG_HERE", hint: "Open Cash App → Pay → enter the $cashtag", enabled: false },
+  { id: "venmo",     label: "Venmo",      emoji: "🔵", to: "@HANDLE_HERE",  hint: "Open Venmo → Pay → enter the username", enabled: false },
+  { id: "applecash", label: "Apple Cash", emoji: "🍏", to: "(727) 291-2893", hint: "iPhone Messages → send via Apple Cash to this number", enabled: true },
+  { id: "zelle",     label: "Zelle",      emoji: "🏦", to: "(727) 291-2893", hint: "Bank app → Zelle → send to this number", enabled: true },
+];
+const PAYMENT_NOTE = `Payments go to ${PAYMENT_RECIPIENT} (owner of Vertex Research Labs) — that's the name you'll see. Always add your order number in the note so we can match your payment.`;
 
 interface ReqItem { productId?: string; productName: string; size?: string; price: number; quantity: number; lineTotal: number; }
 interface ReqBody {
@@ -106,6 +112,8 @@ serve(async (req) => {
 
     const orderRef = order.order_number || order.id.slice(0, 8);
     const resendKey = Deno.env.get("RESEND_API_KEY")!;
+    const enabledMethods = PAYMENT_METHODS.filter((m) => m.enabled);
+    const methodsSummary = enabledMethods.map((m) => `${m.label} ${m.to}`).join(" · ");
 
     const itemRowsAdmin = items.map((i) =>
       `<tr><td style="padding:4px 8px;border-bottom:1px solid #eee">${i.productName}${i.size ? ` · ${i.size}` : ""}</td><td style="padding:4px 8px;border-bottom:1px solid #eee;text-align:center">${i.quantity}</td><td style="padding:4px 8px;border-bottom:1px solid #eee;text-align:right">${fmt(i.lineTotal)}</td></tr>`
@@ -138,7 +146,7 @@ serve(async (req) => {
   </p>
   ${customer.notes ? `<p style="background:#f5f5f5;padding:10px;border-radius:6px"><strong>Notes:</strong> ${customer.notes}</p>` : ""}
   <p style="background:#eafaf3;padding:10px;border-radius:6px;color:#0f6e56;font-size:13px">
-    ✅ A Zelle invoice for <strong>${fmt(total)}</strong> was automatically emailed to the customer (Zelle to ${ZELLE_PHONE}, memo ${orderRef}).
+    ✅ A payment invoice for <strong>${fmt(total)}</strong> was automatically emailed to the customer. Options: ${methodsSummary} · memo ${orderRef}.
     When the payment lands, mark the order paid: <code>update orders set status='confirmed', paid_at=now() where order_number='${orderRef}';</code>
   </p>
 </div>`;
@@ -186,21 +194,24 @@ serve(async (req) => {
     </table>
   </div>
 
-  <!-- Zelle payment instructions -->
+  <!-- Payment instructions — pay by any enabled method -->
   <div style="padding:24px 28px;border-bottom:1px solid #1a1a1a">
-    <div style="background:linear-gradient(135deg,#0d2620 0%,#0a1a17 100%);border:1px solid #1f4d42;border-radius:12px;padding:24px;text-align:center">
-      <div style="color:#9ca3af;font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:14px">Pay with Zelle</div>
-      <table style="width:100%;border-collapse:collapse">
-        <tr><td style="text-align:left;color:#9ca3af;font-size:13px;padding:7px 0;border-bottom:1px solid #1a3a34">Send to</td><td style="text-align:right;color:#fff;font-size:16px;font-weight:800;padding:7px 0;border-bottom:1px solid #1a3a34">${ZELLE_PHONE}</td></tr>
-        <tr><td style="text-align:left;color:#9ca3af;font-size:13px;padding:7px 0;border-bottom:1px solid #1a3a34">Recipient</td><td style="text-align:right;color:#e5e7eb;font-size:14px;font-weight:600;padding:7px 0;border-bottom:1px solid #1a3a34">${ZELLE_NAME}</td></tr>
-        <tr><td style="text-align:left;color:#9ca3af;font-size:13px;padding:7px 0;border-bottom:1px solid #1a3a34">Amount</td><td style="text-align:right;color:#ffd700;font-size:18px;font-weight:900;padding:7px 0;border-bottom:1px solid #1a3a34">${fmt(total)}</td></tr>
-        <tr><td style="text-align:left;color:#9ca3af;font-size:13px;padding:7px 0">Memo / Note</td><td style="text-align:right;color:#fff;font-size:14px;font-weight:700;padding:7px 0">${orderRef}</td></tr>
+    <div style="background:linear-gradient(135deg,#0d2620 0%,#0a1a17 100%);border:1px solid #1f4d42;border-radius:12px;padding:24px">
+      <div style="color:#9ca3af;font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:14px;text-align:center">Pay by any of these</div>
+      <table style="width:100%;border-collapse:collapse;margin-bottom:16px">
+        <tr><td style="text-align:left;color:#9ca3af;font-size:13px;padding:6px 0;border-bottom:1px solid #1a3a34">Amount</td><td style="text-align:right;color:#ffd700;font-size:20px;font-weight:900;padding:6px 0;border-bottom:1px solid #1a3a34">${fmt(total)}</td></tr>
+        <tr><td style="text-align:left;color:#9ca3af;font-size:13px;padding:6px 0">Note / memo</td><td style="text-align:right;color:#fff;font-size:14px;font-weight:700;padding:6px 0">${orderRef}</td></tr>
       </table>
-      <div style="color:#6b7280;font-size:11px;margin-top:14px;line-height:1.5">
-        Open your bank app → Zelle → send <strong style="color:#9ca3af">${fmt(total)}</strong> to
-        <strong style="color:#9ca3af">${ZELLE_PHONE}</strong>. Add <strong style="color:#9ca3af">${orderRef}</strong> in the memo so we can match your order.
+      ${enabledMethods.map((m) => `
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:#0a1714;border:1px solid #16302a;border-radius:8px;padding:11px 14px;margin-bottom:8px">
+          <span style="color:#e5e7eb;font-size:14px;font-weight:700">${m.emoji} ${m.label}</span>
+          <span style="color:#2DD4BF;font-size:14px;font-weight:800;font-family:monospace">${m.to}</span>
+        </div>`).join("")}
+      <div style="color:#6b7280;font-size:11px;margin-top:12px;line-height:1.5;text-align:center">
+        Send <strong style="color:#9ca3af">${fmt(total)}</strong> with any option above and put
+        <strong style="color:#9ca3af">${orderRef}</strong> in the note so we can match your order.
       </div>
-      <div style="color:#4b5563;font-size:10px;margin-top:10px;padding-top:10px;border-top:1px solid #1a3a34;line-height:1.5">${ZELLE_NOTE}</div>
+      <div style="color:#4b5563;font-size:10px;margin-top:10px;padding-top:10px;border-top:1px solid #1a3a34;line-height:1.5;text-align:center">${PAYMENT_NOTE}</div>
     </div>
     <p style="color:#6b7280;font-size:12px;margin-top:14px;text-align:center;line-height:1.6">
       Once we receive your Zelle payment, your order ships within 1 business day and your loyalty points are credited. No card has been charged.
@@ -219,7 +230,7 @@ serve(async (req) => {
 
     const custRes = await sendEmail(resendKey, {
       to: customer.email,
-      subject: `Your Vertex Research Labs invoice ${orderRef} — pay by Zelle (${fmt(total)})`,
+      subject: `Your Vertex Research Labs invoice ${orderRef} — ${fmt(total)} (pay by app)`,
       html: custHtml,
     });
 
@@ -230,12 +241,10 @@ serve(async (req) => {
       adminEmailSent: adminRes.ok,
       customerEmailSent: custRes.ok,
       payment: {
-        method: "zelle",
-        zellePhone: ZELLE_PHONE,
-        recipient: ZELLE_NAME,
-        recipientNote: ZELLE_NOTE,
         amount: total,
         memo: orderRef,
+        note: PAYMENT_NOTE,
+        methods: enabledMethods.map((m) => ({ id: m.id, label: m.label, emoji: m.emoji, to: m.to })),
       },
     }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (e: any) {

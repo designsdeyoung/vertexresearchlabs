@@ -19,6 +19,7 @@ import CreditRedemption from "@/components/checkout/CreditRedemption";
 import StripePayment from "@/components/checkout/StripePayment";
 import AddressAutocomplete from "@/components/checkout/AddressAutocomplete";
 import { finalizeOrder, PENDING_ORDER_KEY, type PendingOrder } from "@/lib/finalizeOrder";
+import { MANUAL_INVOICE_MODE } from "@/config/checkoutMode";
 
 import {
   Shield,
@@ -32,6 +33,7 @@ import {
   CreditCard,
   CheckCircle2,
   Lock,
+  FileSpreadsheet,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -384,6 +386,66 @@ const Checkout = () => {
     void handleStripeSuccess(`credit-${Date.now()}`);
   };
 
+  // Emergency manual-invoice fallback: submit an order request (no Stripe call,
+  // no charge). Creates an "invoice_pending" order + sends admin/customer emails.
+  const handleSubmitOrderRequest = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isFormValid) {
+      toast({
+        title: "Please complete the form",
+        description: "Fill in your contact, shipping details, and confirm research use.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      const orderItems = items.map((item) => ({
+        productId: item.product.id,
+        productName: item.product.name,
+        size: item.product.size,
+        price: computeUnitPrice(item),
+        quantity: item.quantity,
+        lineTotal: computeUnitPrice(item) * item.quantity,
+      }));
+
+      const { data, error } = await supabase.functions.invoke("submit-order-request", {
+        body: {
+          customer: formData,
+          eligibilityType,
+          items: orderItems,
+          subtotal,
+          shipping: effectiveShipping,
+          tax: 0,
+          total: finalTotal,
+          marketingConsent,
+        },
+      });
+      if (error || (data as any)?.error) {
+        throw new Error((data as any)?.error || error?.message || "Could not submit request");
+      }
+
+      clearCart();
+      resetCompliance();
+      navigate("/order-confirmation", {
+        state: {
+          manualInvoice: true,
+          orderNumber: (data as any)?.orderNumber,
+          total: finalTotal,
+        },
+      });
+    } catch (err) {
+      console.error("Order request failed:", err);
+      toast({
+        title: "Couldn't submit request",
+        description: err instanceof Error ? err.message : "Please try again or email info@vertexresearchlabs.com.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const isFormValid =
     formData.fullName.trim() !== "" &&
     formData.email.trim() !== "" &&
@@ -412,7 +474,22 @@ const Checkout = () => {
               <h1 className="text-3xl font-semibold text-foreground mb-2">Checkout</h1>
               <p className="text-muted-foreground mb-8">Complete your research materials order</p>
 
-              <form onSubmit={handleContinueToPayment} className="space-y-6">
+              {MANUAL_INVOICE_MODE && (
+                <div className="glass-card rounded-lg p-5 mb-6 border-l-4 border-l-yellow-500 bg-yellow-500/5">
+                  <div className="flex items-start gap-3">
+                    <FileSpreadsheet size={20} className="text-yellow-400 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-semibold text-foreground mb-1">Card checkout is temporarily unavailable</p>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        We're upgrading our payment system. Submit your order request below and our
+                        team will email you secure payment instructions shortly. No card is charged now.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <form onSubmit={MANUAL_INVOICE_MODE ? handleSubmitOrderRequest : handleContinueToPayment} className="space-y-6">
                 {/* Contact Information */}
                 <div className="glass-card rounded-lg p-6">
                   <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
@@ -597,8 +674,13 @@ const Checkout = () => {
                   </Label>
                 </div>
 
-                {/* Continue to Payment OR Stripe Payment */}
-                {!showPayment ? (
+                {/* Manual invoice mode: single order-request button, no Stripe */}
+                {MANUAL_INVOICE_MODE ? (
+                  <Button type="submit" variant="hero" size="xl" className="w-full" disabled={!isFormValid || isSubmitting}>
+                    <FileSpreadsheet size={18} />
+                    {isSubmitting ? "Submitting Request…" : "Submit Order Request"}
+                  </Button>
+                ) : !showPayment ? (
                   <Button type="submit" variant="hero" size="xl" className="w-full" disabled={!isFormValid || isSubmitting}>
                     <CreditCard size={18} />
                     {hasAutoship ? (isSubmitting ? "Redirecting…" : "Continue to Subscription Checkout") : (finalTotal === 0 ? "Complete Order" : "Continue to Payment")}
@@ -730,14 +812,16 @@ const Checkout = () => {
                     <span className="font-semibold text-foreground">{formatPrice(finalTotal)}</span>
                   </div>
 
-                  {/* Points preview */}
-                  <div className="flex items-center justify-between text-xs pt-2 border-t border-border/30">
-                    <span className="text-muted-foreground flex items-center gap-1">
-                      <Sparkles size={10} className="text-primary" />
-                      Points you'll earn
-                    </span>
-                    <span className="text-primary font-medium">+{pointsEarned} pts</span>
-                  </div>
+                  {/* Points preview — hidden in manual mode (points award on payment) */}
+                  {!MANUAL_INVOICE_MODE && (
+                    <div className="flex items-center justify-between text-xs pt-2 border-t border-border/30">
+                      <span className="text-muted-foreground flex items-center gap-1">
+                        <Sparkles size={10} className="text-primary" />
+                        Points you'll earn
+                      </span>
+                      <span className="text-primary font-medium">+{pointsEarned} pts</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Compliance Badge */}

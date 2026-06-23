@@ -71,8 +71,66 @@ const OrderConfirmation = () => {
   const orderNumber = (displayed as { orderNumber?: string | null }).orderNumber || null;
   const referralCode = (displayed as { referralCode?: string | null }).referralCode || null;
   const totalAmount = (displayed as { total?: number }).total;
+  const isManualInvoice = (state as { manualInvoice?: boolean } | null)?.manualInvoice === true;
 
-  
+  // Emergency manual-invoice fallback confirmation
+  if (isManualInvoice) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <Header />
+        <main className="flex-1 pt-24 pb-16">
+          <div className="container mx-auto px-6 max-w-2xl text-center">
+            <motion.div
+              initial={{ scale: 0 }} animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 200, damping: 15 }}
+              className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 border border-primary/20 mb-6"
+            >
+              <FileText size={38} className="text-primary" />
+            </motion.div>
+            <h1 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">Order Request Received</h1>
+            {orderNumber && (
+              <div className="inline-flex items-center gap-2 bg-secondary/50 border border-border/50 rounded-lg px-4 py-2 mb-5">
+                <span className="text-xs text-muted-foreground">Request</span>
+                <span className="text-base font-mono font-semibold text-foreground tracking-wider">{orderNumber}</span>
+              </div>
+            )}
+            <p className="text-muted-foreground max-w-md mx-auto mb-8 leading-relaxed">
+              Thank you! We will email you an invoice / payment instructions shortly.
+              No payment has been charged yet.
+            </p>
+
+            <div className="glass-card rounded-xl p-6 mb-6 text-left max-w-md mx-auto">
+              <div className="flex items-center gap-3 mb-3">
+                <Mail size={18} className="text-primary" />
+                <p className="text-sm font-medium text-foreground">What happens next</p>
+              </div>
+              <ol className="text-sm text-muted-foreground space-y-2 list-decimal list-inside">
+                <li>Our team reviews your request</li>
+                <li>You receive a secure invoice with payment instructions by email</li>
+                <li>Once payment clears, your order ships and points are credited</li>
+              </ol>
+            </div>
+
+            {totalAmount != null && (
+              <p className="text-sm text-muted-foreground mb-8">
+                Estimated total: <span className="font-semibold text-foreground">${Number(totalAmount).toFixed(2)}</span>
+              </p>
+            )}
+
+            <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground mb-8">
+              <ShieldCheck size={14} className="text-primary" />
+              For laboratory research use only. Not for human or veterinary use.
+            </div>
+
+            <Button variant="hero" onClick={() => navigate("/")}>
+              <Home size={16} /> Back to Home
+            </Button>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background flex flex-col">

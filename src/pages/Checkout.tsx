@@ -432,6 +432,7 @@ const Checkout = () => {
           manualInvoice: true,
           orderNumber: (data as any)?.orderNumber,
           total: finalTotal,
+          payment: (data as any)?.payment ?? null,
         },
       });
     } catch (err) {
@@ -479,10 +480,11 @@ const Checkout = () => {
                   <div className="flex items-start gap-3">
                     <FileSpreadsheet size={20} className="text-yellow-400 shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm font-semibold text-foreground mb-1">Card checkout is temporarily unavailable</p>
+                      <p className="text-sm font-semibold text-foreground mb-1">Card checkout is temporarily unavailable — pay by Zelle</p>
                       <p className="text-sm text-muted-foreground leading-relaxed">
-                        We're upgrading our payment system. Submit your order request below and our
-                        team will email you secure payment instructions shortly. No card is charged now.
+                        We're upgrading our payment system. Submit your order below and you'll
+                        instantly receive Zelle payment instructions (on screen and by email).
+                        No card is charged.
                       </p>
                     </div>
                   </div>

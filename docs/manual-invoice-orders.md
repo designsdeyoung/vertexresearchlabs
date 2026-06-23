@@ -56,3 +56,20 @@ balance manually (same pattern used for cash orders).
 
 Set `VITE_MANUAL_INVOICE_MODE=false` (or remove it) in the environment and
 redeploy. All Stripe code is intact behind the flag — nothing was deleted.
+
+## Automated Zelle invoicing
+
+When a customer submits an order request, the system **automatically** emails them
+a clean invoice with Zelle payment instructions (and shows the same on the
+confirmation page):
+
+- **Send to:** (727) 291-2893
+- **Recipient:** Vertex Research Labs
+- **Amount:** the order total
+- **Memo:** the order number (e.g. VRL-1000XX) — match incoming Zelle payments by this
+
+No team action is needed to send the invoice. When the Zelle payment lands, mark
+the order paid (see "Fulfilling a paid manual order" above) and the order ships.
+
+To change the Zelle number/recipient, edit `ZELLE_PHONE` / `ZELLE_NAME` in
+`supabase/functions/submit-order-request/index.ts` and redeploy that function.

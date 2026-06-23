@@ -72,6 +72,7 @@ const OrderConfirmation = () => {
   const referralCode = (displayed as { referralCode?: string | null }).referralCode || null;
   const totalAmount = (displayed as { total?: number }).total;
   const isManualInvoice = (state as { manualInvoice?: boolean } | null)?.manualInvoice === true;
+  const payment = (state as { payment?: { method?: string; zellePhone?: string; recipient?: string; amount?: number; memo?: string } } | null)?.payment ?? null;
 
   // Emergency manual-invoice fallback confirmation
   if (isManualInvoice) {
@@ -95,27 +96,50 @@ const OrderConfirmation = () => {
               </div>
             )}
             <p className="text-muted-foreground max-w-md mx-auto mb-8 leading-relaxed">
-              Thank you! We will email you an invoice / payment instructions shortly.
-              No payment has been charged yet.
+              Your order is reserved. To complete it, send payment by <span className="text-foreground font-medium">Zelle</span> using
+              the details below — we also emailed you a copy. No card has been charged.
             </p>
 
-            <div className="glass-card rounded-xl p-6 mb-6 text-left max-w-md mx-auto">
+            {/* Zelle payment instructions */}
+            {payment?.method === "zelle" && (
+              <div className="rounded-2xl border border-primary/25 bg-gradient-to-b from-primary/10 to-transparent p-6 mb-6 max-w-md mx-auto text-left">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-primary font-bold text-center mb-4">Pay with Zelle</p>
+                <div className="space-y-0">
+                  <div className="flex items-center justify-between py-2.5 border-b border-border/40">
+                    <span className="text-sm text-muted-foreground">Send to</span>
+                    <span className="text-lg font-bold text-foreground tracking-wide">{payment.zellePhone}</span>
+                  </div>
+                  <div className="flex items-center justify-between py-2.5 border-b border-border/40">
+                    <span className="text-sm text-muted-foreground">Recipient</span>
+                    <span className="text-sm font-semibold text-foreground">{payment.recipient}</span>
+                  </div>
+                  <div className="flex items-center justify-between py-2.5 border-b border-border/40">
+                    <span className="text-sm text-muted-foreground">Amount</span>
+                    <span className="text-xl font-extrabold text-primary">${Number(payment.amount ?? totalAmount ?? 0).toFixed(2)}</span>
+                  </div>
+                  <div className="flex items-center justify-between py-2.5">
+                    <span className="text-sm text-muted-foreground">Memo / Note</span>
+                    <span className="text-sm font-bold text-foreground font-mono">{payment.memo}</span>
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground mt-4 leading-relaxed text-center">
+                  Open your bank app → Zelle → send the amount above to {payment.zellePhone}. Add{" "}
+                  <span className="text-foreground font-semibold">{payment.memo}</span> in the memo so we can match your order.
+                </p>
+              </div>
+            )}
+
+            <div className="glass-card rounded-xl p-5 mb-8 text-left max-w-md mx-auto">
               <div className="flex items-center gap-3 mb-3">
                 <Mail size={18} className="text-primary" />
                 <p className="text-sm font-medium text-foreground">What happens next</p>
               </div>
               <ol className="text-sm text-muted-foreground space-y-2 list-decimal list-inside">
-                <li>Our team reviews your request</li>
-                <li>You receive a secure invoice with payment instructions by email</li>
-                <li>Once payment clears, your order ships and points are credited</li>
+                <li>Send your Zelle payment using the details above</li>
+                <li>We confirm payment (usually same day)</li>
+                <li>Your order ships within 1 business day and points are credited</li>
               </ol>
             </div>
-
-            {totalAmount != null && (
-              <p className="text-sm text-muted-foreground mb-8">
-                Estimated total: <span className="font-semibold text-foreground">${Number(totalAmount).toFixed(2)}</span>
-              </p>
-            )}
 
             <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground mb-8">
               <ShieldCheck size={14} className="text-primary" />

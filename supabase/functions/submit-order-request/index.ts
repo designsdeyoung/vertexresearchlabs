@@ -13,6 +13,11 @@ const corsHeaders = {
 
 const ADMIN_EMAIL = "info@vertexresearchlabs.com"; // support@ does not exist; info@ is monitored
 const SITE = "https://vertexresearchlabs.com";
+const LOGO_URL = "https://qgritvsluilqptgtvayv.supabase.co/storage/v1/object/public/email-assets/logo-avatar.png";
+
+// Temporary payment rail while card processing is paused
+const ZELLE_PHONE = "(727) 291-2893";
+const ZELLE_NAME = "Vertex Research Labs";
 
 interface ReqItem { productId?: string; productName: string; size?: string; price: number; quantity: number; lineTotal: number; }
 interface ReqBody {
@@ -129,7 +134,10 @@ serve(async (req) => {
     <br/>${addr}
   </p>
   ${customer.notes ? `<p style="background:#f5f5f5;padding:10px;border-radius:6px"><strong>Notes:</strong> ${customer.notes}</p>` : ""}
-  <p style="color:#888;font-size:12px">Send this customer an invoice / payment instructions, then mark the order paid once collected.</p>
+  <p style="background:#eafaf3;padding:10px;border-radius:6px;color:#0f6e56;font-size:13px">
+    ✅ A Zelle invoice for <strong>${fmt(total)}</strong> was automatically emailed to the customer (Zelle to ${ZELLE_PHONE}, memo ${orderRef}).
+    When the payment lands, mark the order paid: <code>update orders set status='confirmed', paid_at=now() where order_number='${orderRef}';</code>
+  </p>
 </div>`;
 
     const adminRes = await sendEmail(resendKey, {
@@ -144,30 +152,61 @@ serve(async (req) => {
       `<tr><td style="padding:6px 0;border-bottom:1px solid #1f1f1f;color:#e5e7eb;font-size:13px">${i.productName}${i.size ? ` · ${i.size}` : ""}</td><td style="padding:6px 0;border-bottom:1px solid #1f1f1f;color:#9ca3af;font-size:13px;text-align:center">×${i.quantity}</td><td style="padding:6px 0;border-bottom:1px solid #1f1f1f;color:#9ca3af;font-size:13px;text-align:right">${fmt(i.lineTotal)}</td></tr>`
     ).join("");
 
-    const custHtml = `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#111;font-family:-apple-system,Arial,sans-serif">
+    const custHtml = `<!DOCTYPE html><html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/></head>
+<body style="margin:0;padding:0;background:#111;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif">
 <div style="max-width:560px;margin:0 auto;background:#0d0d0d;border:1px solid #1f1f1f;border-radius:8px;overflow:hidden">
-  <div style="padding:28px 28px 18px;border-bottom:1px solid #1a1a1a">
-    <div style="color:#2DD4BF;font-size:10px;letter-spacing:3px;font-weight:700;text-transform:uppercase;margin-bottom:10px">Vertex Research Labs</div>
-    <div style="font-size:24px;font-weight:800;color:#fff;line-height:1.2">Order request received ✅</div>
+
+  <!-- Logo -->
+  <div style="text-align:center;padding:24px 0 6px">
+    <img src="${LOGO_URL}" alt="Vertex Research Labs" width="52" height="52" style="display:inline-block;border-radius:12px"/>
+    <div style="color:#2DD4BF;font-size:10px;letter-spacing:3px;font-weight:700;text-transform:uppercase;margin-top:8px">Vertex Research Labs</div>
+  </div>
+
+  <!-- Header -->
+  <div style="padding:6px 28px 18px;border-bottom:1px solid #1a1a1a">
+    <div style="font-size:24px;font-weight:800;color:#fff;line-height:1.2">Your invoice — ${orderRef}</div>
     <div style="color:#9ca3af;font-size:14px;margin-top:8px;line-height:1.5">
-      Thank you, ${customer.fullName.split(" ")[0]}. We've received your order request (${orderRef}).
-      Our card system is being upgraded, so a team member will email you a secure
-      <strong style="color:#fff">invoice with payment instructions shortly</strong>.
+      Thank you, ${customer.fullName.split(" ")[0]}! Your order is reserved. To complete it,
+      please send payment by <strong style="color:#fff">Zelle</strong> using the instructions below.
     </div>
   </div>
-  <div style="padding:22px 28px;border-bottom:1px solid #1a1a1a">
-    <div style="color:#6b7280;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px">Your Request</div>
+
+  <!-- Items -->
+  <div style="padding:20px 28px;border-bottom:1px solid #1a1a1a">
+    <div style="color:#6b7280;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px">Order Summary</div>
     <table style="width:100%;border-collapse:collapse">${custItemRows}</table>
     <table style="width:100%;margin-top:10px">
       <tr><td style="text-align:right;color:#9ca3af;font-size:13px;padding:2px 0">Subtotal</td><td style="text-align:right;color:#e5e7eb;font-size:13px;width:90px">${fmt(subtotal)}</td></tr>
       <tr><td style="text-align:right;color:#9ca3af;font-size:13px;padding:2px 0">Shipping</td><td style="text-align:right;color:#e5e7eb;font-size:13px">${fmt(shipping)}</td></tr>
-      <tr><td style="text-align:right;color:#fff;font-weight:700;font-size:15px;padding-top:6px;border-top:1px solid #1f1f1f">Total</td><td style="text-align:right;color:#2DD4BF;font-weight:800;font-size:15px;padding-top:6px;border-top:1px solid #1f1f1f">${fmt(total)}</td></tr>
+      ${tax ? `<tr><td style="text-align:right;color:#9ca3af;font-size:13px;padding:2px 0">Tax</td><td style="text-align:right;color:#e5e7eb;font-size:13px">${fmt(tax)}</td></tr>` : ""}
+      <tr><td style="text-align:right;color:#fff;font-weight:700;font-size:15px;padding-top:6px;border-top:1px solid #1f1f1f">Total Due</td><td style="text-align:right;color:#2DD4BF;font-weight:800;font-size:15px;padding-top:6px;border-top:1px solid #1f1f1f">${fmt(total)}</td></tr>
     </table>
-    <p style="color:#6b7280;font-size:12px;margin-top:12px">No payment has been charged yet. You'll pay via the secure invoice we send.</p>
   </div>
+
+  <!-- Zelle payment instructions -->
+  <div style="padding:24px 28px;border-bottom:1px solid #1a1a1a">
+    <div style="background:linear-gradient(135deg,#0d2620 0%,#0a1a17 100%);border:1px solid #1f4d42;border-radius:12px;padding:24px;text-align:center">
+      <div style="color:#9ca3af;font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:14px">Pay with Zelle</div>
+      <table style="width:100%;border-collapse:collapse">
+        <tr><td style="text-align:left;color:#9ca3af;font-size:13px;padding:7px 0;border-bottom:1px solid #1a3a34">Send to</td><td style="text-align:right;color:#fff;font-size:16px;font-weight:800;padding:7px 0;border-bottom:1px solid #1a3a34">${ZELLE_PHONE}</td></tr>
+        <tr><td style="text-align:left;color:#9ca3af;font-size:13px;padding:7px 0;border-bottom:1px solid #1a3a34">Recipient</td><td style="text-align:right;color:#e5e7eb;font-size:14px;font-weight:600;padding:7px 0;border-bottom:1px solid #1a3a34">${ZELLE_NAME}</td></tr>
+        <tr><td style="text-align:left;color:#9ca3af;font-size:13px;padding:7px 0;border-bottom:1px solid #1a3a34">Amount</td><td style="text-align:right;color:#ffd700;font-size:18px;font-weight:900;padding:7px 0;border-bottom:1px solid #1a3a34">${fmt(total)}</td></tr>
+        <tr><td style="text-align:left;color:#9ca3af;font-size:13px;padding:7px 0">Memo / Note</td><td style="text-align:right;color:#fff;font-size:14px;font-weight:700;padding:7px 0">${orderRef}</td></tr>
+      </table>
+      <div style="color:#6b7280;font-size:11px;margin-top:14px;line-height:1.5">
+        Open your bank app → Zelle → send <strong style="color:#9ca3af">${fmt(total)}</strong> to
+        <strong style="color:#9ca3af">${ZELLE_PHONE}</strong>. Add <strong style="color:#9ca3af">${orderRef}</strong> in the memo so we can match your order.
+      </div>
+    </div>
+    <p style="color:#6b7280;font-size:12px;margin-top:14px;text-align:center;line-height:1.6">
+      Once we receive your Zelle payment, your order ships within 1 business day and your loyalty points are credited. No card has been charged.
+    </p>
+  </div>
+
+  <!-- Footer -->
   <div style="padding:18px 28px;text-align:center">
     <div style="color:#374151;font-size:11px;line-height:1.8">
-      Questions? <a href="mailto:info@vertexresearchlabs.com" style="color:#2DD4BF;text-decoration:none">info@vertexresearchlabs.com</a><br/>
+      Questions or paid already? Reply to this email or contact <a href="mailto:info@vertexresearchlabs.com" style="color:#2DD4BF;text-decoration:none">info@vertexresearchlabs.com</a><br/>
       All products are for laboratory research use only. Not for human or veterinary use.<br/>
       <a href="${SITE}" style="color:#4b5563;text-decoration:none">vertexresearchlabs.com</a>
     </div>
@@ -176,7 +215,7 @@ serve(async (req) => {
 
     const custRes = await sendEmail(resendKey, {
       to: customer.email,
-      subject: "Vertex Research Labs Order Request Received",
+      subject: `Your Vertex Research Labs invoice ${orderRef} — pay by Zelle (${fmt(total)})`,
       html: custHtml,
     });
 
@@ -186,6 +225,13 @@ serve(async (req) => {
       orderNumber: order.order_number,
       adminEmailSent: adminRes.ok,
       customerEmailSent: custRes.ok,
+      payment: {
+        method: "zelle",
+        zellePhone: ZELLE_PHONE,
+        recipient: ZELLE_NAME,
+        amount: total,
+        memo: orderRef,
+      },
     }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (e: any) {
     console.error("submit-order-request error:", e);

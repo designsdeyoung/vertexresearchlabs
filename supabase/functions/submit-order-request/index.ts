@@ -58,12 +58,105 @@ async function sendEmail(resendKey: string, opts: { to: string; subject: string;
   return { ok: res.ok, json };
 }
 
+// Builds the customer invoice email. Reused by the real flow and preview mode.
+function invoiceHtml(o: {
+  firstName: string; orderRef: string;
+  items: { productName: string; size?: string; quantity: number; lineTotal: number }[];
+  subtotal: number; shipping: number; tax: number; total: number;
+}): string {
+  const enabledMethods = PAYMENT_METHODS.filter((m) => m.enabled);
+  const rows = o.items.map((i) =>
+    `<tr><td style="padding:6px 0;border-bottom:1px solid #1f1f1f;color:#e5e7eb;font-size:13px">${i.productName}${i.size ? ` · ${i.size}` : ""}</td><td style="padding:6px 0;border-bottom:1px solid #1f1f1f;color:#9ca3af;font-size:13px;text-align:center">×${i.quantity}</td><td style="padding:6px 0;border-bottom:1px solid #1f1f1f;color:#9ca3af;font-size:13px;text-align:right">${fmt(i.lineTotal)}</td></tr>`
+  ).join("");
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/></head>
+<body style="margin:0;padding:0;background:#111;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif">
+<div style="max-width:560px;margin:0 auto;background:#0d0d0d;border:1px solid #1f1f1f;border-radius:8px;overflow:hidden">
+  <div style="text-align:center;padding:24px 0 6px">
+    <img src="${LOGO_URL}" alt="Vertex Research Labs" width="52" height="52" style="display:inline-block;border-radius:12px"/>
+    <div style="color:#2DD4BF;font-size:10px;letter-spacing:3px;font-weight:700;text-transform:uppercase;margin-top:8px">Vertex Research Labs</div>
+  </div>
+  <div style="padding:6px 28px 18px;border-bottom:1px solid #1a1a1a">
+    <div style="font-size:24px;font-weight:800;color:#fff;line-height:1.2">Your invoice — ${o.orderRef}</div>
+    <div style="color:#9ca3af;font-size:14px;margin-top:8px;line-height:1.5">
+      Thank you, ${o.firstName}! Your order is reserved. To complete it, please send payment using one of the options below.
+    </div>
+  </div>
+  <div style="padding:20px 28px;border-bottom:1px solid #1a1a1a">
+    <div style="color:#6b7280;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px">Order Summary</div>
+    <table style="width:100%;border-collapse:collapse">${rows}</table>
+    <table style="width:100%;margin-top:10px">
+      <tr><td style="text-align:right;color:#9ca3af;font-size:13px;padding:2px 0">Subtotal</td><td style="text-align:right;color:#e5e7eb;font-size:13px;width:90px">${fmt(o.subtotal)}</td></tr>
+      <tr><td style="text-align:right;color:#9ca3af;font-size:13px;padding:2px 0">Shipping</td><td style="text-align:right;color:#e5e7eb;font-size:13px">${fmt(o.shipping)}</td></tr>
+      ${o.tax ? `<tr><td style="text-align:right;color:#9ca3af;font-size:13px;padding:2px 0">Tax</td><td style="text-align:right;color:#e5e7eb;font-size:13px">${fmt(o.tax)}</td></tr>` : ""}
+      <tr><td style="text-align:right;color:#fff;font-weight:700;font-size:15px;padding-top:6px;border-top:1px solid #1f1f1f">Total Due</td><td style="text-align:right;color:#2DD4BF;font-weight:800;font-size:15px;padding-top:6px;border-top:1px solid #1f1f1f">${fmt(o.total)}</td></tr>
+    </table>
+  </div>
+  <div style="padding:24px 28px;border-bottom:1px solid #1a1a1a">
+    <div style="background:linear-gradient(135deg,#0d2620 0%,#0a1a17 100%);border:1px solid #1f4d42;border-radius:12px;padding:24px">
+      <div style="color:#9ca3af;font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:14px;text-align:center">Pay by any of these</div>
+      <table style="width:100%;border-collapse:collapse;margin-bottom:16px">
+        <tr><td style="text-align:left;color:#9ca3af;font-size:13px;padding:6px 0;border-bottom:1px solid #1a3a34">Amount</td><td style="text-align:right;color:#ffd700;font-size:20px;font-weight:900;padding:6px 0;border-bottom:1px solid #1a3a34">${fmt(o.total)}</td></tr>
+        <tr><td style="text-align:left;color:#9ca3af;font-size:13px;padding:6px 0">Note / memo</td><td style="text-align:right;color:#fff;font-size:14px;font-weight:700;padding:6px 0">${o.orderRef}</td></tr>
+      </table>
+      ${enabledMethods.map((m) => `
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:#0a1714;border:1px solid #16302a;border-radius:8px;padding:11px 14px;margin-bottom:8px">
+          <span style="color:#e5e7eb;font-size:14px;font-weight:700">${m.emoji} ${m.label}</span>
+          <span style="color:#2DD4BF;font-size:14px;font-weight:800;font-family:monospace">${m.to}</span>
+        </div>`).join("")}
+      <div style="color:#6b7280;font-size:11px;margin-top:12px;line-height:1.5;text-align:center">
+        Send <strong style="color:#9ca3af">${fmt(o.total)}</strong> with any option above and put
+        <strong style="color:#9ca3af">${o.orderRef}</strong> in the note so we can match your order.
+      </div>
+      <div style="color:#4b5563;font-size:10px;margin-top:10px;padding-top:10px;border-top:1px solid #1a3a34;line-height:1.5;text-align:center">${PAYMENT_NOTE}</div>
+    </div>
+    <p style="color:#6b7280;font-size:12px;margin-top:14px;text-align:center;line-height:1.6">
+      Once we receive your payment, your order ships within 1 business day and your loyalty points are credited. No card has been charged.
+    </p>
+  </div>
+  <div style="padding:18px 28px;text-align:center">
+    <div style="color:#374151;font-size:11px;line-height:1.8">
+      Questions or paid already? Reply to this email or contact <a href="mailto:info@vertexresearchlabs.com" style="color:#2DD4BF;text-decoration:none">info@vertexresearchlabs.com</a><br/>
+      All products are for laboratory research use only. Not for human or veterinary use.<br/>
+      <a href="${SITE}" style="color:#4b5563;text-decoration:none">vertexresearchlabs.com</a>
+    </div>
+  </div>
+</div></body></html>`;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
   try {
-    const body: ReqBody = await req.json();
-    const { customer, items, subtotal, shipping, total } = body;
+    const body: any = await req.json();
+
+    // ── Preview mode: send a sample invoice to a test address (no order/account) ──
+    if (body?.preview) {
+      const testTo = body.testTo;
+      if (!testTo) throw new Error("testTo required for preview");
+      const sampleItems = body.items?.length ? body.items : [
+        { productName: "Retatrutide", size: "10mg", quantity: 1, lineTotal: 98 },
+        { productName: "BAC Water", size: "3mL", quantity: 1, lineTotal: 8 },
+      ];
+      const sub = body.subtotal ?? sampleItems.reduce((s: number, i: any) => s + (i.lineTotal || 0), 0);
+      const ship = body.shipping ?? 0;
+      const tx = body.tax ?? 0;
+      const tot = body.total ?? sub + ship + tx;
+      const html = invoiceHtml({
+        firstName: body.firstName || "Jordan",
+        orderRef: body.orderRef || "VRL-PREVIEW",
+        items: sampleItems, subtotal: sub, shipping: ship, tax: tx, total: tot,
+      });
+      const r = await sendEmail(Deno.env.get("RESEND_API_KEY")!, {
+        to: testTo,
+        subject: `[TEST] Your Vertex Research Labs invoice — ${fmt(tot)}`,
+        html,
+      });
+      return new Response(JSON.stringify({ success: r.ok, preview: true, to: testTo, resend: r.json }), {
+        status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const { customer, items, subtotal, shipping, total } = body as ReqBody;
     const tax = body.tax || 0;
 
     if (!customer?.email || !customer?.fullName || !Array.isArray(items) || items.length === 0) {
@@ -191,76 +284,11 @@ serve(async (req) => {
       replyTo: customer.email,
     });
 
-    // 2) Customer confirmation
-    const custItemRows = items.map((i) =>
-      `<tr><td style="padding:6px 0;border-bottom:1px solid #1f1f1f;color:#e5e7eb;font-size:13px">${i.productName}${i.size ? ` · ${i.size}` : ""}</td><td style="padding:6px 0;border-bottom:1px solid #1f1f1f;color:#9ca3af;font-size:13px;text-align:center">×${i.quantity}</td><td style="padding:6px 0;border-bottom:1px solid #1f1f1f;color:#9ca3af;font-size:13px;text-align:right">${fmt(i.lineTotal)}</td></tr>`
-    ).join("");
-
-    const custHtml = `<!DOCTYPE html><html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/></head>
-<body style="margin:0;padding:0;background:#111;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif">
-<div style="max-width:560px;margin:0 auto;background:#0d0d0d;border:1px solid #1f1f1f;border-radius:8px;overflow:hidden">
-
-  <!-- Logo -->
-  <div style="text-align:center;padding:24px 0 6px">
-    <img src="${LOGO_URL}" alt="Vertex Research Labs" width="52" height="52" style="display:inline-block;border-radius:12px"/>
-    <div style="color:#2DD4BF;font-size:10px;letter-spacing:3px;font-weight:700;text-transform:uppercase;margin-top:8px">Vertex Research Labs</div>
-  </div>
-
-  <!-- Header -->
-  <div style="padding:6px 28px 18px;border-bottom:1px solid #1a1a1a">
-    <div style="font-size:24px;font-weight:800;color:#fff;line-height:1.2">Your invoice — ${orderRef}</div>
-    <div style="color:#9ca3af;font-size:14px;margin-top:8px;line-height:1.5">
-      Thank you, ${customer.fullName.split(" ")[0]}! Your order is reserved. To complete it,
-      please send payment by <strong style="color:#fff">Zelle</strong> using the instructions below.
-    </div>
-  </div>
-
-  <!-- Items -->
-  <div style="padding:20px 28px;border-bottom:1px solid #1a1a1a">
-    <div style="color:#6b7280;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px">Order Summary</div>
-    <table style="width:100%;border-collapse:collapse">${custItemRows}</table>
-    <table style="width:100%;margin-top:10px">
-      <tr><td style="text-align:right;color:#9ca3af;font-size:13px;padding:2px 0">Subtotal</td><td style="text-align:right;color:#e5e7eb;font-size:13px;width:90px">${fmt(subtotal)}</td></tr>
-      <tr><td style="text-align:right;color:#9ca3af;font-size:13px;padding:2px 0">Shipping</td><td style="text-align:right;color:#e5e7eb;font-size:13px">${fmt(shipping)}</td></tr>
-      ${tax ? `<tr><td style="text-align:right;color:#9ca3af;font-size:13px;padding:2px 0">Tax</td><td style="text-align:right;color:#e5e7eb;font-size:13px">${fmt(tax)}</td></tr>` : ""}
-      <tr><td style="text-align:right;color:#fff;font-weight:700;font-size:15px;padding-top:6px;border-top:1px solid #1f1f1f">Total Due</td><td style="text-align:right;color:#2DD4BF;font-weight:800;font-size:15px;padding-top:6px;border-top:1px solid #1f1f1f">${fmt(total)}</td></tr>
-    </table>
-  </div>
-
-  <!-- Payment instructions — pay by any enabled method -->
-  <div style="padding:24px 28px;border-bottom:1px solid #1a1a1a">
-    <div style="background:linear-gradient(135deg,#0d2620 0%,#0a1a17 100%);border:1px solid #1f4d42;border-radius:12px;padding:24px">
-      <div style="color:#9ca3af;font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:14px;text-align:center">Pay by any of these</div>
-      <table style="width:100%;border-collapse:collapse;margin-bottom:16px">
-        <tr><td style="text-align:left;color:#9ca3af;font-size:13px;padding:6px 0;border-bottom:1px solid #1a3a34">Amount</td><td style="text-align:right;color:#ffd700;font-size:20px;font-weight:900;padding:6px 0;border-bottom:1px solid #1a3a34">${fmt(total)}</td></tr>
-        <tr><td style="text-align:left;color:#9ca3af;font-size:13px;padding:6px 0">Note / memo</td><td style="text-align:right;color:#fff;font-size:14px;font-weight:700;padding:6px 0">${orderRef}</td></tr>
-      </table>
-      ${enabledMethods.map((m) => `
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:#0a1714;border:1px solid #16302a;border-radius:8px;padding:11px 14px;margin-bottom:8px">
-          <span style="color:#e5e7eb;font-size:14px;font-weight:700">${m.emoji} ${m.label}</span>
-          <span style="color:#2DD4BF;font-size:14px;font-weight:800;font-family:monospace">${m.to}</span>
-        </div>`).join("")}
-      <div style="color:#6b7280;font-size:11px;margin-top:12px;line-height:1.5;text-align:center">
-        Send <strong style="color:#9ca3af">${fmt(total)}</strong> with any option above and put
-        <strong style="color:#9ca3af">${orderRef}</strong> in the note so we can match your order.
-      </div>
-      <div style="color:#4b5563;font-size:10px;margin-top:10px;padding-top:10px;border-top:1px solid #1a3a34;line-height:1.5;text-align:center">${PAYMENT_NOTE}</div>
-    </div>
-    <p style="color:#6b7280;font-size:12px;margin-top:14px;text-align:center;line-height:1.6">
-      Once we receive your Zelle payment, your order ships within 1 business day and your loyalty points are credited. No card has been charged.
-    </p>
-  </div>
-
-  <!-- Footer -->
-  <div style="padding:18px 28px;text-align:center">
-    <div style="color:#374151;font-size:11px;line-height:1.8">
-      Questions or paid already? Reply to this email or contact <a href="mailto:info@vertexresearchlabs.com" style="color:#2DD4BF;text-decoration:none">info@vertexresearchlabs.com</a><br/>
-      All products are for laboratory research use only. Not for human or veterinary use.<br/>
-      <a href="${SITE}" style="color:#4b5563;text-decoration:none">vertexresearchlabs.com</a>
-    </div>
-  </div>
-</div></body></html>`;
-
+    // 2) Customer invoice
+    const custHtml = invoiceHtml({
+      firstName: customer.fullName.split(" ")[0],
+      orderRef, items, subtotal, shipping, tax, total,
+    });
     const invoiceSubject = `Your Vertex Research Labs invoice ${orderRef} — ${fmt(total)} (pay by app)`;
     const custRes = await sendEmail(resendKey, {
       to: customer.email,

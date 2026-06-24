@@ -206,6 +206,13 @@ serve(async (req) => {
     const result = await res.json();
     if (!res.ok) throw new Error(JSON.stringify(result));
 
+    try {
+      await admin.from("email_log").insert({
+        order_id: order?.id || orderId, profile_id: profile?.id || null,
+        email_type: phase, recipient: email, resend_id: result?.id || null, subject,
+      });
+    } catch (_) { /* logging is non-fatal */ }
+
     return new Response(JSON.stringify({ success: true, phase, email, resend: result }), {
       status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

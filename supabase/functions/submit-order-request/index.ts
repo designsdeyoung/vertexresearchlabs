@@ -261,11 +261,20 @@ serve(async (req) => {
   </div>
 </div></body></html>`;
 
+    const invoiceSubject = `Your Vertex Research Labs invoice ${orderRef} — ${fmt(total)} (pay by app)`;
     const custRes = await sendEmail(resendKey, {
       to: customer.email,
-      subject: `Your Vertex Research Labs invoice ${orderRef} — ${fmt(total)} (pay by app)`,
+      subject: invoiceSubject,
       html: custHtml,
     });
+
+    try {
+      await admin.from("email_log").insert({
+        order_id: order.id, profile_id: profileId,
+        email_type: "invoice", recipient: customer.email,
+        resend_id: custRes.json?.id || null, subject: invoiceSubject,
+      });
+    } catch (_) { /* logging is non-fatal */ }
 
     return new Response(JSON.stringify({
       success: true,

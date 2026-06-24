@@ -18,6 +18,7 @@ import {
   ChevronDown,
   ChevronUp,
   ExternalLink,
+  Mail,
 } from "lucide-react";
 
 const ADMIN_EMAILS = ["info@vertexdata.ai", "designsdeyoung@gmail.com", "adamdeyoung11@gmail.com", "info@vertexresearchlabs.com"];
@@ -314,6 +315,30 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
     from?: { company: string; name: string; street1: string; city: string; state: string; zip: string };
   } | null>(null);
   const [manualAddr, setManualAddr] = useState({ name: "", street1: "", street2: "", city: "", state: "", zip: "" });
+  const [emails, setEmails] = useState<any[] | null>(null);
+  const [emailsLoading, setEmailsLoading] = useState(false);
+
+  const loadEmails = async () => {
+    setEmailsLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("get-order-emails", {
+        body: { orderId: order.id, includeHtml: true },
+      });
+      if (error) throw error;
+      setEmails((data as any)?.emails || []);
+    } catch (e: any) {
+      toast({ title: "Couldn't load emails", description: e.message, variant: "destructive" });
+      setEmails([]);
+    } finally {
+      setEmailsLoading(false);
+    }
+  };
+
+  const previewEmail = (html: string, subject: string) => {
+    const w = window.open("", "_blank", "width=620,height=800");
+    if (w) { w.document.write(`<title>${subject}</title>${html}`); w.document.close(); }
+  };
+
   const profile = order.profiles;
   const name = order.shipping_name || profile?.full_name || "—";
   const addr1 = order.shipping_address1 || profile?.address_line1 || "";
@@ -502,6 +527,58 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
               </div>
             </div>
           )}
+
+          {/* Email activity */}
+          <div className="rounded-lg border border-border/50 p-3">
+            <div className="flex items-center justify-between">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+                <Mail size={13} /> Emails Sent
+              </p>
+              {emails === null && (
+                <Button size="sm" variant="ghost" className="h-7 text-xs" onClick={loadEmails} disabled={emailsLoading}>
+                  {emailsLoading ? "Loading…" : "Show"}
+                </Button>
+              )}
+              {emails !== null && (
+                <Button size="sm" variant="ghost" className="h-7 text-xs" onClick={loadEmails} disabled={emailsLoading}>
+                  {emailsLoading ? "…" : "Refresh"}
+                </Button>
+              )}
+            </div>
+            {emails !== null && emails.length === 0 && (
+              <p className="text-xs text-muted-foreground mt-2">No emails logged for this order yet.</p>
+            )}
+            {emails !== null && emails.length > 0 && (
+              <div className="mt-2 space-y-1.5">
+                {emails.map((em) => {
+                  const st = em.status as string;
+                  const cls =
+                    em.opened ? "bg-green-500/15 text-green-400 border-green-500/30" :
+                    st === "delivered" ? "bg-blue-500/15 text-blue-400 border-blue-500/30" :
+                    st === "bounced" || st === "complained" ? "bg-red-500/15 text-red-400 border-red-500/30" :
+                    "bg-muted/30 text-muted-foreground border-border";
+                  return (
+                    <div key={em.id} className="flex items-center justify-between gap-2 text-xs py-1.5 border-b border-border/30 last:border-0">
+                      <div className="min-w-0">
+                        <p className="text-foreground font-medium truncate">{em.label}</p>
+                        <p className="text-muted-foreground/60 truncate">{em.recipient} · {new Date(em.sent_at).toLocaleString()}</p>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className={`px-2 py-0.5 rounded-full border text-[10px] font-semibold capitalize ${cls}`}>
+                          {em.opened ? "Opened ✓" : st}
+                        </span>
+                        {em.html && (
+                          <button onClick={() => previewEmail(em.html, em.subject)} className="text-primary hover:underline text-[11px] font-semibold">
+                            Preview
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
 
           <div className="flex flex-wrap gap-2">
             <Button size="sm" variant="outline" onClick={() => printPackingSlip(order)}>

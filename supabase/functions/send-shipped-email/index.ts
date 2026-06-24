@@ -49,7 +49,7 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
   try {
-    const { orderId, trackingNumber, trackingUrl, toEmail, toName } = await req.json();
+    const { orderId, trackingNumber, trackingUrl, toEmail, toName, bcc } = await req.json();
     if (!orderId) throw new Error("orderId required");
 
     const admin = createClient(
@@ -154,6 +154,7 @@ serve(async (req) => {
         from: "Vertex Research Labs <info@vertexresearchlabs.com>",
         reply_to: "info@vertexresearchlabs.com",
         to: [email],
+        ...(bcc ? { bcc: Array.isArray(bcc) ? bcc : [bcc] } : {}),
         subject: `📦 Your order has shipped, ${firstName}! Track it live`,
         html,
       }),

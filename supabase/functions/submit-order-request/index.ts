@@ -75,13 +75,46 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    // Link to an existing profile if one matches this email (don't create accounts here)
+    // Link to a profile so the customer's email is stored and tracking emails
+    // (shipped / in-transit / delivered) can reach them. Silently create an
+    // account if none exists — same pattern as paid orders.
     let profileId: string | null = null;
     try {
-      const { data: prof } = await admin
-        .from("profiles").select("id").ilike("email", customer.email).maybeSingle();
-      profileId = prof?.id ?? null;
-    } catch (_) { /* non-fatal */ }
+      const email = customer.email.trim();
+      const { data: existingUsers } = await admin.auth.admin.listUsers();
+      const existingUser = existingUsers?.users?.find((u) => (u.email || "").toLowerCase() === email.toLowerCase());
+
+      let userId = existingUser?.id ?? null;
+      if (!userId) {
+        const { data: newUser } = await admin.auth.admin.createUser({
+          email,
+          email_confirm: true,
+          user_metadata: { full_name: customer.fullName },
+        });
+        userId = newUser?.user?.id ?? null;
+      }
+
+      if (userId) {
+        const { data: prof } = await admin
+          .from("profiles").select("id").eq("user_id", userId).maybeSingle();
+        if (prof) {
+          profileId = prof.id;
+        } else {
+          const { data: newProf } = await admin
+            .from("profiles")
+            .insert({ user_id: userId, email, full_name: customer.fullName, points_balance: 0, lifetime_points: 0 })
+            .select("id").single();
+          profileId = newProf?.id ?? null;
+        }
+      }
+    } catch (e) {
+      console.error("profile link/create failed (non-fatal):", e);
+      // Fall back to email-only profile match so we still link if possible
+      try {
+        const { data: prof } = await admin.from("profiles").select("id").ilike("email", customer.email).maybeSingle();
+        profileId = prof?.id ?? null;
+      } catch (_) { /* noop */ }
+    }
 
     // Create the order — NOT paid, no points, manual-invoice payment method
     const { data: order, error: orderErr } = await admin

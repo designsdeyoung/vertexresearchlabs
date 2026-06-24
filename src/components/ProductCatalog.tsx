@@ -114,7 +114,7 @@ const ProductCatalog = () => {
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
             Analytical-grade reference compounds with documented purity.
-            Certificate of Analysis available for every product.
+            Certificates of Analysis are available on request where applicable.
           </p>
         </div>
 

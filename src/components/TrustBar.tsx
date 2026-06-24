@@ -8,8 +8,8 @@ const items = [
   },
   {
     icon: FileCheck,
-    label: "Batch Documentation",
-    sub: "COAs for every batch",
+    label: "Documentation",
+    sub: "COA on request",
   },
   {
     icon: Lock,

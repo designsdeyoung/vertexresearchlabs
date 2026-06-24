@@ -90,7 +90,7 @@ const BundleSection = () => {
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground">
             Pre-built sets of frequently co-purchased reference compounds. Lab tested,
-            COA-backed, ready for documented research workflows.
+            with Certificates of Analysis available on request where applicable.
           </p>
         </div>
 

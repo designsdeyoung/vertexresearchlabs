@@ -80,7 +80,7 @@ const BestSellersShowcase = () => {
             Researcher Favorites
           </h2>
           <p className="mt-3 text-base text-muted-foreground md:text-lg">
-            Our most-ordered reference materials — verified purity, lot-specific COAs.
+            Our most-ordered reference materials — verified purity, COA on request.
           </p>
         </motion.div>
 

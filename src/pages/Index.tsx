@@ -36,7 +36,7 @@ const Index = () => {
     <div className="flex min-h-screen flex-col bg-background">
       <SEOHead
         title="Research-Grade Peptides | High-Purity Reference Materials – Vertex Research Labs"
-        description="Analytical-grade research peptides with ≥99% purity and Certificate of Analysis available for every product. For laboratory research use only."
+        description="Analytical-grade research peptides with ≥99% purity (HPLC). Certificates of Analysis are available on request where applicable. For laboratory research use only."
         canonical="/"
         keywords={[
           "research peptides",

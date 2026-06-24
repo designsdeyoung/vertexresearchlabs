@@ -142,7 +142,7 @@ const ScientificMeters = ({ className = "" }: ScientificMetersProps) => {
           Laboratory Analysis
         </span>
         <h3 className="text-xl md:text-2xl font-semibold text-foreground mt-2">
-          COA Verified Results
+          Independently Verified Results
         </h3>
       </motion.div>
 

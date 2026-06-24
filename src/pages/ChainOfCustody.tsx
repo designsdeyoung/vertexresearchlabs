@@ -21,16 +21,15 @@ const ChainOfCustody = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <SEOHead
-        title="Peptide Chain of Custody | Batch Tracking & Traceability Documentation"
-        description="Full batch traceability for every Vertex Research Labs peptide. Lot numbers, storage records, independent testing chain, and complete documentation from synthesis to delivery."
+        title="Peptide Quality Controls | Handling & Documentation"
+        description="How Vertex Research Labs handles its reference materials: retention samples, storage records, independent testing, and quality control documentation."
         canonical="/quality/chain-of-custody"
         keywords={[
-          "peptide batch tracking",
-          "peptide lot number",
-          "research peptide traceability",
-          "peptide chain of custody",
+          "peptide quality controls",
+          "research peptide handling",
           "peptide documentation",
-          "research peptide batch record",
+          "research peptide storage",
+          "independent peptide testing",
         ]}
       />
       <Header />
@@ -41,48 +40,45 @@ const ChainOfCustody = () => {
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
             <Link to="/quality" className="hover:text-foreground transition-colors">Quality</Link>
             <ChevronRight size={14} />
-            <span className="text-foreground">Chain of Custody</span>
+            <span className="text-foreground">Quality Controls</span>
           </div>
 
           {/* Hero */}
           <div className="max-w-3xl mb-12">
             <h1 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">
-              Chain of Custody & Batch Controls
+              Handling & Quality Controls
             </h1>
             <p className="text-lg text-muted-foreground">
-              Full traceability from synthesis to delivery. Every lot is documented, tested, and traceable.
+              Careful handling from receipt to delivery, with retention samples and independent testing.
             </p>
           </div>
 
-          {/* Lot Numbering System */}
+          {/* Product Labeling */}
           <div className="glass-card rounded-xl p-8 mb-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-3 rounded-lg bg-primary/10">
                 <Hash size={24} className="text-primary" />
               </div>
-              <h2 className="text-xl font-semibold text-foreground">Lot Numbering System</h2>
+              <h2 className="text-xl font-semibold text-foreground">Product Labeling</h2>
             </div>
-            
+
             <p className="text-muted-foreground mb-6">
-              Each product lot receives a unique identifier that tracks it through testing, storage, and fulfillment.
+              Our reference materials are clearly labeled with product identity, size, and research-use-only handling information.
             </p>
-            
+
             <div className="bg-secondary/30 rounded-lg p-6 border border-border/50">
-              <div className="font-mono text-lg text-foreground mb-4">
-                Example: <span className="text-primary">CGM-003</span>
-              </div>
               <div className="grid md:grid-cols-3 gap-4 text-sm">
                 <div>
-                  <span className="text-muted-foreground">Prefix:</span>
-                  <p className="text-foreground">Supplier/source identifier</p>
+                  <span className="text-muted-foreground">Identity:</span>
+                  <p className="text-foreground">Compound name and size</p>
                 </div>
                 <div>
-                  <span className="text-muted-foreground">Number:</span>
-                  <p className="text-foreground">Sequential batch identifier</p>
+                  <span className="text-muted-foreground">Handling:</span>
+                  <p className="text-foreground">Storage and research-use-only labeling</p>
                 </div>
                 <div>
-                  <span className="text-muted-foreground">Tracking:</span>
-                  <p className="text-foreground">Links to COA, retention sample, and order history</p>
+                  <span className="text-muted-foreground">Documentation:</span>
+                  <p className="text-foreground">COA available on request where applicable</p>
                 </div>
               </div>
             </div>
@@ -100,7 +96,7 @@ const ChainOfCustody = () => {
             <div className="grid md:grid-cols-2 gap-8">
               <div>
                 <p className="text-muted-foreground mb-4">
-                  A portion of each manufactured lot is retained for future reference, re-testing, or dispute resolution.
+                  A portion of our stock is retained for future reference, re-testing, or dispute resolution.
                 </p>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   <li className="flex items-start gap-2">
@@ -120,10 +116,9 @@ const ChainOfCustody = () => {
               <div className="bg-secondary/30 rounded-lg p-6 border border-border/50">
                 <h4 className="font-medium text-foreground mb-3">Retention Protocol</h4>
                 <div className="space-y-2 text-sm text-muted-foreground">
-                  <p>• 10% of lot or minimum 100mg retained</p>
-                  <p>• Sealed and labeled with lot number</p>
+                  <p>• Retained portion sealed and labeled</p>
                   <p>• Storage logged with temperature monitoring</p>
-                  <p>• Chain of custody documented</p>
+                  <p>• Handling records documented</p>
                 </div>
               </div>
             </div>
@@ -139,7 +134,7 @@ const ChainOfCustody = () => {
             </div>
             
             <p className="text-muted-foreground mb-6">
-              Every lot must meet strict specifications before release. Lots that fail any criteria are quarantined and not distributed.
+              Our reference materials must meet strict specifications before release. Stock that fails any criteria is quarantined and not distributed.
             </p>
             
             <div className="overflow-x-auto">
@@ -174,7 +169,7 @@ const ChainOfCustody = () => {
                   </tr>
                   <tr>
                     <td className="py-3 px-4">Documentation</td>
-                    <td className="py-3 px-4">Complete COA on file</td>
+                    <td className="py-3 px-4">COA available on request where applicable</td>
                     <td className="py-3 px-4">Review</td>
                   </tr>
                 </tbody>
@@ -203,7 +198,7 @@ const ChainOfCustody = () => {
                     <li>• ISO-certified analytical laboratory</li>
                     <li>• LCMS/MS and HPLC capabilities</li>
                     <li>• US-based facility</li>
-                    <li>• Searchable COA database</li>
+                    <li>• Independent analytical verification</li>
                   </ul>
                 </div>
               </div>
@@ -213,7 +208,7 @@ const ChainOfCustody = () => {
                 <ul className="space-y-3 text-sm text-muted-foreground">
                   <li className="flex items-start gap-2">
                     <Shield size={14} className="text-primary mt-0.5 flex-shrink-0" />
-                    <span><strong className="text-foreground">Every lot:</strong> Identity and purity verification</span>
+                    <span><strong className="text-foreground">Independent testing:</strong> Identity and purity verification</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <Shield size={14} className="text-primary mt-0.5 flex-shrink-0" />
@@ -255,7 +250,7 @@ const ChainOfCustody = () => {
               <div className="text-center p-6 bg-secondary/30 rounded-lg border border-border/50">
                 <Tag size={32} className="mx-auto mb-3 text-primary" />
                 <h4 className="font-medium text-foreground mb-2">Labeling</h4>
-                <p className="text-sm text-muted-foreground">Clear lot tracking and research-use labels on all products</p>
+                <p className="text-sm text-muted-foreground">Clear product identity and research-use labels on all products</p>
               </div>
             </div>
           </div>

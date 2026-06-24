@@ -10,7 +10,7 @@ const qualityPoints = [
   {
     icon: FileCheck,
     title: "Certificate of Analysis",
-    description: "Comprehensive COA provided with every reference material"
+    description: "Certificates of Analysis are available on request where applicable"
   },
   {
     icon: Shield,
@@ -42,10 +42,10 @@ const QualitySection = () => {
               <span className="block text-muted-foreground">You Can Verify</span>
             </h2>
             <p className="text-muted-foreground mb-8 leading-relaxed">
-              Every reference material ships with complete analytical documentation 
-              including Certificate of Analysis, HPLC chromatograms, and mass 
-              spectrometry data. Our quality protocols ensure consistency and 
-              traceability for your research applications.
+              Our reference materials are independently verified at ≥99% purity (HPLC).
+              Certificates of Analysis, including HPLC chromatograms and mass
+              spectrometry data, are available on request where applicable. Our quality
+              protocols ensure consistency for your research applications.
             </p>
 
             {/* Quality points */}

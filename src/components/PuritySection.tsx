@@ -7,7 +7,7 @@ import ScientificMeters from "./ScientificMeters";
 const trustChips = [
   { icon: FlaskConical, label: "HPLC-MS Tested" },
   { icon: ShieldCheck, label: "ISO 17025 Labs" },
-  { icon: FileCheck, label: "Lot-Specific COA" },
+  { icon: FileCheck, label: "COA on request" },
 ];
 
 const PuritySection = () => {
@@ -30,7 +30,7 @@ const PuritySection = () => {
           className="mx-auto mb-14 max-w-2xl text-center"
         >
           <span className="font-mono text-[11px] font-medium uppercase tracking-[0.25em] text-primary">
-            Verified Purity · Every Lot
+            Independently Verified Purity
           </span>
           <h2 className="mt-3 text-3xl font-semibold leading-tight text-foreground md:text-4xl lg:text-5xl">
             Independently tested.
@@ -39,8 +39,8 @@ const PuritySection = () => {
             </span>
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
-            Every batch is verified by third-party laboratories using HPLC-MS, with a
-            lot-specific Certificate of Analysis available before you order.
+            Independently verified at ≥99% purity (HPLC) by third-party laboratories
+            using HPLC-MS. Certificates of Analysis are available on request where applicable.
           </p>
         </motion.div>
 

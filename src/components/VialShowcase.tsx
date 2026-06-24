@@ -22,7 +22,7 @@ const bulletPoints = [
   {
     icon: FileCheck,
     title: "Certificates of Analysis",
-    description: "Comprehensive COA documentation included with every order",
+    description: "Certificates of Analysis are available on request where applicable",
   },
   {
     icon: Microscope,

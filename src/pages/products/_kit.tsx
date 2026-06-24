@@ -93,7 +93,7 @@ interface BespokeProps {
   seo?: ProductSEOData;
 }
 
-const DEFAULT_TRUST = ["≥99% Purity", "Batch-Specific CoA", "Lyophilized", "Research Use Only"];
+const DEFAULT_TRUST = ["≥99% Purity", "COA on request", "Lyophilized", "Research Use Only"];
 
 const formatPrice = (p: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(p);
@@ -114,7 +114,7 @@ const buildSpecs = (product: Product, config: BespokeConfig): SpecRow[] => {
   });
   rows.push({ label: "Form", value: config.form ?? "Lyophilized powder" });
   rows.push({ label: "Testing", value: product.testing });
-  rows.push({ label: "Documentation", value: "Batch-specific CoA" });
+  rows.push({ label: "Documentation", value: "Available on request" });
   return rows;
 };
 
@@ -201,7 +201,7 @@ export const makeBespokePage = (config: BespokeConfig): ComponentType<BespokePro
       console.warn(`[COA] No PDF found at ${url} — falling back to request-by-email.`);
       toast({
         title: "COA available upon request",
-        description: "Email us and we'll send the batch COA for this product.",
+        description: "Email us and we'll send any available COA for this product.",
       });
     };
 
@@ -242,7 +242,7 @@ export const makeBespokePage = (config: BespokeConfig): ComponentType<BespokePro
           title={seo?.metaTitle ?? `${name} ${size} | Research Grade Reference Material`}
           description={
             seo?.metaDescription ??
-            `${name} ${size} — research-grade reference material with ≥99% purity. Batch-specific CoA. For laboratory research use only.`
+            `${name} ${size} — research-grade reference material with ≥99% purity. COA available on request. For laboratory research use only.`
           }
           canonical={`/product/${product.id}`}
           ogType="product"

@@ -25,8 +25,8 @@ const features = [
   },
   {
     icon: FileCheck,
-    title: "Batch Verified",
-    sub: "Documented for every lot",
+    title: "Independently Verified",
+    sub: "COA available on request",
   },
   {
     icon: ShieldAlert,
@@ -67,9 +67,9 @@ const QualityTransparency = () => {
               Quality & Transparency
             </h2>
             <p className="mt-4 max-w-[460px] text-base leading-relaxed text-muted-foreground">
-              Every batch is tested by independent laboratories to ensure
-              purity, identity, and consistency. COAs are available for every
-              product, every time.
+              Our reference materials are tested by independent laboratories to
+              ensure purity, identity, and consistency. Certificates of Analysis
+              are available on request where applicable.
             </p>
 
             <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2">
@@ -144,7 +144,7 @@ const QualityTransparency = () => {
                           {coa.name}
                         </p>
                         <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-                          {coa.size} · Lot-verified
+                          {coa.size} · HPLC verified
                         </p>
                       </div>
                       <a

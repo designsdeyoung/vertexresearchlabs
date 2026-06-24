@@ -87,7 +87,7 @@ export const articles: Article[] = [
       {
         heading: "Research Purity Standards",
         content:
-          "For reproducible laboratory research, BPC-157 reference material should meet a minimum purity threshold of ≥99% as verified by High-Performance Liquid Chromatography (HPLC). Each batch should be accompanied by a Certificate of Analysis (COA) confirming purity, molecular identity (typically via mass spectrometry), and batch traceability. At Vertex Research Labs, every BPC-157 shipment includes independent third-party COA documentation.",
+          "For reproducible laboratory research, BPC-157 reference material should meet a minimum purity threshold of ≥99% as verified by High-Performance Liquid Chromatography (HPLC), with molecular identity confirmation (typically via mass spectrometry). At Vertex Research Labs, Certificates of Analysis are available on request where applicable.",
       },
       {
         heading: "Important Research Disclaimer",
@@ -109,7 +109,7 @@ export const articles: Article[] = [
       {
         question: "What purity should research-grade BPC-157 be?",
         answer:
-          "The standard benchmark for research-grade BPC-157 is ≥99% purity as verified by HPLC, accompanied by a Certificate of Analysis confirming identity and batch documentation.",
+          "The standard benchmark for research-grade BPC-157 is ≥99% purity as verified by HPLC, with identity confirmation by mass spectrometry. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "Where can I find published BPC-157 research?",
@@ -185,7 +185,7 @@ export const articles: Article[] = [
       {
         heading: "Purity and Quality Standards",
         content:
-          "Research-grade GHK-Cu should meet ≥99% purity by HPLC analysis. Because it is a metal complex, identity confirmation should include both peptide sequence verification and copper content analysis. Vertex Research Labs provides independent third-party COA documentation with every GHK-Cu batch, confirming purity, identity, and copper coordination.",
+          "Research-grade GHK-Cu should meet ≥99% purity by HPLC analysis. Because it is a metal complex, identity confirmation should include both peptide sequence verification and copper content analysis. At Vertex Research Labs, Certificates of Analysis are available on request where applicable.",
       },
       {
         heading: "Disclaimer",
@@ -281,7 +281,7 @@ export const articles: Article[] = [
       {
         heading: "Research Grade Retatrutide Specifications",
         content:
-          "As an investigational peptide, research-grade Retatrutide requires rigorous purity verification. Vertex Research Labs supplies Retatrutide at ≥99% purity as independently verified by HPLC, with mass spectrometry identity confirmation and batch-specific COA documentation. It is available in 10mg vials for laboratory use.",
+          "As an investigational peptide, research-grade Retatrutide requires rigorous purity verification. Vertex Research Labs supplies Retatrutide at ≥99% purity, independently verified by HPLC, with mass spectrometry identity confirmation. Certificates of Analysis are available on request where applicable. It is available in 10mg vials for laboratory use.",
       },
       {
         heading: "Regulatory Status and Disclaimer",
@@ -308,7 +308,7 @@ export const articles: Article[] = [
       {
         question: "What purity is research-grade Retatrutide?",
         answer:
-          "Research-grade Retatrutide from Vertex Research Labs is independently verified at ≥99% purity by HPLC with a batch-specific Certificate of Analysis.",
+          "Research-grade Retatrutide from Vertex Research Labs is independently verified at ≥99% purity by HPLC. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "Can I compare Retatrutide to Tirzepatide in my research?",
@@ -385,7 +385,7 @@ export const articles: Article[] = [
       {
         heading: "Research Grade MOTS-c Specifications",
         content:
-          "MOTS-c is available from Vertex Research Labs in 10mg and 40mg formats, both independently verified at ≥99% purity by HPLC with batch-specific COA documentation. Given its relatively short sequence and unique amino acid composition, identity confirmation via mass spectrometry is standard in our quality protocol.",
+          "MOTS-c is available from Vertex Research Labs in 10mg and 40mg formats, both independently verified at ≥99% purity by HPLC. Given its relatively short sequence and unique amino acid composition, identity confirmation via mass spectrometry is standard in our quality protocol. Certificates of Analysis are available on request where applicable.",
       },
       {
         heading: "Disclaimer",
@@ -412,7 +412,7 @@ export const articles: Article[] = [
       {
         question: "What sizes is MOTS-c available in for research?",
         answer:
-          "Vertex Research Labs offers MOTS-c in 10mg (standard) and 40mg (bulk) formats, both at ≥99% purity with independent COA documentation.",
+          "Vertex Research Labs offers MOTS-c in 10mg (standard) and 40mg (bulk) formats, both at ≥99% purity. Certificates of Analysis are available on request where applicable.",
       },
     ],
     relatedProducts: ["mots-c", "mots-c-40", "nad-plus", "epithalon"],
@@ -490,7 +490,7 @@ export const articles: Article[] = [
       {
         heading: "Research Grade Specifications",
         content:
-          "Epithalon is supplied by Vertex Research Labs in 10mg vials at ≥99% purity, independently verified by HPLC with batch-specific COA documentation. As a tetrapeptide, it is among the smaller peptide reference materials in our catalog, which contributes to its stability and relatively accessible price point.",
+          "Epithalon is supplied by Vertex Research Labs in 10mg vials at ≥99% purity, independently verified by HPLC. Certificates of Analysis are available on request where applicable. As a tetrapeptide, it is among the smaller peptide reference materials in our catalog, which contributes to its stability and relatively accessible price point.",
       },
       {
         heading: "Disclaimer",
@@ -517,7 +517,7 @@ export const articles: Article[] = [
       {
         question: "What purity is research-grade Epithalon?",
         answer:
-          "Vertex Research Labs supplies Epithalon at ≥99% purity verified by HPLC, with a Certificate of Analysis included with every 10mg order.",
+          "Vertex Research Labs supplies Epithalon at ≥99% purity verified by HPLC. Certificates of Analysis are available on request where applicable.",
       },
     ],
     relatedProducts: ["epithalon", "ghk-cu", "mots-c", "dsip"],
@@ -556,15 +556,15 @@ export const articles: Article[] = [
       {
         heading: "What Is a Certificate of Analysis?",
         content:
-          "A Certificate of Analysis (COA) is a quality assurance document issued for a specific batch of a compound. For research peptides, it provides analytical evidence that the material meets specified purity, identity, and quality standards. A COA is not a guarantee of safety or fitness for any particular use — it is a technical document confirming what the material is and how pure it is. Every serious research peptide supplier should provide a batch-specific COA, not a generic document reused across multiple lots.",
+          "A Certificate of Analysis (COA) is a quality assurance document issued for a specific batch of a compound. For research peptides, it provides analytical evidence that the material meets specified purity, identity, and quality standards. A COA is not a guarantee of safety or fitness for any particular use — it is a technical document confirming what the material is and how pure it is. COA practices vary by supplier; request whatever documentation is available and review the purity and identity data it provides.",
       },
       {
         heading: "Key Sections of a Peptide COA",
         content:
-          "A complete peptide COA should contain the following elements. Absence of any of these sections is a red flag when evaluating a supplier.",
+          "A complete peptide COA typically contains the following elements.",
         list: [
           "Product name and catalog number",
-          "Batch / lot number (must be batch-specific, not generic)",
+          "Batch / lot number (where provided)",
           "Date of analysis",
           "Testing laboratory name (third-party independent is the gold standard)",
           "Purity result (% by HPLC, with chromatogram)",
@@ -590,16 +590,15 @@ export const articles: Article[] = [
           "There is an important distinction between in-house COAs and third-party independent COAs. An in-house COA is generated by the supplier's own laboratory — there is a conflict of interest since the supplier is testing their own product. A third-party independent COA is generated by a laboratory with no commercial relationship to the supplier. Third-party COAs are the gold standard in research peptide quality verification. At Vertex Research Labs, all COAs are produced by independent analytical laboratories.",
       },
       {
-        heading: "Batch-Specific vs. Generic COAs",
+        heading: "How COA Documentation Can Vary",
         content:
-          "A batch-specific COA references a unique lot number that can be traced to a specific production run. A generic COA may show impressive purity numbers but applies to no specific batch — it cannot verify the material you actually received. Always check that the lot number on your COA matches the lot number on your vial label. If a supplier cannot provide a batch-specific COA, that is a significant quality concern.",
+          "COA documentation varies between suppliers. Some COAs reference a unique lot number tied to a specific production run, while others summarize analytical data for a compound more generally. When a lot number is present, it can be cross-referenced against the documentation provided. COA practices differ across the industry; request whatever documentation is available and review the purity and identity data it contains.",
       },
       {
         heading: "Red Flags to Watch For",
         content:
-          "When evaluating a peptide COA, these are common indicators of low-quality documentation.",
+          "When reviewing a peptide COA, these are common indicators of incomplete documentation.",
         list: [
-          "No lot number or a generic lot number (e.g. 'Lot: 2024')",
           "No testing laboratory identified",
           "HPLC purity listed without a chromatogram",
           "No mass spectrometry data",
@@ -626,9 +625,9 @@ export const articles: Article[] = [
           "Third-party independent COAs are the gold standard because there is no conflict of interest — the testing laboratory has no financial stake in the result. In-house COAs are less reliable for this reason.",
       },
       {
-        question: "How do I match a COA to my specific vial?",
+        question: "How is a COA related to a specific lot?",
         answer:
-          "Check the lot/batch number. The lot number on your COA should exactly match the lot number printed on your vial label. If these don't match, the COA does not apply to your material.",
+          "When a COA includes a lot or batch number, that identifier can be cross-referenced against the documentation. COA practices vary by supplier, so review whatever documentation is provided alongside the purity and identity data.",
       },
       {
         question: "What purity should I expect for research-grade peptides?",
@@ -727,7 +726,7 @@ export const articles: Article[] = [
       {
         question: "What purity is research-grade TB-500?",
         answer:
-          "Vertex Research Labs supplies TB-500 at ≥99% purity by HPLC with a batch-specific Certificate of Analysis. Given its larger molecular weight (~4963 Da), mass spectrometry identity confirmation is standard.",
+          "Vertex Research Labs supplies TB-500 at ≥99% purity by HPLC. Given its larger molecular weight (~4963 Da), mass spectrometry identity confirmation is standard. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "Can TB-500 and BPC-157 be ordered together?",
@@ -917,12 +916,12 @@ export const articles: Article[] = [
       {
         heading: "How to Verify Purity Claims",
         content:
-          "A supplier claiming ≥99% purity should be able to support that claim with documentation. The minimum acceptable evidence is a batch-specific HPLC chromatogram (not just a percentage number) from an independent laboratory, accompanied by mass spectrometry identity confirmation. Without these two pieces of evidence, a purity claim cannot be independently verified.",
+          "A supplier claiming ≥99% purity should be able to support that claim with documentation. Useful evidence includes an HPLC chromatogram (not just a percentage number) from an independent laboratory, accompanied by mass spectrometry identity confirmation. These pieces of evidence help a purity claim be independently reviewed.",
       },
       {
         heading: "Vertex Research Labs Quality Standard",
         content:
-          "Every peptide supplied by Vertex Research Labs meets the ≥99% purity standard as verified by independent third-party HPLC analysis. Each batch ships with a Certificate of Analysis documenting the HPLC chromatogram, mass spectrometry identity confirmation, lot number, testing laboratory, and analysis date. We do not sell peptides without independent COA documentation.",
+          "Peptides supplied by Vertex Research Labs meet the ≥99% purity standard as verified by independent HPLC analysis, with mass spectrometry identity confirmation. Certificates of Analysis are available on request where applicable.",
       },
     ],
     faqs: [
@@ -944,7 +943,7 @@ export const articles: Article[] = [
       {
         question: "How do I know if a supplier's purity claim is real?",
         answer:
-          "Request a batch-specific COA showing the HPLC chromatogram (not just the percentage number), the testing laboratory's name, and mass spectrometry data. If a supplier cannot provide these, their purity claim cannot be independently verified.",
+          "Request whatever COA documentation is available, ideally showing the HPLC chromatogram (not just the percentage number), the testing laboratory's name, and mass spectrometry data. Reviewing this documentation helps a purity claim be independently assessed.",
       },
     ],
     relatedProducts: ["bpc-157", "ghk-cu", "tb-500", "retatrutide"],
@@ -1015,7 +1014,7 @@ export const articles: Article[] = [
       {
         heading: "The CJC/IPA Blend from Vertex Research Labs",
         content:
-          "Vertex Research Labs offers a pre-blended CJC/IPA Blend containing CJC-1295 (No DAC) 5mg and Ipamorelin 5mg in a single 10mg research vial. Both components are independently verified at ≥99% purity with a combined batch-specific COA. This format is designed for researchers who need both peptides simultaneously without managing two separate procurement and reconstitution workflows.",
+          "Vertex Research Labs offers a pre-blended CJC/IPA Blend containing CJC-1295 (No DAC) 5mg and Ipamorelin 5mg in a single 10mg research vial. Both components are independently verified at ≥99% purity. Certificates of Analysis are available on request where applicable. This format is designed for researchers who need both peptides simultaneously without managing two separate procurement and reconstitution workflows.",
       },
       {
         heading: "Disclaimer",
@@ -1042,7 +1041,7 @@ export const articles: Article[] = [
       {
         question: "What purity is the CJC/IPA Blend?",
         answer:
-          "Both CJC-1295 and Ipamorelin in the blend are independently verified at ≥99% purity. The blend ships with a Certificate of Analysis covering both components.",
+          "Both CJC-1295 and Ipamorelin in the blend are independently verified at ≥99% purity. Certificates of Analysis are available on request where applicable.",
       },
     ],
     relatedProducts: ["cjc-ipa-blend", "tesamorelin", "mots-c"],
@@ -1114,7 +1113,7 @@ export const articles: Article[] = [
       {
         heading: "Laboratory Specifications",
         content:
-          "Research-grade Semax is supplied as a lyophilized powder with ≥99% purity verified by HPLC. Mass spectrometry confirmation of the correct sequence and molecular weight is included in third-party Certificate of Analysis documentation. Vertex Research Labs sources Semax exclusively from verified synthesis partners and provides batch-specific COA data with every shipment.",
+          "Research-grade Semax is supplied as a lyophilized powder with ≥99% purity verified by HPLC. Mass spectrometry confirmation of the correct sequence and molecular weight is included in Certificate of Analysis documentation. Vertex Research Labs sources Semax exclusively from verified synthesis partners. Certificates of Analysis are available on request where applicable.",
       },
       {
         heading: "Research Disclaimer",
@@ -1141,7 +1140,7 @@ export const articles: Article[] = [
       {
         question: "What purity standard is required for Semax in laboratory research?",
         answer:
-          "A minimum of ≥99% purity by HPLC is the accepted benchmark for research-grade Semax, accompanied by mass spectrometry identity confirmation and batch-specific COA documentation.",
+          "A minimum of ≥99% purity by HPLC is the accepted benchmark for research-grade Semax, accompanied by mass spectrometry identity confirmation. Certificates of Analysis are available on request where applicable.",
       },
     ],
     relatedProducts: ["semax"],
@@ -1212,7 +1211,7 @@ export const articles: Article[] = [
       {
         heading: "Laboratory Specifications",
         content:
-          "Research-grade Selank is available as a lyophilized powder at ≥99% HPLC purity. Each research batch is accompanied by a third-party Certificate of Analysis confirming sequence identity by mass spectrometry, purity by HPLC, and batch traceability. Vertex Research Labs provides full COA documentation with every Selank shipment.",
+          "Research-grade Selank is available as a lyophilized powder at ≥99% HPLC purity, with sequence identity confirmed by mass spectrometry. At Vertex Research Labs, Certificates of Analysis are available on request where applicable.",
       },
       {
         heading: "Research Disclaimer",
@@ -1239,7 +1238,7 @@ export const articles: Article[] = [
       {
         question: "What purity is required for research-grade Selank?",
         answer:
-          "The standard is ≥99% purity by HPLC, confirmed alongside mass spectrometry identity verification and a batch-specific Certificate of Analysis.",
+          "The standard is ≥99% purity by HPLC, confirmed alongside mass spectrometry identity verification. Certificates of Analysis are available on request where applicable.",
       },
     ],
     relatedProducts: ["selank"],
@@ -1303,7 +1302,7 @@ export const articles: Article[] = [
       {
         heading: "Laboratory Specifications",
         content:
-          "Research-grade NAD+ is supplied as a lyophilized powder at ≥99% purity by HPLC. Identity is confirmed by mass spectrometry verifying the correct molecular weight of 663.4 Da (free acid form). NAD+ is hygroscopic and should be stored in sealed, desiccated conditions. Vertex Research Labs provides NAD+ in 500mg and 1000mg research formats, each accompanied by a batch-specific third-party COA.",
+          "Research-grade NAD+ is supplied as a lyophilized powder at ≥99% purity by HPLC. Identity is confirmed by mass spectrometry verifying the correct molecular weight of 663.4 Da (free acid form). NAD+ is hygroscopic and should be stored in sealed, desiccated conditions. Vertex Research Labs provides NAD+ in 500mg and 1000mg research formats. Certificates of Analysis are available on request where applicable.",
         list: [
           "Molecular weight: 663.4 Da (free acid)",
           "Formula: C₂₁H₂₇N₇O₁₄P₂",
@@ -1342,7 +1341,7 @@ export const articles: Article[] = [
       {
         question: "What purity standard should research-grade NAD+ meet?",
         answer:
-          "≥99% purity by HPLC is the accepted standard for research-grade NAD+, with identity confirmation by mass spectrometry and batch-specific COA documentation.",
+          "≥99% purity by HPLC is the accepted standard for research-grade NAD+, with identity confirmation by mass spectrometry. Certificates of Analysis are available on request where applicable.",
       },
     ],
     relatedProducts: ["nad-plus", "nad-plus-1000"],
@@ -1414,7 +1413,7 @@ export const articles: Article[] = [
       {
         heading: "Laboratory Specifications",
         content:
-          "Research-grade glutathione (reduced form, GSH) is supplied as a lyophilized powder with ≥99% purity verified by HPLC. The molecular weight of the reduced form is 307.3 Da (C₁₀H₁₇N₃O₆S). GSH is sensitive to oxidation and should be stored under inert gas or in desiccated, low-oxygen conditions. Vertex Research Labs provides glutathione with third-party COA documentation confirming identity, purity, and batch traceability.",
+          "Research-grade glutathione (reduced form, GSH) is supplied as a lyophilized powder with ≥99% purity verified by HPLC. The molecular weight of the reduced form is 307.3 Da (C₁₀H₁₇N₃O₆S). GSH is sensitive to oxidation and should be stored under inert gas or in desiccated, low-oxygen conditions. At Vertex Research Labs, Certificates of Analysis are available on request where applicable.",
       },
       {
         heading: "Research Disclaimer",
@@ -1513,7 +1512,7 @@ export const articles: Article[] = [
       {
         heading: "Laboratory Specifications",
         content:
-          "Research-grade Kisspeptin-10 is supplied as a C-terminal amide lyophilized powder at ≥99% HPLC purity. Mass spectrometry confirms correct molecular identity including the amide modification. Each batch from Vertex Research Labs ships with a third-party Certificate of Analysis documenting purity, sequence identity, and batch information.",
+          "Research-grade Kisspeptin-10 is supplied as a C-terminal amide lyophilized powder at ≥99% HPLC purity. Mass spectrometry confirms correct molecular identity including the amide modification. At Vertex Research Labs, Certificates of Analysis are available on request where applicable.",
       },
       {
         heading: "Research Disclaimer",
@@ -1540,7 +1539,7 @@ export const articles: Article[] = [
       {
         question: "What purity is required for research-grade Kisspeptin-10?",
         answer:
-          "≥99% purity by HPLC is the accepted standard, accompanied by mass spectrometry identity confirmation (including verification of the C-terminal amide modification) and a batch-specific Certificate of Analysis.",
+          "≥99% purity by HPLC is the accepted standard, accompanied by mass spectrometry identity confirmation (including verification of the C-terminal amide modification). Certificates of Analysis are available on request where applicable.",
       },
     ],
     relatedProducts: ["kisspeptin"],
@@ -1605,7 +1604,7 @@ export const articles: Article[] = [
       {
         heading: "Laboratory Specifications",
         content:
-          "Research-grade Tesamorelin is supplied as a lyophilized powder at ≥99% purity by HPLC. Given its size (44 amino acids), identity confirmation by LC-MS/MS is included in Certificate of Analysis documentation. Vertex Research Labs provides Tesamorelin in 2mg and 5mg research formats with full batch-specific third-party COA documentation.",
+          "Research-grade Tesamorelin is supplied as a lyophilized powder at ≥99% purity by HPLC. Given its size (44 amino acids), identity confirmation by LC-MS/MS is included in Certificate of Analysis documentation. Vertex Research Labs provides Tesamorelin in 2mg and 5mg research formats. Certificates of Analysis are available on request where applicable.",
         list: [
           "Available formats: 2mg, 5mg lyophilized powder",
           "Purity: ≥99% by HPLC",
@@ -1638,7 +1637,7 @@ export const articles: Article[] = [
       {
         question: "What purity standard is used for research-grade Tesamorelin?",
         answer:
-          "≥99% purity by HPLC, confirmed by LC-MS/MS identity verification and a batch-specific Certificate of Analysis, is the standard for research-grade Tesamorelin.",
+          "≥99% purity by HPLC, confirmed by LC-MS/MS identity verification, is the standard for research-grade Tesamorelin. Certificates of Analysis are available on request where applicable.",
       },
     ],
     relatedProducts: ["tesamorelin", "tesamorelin-2mg"],
@@ -1709,7 +1708,7 @@ export const articles: Article[] = [
       {
         heading: "Laboratory Specifications",
         content:
-          "Research-grade PT-141 (Bremelanotide) is supplied as a lyophilized powder at ≥99% HPLC purity. Mass spectrometry identity confirmation verifies the correct cyclic peptide molecular weight and lactam ring structure. Vertex Research Labs provides batch-specific third-party COA documentation with every PT-141 shipment.",
+          "Research-grade PT-141 (Bremelanotide) is supplied as a lyophilized powder at ≥99% HPLC purity. Mass spectrometry identity confirmation verifies the correct cyclic peptide molecular weight and lactam ring structure. At Vertex Research Labs, Certificates of Analysis are available on request where applicable.",
       },
       {
         heading: "Research Disclaimer",
@@ -1736,7 +1735,7 @@ export const articles: Article[] = [
       {
         question: "What purity standard is required for research-grade PT-141?",
         answer:
-          "≥99% purity by HPLC, confirmed by mass spectrometry identity verification of the cyclic peptide structure and a batch-specific Certificate of Analysis.",
+          "≥99% purity by HPLC, confirmed by mass spectrometry identity verification of the cyclic peptide structure. Certificates of Analysis are available on request where applicable.",
       },
     ],
     relatedProducts: ["pt-141"],
@@ -1808,7 +1807,7 @@ export const articles: Article[] = [
       {
         heading: "Laboratory Specifications",
         content:
-          "Research-grade MT-II is supplied as a lyophilized powder at ≥99% purity by HPLC. Mass spectrometry confirms the cyclic peptide structure including the lactam bridge and correct molecular weight. Vertex Research Labs provides batch-specific third-party COA documentation with every MT-II shipment.",
+          "Research-grade MT-II is supplied as a lyophilized powder at ≥99% purity by HPLC. Mass spectrometry confirms the cyclic peptide structure including the lactam bridge and correct molecular weight. At Vertex Research Labs, Certificates of Analysis are available on request where applicable.",
       },
       {
         heading: "Research Disclaimer",
@@ -1835,7 +1834,7 @@ export const articles: Article[] = [
       {
         question: "What purity is required for research-grade MT-II?",
         answer:
-          "≥99% purity by HPLC is the standard, confirmed by mass spectrometry identity verification of the cyclic peptide structure and batch-specific Certificate of Analysis documentation.",
+          "≥99% purity by HPLC is the standard, confirmed by mass spectrometry identity verification of the cyclic peptide structure. Certificates of Analysis are available on request where applicable.",
       },
     ],
     relatedProducts: ["mt2"],
@@ -1907,7 +1906,7 @@ export const articles: Article[] = [
       {
         heading: "Laboratory Specifications",
         content:
-          "Research-grade DSIP is supplied as a lyophilized powder at ≥99% purity by HPLC. Mass spectrometry confirms the correct nonapeptide sequence and molecular weight of 848.9 Da. Vertex Research Labs provides batch-specific third-party COA documentation with every DSIP shipment. DSIP should be stored desiccated at -20°C and protected from repeated freeze-thaw cycles.",
+          "Research-grade DSIP is supplied as a lyophilized powder at ≥99% purity by HPLC. Mass spectrometry confirms the correct nonapeptide sequence and molecular weight of 848.9 Da. At Vertex Research Labs, Certificates of Analysis are available on request where applicable. DSIP should be stored desiccated at -20°C and protected from repeated freeze-thaw cycles.",
       },
       {
         heading: "Research Disclaimer",
@@ -1934,7 +1933,7 @@ export const articles: Article[] = [
       {
         question: "What purity standard is required for research-grade DSIP?",
         answer:
-          "≥99% purity by HPLC is the standard for research-grade DSIP, confirmed alongside mass spectrometry identity verification and a batch-specific Certificate of Analysis.",
+          "≥99% purity by HPLC is the standard for research-grade DSIP, confirmed alongside mass spectrometry identity verification. Certificates of Analysis are available on request where applicable.",
       },
     ],
     relatedProducts: ["dsip"],
@@ -2004,11 +2003,11 @@ export const articles: Article[] = [
       {
         heading: "Blend Specifications and Quality",
         content:
-          "The Wolverine Blend from Vertex Research Labs contains both BPC-157 and TB-500 as verified research-grade components, each at ≥99% purity by HPLC. The blend is supplied as a co-lyophilized powder in a sealed research vial. The Certificate of Analysis for the Wolverine Blend documents purity, identity (by mass spectrometry for both components), and blend ratio, enabling researchers to confirm the composition of the combined preparation before use.",
+          "The Wolverine Blend from Vertex Research Labs contains both BPC-157 and TB-500 as verified research-grade components, each at ≥99% purity by HPLC. The blend is supplied as a co-lyophilized powder in a sealed research vial. Where applicable, Certificate of Analysis documentation covering purity and identity (by mass spectrometry for both components) is available on request.",
         list: [
           "Components: BPC-157 (≥99% HPLC) + TB-500 (≥99% HPLC)",
           "Form: Co-lyophilized powder, single research vial",
-          "COA: Covers identity and purity of both components separately",
+          "COA: Available on request where applicable, covering identity and purity of both components",
           "Storage: Lyophilized at -20°C; reconstituted solution use promptly",
         ],
       },
@@ -2037,12 +2036,12 @@ export const articles: Article[] = [
       {
         question: "Does the Wolverine Blend COA cover both peptide components?",
         answer:
-          "Yes. The Certificate of Analysis provided with each Wolverine Blend shipment documents the identity and purity of both BPC-157 and TB-500 components individually, confirmed by separate HPLC and mass spectrometry analyses for each peptide in the blend.",
+          "Where Certificate of Analysis documentation is available, it covers the identity and purity of both BPC-157 and TB-500 components individually, by HPLC and mass spectrometry for each peptide in the blend. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "What purity standards apply to each component in the Wolverine Blend?",
         answer:
-          "Both BPC-157 and TB-500 in the Wolverine Blend are held to ≥99% HPLC purity standards. The co-lyophilized blend COA documents that each component meets this threshold independently before being combined into the research preparation.",
+          "Both BPC-157 and TB-500 in the Wolverine Blend are held to ≥99% HPLC purity standards, with each component verified independently before being combined into the research preparation. Certificates of Analysis are available on request where applicable.",
       },
     ],
     relatedProducts: ["wolverine-blend"],

@@ -20,7 +20,7 @@ const Quality = () => {
   const qualityPages = [
     {
       title: "Testing & COAs",
-      description: "Search certificates by product, lot, or sample ID. View full chromatograms and mass spectra.",
+      description: "How our reference materials are tested. Certificates of Analysis are available on request where applicable.",
       icon: Search,
       href: "/quality/testing",
       highlight: true
@@ -32,8 +32,8 @@ const Quality = () => {
       href: "/quality/methods"
     },
     {
-      title: "Chain of Custody",
-      description: "Lot numbering, retention samples, pass/fail criteria, and batch control documentation.",
+      title: "Handling & Quality Controls",
+      description: "Retention samples, pass/fail criteria, and quality control documentation.",
       icon: Package,
       href: "/quality/chain-of-custody"
     }
@@ -42,8 +42,8 @@ const Quality = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <SEOHead
-        title="Peptide Quality Standards | HPLC Testing, COAs & Batch Documentation"
-        description="Every Vertex Research Labs peptide is independently HPLC tested with ≥99% purity verification. View our testing methods, Certificates of Analysis, and chain-of-custody documentation."
+        title="Peptide Quality Standards | HPLC Testing & Documentation"
+        description="Vertex Research Labs reference materials are independently HPLC tested with ≥99% purity verification. View our testing methods and quality documentation. Certificates of Analysis are available on request where applicable."
         canonical="/quality"
         keywords={[
           "peptide COA",
@@ -116,7 +116,7 @@ const Quality = () => {
                   <div>
                     <h3 className="text-xl font-semibold text-foreground mb-2">Independent Testing</h3>
                     <p className="text-muted-foreground mb-4">
-                      Every lot is tested by an independent, ISO-certified laboratory. We don't rely on manufacturer-provided COAs alone.
+                      Our reference materials are tested by an independent, ISO-certified laboratory.
                     </p>
                     <Link to="/quality/testing" className="text-primary text-sm font-medium hover:underline inline-flex items-center gap-1">
                       View certificates <ChevronRight size={14} />
@@ -133,7 +133,7 @@ const Quality = () => {
                   <div>
                     <h3 className="text-xl font-semibold text-foreground mb-2">Full Documentation</h3>
                     <p className="text-muted-foreground mb-4">
-                      Not just purity numbers—access complete chromatograms, mass spectra, and analytical methods for every product.
+                      Not just purity numbers—our analytical methods cover chromatograms and mass spectra. Certificates of Analysis are available on request where applicable.
                     </p>
                     <Link to="/quality/methods" className="text-primary text-sm font-medium hover:underline inline-flex items-center gap-1">
                       Learn about methods <ChevronRight size={14} />
@@ -150,7 +150,7 @@ const Quality = () => {
                   <div>
                     <h3 className="text-xl font-semibold text-foreground mb-2">Third-Party Verification</h3>
                     <p className="text-muted-foreground mb-4">
-                      We partner with Freedom Diagnostics, a US-based analytical laboratory with searchable COA verification.
+                      We partner with Freedom Diagnostics, a US-based analytical laboratory, for independent verification.
                     </p>
                     <Link to="/quality/chain-of-custody" className="text-primary text-sm font-medium hover:underline inline-flex items-center gap-1">
                       See verification details <ChevronRight size={14} />
@@ -165,12 +165,12 @@ const Quality = () => {
                     <Package size={24} className="text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">Traceability</h3>
+                    <h3 className="text-xl font-semibold text-foreground mb-2">Quality Controls</h3>
                     <p className="text-muted-foreground mb-4">
-                      Complete chain of custody from synthesis to delivery. Retention samples maintained for every lot.
+                      Careful handling from receipt to delivery, with retention samples maintained for reference.
                     </p>
                     <Link to="/quality/chain-of-custody" className="text-primary text-sm font-medium hover:underline inline-flex items-center gap-1">
-                      View batch controls <ChevronRight size={14} />
+                      View quality controls <ChevronRight size={14} />
                     </Link>
                   </div>
                 </div>
@@ -181,15 +181,15 @@ const Quality = () => {
           {/* CTA */}
           <div className="mt-16 glass-card rounded-xl p-8 text-center">
             <h2 className="text-2xl font-semibold text-foreground mb-4">
-              Looking for a specific COA?
+              Need a Certificate of Analysis?
             </h2>
             <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-              Search our database by product name, lot number, or sample ID to find the exact certificate you need.
+              Certificates of Analysis are available on request where applicable. Contact us to request available documentation.
             </p>
             <Button variant="hero" size="lg" asChild>
               <Link to="/quality/testing">
                 <Search size={18} />
-                Search Certificates
+                View Testing & COAs
               </Link>
             </Button>
           </div>

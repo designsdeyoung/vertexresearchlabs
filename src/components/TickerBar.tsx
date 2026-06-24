@@ -4,7 +4,7 @@ const items = [
   { icon: Truck, label: "Fast US 2–3 Day Shipping" },
   { icon: ShieldCheck, label: "≥99% Purity Reports" },
   { icon: FlaskConical, label: "For Research Use Only" },
-  { icon: FileCheck, label: "Certificate of Analysis" },
+  { icon: FileCheck, label: "COA on Request" },
   { icon: Microscope, label: "Independent Third-Party Tested" },
   { icon: Award, label: "Pharmaceutical Grade Materials" },
   { icon: Zap, label: "Same-Day Order Processing" },

@@ -147,7 +147,7 @@ const Hero = () => {
             >
               <FileCheck size={14} className="shrink-0 text-primary" />
               <span className="font-mono text-[10px] uppercase tracking-wider text-foreground/90">
-                Lot-Specific COA · Every Batch
+                COA on request
               </span>
             </motion.div>
           </div>

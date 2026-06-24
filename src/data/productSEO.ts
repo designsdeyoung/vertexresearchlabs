@@ -42,12 +42,12 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "What purity is Vertex Research Labs' GHK-Cu?",
         answer:
-          "Our GHK-Cu is independently verified at ≥99% purity by HPLC analysis. Each batch is accompanied by a Certificate of Analysis (COA) confirming identity and purity.",
+          "Our GHK-Cu is independently verified at ≥99% purity by HPLC analysis. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "Does GHK-Cu come with a Certificate of Analysis?",
         answer:
-          "Yes. Every order of GHK-Cu includes access to a batch-specific Certificate of Analysis documenting purity, identity confirmation, and testing methodology.",
+          "Certificates of Analysis are available on request where applicable — contact us and we'll share any documentation we have for the compound.",
       },
       {
         question: "What form does GHK-Cu ship in?",
@@ -78,7 +78,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       "GHK-Cu research grade",
     ],
     researchSummary:
-      "The 100mg bulk format of GHK-Cu is suited for extended laboratory studies or multi-experiment protocols. Same ≥99% purity standard as the 50mg format, with independent COA documentation for each batch.",
+      "The 100mg bulk format of GHK-Cu is suited for extended laboratory studies or multi-experiment protocols. Same ≥99% purity standard as the 50mg format. Certificates of Analysis are available on request where applicable.",
     faqs: [
       {
         question: "What is the difference between the 50mg and 100mg GHK-Cu?",
@@ -88,7 +88,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "Is the 100mg GHK-Cu independently tested?",
         answer:
-          "Yes. All batch sizes undergo independent HPLC verification with a Certificate of Analysis provided.",
+          "Yes. Our GHK-Cu undergoes independent HPLC verification. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "How should bulk GHK-Cu be stored?",
@@ -102,7 +102,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "retatrutide": {
     metaTitle: "Retatrutide 10mg | ≥99% Purity Triple Agonist Research Peptide",
     metaDescription:
-      "Buy Retatrutide 10mg research peptide. ≥99% purity, HPLC verified, COA included. GLP-1/GIP/glucagon triple receptor agonist reference material for laboratory research.",
+      "Buy Retatrutide 10mg research peptide. ≥99% purity, HPLC verified. GLP-1/GIP/glucagon triple receptor agonist reference material for laboratory research.",
     keywords: [
       "retatrutide",
       "buy retatrutide",
@@ -130,7 +130,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "What purity is your Retatrutide?",
         answer:
-          "Our Retatrutide is independently verified at ≥99% purity by HPLC analysis, with a batch-specific Certificate of Analysis included with every order.",
+          "Our Retatrutide is independently verified at ≥99% purity by HPLC analysis. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "How does Retatrutide differ from Semaglutide or Tirzepatide?",
@@ -154,7 +154,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "klow": {
     metaTitle: "KLOW 80mg Blend | GHK-Cu BPC-157 TB-500 KPV | ≥99% Purity",
     metaDescription:
-      "Buy KLOW 80mg peptide blend — GHK-Cu (50mg), BPC-157 (10mg), TB-500 (10mg), KPV (10mg). ≥99% purity, independent COA included. Four-peptide research reference material, lab use only.",
+      "Buy KLOW 80mg peptide blend — GHK-Cu (50mg), BPC-157 (10mg), TB-500 (10mg), KPV (10mg). ≥99% purity, HPLC verified. Four-peptide research reference material, lab use only.",
     keywords: [
       "KLOW",
       "buy KLOW",
@@ -172,7 +172,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       "KLOW for sale",
     ],
     researchSummary:
-      "KLOW is a four-peptide research blend combining GHK-Cu (50mg), BPC-157 (10mg), TB-500 (10mg), and KPV (10mg) in a single 80mg vial. GHK-Cu is a copper-binding tripeptide, BPC-157 is a pentadecapeptide, TB-500 is a synthetic fragment of thymosin β4, and KPV is a tripeptide derived from alpha-MSH. Each component is independently verified at ≥99% purity by HPLC, with a batch-specific Certificate of Analysis included. Supplied for laboratory research use only — not for human or veterinary use.",
+      "KLOW is a four-peptide research blend combining GHK-Cu (50mg), BPC-157 (10mg), TB-500 (10mg), and KPV (10mg) in a single 80mg vial. GHK-Cu is a copper-binding tripeptide, BPC-157 is a pentadecapeptide, TB-500 is a synthetic fragment of thymosin β4, and KPV is a tripeptide derived from alpha-MSH. Each component is independently verified at ≥99% purity by HPLC. Certificates of Analysis are available on request where applicable. Supplied for laboratory research use only — not for human or veterinary use.",
     faqs: [
       {
         question: "What is KLOW?",
@@ -187,7 +187,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "What purity is your KLOW?",
         answer:
-          "Each peptide in our KLOW blend is independently verified at ≥99% purity by HPLC analysis, with a batch-specific Certificate of Analysis included with every order.",
+          "Each peptide in our KLOW blend is independently verified at ≥99% purity by HPLC analysis. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "Is KLOW for human use?",
@@ -199,9 +199,9 @@ export const productSEO: Record<string, ProductSEOData> = {
   },
 
   "bpc-157": {
-    metaTitle: "BPC-157 5mg | ≥99% Purity Research Peptide with COA",
+    metaTitle: "BPC-157 5mg | ≥99% Purity Research Peptide",
     metaDescription:
-      "Buy BPC-157 (Body Protection Compound 157) 5mg. ≥99% purity, HPLC verified, COA included. Pentadecapeptide research material. Lab use only.",
+      "Buy BPC-157 (Body Protection Compound 157) 5mg. ≥99% purity, HPLC verified. Pentadecapeptide research material. Lab use only.",
     keywords: [
       "BPC-157",
       "buy BPC-157",
@@ -230,12 +230,12 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "What purity is your BPC-157?",
         answer:
-          "Our BPC-157 is independently verified at ≥99% purity via HPLC. Every batch ships with a Certificate of Analysis confirming purity and molecular identity.",
+          "Our BPC-157 is independently verified at ≥99% purity via HPLC. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "Does your BPC-157 come with a COA?",
         answer:
-          "Yes. A batch-specific Certificate of Analysis is included with every BPC-157 order. It documents HPLC purity, identity testing, and batch traceability.",
+          "Certificates of Analysis are available on request where applicable — contact us and we'll share any documentation we have for the compound.",
       },
       {
         question: "What is the molecular weight of BPC-157?",
@@ -259,7 +259,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "tb-500": {
     metaTitle: "TB-500 / Thymosin Beta-4 5mg | ≥99% Purity Research Peptide",
     metaDescription:
-      "Buy TB-500 (Thymosin Beta-4 Acetate) 5mg research peptide. ≥99% purity, HPLC tested, COA included. Research-grade reference material for laboratory use.",
+      "Buy TB-500 (Thymosin Beta-4 Acetate) 5mg research peptide. ≥99% purity, HPLC tested. Research-grade reference material for laboratory use.",
     keywords: [
       "TB-500",
       "buy TB-500",
@@ -293,7 +293,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "What purity is your TB-500?",
         answer:
-          "Our TB-500 is verified at ≥99% purity by independent HPLC analysis. A Certificate of Analysis documenting purity and batch identity is included with every order.",
+          "Our TB-500 is verified at ≥99% purity by independent HPLC analysis. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "Can TB-500 and BPC-157 be studied together?",
@@ -312,7 +312,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "selank": {
     metaTitle: "Selank 5mg | ≥99% Purity Anxiolytic Heptapeptide Research Material",
     metaDescription:
-      "Buy Selank 5mg research peptide. ≥99% purity, HPLC verified, COA included. Tuftsin-derived heptapeptide reference material for neuroscience laboratory research.",
+      "Buy Selank 5mg research peptide. ≥99% purity, HPLC verified. Tuftsin-derived heptapeptide reference material for neuroscience laboratory research.",
     keywords: [
       "Selank",
       "buy Selank",
@@ -339,7 +339,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "What purity is your Selank?",
         answer:
-          "Our Selank is independently verified at ≥99% purity by HPLC, with a Certificate of Analysis included with every order.",
+          "Our Selank is independently verified at ≥99% purity by HPLC. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "How does Selank differ from Semax?",
@@ -358,7 +358,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "semax": {
     metaTitle: "Semax 5mg | ≥99% Purity Neuropeptide Research Material",
     metaDescription:
-      "Buy Semax 5mg research peptide. ≥99% purity, HPLC verified, COA included. ACTH-derived heptapeptide reference material for neuroscience laboratory research.",
+      "Buy Semax 5mg research peptide. ≥99% purity, HPLC verified. ACTH-derived heptapeptide reference material for neuroscience laboratory research.",
     keywords: [
       "Semax",
       "buy Semax",
@@ -386,7 +386,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "What is the purity of your Semax?",
         answer:
-          "Our Semax is independently verified at ≥99% purity by HPLC analysis, with a Certificate of Analysis included in every order.",
+          "Our Semax is independently verified at ≥99% purity by HPLC analysis. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "How does Semax differ from Selank?",
@@ -405,7 +405,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "nad-plus": {
     metaTitle: "NAD+ 500mg | ≥99% Purity Coenzyme Research Material",
     metaDescription:
-      "Buy NAD+ (Nicotinamide Adenine Dinucleotide) 500mg research grade. ≥99% purity, independently verified COA. Premium coenzyme reference material for laboratory use.",
+      "Buy NAD+ (Nicotinamide Adenine Dinucleotide) 500mg research grade. ≥99% purity, independently verified. Premium coenzyme reference material for laboratory use.",
     keywords: [
       "NAD+",
       "buy NAD+",
@@ -433,7 +433,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "What purity is your NAD+?",
         answer:
-          "Our NAD+ is independently verified at ≥99% purity, with a Certificate of Analysis provided for each batch.",
+          "Our NAD+ is independently verified at ≥99% purity. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "What is the difference between NAD+ and NMN or NR?",
@@ -457,7 +457,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "nad-plus-1000": {
     metaTitle: "NAD+ 1000mg | ≥99% Purity Bulk Coenzyme Research Material",
     metaDescription:
-      "Buy NAD+ 1000mg bulk research grade coenzyme. ≥99% purity, independently verified, COA included. Best value NAD+ reference material for extended laboratory protocols.",
+      "Buy NAD+ 1000mg bulk research grade coenzyme. ≥99% purity, independently verified. Best value NAD+ reference material for extended laboratory protocols.",
     keywords: [
       "NAD+ 1000mg",
       "bulk NAD+",
@@ -469,7 +469,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       "NAD+ wholesale research",
     ],
     researchSummary:
-      "The 1000mg bulk format of NAD+ is designed for larger laboratory studies, multi-arm experiments, or ongoing research requiring consistent coenzyme supply. Same ≥99% purity standard as the 500mg format, with batch-specific COA documentation.",
+      "The 1000mg bulk format of NAD+ is designed for larger laboratory studies, multi-arm experiments, or ongoing research requiring consistent coenzyme supply. Same ≥99% purity standard as the 500mg format. Certificates of Analysis are available on request where applicable.",
     faqs: [
       {
         question: "Why buy the 1000mg NAD+ over the 500mg?",
@@ -479,12 +479,12 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "Is the bulk NAD+ the same purity as the 500mg?",
         answer:
-          "Yes — both sizes are independently verified at ≥99% purity with batch-specific Certificates of Analysis.",
+          "Yes — both sizes are independently verified at ≥99% purity. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "Does bulk NAD+ have the same COA documentation?",
         answer:
-          "Yes. Every order includes a batch-specific Certificate of Analysis regardless of quantity.",
+          "Certificates of Analysis are available on request where applicable — contact us and we'll share any documentation we have for the compound.",
       },
     ],
     relatedProducts: ["nad-plus", "mots-c-40", "glutathione"],
@@ -493,7 +493,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "glutathione": {
     metaTitle: "Glutathione 1500mg | ≥99% Purity Tripeptide Antioxidant Research Material",
     metaDescription:
-      "Buy Glutathione (L-Glutathione, GSH) 1500mg research grade. ≥99% purity, COA verified. Tripeptide antioxidant reference material for laboratory research. New.",
+      "Buy Glutathione (L-Glutathione, GSH) 1500mg research grade. ≥99% purity, HPLC verified. Tripeptide antioxidant reference material for laboratory research. New.",
     keywords: [
       "glutathione",
       "buy glutathione",
@@ -521,7 +521,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "What purity is your Glutathione?",
         answer:
-          "Our Glutathione is independently verified at ≥99% purity with a Certificate of Analysis provided for every order.",
+          "Our Glutathione is independently verified at ≥99% purity. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "What is the difference between reduced and oxidized glutathione?",
@@ -540,7 +540,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "mots-c": {
     metaTitle: "MOTS-c 10mg | ≥99% Purity Mitochondrial Peptide Research Material",
     metaDescription:
-      "Buy MOTS-c 10mg research peptide. ≥99% purity, HPLC verified, COA included. Mitochondrial-derived peptide reference material. One of the most trending peptides in longevity research.",
+      "Buy MOTS-c 10mg research peptide. ≥99% purity, HPLC verified. Mitochondrial-derived peptide reference material. One of the most trending peptides in longevity research.",
     keywords: [
       "MOTS-c",
       "buy MOTS-c",
@@ -573,7 +573,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "What purity is your MOTS-c?",
         answer:
-          "Our MOTS-c is independently verified at ≥99% purity by HPLC, with a Certificate of Analysis included with every order.",
+          "Our MOTS-c is independently verified at ≥99% purity by HPLC. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "Is there a larger bulk MOTS-c option?",
@@ -592,7 +592,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "kisspeptin": {
     metaTitle: "Kisspeptin 5mg | ≥99% Purity Neuropeptide Research Material",
     metaDescription:
-      "Buy Kisspeptin-10 5mg research peptide. ≥99% purity, HPLC verified, COA included. KISS1-derived neuropeptide reference material for endocrinology laboratory research.",
+      "Buy Kisspeptin-10 5mg research peptide. ≥99% purity, HPLC verified. KISS1-derived neuropeptide reference material for endocrinology laboratory research.",
     keywords: [
       "Kisspeptin",
       "buy Kisspeptin",
@@ -624,7 +624,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "What purity is your Kisspeptin?",
         answer:
-          "Our Kisspeptin is independently verified at ≥99% purity by HPLC, with a Certificate of Analysis included with every order.",
+          "Our Kisspeptin is independently verified at ≥99% purity by HPLC. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "What receptors does Kisspeptin bind?",
@@ -638,7 +638,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "tesamorelin": {
     metaTitle: "Tesamorelin 2mg | ≥99% Purity GHRH Analog Research Peptide",
     metaDescription:
-      "Buy Tesamorelin 2mg research peptide. ≥99% purity, HPLC verified, COA included. Growth hormone-releasing hormone analog reference material for laboratory research.",
+      "Buy Tesamorelin 2mg research peptide. ≥99% purity, HPLC verified. Growth hormone-releasing hormone analog reference material for laboratory research.",
     keywords: [
       "Tesamorelin",
       "buy Tesamorelin",
@@ -670,7 +670,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "What purity is your Tesamorelin?",
         answer:
-          "Our Tesamorelin is independently verified at ≥99% purity by HPLC, with a batch-specific Certificate of Analysis included with every order.",
+          "Our Tesamorelin is independently verified at ≥99% purity by HPLC. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "How does Tesamorelin differ from Sermorelin or CJC-1295?",
@@ -689,7 +689,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "pt-141": {
     metaTitle: "PT-141 (Bremelanotide) 10mg | ≥99% Purity Research Peptide",
     metaDescription:
-      "Buy PT-141 (Bremelanotide) 10mg research peptide. ≥99% purity, HPLC verified, COA included. Melanocortin receptor agonist reference material for laboratory research.",
+      "Buy PT-141 (Bremelanotide) 10mg research peptide. ≥99% purity, HPLC verified. Melanocortin receptor agonist reference material for laboratory research.",
     keywords: [
       "PT-141",
       "buy PT-141",
@@ -716,7 +716,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "What purity is your PT-141?",
         answer:
-          "Our PT-141 is independently verified at ≥99% purity by HPLC, with a Certificate of Analysis included with every order.",
+          "Our PT-141 is independently verified at ≥99% purity by HPLC. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "How does PT-141 differ from MT2 (Melanotan II)?",
@@ -735,7 +735,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "mt2": {
     metaTitle: "MT2 Melanotan II 10mg | ≥99% Purity Melanocortin Research Peptide",
     metaDescription:
-      "Buy MT2 (Melanotan II) 10mg research peptide. ≥99% purity, HPLC verified, COA included. Melanocortin receptor agonist reference material for laboratory research.",
+      "Buy MT2 (Melanotan II) 10mg research peptide. ≥99% purity, HPLC verified. Melanocortin receptor agonist reference material for laboratory research.",
     keywords: [
       "MT2",
       "Melanotan II",
@@ -763,7 +763,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "What purity is your MT2?",
         answer:
-          "Our MT2 is independently verified at ≥99% purity by HPLC, with a Certificate of Analysis included with every order.",
+          "Our MT2 is independently verified at ≥99% purity by HPLC. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "What is the difference between MT1 (Melanotan I) and MT2?",
@@ -782,7 +782,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "dsip": {
     metaTitle: "DSIP (Delta Sleep-Inducing Peptide) 5mg | ≥99% Purity Research Material",
     metaDescription:
-      "Buy DSIP (Delta Sleep-Inducing Peptide) 5mg research peptide. ≥99% purity, HPLC verified, COA included. Nonapeptide reference material for neuroendocrinology laboratory research.",
+      "Buy DSIP (Delta Sleep-Inducing Peptide) 5mg research peptide. ≥99% purity, HPLC verified. Nonapeptide reference material for neuroendocrinology laboratory research.",
     keywords: [
       "DSIP",
       "Delta Sleep-Inducing Peptide",
@@ -809,7 +809,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "What purity is your DSIP?",
         answer:
-          "Our DSIP is independently verified at ≥99% purity by HPLC, with a Certificate of Analysis included with every order.",
+          "Our DSIP is independently verified at ≥99% purity by HPLC. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "What is the amino acid sequence of DSIP?",
@@ -828,7 +828,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "epithalon": {
     metaTitle: "Epithalon (Epitalon) 10mg | ≥99% Purity Tetrapeptide Research Material",
     metaDescription:
-      "Buy Epithalon (Epitalon) 10mg research peptide. ≥99% purity, HPLC verified, COA included. Ala-Glu-Asp-Gly tetrapeptide reference material for longevity and telomere research.",
+      "Buy Epithalon (Epitalon) 10mg research peptide. ≥99% purity, HPLC verified. Ala-Glu-Asp-Gly tetrapeptide reference material for longevity and telomere research.",
     keywords: [
       "Epithalon",
       "Epitalon",
@@ -864,7 +864,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "What purity is your Epithalon?",
         answer:
-          "Our Epithalon is independently verified at ≥99% purity by HPLC, with a Certificate of Analysis included with every order.",
+          "Our Epithalon is independently verified at ≥99% purity by HPLC. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "What is the molecular weight of Epithalon?",
@@ -883,7 +883,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "wolverine-blend": {
     metaTitle: "Wolverine Blend BPC-157 + TB-500 10mg | ≥99% Purity Research Peptide",
     metaDescription:
-      "Buy Wolverine Blend — BPC-157 (5mg) + TB-500 (5mg) in a single research vial. ≥99% purity, HPLC verified, COA included. Most popular peptide combination for laboratory research.",
+      "Buy Wolverine Blend — BPC-157 (5mg) + TB-500 (5mg) in a single research vial. ≥99% purity, HPLC verified. Most popular peptide combination for laboratory research.",
     keywords: [
       "BPC-157 TB-500 blend",
       "Wolverine blend",
@@ -899,7 +899,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       "research peptide combo",
     ],
     researchSummary:
-      "The Wolverine Blend combines BPC-157 (5mg) and TB-500 / Thymosin Beta-4 Acetate (5mg) into a single research vial. Both peptides are extensively studied individually in preclinical settings. This combination format is designed for researchers who wish to study both reference materials simultaneously with a single COA-verified source.",
+      "The Wolverine Blend combines BPC-157 (5mg) and TB-500 / Thymosin Beta-4 Acetate (5mg) into a single research vial. Both peptides are extensively studied individually in preclinical settings. This combination format is designed for researchers who wish to study both reference materials simultaneously. Certificates of Analysis are available on request where applicable.",
     faqs: [
       {
         question: "What is the Wolverine Blend?",
@@ -909,12 +909,12 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "Why combine BPC-157 and TB-500 in one vial?",
         answer:
-          "BPC-157 and TB-500 are among the most co-researched peptide pairs in the preclinical literature. Combining them in a single verified vial simplifies procurement, reduces cost versus buying separately, and ensures both materials come from the same independently tested batch.",
+          "BPC-157 and TB-500 are among the most co-researched peptide pairs in the preclinical literature. Combining them in a single vial simplifies procurement and reduces cost versus buying separately.",
       },
       {
         question: "What purity is the Wolverine Blend?",
         answer:
-          "Both components are verified at ≥99% individual purity. The blend ships with a Certificate of Analysis covering both peptides.",
+          "Both components are verified at ≥99% individual purity. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "Can I buy BPC-157 and TB-500 separately?",
@@ -933,7 +933,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "cjc-ipa-blend": {
     metaTitle: "CJC-1295 / Ipamorelin Blend 10mg | ≥99% Purity GHRH + GHS Research Peptide",
     metaDescription:
-      "Buy CJC-1295 No DAC + Ipamorelin blend 10mg research peptide. ≥99% purity, HPLC verified, COA included. GHRH analog and GH secretagogue reference material for laboratory research.",
+      "Buy CJC-1295 No DAC + Ipamorelin blend 10mg research peptide. ≥99% purity, HPLC verified. GHRH analog and GH secretagogue reference material for laboratory research.",
     keywords: [
       "CJC-1295 Ipamorelin blend",
       "CJC-1295 No DAC",
@@ -971,7 +971,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "What purity is the CJC/IPA Blend?",
         answer:
-          "Both components are independently verified at ≥99% purity. The blend ships with a Certificate of Analysis documenting both peptides.",
+          "Both components are independently verified at ≥99% purity. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "What is the ratio of CJC-1295 to Ipamorelin in the blend?",
@@ -1052,7 +1052,7 @@ export const productSEO: Record<string, ProductSEOData> = {
   "mots-c-40": {
     metaTitle: "MOTS-c 40mg | ≥99% Purity Bulk Mitochondrial Peptide Research Material",
     metaDescription:
-      "Buy MOTS-c 40mg bulk research peptide. ≥99% purity, HPLC verified, COA included. Best value bulk mitochondrial-derived peptide reference material for extended research.",
+      "Buy MOTS-c 40mg bulk research peptide. ≥99% purity, HPLC verified. Best value bulk mitochondrial-derived peptide reference material for extended research.",
     keywords: [
       "MOTS-c 40mg",
       "bulk MOTS-c",
@@ -1063,7 +1063,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       "MOTS-c research grade 40mg",
     ],
     researchSummary:
-      "The 40mg bulk format of MOTS-c is intended for extended laboratory protocols or multi-arm studies. Same ≥99% purity and independent COA documentation as the 10mg standard format.",
+      "The 40mg bulk format of MOTS-c is intended for extended laboratory protocols or multi-arm studies. Same ≥99% purity standard as the 10mg standard format. Certificates of Analysis are available on request where applicable.",
     faqs: [
       {
         question: "Why choose the 40mg MOTS-c over the 10mg?",
@@ -1073,7 +1073,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "Is the purity the same as the 10mg MOTS-c?",
         answer:
-          "Yes. Both sizes are independently verified at ≥99% purity with batch-specific Certificates of Analysis.",
+          "Yes. Both sizes are independently verified at ≥99% purity. Certificates of Analysis are available on request where applicable.",
       },
     ],
     relatedProducts: ["mots-c", "nad-plus-1000", "epithalon"],

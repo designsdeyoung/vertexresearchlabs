@@ -20,7 +20,7 @@ const Methods = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <SEOHead
         title="Peptide Testing Methods | HPLC, GC-MS, Sterility & Identity Testing"
-        description="Learn how Vertex Research Labs tests every peptide batch: HPLC purity analysis, GC-MS identity confirmation, sterility testing, and full batch documentation protocols."
+        description="Learn how Vertex Research Labs tests its reference materials: HPLC purity analysis, GC-MS identity confirmation, sterility testing, and quality documentation protocols."
         canonical="/quality/methods"
         keywords={[
           "peptide HPLC testing",
@@ -195,7 +195,7 @@ const Methods = () => {
                 <h2 className="text-xl font-semibold text-foreground">Physical Characterization</h2>
               </div>
               <p className="text-muted-foreground mb-4">
-                Visual and physical property verification for each lot.
+                Visual and physical property verification of our reference materials.
               </p>
               <ul className="space-y-3">
                 <li className="flex items-start gap-2 text-sm">

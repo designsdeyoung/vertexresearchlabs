@@ -71,7 +71,8 @@ const Checkout = () => {
   };
 
   // Apply discount code — rate comes from validate-discount response
-  const discountAmount = discountValid ? subtotal * discountRate : 0;
+  // Discount codes can't stack with a Vertex Credit — credit takes precedence.
+  const discountAmount = (discountValid && !selectedCredit) ? subtotal * discountRate : 0;
 
   // Override shipping when promo grants free shipping
   const effectiveShipping = promoFreeShipping ? 0 : shippingCost;
@@ -108,6 +109,8 @@ const Checkout = () => {
         setPromoFreeShipping(!!data.freeShipping);
         setDiscountRate(data.discount ?? 0.1);
         setDiscountMessage(null);
+        // One discount per order — applying a code clears any selected credit
+        setSelectedCredit(null);
       }
     } catch {
       setDiscountValid(false);
@@ -386,6 +389,18 @@ const Checkout = () => {
     void handleStripeSuccess(`credit-${Date.now()}`);
   };
 
+  // Selecting a Vertex Credit clears any applied discount code — one per order.
+  const handleSelectCredit = (credit: ActiveCredit | null) => {
+    setSelectedCredit(credit);
+    if (credit && (discountValid || discountCode)) {
+      setDiscountCode("");
+      setDiscountValid(null);
+      setDiscountReferrerId(null);
+      setPromoFreeShipping(false);
+      setDiscountMessage(null);
+    }
+  };
+
   // Emergency manual-invoice fallback: submit an order request (no Stripe call,
   // no charge). Creates an "invoice_pending" order + sends admin/customer emails.
   const handleSubmitOrderRequest = async (e: React.FormEvent) => {
@@ -590,6 +605,7 @@ const Checkout = () => {
                     <Input
                       placeholder=""
                       value={discountCode}
+                      disabled={!!selectedCredit}
                       onChange={(e) => {
                         setDiscountCode(e.target.value.toUpperCase());
                         if (discountValid !== null) {
@@ -599,18 +615,23 @@ const Checkout = () => {
                           setDiscountMessage(null);
                         }
                       }}
-                      className="bg-secondary/50 uppercase"
+                      className="bg-secondary/50 uppercase disabled:opacity-50"
                       maxLength={30}
                     />
                     <Button
                       type="button"
                       variant="outline"
                       onClick={handleApplyDiscount}
-                      disabled={discountLoading || !discountCode.trim()}
+                      disabled={discountLoading || !discountCode.trim() || !!selectedCredit}
                     >
                       {discountLoading ? "..." : "Apply"}
                     </Button>
                   </div>
+                  {selectedCredit && (
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Discount codes can't be combined with a Vertex Credit — remove your credit below to use a code.
+                    </p>
+                  )}
                   {discountValid === true && (
                     <p className="text-xs text-primary mt-2 flex items-center gap-1">
                       <Sparkles size={10} /> {Math.round(discountRate * 100)}% discount applied{promoFreeShipping ? " + FREE shipping" : ""} — you save {formatPrice(discountAmount + (promoFreeShipping && !qualifiesForFreeShipping ? FLAT_RATE_SHIPPING : 0))}
@@ -629,7 +650,7 @@ const Checkout = () => {
                   pointsBalance={profile?.points_balance ?? 0}
                   isAuthenticated={!!profile?.id}
                   selectedCredit={selectedCredit}
-                  onSelectCredit={setSelectedCredit}
+                  onSelectCredit={handleSelectCredit}
                 />
 
 

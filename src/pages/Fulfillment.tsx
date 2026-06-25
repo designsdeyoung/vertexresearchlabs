@@ -632,8 +632,11 @@ const Fulfillment = () => {
   );
   if (!isAdmin) return null;
 
-  const unfulfilled = orders.filter((o) => o.status !== "shipped" && !o.tracking_number);
-  const shipped = orders.filter((o) => o.status === "shipped" || !!o.tracking_number);
+  // Unfulfilled = still needs shipping. Exclude already shipped/delivered/cancelled
+  // (a delivered order with no tracking number is done, not unfulfilled).
+  const DONE = ["shipped", "delivered", "cancelled"];
+  const unfulfilled = orders.filter((o) => !DONE.includes(o.status) && !o.tracking_number);
+  const shipped = orders.filter((o) => o.status === "shipped" || o.status === "delivered" || !!o.tracking_number);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, User, Sparkles, Search, ArrowRight } from "lucide-react";
 import logo from "@/assets/logo.png";
 import CartButton from "./CartButton";
+import AnnouncementBar from "./AnnouncementBar";
 import { useAuth } from "@/contexts/AuthContext";
 import { products } from "@/data/products";
 import { SITEWIDE_SALE } from "@/config/sale";
@@ -162,6 +163,7 @@ const Header = () => {
           : "border-b border-transparent bg-popover/70 backdrop-blur-md"
       }`}
     >
+      <AnnouncementBar />
       <div className="container mx-auto px-4 lg:px-6">
         <div className="flex h-[72px] items-center gap-4">
           {/* Logo */}

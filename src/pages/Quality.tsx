@@ -53,7 +53,7 @@ const Quality = () => {
           "peptide quality standards",
           "99% purity peptides",
           "independent peptide testing",
-          "peptide batch documentation",
+          "peptide purity documentation",
         ]}
       />
       <Header />

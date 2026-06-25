@@ -56,8 +56,8 @@ const Hero = () => {
             </h1>
 
             <p className="mt-5 max-w-[480px] text-base leading-relaxed text-muted-foreground md:text-lg">
-              Ultra-high purity reference materials, verified batch
-              documentation, and strict quality standards for researchers who
+              Ultra-high purity reference materials, independent purity
+              verification, and strict quality standards for researchers who
               demand certainty.
             </p>
 

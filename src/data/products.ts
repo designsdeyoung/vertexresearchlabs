@@ -1,12 +1,9 @@
 // Import product images
-import bpc157Image from "@/assets/products/bpc-157.png";
 import ghkCu100Image from "@/assets/products/ghk-cu-100.png";
 
 // Import COA images
 import ghkCuCoa from "@/assets/coa/ghk-cu-coa.jpg";
 import retatrutideCoa from "@/assets/coa/retatrutide-coa.jpg";
-import tb500Coa from "@/assets/coa/tb-500-coa.jpg";
-import tb500Image from "@/assets/products/tb-500.png";
 import retatrutideImage from "@/assets/products/retatrutide.png";
 import tirzepatideImage from "@/assets/products/tirzepatide.png";
 import ghkCuImage from "@/assets/products/ghk-cu.png";
@@ -241,73 +238,6 @@ export const products: Product[] = [
         year: 2021,
         title: "Tirzepatide versus Semaglutide Once Weekly in Type 2 Diabetes (SURPASS-2)",
         url: "https://pubmed.ncbi.nlm.nih.gov/34170647/"
-      }
-    ]
-  },
-  {
-    id: "bpc-157",
-    name: "BPC-157",
-    subtitle: "Research Grade",
-    size: "5mg",
-    price: 38,
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: bpc157Image,
-    category: "Peptide",
-    coa: tb500Coa,
-    stock: 0,
-    outOfStock: true,
-    references: [
-      {
-        authors: "Sikiric P et al.",
-        journal: "Current Pharmaceutical Design",
-        year: 2011,
-        title: "BPC-157 Peptide Studies",
-        url: "https://pubmed.ncbi.nlm.nih.gov/21548867/"
-      },
-      {
-        authors: "Chang CH et al.",
-        journal: "Journal of Applied Physiology",
-        year: 2011,
-        title: "BPC-157 Research",
-        url: "https://journals.physiology.org/doi/abs/10.1152/japplphysiol.00945.2010"
-      }
-    ]
-  },
-  {
-    id: "tb-500",
-    name: "TB-500 / Thymosin Beta-4 Acetate",
-    subtitle: "Research Grade",
-    size: "5mg",
-    price: 38,
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: tb500Image,
-    category: "Peptide",
-    coa: tb500Coa,
-    stock: 4,
-    references: [
-      {
-        authors: "Philp D et al.",
-        journal: "FASEB Journal",
-        year: 2011,
-        title: "Thymosin β4 Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/22074294/"
-      },
-      {
-        authors: "Goldstein AL et al.",
-        journal: "Annals of the New York Academy of Sciences",
-        year: 1997,
-        title: "Thymosin β4 Studies",
-        url: "https://pubmed.ncbi.nlm.nih.gov/9194528/"
       }
     ]
   },

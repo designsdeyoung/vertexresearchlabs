@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import ghkCuCoa from "@/assets/coa/ghk-cu-coa.jpg";
 import retatrutideCoa from "@/assets/coa/retatrutide-coa.jpg";
-import tb500Coa from "@/assets/coa/tb-500-coa.jpg";
 
 const features = [
   {
@@ -38,7 +37,6 @@ const features = [
 const coas = [
   { name: "GHK-Cu", size: "50mg", image: ghkCuCoa, productId: "ghk-cu" },
   { name: "Retatrutide", size: "10mg", image: retatrutideCoa, productId: "retatrutide" },
-  { name: "TB-500", size: "5mg", image: tb500Coa, productId: "tb-500" },
 ];
 
 const QualityTransparency = () => {

@@ -37,7 +37,7 @@ const BUNDLES: Bundle[] = [
     blurb:
       "Everything a new lab needs to begin reconstitution and handling work — compound, diluent, and structural reference.",
     icon: Beaker,
-    productIds: ["bpc-157", "bac-water-10ml", "ghk-cu"],
+    productIds: ["wolverine-blend", "bac-water-10ml", "ghk-cu"],
     bundleDiscountPct: 10,
   },
   {

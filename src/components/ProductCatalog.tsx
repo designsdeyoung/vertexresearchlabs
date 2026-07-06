@@ -55,11 +55,9 @@ const ProductCatalog = () => {
     "selank",
     "glutathione",
     // Remaining products
-    "bpc-157",
     "kisspeptin",
     "mt2",
     "pt-141",
-    "tb-500",
     "ghk-cu-100",
     "mots-c-40",
     "dsip",

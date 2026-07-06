@@ -31,8 +31,6 @@ import { toast } from "@/hooks/use-toast";
 const peptideElements = [
   { id: "ghk-cu", symbol: "GHK", category: "structural", researchFocus: "Copper peptide binding studies" },
   { id: "retatrutide", symbol: "RET", category: "metabolic", researchFocus: "Triple receptor agonist research" },
-  { id: "bpc-157", symbol: "BPC", category: "structural", researchFocus: "Body protection compound studies" },
-  { id: "tb-500", symbol: "TB4", category: "structural", researchFocus: "Thymosin beta-4 fragment analysis" },
   { id: "semax", symbol: "SMX", category: "neuroactive", researchFocus: "ACTH analog peptide research" },
   { id: "selank", symbol: "SLK", category: "neuroactive", researchFocus: "Tuftsin analog studies" },
   { id: "nad-plus-1000", symbol: "NAD", category: "metabolic", researchFocus: "Coenzyme metabolism research" },

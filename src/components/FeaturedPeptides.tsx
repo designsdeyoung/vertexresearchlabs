@@ -7,11 +7,9 @@ import { SITEWIDE_SALE } from "@/config/sale";
 /** Curated best-sellers with compliant compound-class descriptors
  *  (no benefit/treatment claims — research-use language only). */
 const FEATURED: { id: string; blurb: string }[] = [
-  { id: "bpc-157", blurb: "Pentadecapeptide reference standard" },
   { id: "klow", blurb: "GHK-Cu · BPC-157 · TB-500 · KPV blend" },
   { id: "retatrutide", blurb: "GIP/GLP-1/GCG triagonist peptide" },
   { id: "ghk-cu", blurb: "Copper tripeptide reference standard" },
-  { id: "tb-500", blurb: "Thymosin β4 fragment" },
   { id: "nad-plus-1000", blurb: "Coenzyme reference material" },
   { id: "semax", blurb: "Heptapeptide reference standard" },
   { id: "mots-c", blurb: "Mitochondrial-derived peptide" },

@@ -38,27 +38,30 @@ const ProductCatalog = () => {
     }
   }, [searchParams]);
 
-  // Sales-based ranking (units sold, all-time). Lower index = higher rank.
+  // Catalog display order. Lower index = higher placement.
   // Products not listed fall to the bottom in their original order.
   const salesRank: string[] = [
+    // Featured merchandising order (top of catalog)
     "retatrutide",
+    "tirzepatide",
+    "wolverine-blend",
     "klow",
     "ghk-cu",
-    "mots-c",
     "cjc-ipa-blend",
-    "wolverine-blend",
-    "bpc-157",
+    "tesamorelin",
+    "mots-c",
     "nad-plus-1000",
     "semax",
+    "selank",
+    "glutathione",
+    // Remaining products
+    "bpc-157",
     "kisspeptin",
     "mt2",
     "pt-141",
     "tb-500",
-    "tesamorelin",
     "ghk-cu-100",
     "mots-c-40",
-    "glutathione",
-    "selank",
     "dsip",
     "epithalon",
     // Diluents — always last; surfaced as upsell in cart instead.

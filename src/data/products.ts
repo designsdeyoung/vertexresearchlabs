@@ -697,7 +697,7 @@ export const products: Product[] = [
     category: "Peptide Blend",
     image: wolverineBlendImage,
     isNew: true,
-    stock: 1,
+    stock: 7,
     references: [
       {
         authors: "Sikiric P et al.",

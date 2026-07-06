@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, BadgeCheck, FileCheck, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import bpcVial from "@/assets/showcase/bpc-157-png.png";
 import ghkVial from "@/assets/showcase/ghk-cu-png.png";
-import tb500Vial from "@/assets/showcase/tb-500-png.png";
+import tesamorelinVial from "@/assets/showcase/tesamorelin-png.png";
+import klowVial from "@/assets/showcase/klow-png.png";
 import semaxVial from "@/assets/showcase/semax-png.png";
 import nadVial from "@/assets/showcase/nad-plus-png.png";
 
@@ -14,8 +14,8 @@ import nadVial from "@/assets/showcase/nad-plus-png.png";
  * `object-cover` crops the dead space — keeping the row tightly clustered. */
 const vials = [
   { src: ghkVial, alt: "GHK-Cu research vial", box: "hidden sm:block h-[155px] w-[70px] md:h-[190px] md:w-[86px]", z: "", delay: 0.35, float: "animate-float-sm" },
-  { src: tb500Vial, alt: "TB-500 research vial", box: "h-[200px] w-[90px] md:h-[250px] md:w-[112px]", z: "", delay: 0.25, float: "animate-float" },
-  { src: bpcVial, alt: "BPC-157 research vial", box: "h-[265px] w-[119px] md:h-[330px] md:w-[148px]", z: "z-10", delay: 0.15, float: "animate-float" },
+  { src: tesamorelinVial, alt: "Tesamorelin research vial", box: "h-[200px] w-[90px] md:h-[250px] md:w-[112px]", z: "", delay: 0.25, float: "animate-float" },
+  { src: klowVial, alt: "KLOW research vial", box: "h-[265px] w-[119px] md:h-[330px] md:w-[148px]", z: "z-10", delay: 0.15, float: "animate-float" },
   { src: semaxVial, alt: "Semax research vial", box: "h-[200px] w-[90px] md:h-[250px] md:w-[112px]", z: "", delay: 0.3, float: "animate-float-sm" },
   { src: nadVial, alt: "NAD+ research vial", box: "hidden sm:block h-[155px] w-[70px] md:h-[190px] md:w-[86px]", z: "", delay: 0.4, float: "animate-float" },
 ];

@@ -8,6 +8,7 @@ import retatrutideCoa from "@/assets/coa/retatrutide-coa.jpg";
 import tb500Coa from "@/assets/coa/tb-500-coa.jpg";
 import tb500Image from "@/assets/products/tb-500.png";
 import retatrutideImage from "@/assets/products/retatrutide.png";
+import tirzepatideImage from "@/assets/products/tirzepatide.png";
 import ghkCuImage from "@/assets/products/ghk-cu.png";
 import semaxImage from "@/assets/products/semax.png";
 import selankImage from "@/assets/products/selank.png";
@@ -209,6 +210,38 @@ export const products: Product[] = [
         year: 2023,
         title: "Retatrutide Phase 2 Trial",
         url: "https://www.nejm.org/doi/full/10.1056/NEJMoa2301972"
+      }
+    ]
+  },
+  {
+    id: "tirzepatide",
+    name: "Tirzepatide",
+    subtitle: "Research Grade",
+    size: "10mg",
+    price: 85,
+    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    image: tirzepatideImage,
+    category: "Peptide",
+    isNew: true,
+    references: [
+      {
+        authors: "Jastreboff AM et al.",
+        journal: "New England Journal of Medicine",
+        year: 2022,
+        title: "Tirzepatide Once Weekly for the Treatment of Obesity (SURMOUNT-1)",
+        url: "https://pubmed.ncbi.nlm.nih.gov/35658024/"
+      },
+      {
+        authors: "Frías JP et al.",
+        journal: "New England Journal of Medicine",
+        year: 2021,
+        title: "Tirzepatide versus Semaglutide Once Weekly in Type 2 Diabetes (SURPASS-2)",
+        url: "https://pubmed.ncbi.nlm.nih.gov/34170647/"
       }
     ]
   },

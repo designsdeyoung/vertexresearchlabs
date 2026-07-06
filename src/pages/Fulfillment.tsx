@@ -19,6 +19,7 @@ import {
   ChevronUp,
   ExternalLink,
   Mail,
+  Send,
 } from "lucide-react";
 
 const ADMIN_EMAILS = ["info@vertexdata.ai", "designsdeyoung@gmail.com", "adamdeyoung11@gmail.com", "info@vertexresearchlabs.com"];
@@ -317,6 +318,7 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
   const [manualAddr, setManualAddr] = useState({ name: "", street1: "", street2: "", city: "", state: "", zip: "" });
   const [emails, setEmails] = useState<any[] | null>(null);
   const [emailsLoading, setEmailsLoading] = useState(false);
+  const [sendingReminder, setSendingReminder] = useState(false);
 
   const loadEmails = async () => {
     setEmailsLoading(true);
@@ -347,6 +349,28 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
   const zip = order.shipping_zip || profile?.zip_code || "";
   const hasAddress = !!(addr1 && city && state && zip);
   const isShipped = order.status === "shipped" || !!order.tracking_number;
+  const isPaid = !!order.paid_at;
+
+  const handleSendReminder = async () => {
+    if (!order.order_number) {
+      toast({ title: "No order number", description: "This order has no VRL order number to reference.", variant: "destructive" });
+      return;
+    }
+    setSendingReminder(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("send-payment-reminder", {
+        body: { orderNumber: order.order_number, bcc: "designsdeyoung@gmail.com" },
+      });
+      if (error) throw error;
+      if ((data as any)?.error) throw new Error((data as any).error);
+      toast({ title: "Follow-up sent", description: `Payment reminder emailed to ${(data as any)?.email || "customer"}.` });
+      if (emails !== null) loadEmails();
+    } catch (e: any) {
+      toast({ title: "Couldn't send follow-up", description: e.message, variant: "destructive" });
+    } finally {
+      setSendingReminder(false);
+    }
+  };
 
   const handlePreviewLabel = async () => {
     setGenerating(true);
@@ -584,6 +608,12 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
             <Button size="sm" variant="outline" onClick={() => printPackingSlip(order)}>
               <Printer size={14} className="mr-1" /> Print Packing Slip
             </Button>
+            {!isPaid && (
+              <Button size="sm" variant="outline" onClick={handleSendReminder} disabled={sendingReminder}>
+                <Send size={14} className="mr-1" />
+                {sendingReminder ? "Sending..." : "Follow-Up Email"}
+              </Button>
+            )}
             {!isShipped && !preview && (
               <Button size="sm" variant="hero" onClick={handlePreviewLabel} disabled={generating}>
                 <Truck size={14} className="mr-1" />

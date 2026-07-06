@@ -13,6 +13,7 @@ const ADMIN_EMAILS = ["info@vertexdata.ai", "designsdeyoung@gmail.com", "adamdey
 
 const TYPE_LABEL: Record<string, string> = {
   invoice: "Invoice / payment",
+  payment_reminder: "Payment follow-up",
   order_confirmation: "Order confirmation",
   shipped: "Shipped",
   in_transit: "In transit",

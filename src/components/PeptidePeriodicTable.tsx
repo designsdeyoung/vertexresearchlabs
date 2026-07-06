@@ -35,7 +35,7 @@ const peptideElements = [
   { id: "tb-500", symbol: "TB4", category: "structural", researchFocus: "Thymosin beta-4 fragment analysis" },
   { id: "semax", symbol: "SMX", category: "neuroactive", researchFocus: "ACTH analog peptide research" },
   { id: "selank", symbol: "SLK", category: "neuroactive", researchFocus: "Tuftsin analog studies" },
-  { id: "nad-plus", symbol: "NAD", category: "metabolic", researchFocus: "Coenzyme metabolism research" },
+  { id: "nad-plus-1000", symbol: "NAD", category: "metabolic", researchFocus: "Coenzyme metabolism research" },
   { id: "mots-c", symbol: "MOT", category: "metabolic", researchFocus: "Mitochondrial-derived peptide studies" },
   { id: "kisspeptin", symbol: "KSP", category: "hormonal", researchFocus: "GPR54 ligand research" },
   { id: "tesamorelin", symbol: "TSM", category: "hormonal", researchFocus: "GHRH analog peptide analysis" },

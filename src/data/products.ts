@@ -12,7 +12,6 @@ import tirzepatideImage from "@/assets/products/tirzepatide.png";
 import ghkCuImage from "@/assets/products/ghk-cu.png";
 import semaxImage from "@/assets/products/semax.png";
 import selankImage from "@/assets/products/selank.png";
-import nadPlusImage from "@/assets/products/nad-plus.png";
 import nadPlus1000Image from "@/assets/products/nad-plus-1000.png";
 import glutathioneImage from "@/assets/products/glutathione.png";
 import motsCImage from "@/assets/products/mots-c.png";
@@ -369,35 +368,7 @@ export const products: Product[] = [
     ]
   },
   {
-    id: "nad-plus",
-    groupId: "nad-plus",
-    name: "NAD+",
-    subtitle: "Research Grade",
-    size: "500mg",
-    price: 80,
-    description: "Coenzyme reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: nadPlusImage,
-    category: "Coenzyme",
-    stock: 0,
-    outOfStock: true,
-    references: [
-      {
-        authors: "Bogan KL, Brenner C",
-        journal: "Annual Review of Nutrition",
-        year: 2008,
-        title: "NAD+ Biosynthesis Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/18429699/"
-      }
-    ]
-  },
-  {
     id: "nad-plus-1000",
-    groupId: "nad-plus",
     name: "NAD+",
     subtitle: "Research Grade",
     size: "1000mg",

@@ -48,7 +48,6 @@ const ProductCatalog = () => {
     "cjc-ipa-blend",
     "wolverine-blend",
     "bpc-157",
-    "nad-plus",
     "nad-plus-1000",
     "semax",
     "kisspeptin",

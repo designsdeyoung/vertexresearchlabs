@@ -12,7 +12,7 @@ const FEATURED: { id: string; blurb: string }[] = [
   { id: "retatrutide", blurb: "GIP/GLP-1/GCG triagonist peptide" },
   { id: "ghk-cu", blurb: "Copper tripeptide reference standard" },
   { id: "tb-500", blurb: "Thymosin β4 fragment" },
-  { id: "nad-plus", blurb: "Coenzyme reference material" },
+  { id: "nad-plus-1000", blurb: "Coenzyme reference material" },
   { id: "semax", blurb: "Heptapeptide reference standard" },
   { id: "mots-c", blurb: "Mitochondrial-derived peptide" },
 ];

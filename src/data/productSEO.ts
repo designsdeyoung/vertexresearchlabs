@@ -487,7 +487,7 @@ export const productSEO: Record<string, ProductSEOData> = {
           "Certificates of Analysis are available on request where applicable — contact us and we'll share any documentation we have for the compound.",
       },
     ],
-    relatedProducts: ["nad-plus", "mots-c-40", "glutathione"],
+    relatedProducts: ["mots-c", "mots-c-40", "glutathione"],
   },
 
   "glutathione": {

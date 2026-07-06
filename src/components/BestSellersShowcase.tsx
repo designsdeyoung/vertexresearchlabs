@@ -17,7 +17,7 @@ const vials = [
   { src: klowVial, alt: "KLOW Peptide Blend Research Vial", name: "KLOW", tagline: "Four-peptide blend · research grade", productId: "klow" },
   { src: ghkVial, alt: "GHK-Cu Copper Peptide Research Vial", name: "GHK-Cu", tagline: "Copper tripeptide · research grade", productId: "ghk-cu" },
   { src: tb500Vial, alt: "TB-500 Peptide Research Vial", name: "TB-500", tagline: "Thymosin β4 fragment · research grade", productId: "tb-500" },
-  { src: nadVial, alt: "NAD+ Research Vial", name: "NAD+", tagline: "Coenzyme · research grade", productId: "nad-plus" },
+  { src: nadVial, alt: "NAD+ Research Vial", name: "NAD+", tagline: "Coenzyme · research grade", productId: "nad-plus-1000" },
   { src: tesamorelinVial, alt: "Tesamorelin Peptide Research Vial", name: "Tesamorelin", tagline: "GHRH analog · research grade", productId: "tesamorelin" },
   { src: semaxVial, alt: "Semax Peptide Research Vial", name: "Semax", tagline: "Heptapeptide · research grade", productId: "semax" },
 ];

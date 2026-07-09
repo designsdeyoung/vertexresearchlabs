@@ -122,6 +122,7 @@ function printPackingSlip(order: Order) {
     font-size: 10px;
     overflow: hidden;
   }
+  #slip { transform-origin: top left; width: 100%; }
   @media print {
     @page { size: 4in 6in; margin: 0; }
     html, body { width:4in; height:6in; margin:0; padding:0; }
@@ -180,6 +181,7 @@ function printPackingSlip(order: Order) {
 </style>
 </head>
 <body>
+  <div id="slip">
   <!-- Header -->
   <div class="logo-row">
     <div>
@@ -296,6 +298,7 @@ function printPackingSlip(order: Order) {
       <div class="qr-label">One tap sign-in</div>
     </div>` : ""}
   </div>
+  </div>
 </body>
 </html>`;
 
@@ -303,7 +306,27 @@ function printPackingSlip(order: Order) {
   if (!win) { toast({ title: "Pop-up blocked", description: "Allow pop-ups for vertexresearchlabs.com to print.", variant: "destructive" }); return; }
   win.document.write(html);
   win.document.close();
-  win.onload = () => { win.focus(); win.print(); };
+  win.onload = () => {
+    // Scale the slip down so its full content fits on a single 4x6 label
+    // (any order size) instead of spilling onto a 2nd sheet.
+    try {
+      const doc = win.document;
+      const body = doc.body;
+      const slip = doc.getElementById("slip");
+      if (slip) {
+        const cs = win.getComputedStyle(body);
+        const availH = body.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+        const naturalH = slip.scrollHeight;
+        if (naturalH > availH && naturalH > 0) {
+          const scale = availH / naturalH;
+          slip.style.width = 100 / scale + "%";
+          slip.style.transform = "scale(" + scale + ")";
+        }
+      }
+    } catch (_) { /* fall back to unscaled */ }
+    win.focus();
+    win.print();
+  };
 }
 
 const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated: () => void }) => {

@@ -47,6 +47,23 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Boutique light canvas (rewards + catalog surfaces)
+        cream: {
+          DEFAULT: "hsl(var(--cream))",
+          deep: "hsl(var(--cream-deep))",
+        },
+        navy: {
+          DEFAULT: "hsl(var(--navy))",
+          soft: "hsl(var(--navy-soft))",
+          foreground: "hsl(var(--cream))",
+        },
+        deal: {
+          DEFAULT: "hsl(var(--deal))",
+          foreground: "hsl(0 0% 100%)",
+        },
+        tierblue: "hsl(var(--tier-blue))",
+        tiergreen: "hsl(var(--tier-green))",
+        mint: "hsl(var(--mint))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -62,11 +79,17 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        card: "1.125rem",
+      },
+      boxShadow: {
+        boutique: "var(--shadow-boutique)",
+        "boutique-lift": "var(--shadow-boutique-lift)",
       },
       fontFamily: {
         sans: ['"Instrument Sans"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
         display: ['Archivo', '"Instrument Sans"', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'Fira Code', 'monospace'],
+        accent: ['"Instrument Serif"', 'Georgia', 'serif'],
       },
       keyframes: {
         "accordion-down": {

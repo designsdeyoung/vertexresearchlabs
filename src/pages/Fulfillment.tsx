@@ -318,9 +318,11 @@ function printPackingSlip(order: Order) {
         const availH = body.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
         const naturalH = slip.scrollHeight;
         if (naturalH > availH && naturalH > 0) {
-          const scale = availH / naturalH;
-          slip.style.width = 100 / scale + "%";
-          slip.style.transform = "scale(" + scale + ")";
+          // `zoom` (unlike transform:scale) actually shrinks the layout
+          // footprint, so the content fits one page instead of paginating.
+          // 0.98 leaves a sub-pixel safety margin against a stray 2nd page.
+          const scale = (availH / naturalH) * 0.98;
+          slip.style.setProperty("zoom", String(scale));
         }
       }
     } catch (_) { /* fall back to unscaled */ }

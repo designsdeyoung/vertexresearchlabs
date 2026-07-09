@@ -56,6 +56,19 @@
     --sidebar-accent-foreground: 213 27% 93%;
     --sidebar-border: 211 35% 18%;
     --sidebar-ring: 172 66% 50%;
+
+    /* ── Vertex boutique palette — light commerce canvas (rewards + catalog) ── */
+    --cream: 40 36% 94%;             /* #F5F1EA warm off-white page canvas */
+    --cream-deep: 40 30% 89%;        /* #EBE4D8 wells, bands, image zones */
+    --navy: 219 45% 15%;             /* #152338 brand anchor: headings, CTAs, hero cards */
+    --navy-soft: 219 38% 24%;        /* hover / secondary navy surfaces */
+    --deal: 21 89% 52%;              /* #F2701F deal ribbons, savings */
+    --tier-blue: 210 62% 42%;        /* clinical blue — tier 2, spec dots */
+    --tier-green: 161 38% 34%;       /* lab green — tier 3, spec dots */
+    --mint: 152 56% 60%;             /* accent stroke on navy surfaces */
+
+    --shadow-boutique: 0 1px 2px hsl(219 45% 15% / 0.05), 0 12px 32px -12px hsl(219 45% 15% / 0.14);
+    --shadow-boutique-lift: 0 4px 8px hsl(219 45% 15% / 0.05), 0 24px 48px -12px hsl(219 45% 15% / 0.24);
   }
 }
 
@@ -144,6 +157,21 @@
   /* Focus states for accessibility */
   .focus-ring {
     @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  /* Boutique canvas — hide horizontal scrollbars on snap rails */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Low-opacity molecular watermark for navy surfaces */
+  .bg-navy-watermark {
+    background-image: url("data:image/svg+xml,%3Csvg width='140' height='140' viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23FFFFFF' stroke-opacity='0.05' fill='none'%3E%3Ccircle cx='35' cy='35' r='14'/%3E%3Ccircle cx='105' cy='105' r='14'/%3E%3Cpath d='M45 45l50 50M35 21v-14M35 63v14M21 35h-14M49 35h14M105 91v-14M105 133v-6M91 105h-14M119 105h14'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 140px 140px;
   }
 }
 

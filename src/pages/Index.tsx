@@ -6,6 +6,7 @@ import TrustBar from "@/components/TrustBar";
 import FeaturedPeptides from "@/components/FeaturedPeptides";
 import CategoryCards from "@/components/CategoryCards";
 import ProductCatalog from "@/components/ProductCatalog";
+import RewardsShowcase from "@/components/rewards/RewardsShowcase";
 import QualityTransparency from "@/components/QualityTransparency";
 import WhyVertex from "@/components/WhyVertex";
 import NewsletterSection from "@/components/NewsletterSection";
@@ -52,8 +53,10 @@ const Index = () => {
       <main className="flex-1">
         <Hero />
         <TrustBar />
-        <FeaturedPeptides />
         <CategoryCards />
+        {/* Light commerce canvas — featured rail, rewards banner, catalog */}
+        <FeaturedPeptides />
+        <RewardsShowcase />
         <ProductCatalog />
         <QualityTransparency />
         <WhyVertex />

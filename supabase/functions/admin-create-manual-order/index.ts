@@ -21,12 +21,22 @@ serve(async (req) => {
       fullName,
       items,
       subtotal,
+      shipping = 0,
       total,
       discountAmount = 0,
       discountCode = null,
       pointsEarned,
-      bcc,
+      shippingAddress = null,
+      // Standing rule: BCC the ops inbox on manually-sent customer emails.
+      bcc = "designsdeyoung@gmail.com",
     } = body;
+
+    if (!email || !fullName) {
+      return new Response(
+        JSON.stringify({ error: "email and fullName are required" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
 
     // 1. Find or create auth user
     const { data: list } = await admin.auth.admin.listUsers();
@@ -57,14 +67,14 @@ serve(async (req) => {
       profile = np;
     }
 
-    // 3. Insert order
+    // 3. Insert order (store the shipping address so it can be fulfilled)
     const { data: order, error: oErr } = await admin
       .from("orders")
       .insert({
         profile_id: profile.id,
         items: JSON.stringify(items),
         subtotal,
-        shipping: 0,
+        shipping,
         total,
         credit_applied: 0,
         points_earned: pointsEarned,
@@ -74,6 +84,12 @@ serve(async (req) => {
         discount_amount: discountAmount,
         discount_code: discountCode,
         paid_at: new Date().toISOString(),
+        shipping_name: shippingAddress?.name ?? fullName,
+        shipping_address1: shippingAddress?.address1 ?? null,
+        shipping_address2: shippingAddress?.address2 ?? null,
+        shipping_city: shippingAddress?.city ?? null,
+        shipping_state: shippingAddress?.state ?? null,
+        shipping_zip: shippingAddress?.zip ?? null,
       })
       .select("id, order_number")
       .single();

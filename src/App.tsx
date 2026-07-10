@@ -34,6 +34,7 @@ import Learn from "./pages/Learn";
 import TrackOrder from "./pages/TrackOrder";
 import ArticlePage from "./pages/ArticlePage";
 import Fulfillment from "./pages/Fulfillment";
+import CashOrder from "./pages/admin/CashOrder";
 import Welcome from "./pages/Welcome";
 import Magic from "./pages/Magic";
 import NotFound from "./pages/NotFound";
@@ -78,6 +79,7 @@ const App = () => (
                   <Route path="/track" element={<TrackOrder />} />
                   <Route path="/learn/:slug" element={<ArticlePage />} />
                   <Route path="/fulfillment" element={<Fulfillment />} />
+                  <Route path="/admin/cash-order" element={<CashOrder />} />
                   <Route path="/welcome" element={<Welcome />} />
                   <Route path="/magic" element={<Magic />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

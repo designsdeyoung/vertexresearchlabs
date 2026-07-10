@@ -20,6 +20,7 @@ import {
   ExternalLink,
   Mail,
   Send,
+  Plus,
 } from "lucide-react";
 
 const ADMIN_EMAILS = ["info@vertexdata.ai", "designsdeyoung@gmail.com", "adamdeyoung11@gmail.com", "info@vertexresearchlabs.com"];
@@ -709,10 +710,16 @@ const Fulfillment = () => {
                 {unfulfilled.length} unfulfilled · {shipped.length} shipped
               </p>
             </div>
-            <Button variant="outline" size="sm" onClick={fetchOrders} disabled={loading}>
-              <RefreshCw size={14} className={`mr-1 ${loading ? "animate-spin" : ""}`} />
-              Refresh
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm" onClick={() => navigate("/admin/cash-order")}>
+                <Plus size={14} className="mr-1" />
+                Cash order
+              </Button>
+              <Button variant="outline" size="sm" onClick={fetchOrders} disabled={loading}>
+                <RefreshCw size={14} className={`mr-1 ${loading ? "animate-spin" : ""}`} />
+                Refresh
+              </Button>
+            </div>
           </div>
 
           <div className="flex gap-2 mb-6">

@@ -154,14 +154,10 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Block self-referral
-    if (customerEmail && data.email === customerEmail.trim().toLowerCase()) {
-      return new Response(
-        JSON.stringify({ valid: false, reason: "Cannot use your own code" }),
-        { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
-      );
-    }
-
+    // Own-code checkout is allowed: the customer gets the 10% referral discount
+    // on their own order. award-points still blocks self-crediting referral
+    // points (its isSelf guard), so this grants the discount without letting a
+    // customer farm referral points off their own purchases.
     return new Response(
       JSON.stringify({ valid: true, referrerId: data.id }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }

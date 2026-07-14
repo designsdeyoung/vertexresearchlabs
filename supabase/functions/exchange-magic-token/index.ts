@@ -12,7 +12,7 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
   try {
-    const { token } = await req.json();
+    const { token, add, qty } = await req.json();
     if (!token) throw new Error("token required");
 
     const admin = createClient(
@@ -32,11 +32,15 @@ serve(async (req) => {
     }
 
     // Generate a Supabase magic link for this email
+    const redirectTo = add
+      ? `${SITE}/dashboard?add=${encodeURIComponent(add)}&qty=${encodeURIComponent(String(qty ?? 1))}`
+      : `${SITE}/dashboard`;
+
     const { data: linkData, error: linkErr } = await admin.auth.admin.generateLink({
       type: "magiclink",
       email: profile.email,
       options: {
-        redirectTo: `${SITE}/dashboard`,
+        redirectTo,
       },
     });
 

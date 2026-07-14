@@ -18,8 +18,10 @@ const Magic = () => {
   useEffect(() => {
     const token = searchParams.get("t");
     if (!token) { setError("Invalid link."); return; }
+    const add = searchParams.get("add");
+    const qty = searchParams.get("qty");
 
-    supabase.functions.invoke("exchange-magic-token", { body: { token } })
+    supabase.functions.invoke("exchange-magic-token", { body: { token, ...(add ? { add, qty } : {}) } })
       .then(({ data, error: fnErr }) => {
         if (fnErr || data?.error || !data?.url) {
           setError("This link couldn't be verified. Please sign in at vertexresearchlabs.com/auth.");

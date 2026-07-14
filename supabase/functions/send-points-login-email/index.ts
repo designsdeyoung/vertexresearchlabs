@@ -22,7 +22,7 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
   try {
-    const { profileId, email, bcc } = await req.json();
+    const { profileId, email, bcc, addProductId, addQty, productLabel, unitPrice } = await req.json();
     if (!profileId && !email) throw new Error("profileId or email required");
 
     const admin = createClient(
@@ -39,9 +39,30 @@ serve(async (req) => {
 
     const firstName = (profile.full_name || "there").split(" ")[0];
     const balance = profile.points_balance ?? 0;
-    const loginUrl = `${SITE}/magic?t=${profile.magic_token}`;
+    const qty = addQty ?? 1;
+    const loginUrl = addProductId
+      ? `${SITE}/magic?t=${profile.magic_token}&add=${encodeURIComponent(addProductId)}&qty=${qty}`
+      : `${SITE}/magic?t=${profile.magic_token}`;
     const unlocked = [...REWARD_TIERS].reverse().find((t) => balance >= t.points) || null;
     const next = REWARD_TIERS.find((t) => balance < t.points) || null;
+
+    const orderSubtotal = productLabel && unitPrice ? unitPrice * qty : null;
+    const gapToMin = orderSubtotal !== null && unlocked ? Math.max(unlocked.minCart - orderSubtotal, 0) : null;
+
+    const pickBlock = orderSubtotal !== null
+      ? `<div style="background:#111;border:1px solid #1f1f1f;border-radius:12px;padding:18px 22px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between">
+           <div style="text-align:left">
+             <div style="color:#6b7280;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700">Picked out for you</div>
+             <div style="color:#e5e7eb;font-size:15px;font-weight:700;margin-top:3px">${qty}× ${productLabel}</div>
+           </div>
+           <div style="color:#2DD4BF;font-size:17px;font-weight:800">$${orderSubtotal.toFixed(2)}</div>
+         </div>
+         ${gapToMin !== null
+            ? gapToMin > 0
+              ? `<div style="color:#9ca3af;font-size:12px;margin:-6px 0 14px">Add $${gapToMin.toFixed(2)} more to your cart to unlock your $${unlocked!.credit} credit (min. order $${unlocked!.minCart})</div>`
+              : `<div style="color:#2DD4BF;font-size:12px;margin:-6px 0 14px">You're over the minimum — apply your $${unlocked!.credit} credit at checkout!</div>`
+            : ""}`
+      : "";
 
     const rewardBlock = unlocked
       ? `<div style="background:linear-gradient(135deg,#0d2620 0%,#0a1a17 100%);border:1px solid #1f4d42;border-radius:12px;padding:22px;text-align:center;margin-bottom:18px">
@@ -66,12 +87,13 @@ serve(async (req) => {
     <div style="color:#2DD4BF;font-size:10px;letter-spacing:3px;font-weight:700;text-transform:uppercase;margin-top:8px">Vertex Research Labs</div>
   </div>
   <div style="padding:8px 28px 4px">
-    <div style="font-size:25px;font-weight:800;color:#fff;line-height:1.25">Ready to order, ${firstName}? 🔬</div>
-    <div style="color:#9ca3af;font-size:14px;margin-top:8px;line-height:1.6">Your points are loaded and waiting. Tap below to log in instantly — no password — and they'll apply at checkout.</div>
+    <div style="font-size:25px;font-weight:800;color:#fff;line-height:1.25">${productLabel ? `Your ${productLabel} is waiting, ${firstName} 🔬` : `Ready to order, ${firstName}? 🔬`}</div>
+    <div style="color:#9ca3af;font-size:14px;margin-top:8px;line-height:1.6">Your points are loaded and waiting. Tap below to log in instantly — no password — and they'll apply at checkout${productLabel ? ", with your pick already in the cart" : ""}.</div>
   </div>
   <div style="padding:18px 28px 24px;text-align:center">
+    ${pickBlock}
     ${rewardBlock}
-    <a href="${loginUrl}" style="display:inline-block;background:#2DD4BF;color:#000;font-weight:800;font-size:15px;padding:15px 40px;border-radius:8px;text-decoration:none;letter-spacing:0.3px">Log in &amp; shop with my points →</a>
+    <a href="${loginUrl}" style="display:inline-block;background:#2DD4BF;color:#000;font-weight:800;font-size:15px;padding:15px 40px;border-radius:8px;text-decoration:none;letter-spacing:0.3px">${productLabel ? "Log in &amp; shop my pick →" : "Log in &amp; shop with my points →"}</a>
     <div style="color:#4b5563;font-size:11px;margin-top:10px">One tap — no password needed · points never expire</div>
   </div>
   <div style="padding:18px 28px;text-align:center;border-top:1px solid #1a1a1a">
@@ -91,7 +113,9 @@ serve(async (req) => {
         reply_to: "info@vertexresearchlabs.com",
         to: [profile.email],
         ...(bcc ? { bcc: Array.isArray(bcc) ? bcc : [bcc] } : {}),
-        subject: `${firstName}, your ${balance.toLocaleString()} points are ready — log in & shop`,
+        subject: productLabel
+          ? `${firstName}, your ${qty}x ${productLabel} pick is ready — log in & shop`
+          : `${firstName}, your ${balance.toLocaleString()} points are ready — log in & shop`,
         html,
       }),
     });

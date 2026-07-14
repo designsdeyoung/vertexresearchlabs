@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { useInquiryCart } from "@/contexts/InquiryCartContext";
+import { products } from "@/data/products";
 import PointsBalance from "@/components/dashboard/PointsBalance";
 import RewardsLadder from "@/components/dashboard/RewardsLadder";
 import ReferralSection from "@/components/dashboard/ReferralSection";
@@ -34,6 +36,9 @@ interface Order {
 const Dashboard = () => {
   const { user, profile, loading, signOut, refreshProfile } = useAuth();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { addItem, openCart } = useInquiryCart();
+  const prefilledCart = useRef(false);
   const [transactions, setTransactions] = useState<PointsTransaction[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
 
@@ -42,6 +47,25 @@ const Dashboard = () => {
       navigate("/auth");
     }
   }, [user, loading, navigate]);
+
+  // Pre-fill cart from a shared/emailed link, e.g. /dashboard?add=tirzepatide&qty=2
+  useEffect(() => {
+    if (prefilledCart.current) return;
+    const addId = searchParams.get("add");
+    if (!addId) return;
+    const product = products.find((p) => p.id === addId);
+    if (!product) return;
+    const qty = Math.min(Math.max(parseInt(searchParams.get("qty") || "1", 10) || 1, 1), 10);
+
+    prefilledCart.current = true;
+    for (let i = 0; i < qty; i++) addItem(product);
+    openCart();
+
+    const next = new URLSearchParams(searchParams);
+    next.delete("add");
+    next.delete("qty");
+    setSearchParams(next, { replace: true });
+  }, [searchParams, setSearchParams, addItem, openCart]);
 
   useEffect(() => {
     if (profile) {

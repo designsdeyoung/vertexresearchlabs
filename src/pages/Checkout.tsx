@@ -19,6 +19,7 @@ import CreditRedemption from "@/components/checkout/CreditRedemption";
 import StripePayment from "@/components/checkout/StripePayment";
 import AddressAutocomplete from "@/components/checkout/AddressAutocomplete";
 import { finalizeOrder, PENDING_ORDER_KEY, type PendingOrder } from "@/lib/finalizeOrder";
+import { trackBeginCheckout } from "@/lib/analytics";
 import { MANUAL_INVOICE_MODE } from "@/config/checkoutMode";
 
 import {
@@ -53,6 +54,22 @@ const Checkout = () => {
   const { user, profile } = useAuth();
 
   const [selectedCredit, setSelectedCredit] = useState<ActiveCredit | null>(null);
+
+  // Fire GA4 begin_checkout once, when the checkout loads with a non-empty cart.
+  const [checkoutTracked, setCheckoutTracked] = useState(false);
+  useEffect(() => {
+    if (checkoutTracked || items.length === 0) return;
+    trackBeginCheckout(
+      items.map((i) => ({
+        product: i.product,
+        quantity: i.quantity,
+        unitPrice: computeUnitPrice(i),
+      })),
+      subtotal,
+    );
+    setCheckoutTracked(true);
+  }, [checkoutTracked, items, subtotal]);
+
   const paymentMethod = "stripe";
   const [showPayment, setShowPayment] = useState(false);
   const [discountCode, setDiscountCode] = useState("");

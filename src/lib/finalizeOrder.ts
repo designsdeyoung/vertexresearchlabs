@@ -1,5 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import { scheduleRestockReminder, subscribeEmail } from "./resend";
+import { trackPurchase } from "./analytics";
 
 const RESTOCK_REMINDER_DAYS = 14;
 
@@ -117,6 +118,21 @@ export async function finalizeOrder(pending: PendingOrder): Promise<FinalizeResu
     if (emailError) {
       console.error("finalizeOrder: send-order-confirmation error", emailError);
     }
+
+    // GA4 purchase event — fired once per order (guarded by !alreadyProcessed
+    // so a page refresh on the confirmation screen can't double-count).
+    trackPurchase({
+      transactionId: orderNumber ?? pending.paymentIntentId,
+      value: pending.total,
+      shipping: pending.shipping,
+      coupon: pending.discountCode ?? undefined,
+      items: pending.items.map((i) => ({
+        item_id: i.productId,
+        item_name: `${i.productName} ${i.size}`.trim(),
+        price: i.price,
+        quantity: i.quantity,
+      })),
+    });
 
     // Retention: schedule the day-14 reorder reminder (fire-and-forget).
     try {

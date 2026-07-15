@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useCallback, ReactNode, useMemo } from "react";
 import type { Product } from "@/data/products";
 import { SITEWIDE_SALE } from "@/config/sale";
+import { trackAddToCart } from "@/lib/analytics";
 
 export const FREE_SHIPPING_THRESHOLD = 99;
 export const FLAT_RATE_SHIPPING = 9.99;
@@ -64,6 +65,10 @@ export const InquiryCartProvider = ({ children }: { children: ReactNode }) => {
 
   const addItem = useCallback((product: Product, opts?: { isAutoship?: boolean }) => {
     const isAutoship = !!opts?.isAutoship;
+    let unit = product.price;
+    if (SITEWIDE_SALE.active) unit *= 1 - SITEWIDE_SALE.discount;
+    if (isAutoship) unit *= 1 - AUTOSHIP_DISCOUNT;
+    trackAddToCart(product, { quantity: 1, unitPrice: unit });
     setItems((prev) => {
       const existing = prev.find(
         (item) => item.product.id === product.id && !item.is3Pack && !!item.isAutoship === isAutoship
@@ -84,6 +89,11 @@ export const InquiryCartProvider = ({ children }: { children: ReactNode }) => {
     const intervalDays = isAutoship
       ? (opts?.intervalDays ?? THREE_PACK_AUTOSHIP_INTERVAL_DAYS)
       : undefined;
+    let unit = product.price;
+    if (SITEWIDE_SALE.active) unit *= 1 - SITEWIDE_SALE.discount;
+    unit *= 1 - THREE_PACK_DISCOUNT;
+    if (isAutoship) unit *= 1 - AUTOSHIP_DISCOUNT;
+    trackAddToCart(product, { quantity: 3, unitPrice: unit });
     setItems((prev) => {
       // Remove single items of same product with the same autoship flag, then add/merge 3-pack
       const filtered = prev.filter(

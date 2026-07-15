@@ -192,6 +192,52 @@ serve(async (req) => {
       .eq("id", order_id);
     if (uErr) throw uErr;
 
+    // Loyalty: buying a label means the order is paid, so award points now.
+    // Idempotent — only credits if this order hasn't already earned points.
+    // This skips Stripe-checkout orders (earned at checkout) and cash orders
+    // credited by hand (e.g. VRL-100076), which already have points_earned > 0.
+    // Rate: 3× the final amount the customer actually paid (order.total).
+    try {
+      const alreadyAwarded = Number(order.points_earned ?? 0) > 0;
+      let hasTxn = false;
+      if (!alreadyAwarded && order.profile_id) {
+        const { count } = await admin
+          .from("points_transactions")
+          .select("id", { count: "exact", head: true })
+          .eq("order_reference", order_id);
+        hasTxn = (count ?? 0) > 0;
+      }
+      if (!alreadyAwarded && !hasTxn && order.profile_id) {
+        const paid = Number(order.total) || 0;
+        const pointsEarned = Math.floor(paid * 3);
+        if (pointsEarned > 0) {
+          await admin.from("points_transactions").insert({
+            profile_id: order.profile_id,
+            amount: pointsEarned,
+            type: "purchase",
+            description: `Order ${order.order_number} — points on label purchase (3× $${paid.toFixed(2)} paid)`,
+            order_reference: order_id,
+          });
+          const { data: prof } = await admin
+            .from("profiles")
+            .select("points_balance, lifetime_points")
+            .eq("id", order.profile_id)
+            .maybeSingle();
+          if (prof) {
+            await admin.from("profiles").update({
+              points_balance: (prof.points_balance ?? 0) + pointsEarned,
+              lifetime_points: (prof.lifetime_points ?? 0) + pointsEarned,
+            }).eq("id", order.profile_id);
+          }
+          await admin.from("orders").update({
+            points_earned: pointsEarned,
+            paid_at: order.paid_at ?? new Date().toISOString(),
+          }).eq("id", order_id);
+          console.log(`Awarded ${pointsEarned} pts to ${order.profile_id} for ${order.order_number} on label purchase`);
+        }
+      }
+    } catch (e) { console.error("label points award failed (non-fatal):", e); }
+
     // "Your order has shipped" email — sent now, on label purchase. Links to our
     // own live animated tracker (/track?t=<tracking>). The 3 USPS-scan emails
     // (in_transit → out_for_delivery → delivered) follow via the EasyPost webhook.

@@ -13,19 +13,19 @@ const FAQS = [
   },
   {
     q: "Do my points expire?",
-    a: "Points expire after 12 months of account inactivity. Any order — of any size — resets the clock, and claimed coupons stay attached to your account while it's active.",
+    a: "No — your points never expire. They stay in your account and are ready to redeem for store credit whenever you're set to order.",
   },
   {
-    q: "How do I use a claimed reward at checkout?",
-    a: "Claimed coupons appear automatically at checkout on your next qualifying order. Add the reward product to your cart and its price drops to $0.00 — one claimed reward per order.",
+    q: "How do I redeem points for store credit?",
+    a: "Pick a tier from your dashboard or right at checkout — from $10 off (250 points) up to $250 off (5,000 points). The credit comes straight off your order total. One credit per order, and each tier has a minimum order size.",
   },
   {
     q: "How do the tiers work?",
-    a: "Everyone earns 3X points per $1 from day one. Tiers unlock access, not different math: Scientist (5,000 lifetime points) adds double-point events and early restock access; Partner (15,000 lifetime points) adds exclusive redemptions and priority fulfillment.",
+    a: "Everyone earns 3X points per $1 from day one. Membership tiers unlock access, not different math: Scientist (5,000 lifetime points) adds double-point events and early restock access; Partner (15,000 lifetime points) adds exclusive perks and priority fulfillment.",
   },
   {
-    q: "Can I combine a reward with a discount code?",
-    a: "Yes — one claimed reward and one discount code can be applied to the same order. Rewards can't be exchanged for cash or transferred between accounts.",
+    q: "Can I combine store credit with a discount code?",
+    a: "Yes — a store credit and a discount code stack on the same order: the code's percentage comes off first, then your credit. Credit can't be exchanged for cash or transferred between accounts.",
   },
   {
     q: "Is there anything I should know about the products?",

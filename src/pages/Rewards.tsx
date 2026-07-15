@@ -2,13 +2,11 @@ import { motion } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
-import { RewardsShopProvider } from "@/contexts/RewardsShopContext";
 import { REWARDS_TIERS } from "@/data/rewardsProgram";
 import { useCountUp } from "@/hooks/useCountUp";
 import TierCard from "@/components/rewards/TierCard";
 import HowItWorks from "@/components/rewards/HowItWorks";
-import RedemptionShop from "@/components/rewards/RedemptionShop";
-import PointsChip from "@/components/rewards/PointsChip";
+import CreditLadder from "@/components/rewards/CreditLadder";
 import RewardsFaq from "@/components/rewards/RewardsFaq";
 import {
   AUTOSHIP_POINTS_PER_DOLLAR,
@@ -39,15 +37,12 @@ const Rewards = () => {
     <div className="flex min-h-screen flex-col bg-cream">
       <SEOHead
         title="Vertex Rewards — Earn 3X Points on Research Materials"
-        description="Earn 3X points on every $1 of research-grade materials and redeem them for free products. For laboratory research use only."
+        description="Earn 3X points on every $1 of research-grade materials and redeem them for store credit — up to $250 off. For laboratory research use only."
         canonical="/rewards"
       />
       <Header />
 
-      <RewardsShopProvider>
-        <PointsChip />
-
-        <main className="flex-1 pb-24 pt-16 md:pt-20">
+      <main className="flex-1 pb-24 pt-16 md:pt-20">
           {/* Hero */}
           <section className="container mx-auto mb-20 px-6 text-center md:mb-24">
             <motion.div
@@ -66,14 +61,14 @@ const Rewards = () => {
               </h1>
               <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-navy/65 md:text-lg">
                 Earn <Multiplier /> points for every $1 spent on research
-                materials — then trade them for free research products in the
-                redemption shop.
+                materials — then redeem them for store credit, up to $250 off at
+                checkout.
               </p>
               <a
-                href="#redemption-shop"
+                href="#redeem-credit"
                 className="mt-8 inline-flex h-12 items-center justify-center rounded-full bg-navy px-10 text-[13px] font-semibold uppercase tracking-[0.14em] text-white transition-colors duration-200 hover:bg-navy-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
               >
-                Browse the Redemption Shop
+                See What Your Points Unlock
               </a>
               <p className="mt-6 text-[10px] uppercase tracking-[0.18em] text-navy/40">
                 For research use only · Not for human consumption
@@ -131,15 +126,14 @@ const Rewards = () => {
             </div>
           </section>
 
-          {/* Redemption shop */}
-          <div id="redemption-shop" className="mb-20 scroll-mt-28 md:mb-28">
-            <RedemptionShop />
+          {/* Store-credit redemption ladder */}
+          <div id="redeem-credit" className="mb-20 scroll-mt-28 md:mb-28">
+            <CreditLadder />
           </div>
 
           {/* FAQ */}
           <RewardsFaq />
         </main>
-      </RewardsShopProvider>
 
       <Footer />
     </div>

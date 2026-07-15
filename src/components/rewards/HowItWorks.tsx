@@ -14,8 +14,8 @@ const STEPS = [
   },
   {
     icon: Gift,
-    title: "Redeem Free Products",
-    desc: "Trade points for free research products in the redemption shop.",
+    title: "Redeem for Credit",
+    desc: "Turn points into store credit — up to $250 off, applied at checkout.",
   },
 ];
 

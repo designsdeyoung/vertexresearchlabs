@@ -27,7 +27,7 @@ const BUNDLES: Bundle[] = [
     blurb:
       "The three compounds researchers add to nearly every order. Pre-bundled at a research-grade discount.",
     icon: Layers,
-    productIds: ["retatrutide", "ghk-cu", "bac-water-10ml"],
+    productIds: ["glp3", "ghk-cu", "bac-water-10ml"],
     bundleDiscountPct: 10,
   },
   {
@@ -37,7 +37,7 @@ const BUNDLES: Bundle[] = [
     blurb:
       "Everything a new lab needs to begin reconstitution and handling work — compound, diluent, and structural reference.",
     icon: Beaker,
-    productIds: ["wolverine-blend", "bac-water-10ml", "ghk-cu"],
+    productIds: ["bpc-157-tb-500-blend", "bac-water-10ml", "ghk-cu"],
     bundleDiscountPct: 10,
   },
   {
@@ -47,7 +47,7 @@ const BUNDLES: Bundle[] = [
     blurb:
       "Curated reference compounds frequently cited together in published peptide methodology literature.",
     icon: FlaskConical,
-    productIds: ["mots-c", "cjc-ipa-blend", "wolverine-blend", "bac-water-10ml"],
+    productIds: ["mots-c", "cjc-ipa-blend", "bpc-157-tb-500-blend", "bac-water-10ml"],
     bundleDiscountPct: 10,
   },
 ];

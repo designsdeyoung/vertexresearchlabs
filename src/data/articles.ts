@@ -117,7 +117,7 @@ export const articles: Article[] = [
           "PubMed is the primary database for peer-reviewed BPC-157 publications. Searching 'BPC-157' or 'body protection compound 157' returns the majority of indexed studies, predominantly from the Sikiric research group at the University of Zagreb.",
       },
     ],
-    relatedProducts: ["bpc-157", "tb-500", "wolverine-blend"],
+    relatedProducts: ["bpc-157", "tb-500", "bpc-157-tb-500-blend"],
     relatedSlugs: [
       "tb-500-thymosin-beta-4-research",
       "research-grade-peptide-purity-standards",
@@ -224,19 +224,19 @@ export const articles: Article[] = [
   },
 
   {
-    slug: "retatrutide-triple-agonist-research",
-    title: "Retatrutide: The Triple Agonist Peptide Researchers Are Watching",
-    metaTitle: "Retatrutide Research Overview: GLP-1/GIP/Glucagon Triple Agonist | Vertex Research Labs",
+    slug: "glp3-triple-agonist-research",
+    title: "GLP3: The Triple Agonist Peptide Researchers Are Watching",
+    metaTitle: "GLP3 Research Overview: GLP-1/GIP/Glucagon Triple Agonist | Vertex Research Labs",
     metaDescription:
-      "Research overview of Retatrutide (LY3437943), the GLP-1, GIP, and glucagon triple receptor agonist peptide. Covers structure, Phase 2 trial data, and comparisons with Semaglutide and Tirzepatide.",
+      "Research overview of GLP3, the GLP-1, GIP, and glucagon triple receptor agonist peptide. Covers structure, Phase 2 trial data, and comparisons with Semaglutide and Tirzepatide.",
     keywords: [
-      "Retatrutide research",
-      "Retatrutide LY3437943",
+      "GLP3 research",
+      "GLP3 triple agonist",
       "triple agonist peptide research",
       "GLP-1 GIP glucagon agonist",
-      "Retatrutide vs Semaglutide",
-      "Retatrutide vs Tirzepatide",
-      "Retatrutide Phase 2 trial",
+      "GLP3 vs Semaglutide",
+      "GLP3 vs Tirzepatide",
+      "GLP3 Phase 2 trial",
       "GLP-1 peptide research 2024 2025",
       "incretin peptide research",
       "trending peptide research",
@@ -246,17 +246,17 @@ export const articles: Article[] = [
     category: "Research Overview",
     readTime: 8,
     excerpt:
-      "Retatrutide (LY3437943) is a synthetic peptide that simultaneously agonizes GLP-1, GIP, and glucagon receptors. Phase 2 trial data published in the New England Journal of Medicine has made it one of the most discussed peptides in metabolic research. This overview covers its structure, receptor pharmacology, and published clinical data.",
+      "GLP3 is a synthetic peptide that simultaneously agonizes GLP-1, GIP, and glucagon receptors. Phase 2 trial data published in the New England Journal of Medicine has made it one of the most discussed peptides in metabolic research. This overview covers its structure, receptor pharmacology, and published clinical data.",
     sections: [
       {
-        heading: "What Is Retatrutide?",
+        heading: "What Is GLP3?",
         content:
-          "Retatrutide (INN: retatrutide; Eli Lilly code: LY3437943) is a synthetic acylated peptide designed as a triple agonist at three key metabolic hormone receptors: the glucagon-like peptide-1 receptor (GLP-1R), the glucose-dependent insulinotropic polypeptide receptor (GIPR), and the glucagon receptor (GCGR). This triple-receptor pharmacology distinguishes it structurally from all currently approved GLP-1 class drugs and makes it a significant research subject in metabolic science.",
+          "GLP3 is a synthetic acylated peptide designed as a triple agonist at three key metabolic hormone receptors: the glucagon-like peptide-1 receptor (GLP-1R), the glucose-dependent insulinotropic polypeptide receptor (GIPR), and the glucagon receptor (GCGR). This triple-receptor pharmacology distinguishes it structurally from all currently approved GLP-1 class drugs and makes it a significant research subject in metabolic science.",
       },
       {
         heading: "Receptor Pharmacology",
         content:
-          "Understanding Retatrutide's receptor targets requires context on the incretin hormone system. GLP-1R and GIPR are both incretin receptors involved in insulin secretion regulation, while GCGR mediates glucagon signaling. Retatrutide's triple agonism creates a distinct pharmacological profile that researchers are using to study the interaction between these three receptor pathways in metabolic regulation.",
+          "Understanding GLP3's receptor targets requires context on the incretin hormone system. GLP-1R and GIPR are both incretin receptors involved in insulin secretion regulation, while GCGR mediates glucagon signaling. GLP3's triple agonism creates a distinct pharmacological profile that researchers are using to study the interaction between these three receptor pathways in metabolic regulation.",
         list: [
           "GLP-1R (Glucagon-like Peptide-1 Receptor) — incretin signaling",
           "GIPR (Glucose-dependent Insulinotropic Polypeptide Receptor) — incretin signaling",
@@ -266,57 +266,57 @@ export const articles: Article[] = [
       {
         heading: "Phase 2 Clinical Trial Data",
         content:
-          "In June 2023, the New England Journal of Medicine published Phase 2 trial results for Retatrutide (Jastreboff AM et al., DOI: 10.1056/NEJMoa2301972). The trial enrolled 338 participants with obesity and examined multiple dose levels over 48 weeks. The published data represents a clinical research finding and does not constitute a treatment claim. Retatrutide remains an investigational compound with no approved indication as of 2025.",
+          "In June 2023, the New England Journal of Medicine published Phase 2 trial results for GLP3 (Jastreboff AM et al., DOI: 10.1056/NEJMoa2301972). The trial enrolled 338 participants with obesity and examined multiple dose levels over 48 weeks. The published data represents a clinical research finding and does not constitute a treatment claim. GLP3 remains an investigational compound with no approved indication as of 2025.",
       },
       {
-        heading: "Structural Comparison: Retatrutide vs. Semaglutide vs. Tirzepatide",
+        heading: "Structural Comparison: GLP3 vs. Semaglutide vs. Tirzepatide",
         content:
           "For researchers studying GLP-1 class peptides, the structural and pharmacological distinctions between these compounds are important reference points.",
         list: [
           "Semaglutide (Ozempic/Wegovy): GLP-1R mono-agonist, C18 fatty diacid acylation, ~34 amino acids",
           "Tirzepatide (Mounjaro/Zepbound): GLP-1R/GIPR dual agonist, C20 fatty diacid acylation, 39 amino acids",
-          "Retatrutide (LY3437943): GLP-1R/GIPR/GCGR triple agonist, C20 fatty diacid acylation, ~39 amino acids",
+          "GLP3: GLP-1R/GIPR/GCGR triple agonist, C20 fatty diacid acylation, ~39 amino acids",
         ],
       },
       {
-        heading: "Research Grade Retatrutide Specifications",
+        heading: "Research Grade GLP3 Specifications",
         content:
-          "As an investigational peptide, research-grade Retatrutide requires rigorous purity verification. Vertex Research Labs supplies Retatrutide at ≥99% purity, independently verified by HPLC, with mass spectrometry identity confirmation. Certificates of Analysis are available on request where applicable. It is available in 10mg vials for laboratory use.",
+          "As an investigational peptide, research-grade GLP3 requires rigorous purity verification. Vertex Research Labs supplies GLP3 at ≥99% purity, independently verified by HPLC, with mass spectrometry identity confirmation. Certificates of Analysis are available on request where applicable. It is available in 10mg vials for laboratory use.",
       },
       {
         heading: "Regulatory Status and Disclaimer",
         content:
-          "Retatrutide is an investigational compound. As of 2025 it has not received FDA approval or approval from any other regulatory authority for any indication. All Retatrutide reference materials from Vertex Research Labs are supplied exclusively for laboratory research use. This overview is for scientific reference only and does not constitute medical advice or a health claim of any kind.",
+          "GLP3 is an investigational compound. As of 2025 it has not received FDA approval or approval from any other regulatory authority for any indication. All GLP3 reference materials from Vertex Research Labs are supplied exclusively for laboratory research use. This overview is for scientific reference only and does not constitute medical advice or a health claim of any kind.",
       },
     ],
     faqs: [
       {
-        question: "What makes Retatrutide different from Semaglutide?",
+        question: "What makes GLP3 different from Semaglutide?",
         answer:
-          "Semaglutide is a GLP-1 receptor mono-agonist. Retatrutide targets three receptors simultaneously: GLP-1R, GIPR, and GCGR. This triple-agonism creates a distinct pharmacological profile that is the primary subject of current research interest.",
+          "Semaglutide is a GLP-1 receptor mono-agonist. GLP3 targets three receptors simultaneously: GLP-1R, GIPR, and GCGR. This triple-agonism creates a distinct pharmacological profile that is the primary subject of current research interest.",
       },
       {
-        question: "Is Retatrutide FDA-approved?",
+        question: "Is GLP3 FDA-approved?",
         answer:
-          "No. As of 2025, Retatrutide (LY3437943) is an investigational compound that has not received FDA approval for any indication. It is available only as a research reference material.",
+          "No. As of 2025, GLP3 is an investigational compound that has not received FDA approval for any indication. It is available only as a research reference material.",
       },
       {
-        question: "Where was the Retatrutide Phase 2 trial published?",
+        question: "Where was the GLP3 Phase 2 trial published?",
         answer:
           "The Phase 2 trial data was published in the New England Journal of Medicine in June 2023 (Jastreboff AM et al., NEJM 2023;389:514-526, DOI: 10.1056/NEJMoa2301972).",
       },
       {
-        question: "What purity is research-grade Retatrutide?",
+        question: "What purity is research-grade GLP3?",
         answer:
-          "Research-grade Retatrutide from Vertex Research Labs is independently verified at ≥99% purity by HPLC. Certificates of Analysis are available on request where applicable.",
+          "Research-grade GLP3 from Vertex Research Labs is independently verified at ≥99% purity by HPLC. Certificates of Analysis are available on request where applicable.",
       },
       {
-        question: "Can I compare Retatrutide to Tirzepatide in my research?",
+        question: "Can I compare GLP3 to Tirzepatide in my research?",
         answer:
-          "Yes — as distinct reference materials, both are available for comparative receptor pharmacology research. Tirzepatide (dual GLP-1R/GIPR agonist) and Retatrutide (triple GLP-1R/GIPR/GCGR agonist) represent useful structural and pharmacological comparators in incretin research.",
+          "Yes — as distinct reference materials, both are available for comparative receptor pharmacology research. Tirzepatide (dual GLP-1R/GIPR agonist) and GLP3 (triple GLP-1R/GIPR/GCGR agonist) represent useful structural and pharmacological comparators in incretin research.",
       },
     ],
-    relatedProducts: ["retatrutide", "tesamorelin", "cjc-ipa-blend"],
+    relatedProducts: ["glp3", "tesamorelin", "cjc-ipa-blend"],
     relatedSlugs: [
       "glp1-peptides-research-overview",
       "research-grade-peptide-purity-standards",
@@ -635,7 +635,7 @@ export const articles: Article[] = [
           "The accepted benchmark for research-grade peptides is ≥99% purity by HPLC. Materials below 98% are generally considered below research grade and may introduce confounding variables into experimental results.",
       },
     ],
-    relatedProducts: ["bpc-157", "ghk-cu", "tb-500", "retatrutide"],
+    relatedProducts: ["bpc-157", "ghk-cu", "tb-500", "glp3"],
     relatedSlugs: [
       "research-grade-peptide-purity-standards",
       "bpc-157-research-overview",
@@ -704,7 +704,7 @@ export const articles: Article[] = [
       {
         heading: "TB-500 and BPC-157: Frequently Co-Researched",
         content:
-          "TB-500 and BPC-157 are among the most frequently co-studied peptides in the preclinical literature. Researchers investigating cytoskeletal dynamics, tissue remodeling models, or growth factor signaling often use both as reference materials in parallel experimental arms. Vertex Research Labs offers both individually and as the Wolverine Blend (BPC-157 5mg + TB-500 5mg) for researchers who need both in a single verified vial.",
+          "TB-500 and BPC-157 are among the most frequently co-studied peptides in the preclinical literature. Researchers investigating cytoskeletal dynamics, tissue remodeling models, or growth factor signaling often use both as reference materials in parallel experimental arms. Vertex Research Labs offers both individually and as the BPC-157 / TB-500 Blend (BPC-157 5mg + TB-500 5mg) for researchers who need both in a single verified vial.",
       },
       {
         heading: "Disclaimer",
@@ -731,10 +731,10 @@ export const articles: Article[] = [
       {
         question: "Can TB-500 and BPC-157 be ordered together?",
         answer:
-          "Yes — they are available individually or as the Wolverine Blend (5mg BPC-157 + 5mg TB-500 in a single co-lyophilized vial) for researchers studying both peptides in the same protocol.",
+          "Yes — they are available individually or as the BPC-157 / TB-500 Blend (5mg BPC-157 + 5mg TB-500 in a single co-lyophilized vial) for researchers studying both peptides in the same protocol.",
       },
     ],
-    relatedProducts: ["tb-500", "bpc-157", "wolverine-blend"],
+    relatedProducts: ["tb-500", "bpc-157", "bpc-157-tb-500-blend"],
     relatedSlugs: [
       "bpc-157-research-overview",
       "research-grade-peptide-purity-standards",
@@ -744,15 +744,15 @@ export const articles: Article[] = [
 
   {
     slug: "glp1-peptides-research-overview",
-    title: "GLP-1 Peptides in Research: Semaglutide, Tirzepatide, and Retatrutide",
-    metaTitle: "GLP-1 Peptides Research Overview: Semaglutide, Tirzepatide, Retatrutide | Vertex Research Labs",
+    title: "GLP-1 Peptides in Research: Semaglutide, Tirzepatide, and GLP3",
+    metaTitle: "GLP-1 Peptides Research Overview: Semaglutide, Tirzepatide, GLP3 | Vertex Research Labs",
     metaDescription:
-      "Research overview of the GLP-1 peptide class: comparing Semaglutide, Tirzepatide, and Retatrutide as incretin receptor research tools. Covers receptor targets, structural differences, and published clinical data.",
+      "Research overview of the GLP-1 peptide class: comparing Semaglutide, Tirzepatide, and GLP3 as incretin receptor research tools. Covers receptor targets, structural differences, and published clinical data.",
     keywords: [
       "GLP-1 peptide research",
       "Semaglutide research",
       "Tirzepatide research",
-      "Retatrutide research",
+      "GLP3 research",
       "GLP-1 receptor agonist",
       "incretin peptide research",
       "GLP-1 GIP glucagon",
@@ -765,7 +765,7 @@ export const articles: Article[] = [
     category: "Research Overview",
     readTime: 9,
     excerpt:
-      "The GLP-1 peptide class has emerged as one of the most active areas in metabolic research. This overview compares Semaglutide, Tirzepatide, and Retatrutide as distinct research tools — covering their receptor targets, structural properties, and published clinical data.",
+      "The GLP-1 peptide class has emerged as one of the most active areas in metabolic research. This overview compares Semaglutide, Tirzepatide, and GLP3 as distinct research tools — covering their receptor targets, structural properties, and published clinical data.",
     sections: [
       {
         heading: "The Incretin Hormone System",
@@ -794,9 +794,9 @@ export const articles: Article[] = [
         ],
       },
       {
-        heading: "Retatrutide: GLP-1R / GIPR / GCGR Triple Agonist",
+        heading: "GLP3: GLP-1R / GIPR / GCGR Triple Agonist",
         content:
-          "Retatrutide (LY3437943, Eli Lilly) extends the dual-agonism of Tirzepatide by adding full glucagon receptor (GCGR) agonism, creating the first triple-receptor incretin peptide to reach Phase 2 clinical trials. Phase 2 data published in NEJM (Jastreboff AM et al., 2023) reported the metabolic effects of multiple dose levels over 48 weeks. Retatrutide is investigational with no approved indication as of 2025 and is available from Vertex Research Labs as a research reference material.",
+          "GLP3 extends the dual-agonism of Tirzepatide by adding full glucagon receptor (GCGR) agonism, creating the first triple-receptor incretin peptide to reach Phase 2 clinical trials. Phase 2 data published in NEJM (Jastreboff AM et al., 2023) reported the metabolic effects of multiple dose levels over 48 weeks. GLP3 is investigational with no approved indication as of 2025 and is available from Vertex Research Labs as a research reference material.",
         list: [
           "Receptors: GLP-1R + GIPR + GCGR (triple agonist)",
           "Status: Investigational (Phase 2 completed)",
@@ -810,18 +810,18 @@ export const articles: Article[] = [
         list: [
           "Semaglutide: GLP-1R ✓ | GIPR ✗ | GCGR ✗",
           "Tirzepatide: GLP-1R ✓ | GIPR ✓ | GCGR ✗",
-          "Retatrutide: GLP-1R ✓ | GIPR ✓ | GCGR ✓",
+          "GLP3: GLP-1R ✓ | GIPR ✓ | GCGR ✓",
         ],
       },
       {
         heading: "Research Applications",
         content:
-          "For laboratory researchers, these peptides offer distinct tools for probing incretin biology. Retatrutide is the only one of the three available as a research reference material from Vertex Research Labs, as Semaglutide and Tirzepatide are FDA-approved drugs subject to different regulatory frameworks.",
+          "For laboratory researchers, these peptides offer distinct tools for probing incretin biology. GLP3 is the only one of the three available as a research reference material from Vertex Research Labs, as Semaglutide and Tirzepatide are FDA-approved drugs subject to different regulatory frameworks.",
       },
       {
         heading: "Disclaimer",
         content:
-          "This overview is for scientific reference only. No therapeutic claims are made for any compound discussed. Semaglutide and Tirzepatide are FDA-approved drugs not supplied by Vertex Research Labs. Retatrutide is supplied as a laboratory research reference material only and is not for human or veterinary use.",
+          "This overview is for scientific reference only. No therapeutic claims are made for any compound discussed. Semaglutide and Tirzepatide are FDA-approved drugs not supplied by Vertex Research Labs. GLP3 is supplied as a laboratory research reference material only and is not for human or veterinary use.",
       },
     ],
     faqs: [
@@ -831,24 +831,24 @@ export const articles: Article[] = [
           "GLP-1 stands for Glucagon-Like Peptide-1. It is an endogenous incretin hormone secreted by intestinal L-cells in response to nutrient intake, involved in glucose-dependent insulin secretion.",
       },
       {
-        question: "What makes Retatrutide different from Tirzepatide?",
+        question: "What makes GLP3 different from Tirzepatide?",
         answer:
-          "Tirzepatide is a dual GLP-1R/GIPR agonist. Retatrutide adds full GCGR (glucagon receptor) agonism to that profile, creating a triple-receptor pharmacology. This additional receptor activity is the primary research interest distinguishing Retatrutide.",
+          "Tirzepatide is a dual GLP-1R/GIPR agonist. GLP3 adds full GCGR (glucagon receptor) agonism to that profile, creating a triple-receptor pharmacology. This additional receptor activity is the primary research interest distinguishing GLP3.",
       },
       {
         question: "Can I buy Semaglutide or Tirzepatide as a research peptide?",
         answer:
-          "Semaglutide and Tirzepatide are FDA-approved drugs and are not supplied by Vertex Research Labs. Retatrutide remains investigational and is available as a research reference material.",
+          "Semaglutide and Tirzepatide are FDA-approved drugs and are not supplied by Vertex Research Labs. GLP3 remains investigational and is available as a research reference material.",
       },
       {
-        question: "Where is the Retatrutide Phase 2 data published?",
+        question: "Where is the GLP3 Phase 2 data published?",
         answer:
           "The Phase 2 trial data was published in the New England Journal of Medicine: Jastreboff AM et al., NEJM 2023; 389:514–526. DOI: 10.1056/NEJMoa2301972.",
       },
     ],
-    relatedProducts: ["retatrutide", "tesamorelin", "cjc-ipa-blend"],
+    relatedProducts: ["glp3", "tesamorelin", "cjc-ipa-blend"],
     relatedSlugs: [
-      "retatrutide-triple-agonist-research",
+      "glp3-triple-agonist-research",
       "research-grade-peptide-purity-standards",
       "how-to-read-peptide-coa",
     ],
@@ -946,7 +946,7 @@ export const articles: Article[] = [
           "Request whatever COA documentation is available, ideally showing the HPLC chromatogram (not just the percentage number), the testing laboratory's name, and mass spectrometry data. Reviewing this documentation helps a purity claim be independently assessed.",
       },
     ],
-    relatedProducts: ["bpc-157", "ghk-cu", "tb-500", "retatrutide"],
+    relatedProducts: ["bpc-157", "ghk-cu", "tb-500", "glp3"],
     relatedSlugs: [
       "how-to-read-peptide-coa",
       "bpc-157-research-overview",
@@ -1046,7 +1046,7 @@ export const articles: Article[] = [
     ],
     relatedProducts: ["cjc-ipa-blend", "tesamorelin", "mots-c"],
     relatedSlugs: [
-      "retatrutide-triple-agonist-research",
+      "glp3-triple-agonist-research",
       "research-grade-peptide-purity-standards",
       "how-to-read-peptide-coa",
     ],
@@ -1545,7 +1545,7 @@ export const articles: Article[] = [
     relatedProducts: ["kisspeptin"],
     relatedSlugs: [
       "cjc-1295-ipamorelin-research",
-      "retatrutide-triple-agonist-research",
+      "glp3-triple-agonist-research",
       "research-grade-peptide-purity-standards",
     ],
   },
@@ -1945,17 +1945,17 @@ export const articles: Article[] = [
   },
 
   {
-    slug: "wolverine-blend-peptide-research",
-    title: "Wolverine Blend Research Overview: BPC-157 and TB-500 Combination Studies",
-    metaTitle: "Wolverine Blend Research: BPC-157 + TB-500 Peptide Combination | Vertex Research Labs",
+    slug: "bpc-157-tb-500-blend-peptide-research",
+    title: "BPC-157 / TB-500 Blend Research Overview: BPC-157 and TB-500 Combination Studies",
+    metaTitle: "BPC-157 / TB-500 Blend Research: BPC-157 + TB-500 Peptide Combination | Vertex Research Labs",
     metaDescription:
-      "Research overview of the Wolverine Blend — a co-formulated BPC-157 and TB-500 peptide combination. Covers the published research on each component, their proposed complementary mechanisms in preclinical studies, and laboratory specifications.",
+      "Research overview of the BPC-157 / TB-500 Blend — a co-formulated BPC-157 and TB-500 peptide combination. Covers the published research on each component, their proposed complementary mechanisms in preclinical studies, and laboratory specifications.",
     keywords: [
-      "Wolverine blend research",
+      "BPC-157 / TB-500 blend research",
       "BPC-157 TB-500 blend research",
       "BPC-157 TB-500 combination research",
       "peptide blend research",
-      "Wolverine blend peptide study",
+      "BPC-157 / TB-500 blend peptide study",
       "BPC-157 TB-500 mechanism",
       "combined peptide research",
       "TB-500 BPC-157 preclinical",
@@ -1966,12 +1966,12 @@ export const articles: Article[] = [
     category: "Research Overview",
     readTime: 8,
     excerpt:
-      "The Wolverine Blend co-formulates BPC-157 (Body Protection Compound 157) and TB-500 (Thymosin Beta-4 fragment) in a single research vial. This overview covers the published preclinical research on each component, the proposed complementary signaling interactions studied in the literature, and laboratory specifications for the combination.",
+      "The BPC-157 / TB-500 Blend co-formulates BPC-157 (Body Protection Compound 157) and TB-500 (Thymosin Beta-4 fragment) in a single research vial. This overview covers the published preclinical research on each component, the proposed complementary signaling interactions studied in the literature, and laboratory specifications for the combination.",
     sections: [
       {
-        heading: "What Is the Wolverine Blend?",
+        heading: "What Is the BPC-157 / TB-500 Blend?",
         content:
-          "The Wolverine Blend is a co-formulated research preparation containing BPC-157 (Body Protection Compound 157, a synthetic pentadecapeptide) and TB-500 (a synthetic analog of the Thymosin Beta-4 fragment Ac-SDKP). The blend is available as a single lyophilized vial for researchers who wish to study both peptides in parallel experimental protocols without preparing separate reconstitutions. Each component has an independent published preclinical literature base, and the combination is of interest to researchers studying complementary mechanisms of tissue signaling in animal models. The Wolverine Blend is a research reference preparation only, not a pharmaceutical product.",
+          "The BPC-157 / TB-500 Blend is a co-formulated research preparation containing BPC-157 (Body Protection Compound 157, a synthetic pentadecapeptide) and TB-500 (a synthetic analog of the Thymosin Beta-4 fragment Ac-SDKP). The blend is available as a single lyophilized vial for researchers who wish to study both peptides in parallel experimental protocols without preparing separate reconstitutions. Each component has an independent published preclinical literature base, and the combination is of interest to researchers studying complementary mechanisms of tissue signaling in animal models. The BPC-157 / TB-500 Blend is a research reference preparation only, not a pharmaceutical product.",
       },
       {
         heading: "BPC-157 Component: Research Background",
@@ -2003,7 +2003,7 @@ export const articles: Article[] = [
       {
         heading: "Blend Specifications and Quality",
         content:
-          "The Wolverine Blend from Vertex Research Labs contains both BPC-157 and TB-500 as verified research-grade components, each at ≥99% purity by HPLC. The blend is supplied as a co-lyophilized powder in a sealed research vial. Where applicable, Certificate of Analysis documentation covering purity and identity (by mass spectrometry for both components) is available on request.",
+          "The BPC-157 / TB-500 Blend from Vertex Research Labs contains both BPC-157 and TB-500 as verified research-grade components, each at ≥99% purity by HPLC. The blend is supplied as a co-lyophilized powder in a sealed research vial. Where applicable, Certificate of Analysis documentation covering purity and identity (by mass spectrometry for both components) is available on request.",
         list: [
           "Components: BPC-157 (≥99% HPLC) + TB-500 (≥99% HPLC)",
           "Form: Co-lyophilized powder, single research vial",
@@ -2014,7 +2014,7 @@ export const articles: Article[] = [
       {
         heading: "Research Disclaimer",
         content:
-          "The Wolverine Blend reference material from Vertex Research Labs is supplied for in vitro laboratory research and analytical applications only. Neither BPC-157 nor TB-500 is FDA-approved. This preparation is not intended for human or veterinary use. Nothing in this article constitutes medical advice or a therapeutic claim. Researchers should follow all applicable institutional biosafety and regulatory guidelines.",
+          "The BPC-157 / TB-500 Blend reference material from Vertex Research Labs is supplied for in vitro laboratory research and analytical applications only. Neither BPC-157 nor TB-500 is FDA-approved. This preparation is not intended for human or veterinary use. Nothing in this article constitutes medical advice or a therapeutic claim. Researchers should follow all applicable institutional biosafety and regulatory guidelines.",
       },
     ],
     faqs: [
@@ -2026,7 +2026,7 @@ export const articles: Article[] = [
       {
         question: "Are there published studies that have combined BPC-157 and TB-500 together?",
         answer:
-          "As of the publication of this article, no peer-reviewed studies examining the two peptides in direct combination under controlled conditions have been identified in the published literature. The Wolverine Blend is designed for researchers who wish to run parallel or sequential single-compound experiments using verified-purity reference material for both.",
+          "As of the publication of this article, no peer-reviewed studies examining the two peptides in direct combination under controlled conditions have been identified in the published literature. The BPC-157 / TB-500 Blend is designed for researchers who wish to run parallel or sequential single-compound experiments using verified-purity reference material for both.",
       },
       {
         question: "What is the active sequence in TB-500 that researchers study?",
@@ -2034,17 +2034,17 @@ export const articles: Article[] = [
           "The pharmacologically active fragment of Thymosin Beta-4 studied in cell biology research is the N-terminal tetrapeptide Ac-Ser-Asp-Lys-Pro (Ac-SDKP). This tetrapeptide retains G-actin sequestering activity and has been used as a research tool in actin dynamics and endothelial migration assays.",
       },
       {
-        question: "Does the Wolverine Blend COA cover both peptide components?",
+        question: "Does the BPC-157 / TB-500 Blend COA cover both peptide components?",
         answer:
           "Where Certificate of Analysis documentation is available, it covers the identity and purity of both BPC-157 and TB-500 components individually, by HPLC and mass spectrometry for each peptide in the blend. Certificates of Analysis are available on request where applicable.",
       },
       {
-        question: "What purity standards apply to each component in the Wolverine Blend?",
+        question: "What purity standards apply to each component in the BPC-157 / TB-500 Blend?",
         answer:
-          "Both BPC-157 and TB-500 in the Wolverine Blend are held to ≥99% HPLC purity standards, with each component verified independently before being combined into the research preparation. Certificates of Analysis are available on request where applicable.",
+          "Both BPC-157 and TB-500 in the BPC-157 / TB-500 Blend are held to ≥99% HPLC purity standards, with each component verified independently before being combined into the research preparation. Certificates of Analysis are available on request where applicable.",
       },
     ],
-    relatedProducts: ["wolverine-blend"],
+    relatedProducts: ["bpc-157-tb-500-blend"],
     relatedSlugs: [
       "bpc-157-research-overview",
       "tb-500-thymosin-beta-4-research",

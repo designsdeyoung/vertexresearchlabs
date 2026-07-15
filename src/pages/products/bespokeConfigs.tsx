@@ -80,10 +80,10 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
       { icon: Activity, title: "Localized + Systemic", body: "Combines site-specific and circulating research compounds in one protocol." },
       { icon: ShieldCheck, title: "Inflammatory Modulation", body: "KPV adds an inflammatory-signaling research angle the other three don't cover." },
     ],
-    crossSell: ["wolverine-blend", "ghk-cu", "bpc-157"],
+    crossSell: ["bpc-157-tb-500-blend", "ghk-cu", "bpc-157"],
   },
 
-  retatrutide: {
+  glp3: {
     accentHue: 172,
     eyebrow: "Triple-Receptor Research Peptide",
     headline: ["Reta", "trutide"],
@@ -108,7 +108,7 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
       { icon: HeartPulse, title: "Gastrointestinal", body: "Studied in preclinical gut-lining and mucosal-protection assays." },
       { icon: Activity, title: "Angiogenesis", body: "Investigated for its role in new-vessel formation during tissue-repair research." },
     ],
-    crossSell: ["tb-500", "wolverine-blend", "klow"],
+    crossSell: ["tb-500", "bpc-157-tb-500-blend", "klow"],
   },
 
   "tb-500": {
@@ -122,7 +122,7 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
       { icon: Activity, title: "Angiogenesis", body: "Referenced in new-vessel-formation and tissue-recovery study models." },
       { icon: Repeat, title: "Systemic Reach", body: "Investigated for broad, circulating activity complementary to localized peptides." },
     ],
-    crossSell: ["bpc-157", "wolverine-blend", "klow"],
+    crossSell: ["bpc-157", "bpc-157-tb-500-blend", "klow"],
   },
 
   semax: {
@@ -206,7 +206,7 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
       { icon: Gauge, title: "AMPK Pathway", body: "Referenced as an activator of the AMPK metabolic master-switch." },
       { icon: Flame, title: "Exercise Mimetic", body: "Studied for exercise-like metabolic effects in cellular and animal models." },
     ],
-    crossSell: ["mots-c-40", "retatrutide", "nad-plus-1000"],
+    crossSell: ["mots-c-40", "glp3", "nad-plus-1000"],
   },
 
   "mots-c-40": {
@@ -220,7 +220,7 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
       { icon: Gauge, title: "AMPK Pathway", body: "Referenced as an activator of the AMPK metabolic master-switch." },
       { icon: Battery, title: "Metabolic Regulation", body: "Investigated for insulin-sensitivity and glucose-homeostasis research." },
     ],
-    crossSell: ["mots-c", "retatrutide", "nad-plus-1000"],
+    crossSell: ["mots-c", "glp3", "nad-plus-1000"],
   },
 
   kisspeptin: {
@@ -248,7 +248,7 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
       { icon: Gauge, title: "Visceral Adiposity", body: "Referenced in clinical research on visceral-fat reduction." },
       { icon: Repeat, title: "IGF-1 Axis", body: "Studied for downstream effects on the GH/IGF-1 signaling axis." },
     ],
-    crossSell: ["tesamorelin-2mg", "cjc-ipa-blend", "retatrutide"],
+    crossSell: ["tesamorelin-2mg", "cjc-ipa-blend", "glp3"],
   },
 
   "tesamorelin-2mg": {
@@ -262,7 +262,7 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
       { icon: Activity, title: "GH Secretagogue", body: "Investigated for stimulation of endogenous growth-hormone release." },
       { icon: Repeat, title: "IGF-1 Axis", body: "Studied for downstream effects on the GH/IGF-1 signaling axis." },
     ],
-    crossSell: ["tesamorelin", "cjc-ipa-blend", "retatrutide"],
+    crossSell: ["tesamorelin", "cjc-ipa-blend", "glp3"],
   },
 
   "pt-141": {
@@ -321,12 +321,12 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
     crossSell: ["nad-plus-1000", "glutathione", "dsip"],
   },
 
-  "wolverine-blend": {
+  "bpc-157-tb-500-blend": {
     accentHue: 172,
-    eyebrow: "Dual-Peptide Recovery Blend",
-    headline: ["Wolverine", "Blend"],
+    eyebrow: "Dual-Peptide Research Blend",
+    headline: ["BPC-157 + TB-500", "Blend"],
     description:
-      "Two of the most-studied regenerative research peptides — BPC-157 and TB-500 — combined in a single 10mg vial. The pairing researchers reach for when one protocol needs both localized and systemic coverage.",
+      "Two of the most-studied research peptides — BPC-157 and TB-500 — combined in a single 10mg vial. A convenient co-lyophilized format for researchers studying both reference materials in the same protocol.",
     composition: [
       { code: "BPC-157", dose: "5 mg", pct: 50, focus: "Localized tissue & gut research", blurb: "A synthetic pentadecapeptide derived from a gastric protein, studied in preclinical models for connective-tissue, tendon, and gastrointestinal repair pathways." },
       { code: "TB-500", dose: "5 mg", pct: 50, focus: "Systemic cell-migration research", blurb: "A synthetic fragment of Thymosin β4, investigated for its role in actin regulation, cell migration, and angiogenesis across systemic tissue models." },
@@ -358,7 +358,7 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
       { icon: Network, title: "Dual-Mechanism Synergy", body: "Pairs a GHRH analog with a ghrelin mimetic — two complementary research pathways." },
       { icon: Repeat, title: "IGF-1 Axis", body: "Investigated for downstream GH/IGF-1 signaling in preclinical models." },
     ],
-    crossSell: ["tesamorelin", "wolverine-blend", "retatrutide"],
+    crossSell: ["tesamorelin", "bpc-157-tb-500-blend", "glp3"],
   },
 
   "bac-water-3ml": {

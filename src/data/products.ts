@@ -3,8 +3,7 @@ import ghkCu100Image from "@/assets/products/ghk-cu-100.png";
 
 // Import COA images
 import ghkCuCoa from "@/assets/coa/ghk-cu-coa.jpg";
-import retatrutideCoa from "@/assets/coa/retatrutide-coa.jpg";
-import retatrutideImage from "@/assets/products/retatrutide.png";
+import glp3Image from "@/assets/products/glp3.png";
 import tirzepatideImage from "@/assets/products/tirzepatide.png";
 import ghkCuImage from "@/assets/products/ghk-cu.png";
 import semaxImage from "@/assets/products/semax.png";
@@ -22,7 +21,7 @@ import bacWater10mlImage from "@/assets/products/bac-water-10ml.png";
 import epithalonImage from "@/assets/products/epithalon.png";
 import dsipImage from "@/assets/products/dsip.png";
 import cjcIpaImage from "@/assets/products/cjc-ipa.png";
-import wolverineBlendImage from "@/assets/products/wolverine-blend.png";
+import bpc157Tb500BlendImage from "@/assets/products/bpc-157-tb-500-blend.png";
 import klowImage from "@/assets/products/klow.png";
 
 export interface Reference {
@@ -177,8 +176,8 @@ export const products: Product[] = [
     ]
   },
   {
-    id: "retatrutide",
-    name: "Retatrutide",
+    id: "glp3",
+    name: "GLP3",
     subtitle: "Research Grade",
     size: "10mg",
     price: 98,
@@ -188,23 +187,22 @@ export const products: Product[] = [
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
-    image: retatrutideImage,
+    image: glp3Image,
     category: "Peptide",
-    coa: retatrutideCoa,
     stock: 22,
     references: [
       {
         authors: "Jastreboff AM et al.",
         journal: "New England Journal of Medicine",
         year: 2023,
-        title: "Triple-Hormone-Receptor Agonist Retatrutide for Obesity",
+        title: "Triple hormone-receptor agonist for obesity — Phase 2 trial",
         url: "https://pubmed.ncbi.nlm.nih.gov/37366315/"
       },
       {
         authors: "Jastreboff AM et al.",
         journal: "New England Journal of Medicine",
         year: 2023,
-        title: "Retatrutide Phase 2 Trial",
+        title: "Phase 2 metabolic trial (NEJM 2023)",
         url: "https://www.nejm.org/doi/full/10.1056/NEJMoa2301972"
       }
     ]
@@ -612,8 +610,8 @@ export const products: Product[] = [
     ]
   },
   {
-    id: "wolverine-blend",
-    name: "Wolverine Blend",
+    id: "bpc-157-tb-500-blend",
+    name: "BPC-157 / TB-500 Blend",
     subtitle: "Research Grade",
     size: "10mg",
     price: 55,
@@ -625,7 +623,7 @@ export const products: Product[] = [
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
     category: "Peptide Blend",
-    image: wolverineBlendImage,
+    image: bpc157Tb500BlendImage,
     isNew: true,
     stock: 7,
     references: [

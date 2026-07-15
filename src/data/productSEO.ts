@@ -99,51 +99,51 @@ export const productSEO: Record<string, ProductSEOData> = {
     relatedProducts: ["ghk-cu", "bpc-157", "epithalon"],
   },
 
-  "retatrutide": {
-    metaTitle: "Retatrutide 10mg | ≥99% Purity Triple Agonist Research Peptide",
+  "glp3": {
+    metaTitle: "GLP3 10mg | ≥99% Purity Triple Agonist Research Peptide",
     metaDescription:
-      "Buy Retatrutide 10mg research peptide. ≥99% purity, HPLC verified. GLP-1/GIP/glucagon triple receptor agonist reference material for laboratory research.",
+      "Buy GLP3 10mg research peptide. ≥99% purity, HPLC verified. GLP-1/GIP/glucagon triple receptor agonist reference material for laboratory research.",
     keywords: [
-      "retatrutide",
-      "buy retatrutide",
-      "retatrutide research peptide",
-      "retatrutide 10mg",
-      "retatrutide for sale",
+      "glp3",
+      "buy glp3",
+      "glp3 research peptide",
+      "glp3 10mg",
+      "glp3 for sale",
       "triple agonist peptide",
       "GLP-1 GIP glucagon agonist research",
-      "retatrutide purity",
-      "retatrutide COA",
-      "LY3437943 research peptide",
-      "best retatrutide",
-      "retatrutide research grade",
+      "glp3 purity",
+      "glp3 COA",
+      "GLP-1 GIP glucagon triple agonist",
+      "best glp3",
+      "glp3 research grade",
       "GLP-1 peptide research",
       "trending research peptides 2024",
     ],
     researchSummary:
-      "Retatrutide (LY3437943) is a triple hormone receptor agonist targeting GLP-1, GIP, and glucagon receptors. Phase 2 clinical trial data published in the New England Journal of Medicine (2023) examined its metabolic effects in research settings. It represents one of the most actively studied peptide structures in current preclinical and clinical metabolic research.",
+      "GLP3 is a triple hormone receptor agonist targeting GLP-1, GIP, and glucagon receptors. Phase 2 clinical trial data published in the New England Journal of Medicine (2023) examined its metabolic effects in research settings. It represents one of the most actively studied peptide structures in current preclinical and clinical metabolic research.",
     faqs: [
       {
-        question: "What is Retatrutide?",
+        question: "What is GLP3?",
         answer:
-          "Retatrutide (LY3437943) is a synthetic peptide that acts as a triple agonist at GLP-1, GIP, and glucagon receptors. It is an active subject of metabolic research and has been studied in Phase 2 clinical trials. Vertex Research Labs supplies it as a reference material for laboratory use only.",
+          "GLP3 is a synthetic peptide that acts as a triple agonist at GLP-1, GIP, and glucagon receptors. It is an active subject of metabolic research and has been studied in Phase 2 clinical trials. Vertex Research Labs supplies it as a reference material for laboratory use only.",
       },
       {
-        question: "What purity is your Retatrutide?",
+        question: "What purity is your GLP3?",
         answer:
-          "Our Retatrutide is independently verified at ≥99% purity by HPLC analysis. Certificates of Analysis are available on request where applicable.",
+          "Our GLP3 is independently verified at ≥99% purity by HPLC analysis. Certificates of Analysis are available on request where applicable.",
       },
       {
-        question: "How does Retatrutide differ from Semaglutide or Tirzepatide?",
+        question: "How does GLP3 differ from Semaglutide or Tirzepatide?",
         answer:
-          "From a structural research perspective, Retatrutide is distinct in that it agonizes three receptors (GLP-1, GIP, and glucagon), whereas Semaglutide targets GLP-1 only and Tirzepatide targets GLP-1 and GIP. These differences make Retatrutide a unique research tool for studying multi-receptor metabolic signaling.",
+          "From a structural research perspective, GLP3 is distinct in that it agonizes three receptors (GLP-1, GIP, and glucagon), whereas Semaglutide targets GLP-1 only and Tirzepatide targets GLP-1 and GIP. These differences make GLP3 a unique research tool for studying multi-receptor metabolic signaling.",
       },
       {
-        question: "Is Retatrutide FDA-approved?",
+        question: "Is GLP3 FDA-approved?",
         answer:
-          "As of the current date, Retatrutide is an investigational compound and is not FDA-approved for any use. Vertex Research Labs supplies it exclusively as a laboratory reference material, not for human or veterinary use.",
+          "As of the current date, GLP3 is an investigational compound and is not FDA-approved for any use. Vertex Research Labs supplies it exclusively as a laboratory reference material, not for human or veterinary use.",
       },
       {
-        question: "What research has been published on Retatrutide?",
+        question: "What research has been published on GLP3?",
         answer:
           "Phase 2 trial findings were published in the New England Journal of Medicine (Jastreboff AM et al., 2023), examining its metabolic receptor activity profile. This is among the most cited recent peptide research publications.",
       },
@@ -250,10 +250,10 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "Is BPC-157 the same as TB-500?",
         answer:
-          "No. BPC-157 and TB-500 (Thymosin Beta-4) are structurally distinct peptides with different amino acid sequences and receptor targets. Some researchers study them together, which is why we also offer the Wolverine Blend combining both.",
+          "No. BPC-157 and TB-500 (Thymosin Beta-4) are structurally distinct peptides with different amino acid sequences and receptor targets. Some researchers study them together, which is why we also offer the BPC-157 / TB-500 Blend combining both.",
       },
     ],
-    relatedProducts: ["tb-500", "wolverine-blend", "ghk-cu", "epithalon"],
+    relatedProducts: ["tb-500", "bpc-157-tb-500-blend", "ghk-cu", "epithalon"],
   },
 
   "tb-500": {
@@ -298,7 +298,7 @@ export const productSEO: Record<string, ProductSEOData> = {
       {
         question: "Can TB-500 and BPC-157 be studied together?",
         answer:
-          "Yes — many researchers study both peptides in parallel. We offer the Wolverine Blend (BPC-157 5mg + TB-500 5mg) for researchers who want both in a single vial.",
+          "Yes — many researchers study both peptides in parallel. We offer the BPC-157 / TB-500 Blend (BPC-157 5mg + TB-500 5mg) for researchers who want both in a single vial.",
       },
       {
         question: "What is the molecular weight of TB-500?",
@@ -306,7 +306,7 @@ export const productSEO: Record<string, ProductSEOData> = {
           "Thymosin Beta-4 Acetate has a molecular weight of approximately 4963.5 Da.",
       },
     ],
-    relatedProducts: ["bpc-157", "wolverine-blend", "ghk-cu", "mots-c"],
+    relatedProducts: ["bpc-157", "bpc-157-tb-500-blend", "ghk-cu", "mots-c"],
   },
 
   "selank": {
@@ -880,18 +880,18 @@ export const productSEO: Record<string, ProductSEOData> = {
     relatedProducts: ["ghk-cu", "mots-c", "dsip", "bpc-157"],
   },
 
-  "wolverine-blend": {
-    metaTitle: "Wolverine Blend BPC-157 + TB-500 10mg | ≥99% Purity Research Peptide",
+  "bpc-157-tb-500-blend": {
+    metaTitle: "BPC-157 / TB-500 Blend BPC-157 + TB-500 10mg | ≥99% Purity Research Peptide",
     metaDescription:
-      "Buy Wolverine Blend — BPC-157 (5mg) + TB-500 (5mg) in a single research vial. ≥99% purity, HPLC verified. Most popular peptide combination for laboratory research.",
+      "Buy BPC-157 / TB-500 Blend — BPC-157 (5mg) + TB-500 (5mg) in a single research vial. ≥99% purity, HPLC verified. Most popular peptide combination for laboratory research.",
     keywords: [
       "BPC-157 TB-500 blend",
-      "Wolverine blend",
+      "BPC-157 / TB-500 blend",
       "BPC-157 and TB-500",
       "buy BPC-157 TB-500 combo",
       "peptide blend research",
       "BPC-157 TB-500 10mg",
-      "Wolverine blend peptide",
+      "BPC-157 / TB-500 blend peptide",
       "best peptide blend research",
       "BPC-157 TB-500 stack research",
       "high purity peptide blend",
@@ -899,12 +899,12 @@ export const productSEO: Record<string, ProductSEOData> = {
       "research peptide combo",
     ],
     researchSummary:
-      "The Wolverine Blend combines BPC-157 (5mg) and TB-500 / Thymosin Beta-4 Acetate (5mg) into a single research vial. Both peptides are extensively studied individually in preclinical settings. This combination format is designed for researchers who wish to study both reference materials simultaneously. Certificates of Analysis are available on request where applicable.",
+      "The BPC-157 / TB-500 Blend combines BPC-157 (5mg) and TB-500 / Thymosin Beta-4 Acetate (5mg) into a single research vial. Both peptides are extensively studied individually in preclinical settings. This combination format is designed for researchers who wish to study both reference materials simultaneously. Certificates of Analysis are available on request where applicable.",
     faqs: [
       {
-        question: "What is the Wolverine Blend?",
+        question: "What is the BPC-157 / TB-500 Blend?",
         answer:
-          "The Wolverine Blend is a co-lyophilized research vial containing BPC-157 (5mg) and TB-500 / Thymosin Beta-4 Acetate (5mg). It is supplied as a laboratory reference material for researchers studying both peptides in the same experimental protocol.",
+          "The BPC-157 / TB-500 Blend is a co-lyophilized research vial containing BPC-157 (5mg) and TB-500 / Thymosin Beta-4 Acetate (5mg). It is supplied as a laboratory reference material for researchers studying both peptides in the same experimental protocol.",
       },
       {
         question: "Why combine BPC-157 and TB-500 in one vial?",
@@ -912,19 +912,19 @@ export const productSEO: Record<string, ProductSEOData> = {
           "BPC-157 and TB-500 are among the most co-researched peptide pairs in the preclinical literature. Combining them in a single vial simplifies procurement and reduces cost versus buying separately.",
       },
       {
-        question: "What purity is the Wolverine Blend?",
+        question: "What purity is the BPC-157 / TB-500 Blend?",
         answer:
           "Both components are verified at ≥99% individual purity. Certificates of Analysis are available on request where applicable.",
       },
       {
         question: "Can I buy BPC-157 and TB-500 separately?",
         answer:
-          "Yes — we offer BPC-157 and TB-500 individually for researchers who need single-peptide reference materials. The Wolverine Blend is offered as a convenience and value option.",
+          "Yes — we offer BPC-157 and TB-500 individually for researchers who need single-peptide reference materials. The BPC-157 / TB-500 Blend is offered as a convenience and value option.",
       },
       {
-        question: "Does the Wolverine Blend save money vs buying separately?",
+        question: "Does the BPC-157 / TB-500 Blend save money vs buying separately?",
         answer:
-          "Yes. The Wolverine Blend (10mg total, 5mg each) is priced at a discount versus purchasing BPC-157 5mg and TB-500 5mg as separate vials.",
+          "Yes. The BPC-157 / TB-500 Blend (10mg total, 5mg each) is priced at a discount versus purchasing BPC-157 5mg and TB-500 5mg as separate vials.",
       },
     ],
     relatedProducts: ["bpc-157", "tb-500", "ghk-cu", "epithalon"],
@@ -979,7 +979,7 @@ export const productSEO: Record<string, ProductSEOData> = {
           "The blend contains an equal 1:1 ratio — 5mg CJC-1295 (No DAC) and 5mg Ipamorelin per 10mg vial.",
       },
     ],
-    relatedProducts: ["tesamorelin", "mots-c", "wolverine-blend"],
+    relatedProducts: ["tesamorelin", "mots-c", "bpc-157-tb-500-blend"],
   },
 
   "bac-water-3ml": {
@@ -1016,7 +1016,7 @@ export const productSEO: Record<string, ProductSEOData> = {
           "BAC Water is available as a separate add-on. We offer both 3mL and 10mL formats to match your research protocol volume needs.",
       },
     ],
-    relatedProducts: ["bac-water-10ml", "bpc-157", "tb-500", "wolverine-blend"],
+    relatedProducts: ["bac-water-10ml", "bpc-157", "tb-500", "bpc-157-tb-500-blend"],
   },
 
   "bac-water-10ml": {

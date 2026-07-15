@@ -1,4 +1,10 @@
 {
+  "redirects": [
+    { "source": "/product/retatrutide", "destination": "/product/glp3", "permanent": true },
+    { "source": "/product/wolverine-blend", "destination": "/product/bpc-157-tb-500-blend", "permanent": true },
+    { "source": "/learn/retatrutide-triple-agonist-research", "destination": "/learn/glp3-triple-agonist-research", "permanent": true },
+    { "source": "/learn/wolverine-blend-peptide-research", "destination": "/learn/bpc-157-tb-500-blend-peptide-research", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/((?!api/|assets/|.*\\.).*)", "destination": "/index.html" }
   ]

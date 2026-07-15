@@ -9,7 +9,6 @@ import {
   ShieldAlert,
 } from "lucide-react";
 import ghkCuCoa from "@/assets/coa/ghk-cu-coa.jpg";
-import retatrutideCoa from "@/assets/coa/retatrutide-coa.jpg";
 
 const features = [
   {
@@ -36,7 +35,6 @@ const features = [
 
 const coas = [
   { name: "GHK-Cu", size: "50mg", image: ghkCuCoa, productId: "ghk-cu" },
-  { name: "Retatrutide", size: "10mg", image: retatrutideCoa, productId: "retatrutide" },
 ];
 
 const QualityTransparency = () => {

@@ -30,7 +30,7 @@ import { toast } from "@/hooks/use-toast";
 // Define peptide element data with symbols and categories
 const peptideElements = [
   { id: "ghk-cu", symbol: "GHK", category: "structural", researchFocus: "Copper peptide binding studies" },
-  { id: "retatrutide", symbol: "RET", category: "metabolic", researchFocus: "Triple receptor agonist research" },
+  { id: "glp3", symbol: "GL3", category: "metabolic", researchFocus: "Triple receptor agonist research" },
   { id: "semax", symbol: "SMX", category: "neuroactive", researchFocus: "ACTH analog peptide research" },
   { id: "selank", symbol: "SLK", category: "neuroactive", researchFocus: "Tuftsin analog studies" },
   { id: "nad-plus-1000", symbol: "NAD", category: "metabolic", researchFocus: "Coenzyme metabolism research" },

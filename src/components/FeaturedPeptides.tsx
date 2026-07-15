@@ -10,7 +10,7 @@ import { productGradient } from "@/lib/productVisuals";
  *  (no benefit/treatment claims — research-use language only). */
 const FEATURED: { id: string; blurb: string }[] = [
   { id: "klow", blurb: "GHK-Cu · BPC-157 · TB-500 · KPV blend" },
-  { id: "retatrutide", blurb: "GIP/GLP-1/GCG triagonist peptide" },
+  { id: "glp3", blurb: "GIP/GLP-1/GCG triagonist peptide" },
   { id: "ghk-cu", blurb: "Copper tripeptide reference standard" },
   { id: "nad-plus-1000", blurb: "Coenzyme reference material" },
   { id: "semax", blurb: "Heptapeptide reference standard" },

@@ -20,16 +20,42 @@ const Index = () => {
       "@type": "Organization",
       name: "Vertex Research Labs",
       url: "https://vertexresearchlabs.com",
-      logo: "https://vertexresearchlabs.com/og-image.png",
+      logo: "https://vertexresearchlabs.com/logo-black.png",
+      image: "https://vertexresearchlabs.com/og-image.png",
       description:
         "Research-grade peptides and analytical reference materials with verified Certificates of Analysis.",
-      sameAs: [],
+      email: "info@vertexresearchlabs.com",
+      telephone: "+1-727-295-1338",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "1444 S Belcher Rd STE C-103",
+        addressLocality: "Clearwater",
+        addressRegion: "FL",
+        postalCode: "33764",
+        addressCountry: "US",
+      },
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "customer service",
+        email: "info@vertexresearchlabs.com",
+        telephone: "+1-727-295-1338",
+        areaServed: "US",
+      },
+      sameAs: ["https://twitter.com/VertexResearchLabs"],
     },
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
       name: "Vertex Research Labs",
       url: "https://vertexresearchlabs.com",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: "https://vertexresearchlabs.com/?q={search_term_string}#products",
+        },
+        "query-input": "required name=search_term_string",
+      },
     },
   ];
 

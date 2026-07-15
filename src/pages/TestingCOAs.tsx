@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import {
   FileText,
@@ -10,9 +11,34 @@ import {
   Mail,
 } from "lucide-react";
 
+const BASE_URL = "https://vertexresearchlabs.com";
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
+    { "@type": "ListItem", position: 2, name: "Quality", item: `${BASE_URL}/quality` },
+    { "@type": "ListItem", position: 3, name: "Testing & COAs", item: `${BASE_URL}/quality/testing` },
+  ],
+};
+
 const TestingCOAs = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <SEOHead
+        title="Certificates of Analysis & Third-Party Testing"
+        description="How Vertex Research Labs tests every batch: independent HPLC purity (≥99%), mass-spec identity, and Certificates of Analysis available on request for research-grade peptides."
+        canonical="/quality/testing"
+        keywords={[
+          "peptide COA",
+          "certificate of analysis peptides",
+          "third-party tested peptides",
+          "HPLC peptide purity",
+          "research peptide testing",
+        ]}
+        jsonLd={breadcrumbSchema}
+      />
       <Header />
 
       <main className="flex-1 pt-24 pb-16">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import type { ComponentType } from "react";
 import type { LucideIcon } from "lucide-react";
@@ -30,6 +30,7 @@ import {
   THREE_PACK_DISCOUNT,
 } from "@/contexts/InquiryCartContext";
 import { SITEWIDE_SALE } from "@/config/sale";
+import { trackViewItem } from "@/lib/analytics";
 import { toast } from "@/hooks/use-toast";
 import {
   Accordion,
@@ -137,6 +138,10 @@ export const makeBespokePage = (config: BespokeConfig): ComponentType<BespokePro
 
     const { name, size, price, originalPrice, image, coa, references } = product;
 
+    useEffect(() => {
+      trackViewItem(product);
+    }, [product]);
+
     const salePrice = SITEWIDE_SALE.active ? price * (1 - SITEWIDE_SALE.discount) : price;
     const strikePrice = SITEWIDE_SALE.active ? price : originalPrice;
     const subPrice = salePrice * (1 - AUTOSHIP_DISCOUNT);
@@ -206,13 +211,21 @@ export const makeBespokePage = (config: BespokeConfig): ComponentType<BespokePro
     };
 
     const BASE_URL = "https://vertexresearchlabs.com";
+    const absImage = image
+      ? image.startsWith("http")
+        ? image
+        : `${BASE_URL}${image}`
+      : `${BASE_URL}/og-image.png`;
     const productSchema = {
       "@context": "https://schema.org",
       "@type": "Product",
       name: `${name} ${size} – Research Grade`,
       description: seo?.metaDescription ?? product.description,
+      image: absImage,
       brand: { "@type": "Brand", name: "Vertex Research Labs" },
+      category: product.category,
       sku: product.id,
+      mpn: product.id,
       offers: {
         "@type": "Offer",
         priceCurrency: "USD",
@@ -220,9 +233,19 @@ export const makeBespokePage = (config: BespokeConfig): ComponentType<BespokePro
         availability: product.outOfStock
           ? "https://schema.org/OutOfStock"
           : "https://schema.org/InStock",
+        itemCondition: "https://schema.org/NewCondition",
         url: `${BASE_URL}/product/${product.id}`,
         seller: { "@type": "Organization", name: "Vertex Research Labs" },
       },
+    };
+    const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
+        { "@type": "ListItem", position: 2, name: "Catalog", item: `${BASE_URL}/#products` },
+        { "@type": "ListItem", position: 3, name, item: `${BASE_URL}/product/${product.id}` },
+      ],
     };
     const faqSchema = seo?.faqs?.length
       ? {
@@ -247,7 +270,7 @@ export const makeBespokePage = (config: BespokeConfig): ComponentType<BespokePro
           canonical={`/product/${product.id}`}
           ogType="product"
           keywords={seo?.keywords ?? []}
-          jsonLd={[productSchema, ...(faqSchema ? [faqSchema] : [])]}
+          jsonLd={[productSchema, breadcrumbSchema, ...(faqSchema ? [faqSchema] : [])]}
         />
         <ComplianceBanner />
         <Header />
@@ -297,6 +320,10 @@ export const makeBespokePage = (config: BespokeConfig): ComponentType<BespokePro
                       <img
                         src={image}
                         alt={`${name} ${size} research material`}
+                        width={600}
+                        height={600}
+                        decoding="async"
+                        fetchPriority="high"
                         className={`h-full w-full scale-[1.45] object-contain object-center ${product.outOfStock ? "opacity-50 grayscale" : ""}`}
                       />
                     )}

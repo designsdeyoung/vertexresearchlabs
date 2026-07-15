@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { products } from "@/data/products";
 import { productSEO } from "@/data/productSEO";
+import { trackViewItem } from "@/lib/analytics";
 import { customProductPages } from "@/pages/products/customPages";
 import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
@@ -59,6 +60,13 @@ const ProductDetail = () => {
 
   const product = products.find((p) => p.id === productId);
   const seo = productId ? productSEO[productId] : undefined;
+  const isBespoke = product ? Boolean(customProductPages[product.id]) : false;
+
+  // Fire view_item for the shared-template path only; bespoke pages fire their
+  // own from the kit, so guarding here avoids double-counting.
+  useEffect(() => {
+    if (product && !isBespoke) trackViewItem(product);
+  }, [product, isBespoke]);
 
   if (!product) {
     return (
@@ -121,19 +129,30 @@ const ProductDetail = () => {
   };
 
   const BASE_URL = "https://vertexresearchlabs.com";
+  const absImage = image
+    ? image.startsWith("http")
+      ? image
+      : `${BASE_URL}${image}`
+    : `${BASE_URL}/og-image.png`;
 
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: `${name} ${product.size} – Research Grade`,
     description: seo?.metaDescription ?? product.description,
+    image: absImage,
     brand: { "@type": "Brand", name: "Vertex Research Labs" },
+    category: product.category,
     sku: product.id,
+    mpn: product.id,
     offers: {
       "@type": "Offer",
       priceCurrency: "USD",
-      price: product.price.toFixed(2),
-      availability: "https://schema.org/InStock",
+      price: salePrice.toFixed(2),
+      availability: product.outOfStock
+        ? "https://schema.org/OutOfStock"
+        : "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
       url: `${BASE_URL}/product/${product.id}`,
       seller: { "@type": "Organization", name: "Vertex Research Labs" },
     },
@@ -198,6 +217,10 @@ const ProductDetail = () => {
                     <img
                       src={image}
                       alt={`${name} ${size} research material`}
+                      width={600}
+                      height={600}
+                      decoding="async"
+                      fetchPriority="high"
                       className="h-full w-full object-contain object-center scale-[1.5]"
                     />
                   ) : (

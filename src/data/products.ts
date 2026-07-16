@@ -242,6 +242,21 @@ export const products: Product[] = [
     ]
   },
   {
+    id: "igf1-lr3",
+    name: "IGF-1 LR3",
+    subtitle: "Research Grade",
+    size: "1mg",
+    price: 85,
+    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
+    purity: "≥99%",
+    testing: "Independent analytical verification",
+    documentation: "Certificate of Analysis available upon request",
+    intendedUse: "Laboratory research use only.",
+    disclaimer: "Not for human consumption or veterinary use.",
+    category: "Peptide",
+    isNew: true
+  },
+  {
     id: "semax",
     name: "Semax",
     subtitle: "Research Grade",

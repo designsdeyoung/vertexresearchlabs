@@ -28,10 +28,10 @@ const Disclaimer = () => {
                 </div>
                 <div className="space-y-4 text-muted-foreground">
                   <p>
-                    Vertex Research Labs provides research-grade materials intended solely for laboratory research and analytical purposes.
+                    Vertex Research Labs supplies analytical-grade biochemical reference standards and laboratory research materials to qualified research customers, intended exclusively for in-vitro research, analytical method development, identity verification, and laboratory evaluation.
                   </p>
                   <p>
-                    All products sold by Vertex Research Labs are not for human consumption or veterinary use. Products are not intended for diagnosis, treatment, cure, mitigation, or prevention of any disease or medical condition, and have not been approved for such uses.
+                    Products are not for human or animal consumption, therapeutic use, clinical use, diagnostic use, dietary supplementation, dosing, injection, ingestion, or administration of any kind. Products are not intended for diagnosis, treatment, cure, mitigation, or prevention of any disease or medical condition, and have not been approved for such uses.
                   </p>
                   <p>
                     The information presented on this website is provided for general informational purposes only. Nothing on this site should be interpreted as medical, pharmaceutical, clinical, or scientific advice, nor should it be relied upon to make health-related decisions.
@@ -62,7 +62,15 @@ const Disclaimer = () => {
                 <li className="flex items-start gap-3">
                   <CheckCircle2 size={18} className="text-primary mt-0.5 flex-shrink-0" />
                   <span className="text-muted-foreground">
-                    The products will not be used in or on humans or animals, directly or indirectly.
+                    The products will not be used in or on humans or animals, directly or indirectly, and will not be
+                    dosed, injected, ingested, administered, or otherwise consumed by any person or animal.
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 size={18} className="text-primary mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">
+                    The products will not be resold, transferred, or repurposed for human or animal consumption,
+                    therapeutic use, clinical use, diagnostic use, or dietary supplementation.
                   </span>
                 </li>
               </ul>
@@ -71,7 +79,7 @@ const Disclaimer = () => {
             {/* No Warranties */}
             <div className="glass-card rounded-xl p-6">
               <p className="text-muted-foreground">
-                Vertex Research Labs makes no representations or warranties, express or implied, regarding the safety, efficacy, performance, or outcomes of any product for human or animal use.
+                Vertex Research Labs makes no representations or warranties, express or implied, regarding the safety, efficacy, performance, or outcomes of any product for human or animal use. Vertex Research Labs reserves the right to decline, cancel, or refuse to fulfill any order that it determines, in its sole discretion, is inconsistent with qualified research use or with these representations.
               </p>
             </div>
 

@@ -33,11 +33,12 @@ const Footer = () => {
               <img src={logo} alt="Vertex Research Labs" className="h-24 w-auto" />
             </Link>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              Research-grade peptides and analytical reference materials with
+              Analytical-grade biochemical reference standards and laboratory
+              research materials for qualified research customers, with
               verified Certificates of Analysis.
             </p>
             <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/70">
-              Designed for researchers. Built on trust.
+              In-vitro research use only. Not for human or animal consumption.
             </p>
           </div>
 
@@ -116,8 +117,10 @@ const Footer = () => {
               Research Use Only
             </h4>
             <p className="text-xs leading-relaxed text-muted-foreground">
-              All products are intended for laboratory research purposes only.
-              Not for human consumption.
+              All materials are intended exclusively for in-vitro research, analytical
+              method development, identity verification, and laboratory evaluation by
+              qualified research customers. Not for human or animal consumption or
+              administration.
             </p>
           </div>
         </div>
@@ -125,14 +128,17 @@ const Footer = () => {
         {/* Compliance disclaimer */}
         <div className="mt-12 border-t border-border pt-6">
           <p className="text-xs leading-relaxed text-muted-foreground">
-            All products sold by Vertex Research Labs are intended for laboratory research and
-            analytical applications only. Not for human consumption. Not for veterinary use.
-            Must be handled by qualified research personnel in appropriate laboratory settings.
-            No product is a drug, supplement, or medical device. Nothing on this site is medical
-            advice or a health claim, and no product description or research summary is an
-            endorsement of any use in humans or animals. These statements have not been evaluated
-            by the FDA, and these products are not intended to diagnose, treat, cure, or prevent
-            any disease.
+            Vertex Research Labs supplies analytical-grade biochemical reference standards and
+            laboratory research materials to qualified research customers. Materials are intended
+            exclusively for in-vitro research, analytical method development, identity verification,
+            and laboratory evaluation. Products are not intended for human or animal consumption,
+            therapeutic use, clinical use, diagnostic use, dietary supplementation, dosing, injection,
+            ingestion, or administration of any kind, and must be handled by qualified research
+            personnel in appropriate laboratory settings. No product is a drug, supplement, or medical
+            device. Nothing on this site is medical advice or a health claim, and no product
+            description or research summary is an endorsement of any use in humans or animals. These
+            statements have not been evaluated by the FDA, and these products are not intended to
+            diagnose, treat, cure, or prevent any disease.
           </p>
           <p className="mt-4 text-xs text-muted-foreground">
             © {year} Vertex Research Labs. All rights reserved.

@@ -24,21 +24,28 @@ const Terms = () => {
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-3">Research Use Only</h2>
               <p>
-                All products offered by Vertex Research Labs are sold strictly for laboratory research purposes only. Products are not intended for human or veterinary use.
+                Vertex Research Labs supplies analytical-grade biochemical reference standards and laboratory research materials to qualified research customers. Materials are intended exclusively for in-vitro research, analytical method development, identity verification, and laboratory evaluation. Products are not intended for human or animal consumption, therapeutic use, clinical use, diagnostic use, dietary supplementation, dosing, injection, ingestion, or administration of any kind.
               </p>
             </section>
-            
+
             <section>
-              <h2 className="text-xl font-semibold text-foreground mb-3">Eligibility</h2>
+              <h2 className="text-xl font-semibold text-foreground mb-3">Eligibility and Buyer Representations</h2>
               <p>
-                Products may only be purchased or requested by individuals, laboratories, institutions, or organizations engaged in legitimate research activities.
+                Products may only be purchased or requested by individuals, laboratories, institutions, or organizations engaged in legitimate research activities. By placing an order, the purchaser represents and warrants that they are a qualified research customer, that the materials will be used exclusively for laboratory research or analytical purposes, and that the materials will not be resold, transferred, or repurposed for human or animal consumption, therapeutic use, clinical use, diagnostic use, dietary supplementation, dosing, injection, ingestion, or administration of any kind.
               </p>
             </section>
-            
+
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-3">Product Information</h2>
               <p>
                 All descriptions and specifications are provided for identification and reference purposes only and do not constitute claims of performance, safety, or suitability for any particular use.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold text-foreground mb-3">Order Review and Cancellation</h2>
+              <p>
+                Vertex Research Labs reserves the right to review, decline, or cancel any order at its sole discretion, including where an order or purchaser representation appears inconsistent with qualified research use or with these Terms and Conditions.
               </p>
             </section>
             

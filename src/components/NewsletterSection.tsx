@@ -48,8 +48,8 @@ const NewsletterSection = () => {
                   Stay Informed. Stay Ahead.
                 </h2>
                 <p className="mt-2 max-w-[420px] text-sm leading-relaxed text-muted-foreground md:text-base">
-                  Get insider updates on new products, restocks, and research
-                  resources — straight to your inbox.
+                  Get updates on new reference materials, lot availability, and
+                  research resources — straight to your inbox.
                 </p>
               </div>
             </div>

@@ -623,7 +623,7 @@ const Checkout = () => {
                   </div>
                   {discountValid === true && (
                     <p className="text-xs text-primary mt-2 flex items-center gap-1">
-                      <Sparkles size={10} /> {Math.round(discountRate * 100)}% discount applied{promoFreeShipping ? " + FREE shipping" : ""}{selectedCredit ? " · stacks with your Vertex Credit" : ""} — you save {formatPrice(discountAmount + (promoFreeShipping && !qualifiesForFreeShipping ? FLAT_RATE_SHIPPING : 0))}
+                      <Sparkles size={10} /> {Math.round(discountRate * 100)}% discount applied{promoFreeShipping ? " + free shipping" : ""}{selectedCredit ? " · stacks with your Vertex Credit" : ""} — discount amount: {formatPrice(discountAmount + (promoFreeShipping && !qualifiesForFreeShipping ? FLAT_RATE_SHIPPING : 0))}
                     </p>
                   )}
                   {discountValid === false && (
@@ -662,11 +662,14 @@ const Checkout = () => {
                     <Label htmlFor="finalConfirmation" className="cursor-pointer leading-relaxed">
                       <span className="font-medium text-foreground">Final Confirmation Required</span>
                       <p className="text-sm text-muted-foreground mt-1">
-                        I confirm that this order is for laboratory research use only and that I agree to the{" "}
+                        I confirm that I am purchasing these materials exclusively for qualified laboratory
+                        research or analytical use. I will not use these materials for human or animal
+                        consumption, therapeutic use, clinical use, diagnostic use, dietary supplementation,
+                        dosing, injection, ingestion, or administration. I agree to the{" "}
                         <Link to="/terms" className="text-primary hover:underline">
                           Terms & Conditions
                         </Link>
-                        . I understand that all products from Vertex Research Labs are not intended for human or veterinary use.
+                        .
                       </p>
                     </Label>
                   </div>
@@ -682,7 +685,7 @@ const Checkout = () => {
                   />
                   <Label htmlFor="marketingConsent" className="cursor-pointer text-sm leading-relaxed text-muted-foreground">
                     Keep me updated — send my order confirmation plus occasional research updates and
-                    new compound releases. Unsubscribe anytime.
+                    new catalog listings. Unsubscribe anytime.
                   </Label>
                 </div>
 

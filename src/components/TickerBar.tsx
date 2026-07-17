@@ -6,9 +6,9 @@ const items = [
   { icon: FlaskConical, label: "For Research Use Only" },
   { icon: FileCheck, label: "COA on Request" },
   { icon: Microscope, label: "Independent Third-Party Tested" },
-  { icon: Award, label: "Pharmaceutical Grade Materials" },
+  { icon: Award, label: "Analytical-Grade Reference Materials" },
   { icon: Zap, label: "Same-Day Order Processing" },
-  { icon: Lock, label: "Discreet Packaging" },
+  { icon: Lock, label: "Secure, Compliant Packaging" },
 ];
 
 const TickerBar = () => {

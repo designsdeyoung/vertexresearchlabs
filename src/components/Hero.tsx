@@ -68,7 +68,7 @@ const Hero = () => {
                 className="h-12 min-w-[180px] bg-primary text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:bg-primary/90 hover:shadow-primary/40"
               >
                 <a href="#products">
-                  Shop Peptides
+                  View Reference Materials
                   <ArrowRight size={16} />
                 </a>
               </Button>

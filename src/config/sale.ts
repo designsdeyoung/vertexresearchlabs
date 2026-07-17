@@ -3,7 +3,7 @@
 export const SITEWIDE_SALE = {
   active: false,
   discount: 0.10, // 10%
-  label: "10% OFF EVERYTHING — TODAY ONLY",
-  shortLabel: "10% OFF TODAY",
-  code: "LAUNCH10",
+  label: "",
+  shortLabel: "",
+  code: "",
 };

@@ -117,7 +117,7 @@ const Shipping = () => {
               <div>
                 <h2 className="text-sm font-semibold text-foreground mb-1">Research Use Disclaimer</h2>
                 <p className="text-sm text-muted-foreground">
-                  All products sold by Vertex Research Labs are intended for laboratory research use only and are not for human or veterinary consumption. By placing an order, the purchaser acknowledges and agrees to these terms.
+                  All materials sold by Vertex Research Labs are intended exclusively for in-vitro research, analytical method development, identity verification, and laboratory evaluation by qualified research customers. Materials are not for human or animal consumption, therapeutic use, clinical use, diagnostic use, dietary supplementation, dosing, injection, ingestion, or administration of any kind, and must not be resold or transferred for any such use. By placing an order, the purchaser represents that they are a qualified research customer and acknowledges and agrees to these terms. Vertex Research Labs reserves the right to decline or cancel any order that does not comply with this policy.
                 </p>
               </div>
             </section>

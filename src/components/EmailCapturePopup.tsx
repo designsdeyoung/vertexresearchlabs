@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { useCompliance } from "@/contexts/ComplianceContext";
 import { subscribeEmail } from "@/lib/resend";
-import { WELCOME_DISCOUNT_PERCENT } from "@/config/promo";
 
 const COOKIE = "vrl_popup_seen";
 const COOKIE_DAYS = 30;
@@ -109,7 +108,7 @@ const EmailCapturePopup = () => {
           <div className="py-4 text-center">
             <h2 className="font-display text-2xl font-bold text-foreground">Check your inbox</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Your {WELCOME_DISCOUNT_PERCENT}% code is on its way. Welcome to the lab.
+              You're subscribed. Welcome to the lab.
             </p>
             <button
               type="button"
@@ -122,14 +121,14 @@ const EmailCapturePopup = () => {
         ) : (
           <>
             <span className="inline-block rounded-md border border-primary/30 bg-primary/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-primary">
-              Researcher Exclusive
+              Research Updates
             </span>
             <h2 className="mt-4 font-display text-2xl font-bold text-foreground">
-              {WELCOME_DISCOUNT_PERCENT}% off your first order
+              Stay informed on new reference materials
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Join our research community. Get lab updates, new compound releases, and your discount
-              code delivered instantly.
+              Join our research community. Get catalog updates, new lot availability, and
+              documentation updates delivered to your inbox.
             </p>
 
             <form onSubmit={handleSubmit} className="mt-5 space-y-3" noValidate>
@@ -152,7 +151,7 @@ const EmailCapturePopup = () => {
                 disabled={status === "loading"}
                 className="h-11 w-full rounded-lg bg-primary text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {status === "loading" ? "Sending…" : "Claim Offer"}
+                {status === "loading" ? "Sending…" : "Subscribe"}
               </button>
             </form>
 

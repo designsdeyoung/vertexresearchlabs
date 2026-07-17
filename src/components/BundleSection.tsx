@@ -35,14 +35,14 @@ const BUNDLES: Bundle[] = [
     eyebrow: "Beginner Research Kit",
     title: "Starter Reference Set",
     blurb:
-      "Everything a new lab needs to begin reconstitution and handling work — compound, diluent, and structural reference.",
+      "Everything a new lab needs to begin solution-preparation and handling work — compound, diluent, and structural reference.",
     icon: Beaker,
     productIds: ["wolverine-blend", "bac-water-10ml", "ghk-cu"],
     bundleDiscountPct: 10,
   },
   {
     key: "top-protocols",
-    eyebrow: "Top Protocols",
+    eyebrow: "Top Reference Picks",
     title: "Advanced Reference Series",
     blurb:
       "Curated reference compounds frequently cited together in published peptide methodology literature.",

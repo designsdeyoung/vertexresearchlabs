@@ -205,7 +205,7 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
           disabled={selected.outOfStock}
           className="h-11 w-full rounded-full bg-navy text-[13px] font-semibold uppercase tracking-[0.1em] text-white transition-colors duration-200 hover:bg-navy-soft disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {selected.outOfStock ? "Out of Stock" : "Add to Cart"}
+          {selected.outOfStock ? "Out of Stock" : "Add to Research Order"}
         </Button>
 
         {/* 3-Pack quick add (hidden when out of stock) */}
@@ -227,7 +227,7 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
         {!selected.outOfStock && (
         <Collapsible open={subOpen} onOpenChange={setSubOpen}>
           <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md py-1.5 text-xs text-navy/55 transition-colors hover:text-navy">
-            <span>Subscribe & save extra 10% (stacks with 3-Pack & sale)</span>
+            <span>Subscribe & save extra 10% (stacks with 3-Pack discount)</span>
             <ChevronDown
               size={14}
               className={`transition-transform ${subOpen ? "rotate-180" : ""}`}

@@ -39,7 +39,7 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
     eyebrow: "Copper Tripeptide Complex",
     headline: ["GHK", "-Cu"],
     description:
-      "A naturally occurring copper-binding tripeptide and one of the most-studied reference materials in regenerative and dermatological research.",
+      "A naturally occurring copper-binding tripeptide and one of the most-studied reference materials in connective-tissue and dermatological research.",
     features: [
       { icon: Repeat, title: "Tissue Remodeling", body: "Extensively referenced in in vitro studies of collagen, elastin, and extracellular-matrix synthesis." },
       { icon: ShieldCheck, title: "Antioxidant Pathways", body: "Investigated for copper-mediated modulation of oxidative-stress and inflammatory signaling." },
@@ -67,17 +67,17 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
     eyebrow: "Four-Peptide Research Blend",
     headline: ["KLOW", "Blend"],
     description:
-      "A single 80mg vial combining four of the most-referenced regenerative peptides — GHK-Cu, BPC-157, TB-500, and KPV — for multi-pathway research.",
+      "A single 80mg vial combining four of the most-referenced structural-research peptides — GHK-Cu, BPC-157, TB-500, and KPV — for multi-pathway research.",
     composition: [
       { code: "GHK-Cu", dose: "50 mg", pct: 62, focus: "Copper-peptide remodeling", blurb: "Copper tripeptide studied for matrix synthesis and gene-expression modulation." },
-      { code: "BPC-157", dose: "10 mg", pct: 13, focus: "Localized tissue & gut", blurb: "Gastric-derived pentadecapeptide referenced in connective-tissue repair models." },
+      { code: "BPC-157", dose: "10 mg", pct: 13, focus: "Localized tissue & gut", blurb: "Gastric-derived pentadecapeptide referenced in connective-tissue research models." },
       { code: "TB-500", dose: "10 mg", pct: 13, focus: "Cell migration", blurb: "Thymosin β4 fragment investigated for actin regulation and angiogenesis." },
       { code: "KPV", dose: "10 mg", pct: 12, focus: "Inflammatory signaling", blurb: "α-MSH-derived tripeptide studied in models of inflammatory modulation." },
     ],
     compositionSub: "Four complementary peptides in one 80mg vial.",
     features: [
-      { icon: Network, title: "Multi-Pathway", body: "Each component is studied for distinct but overlapping regenerative pathways." },
-      { icon: Activity, title: "Localized + Systemic", body: "Combines site-specific and circulating research compounds in one protocol." },
+      { icon: Network, title: "Multi-Pathway", body: "Each component is studied for distinct but overlapping structural-research pathways." },
+      { icon: Activity, title: "Localized + Systemic", body: "Combines site-specific and circulating research compounds in one research panel." },
       { icon: ShieldCheck, title: "Inflammatory Modulation", body: "KPV adds an inflammatory-signaling research angle the other three don't cover." },
     ],
     crossSell: ["wolverine-blend", "ghk-cu", "bpc-157"],
@@ -88,10 +88,10 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
     eyebrow: "Triple-Receptor Research Peptide",
     headline: ["Reta", "trutide"],
     description:
-      "A triple-hormone-receptor agonist and one of the most-discussed metabolic research peptides in recent peer-reviewed literature.",
+      "A triple-hormone-receptor agonist and one of the most-discussed multi-receptor research peptides in recent peer-reviewed literature.",
     features: [
       { icon: Target, title: "Triple Receptor", body: "Studied as a single agonist acting at GIP, GLP-1, and glucagon receptors." },
-      { icon: Gauge, title: "Metabolic Research", body: "Referenced across preclinical and Phase-2 metabolic and body-composition studies." },
+      { icon: Gauge, title: "Receptor Pharmacology", body: "Referenced across preclinical and Phase-2 receptor-agonist pharmacology studies." },
       { icon: Microscope, title: "Published Literature", body: "Featured in New England Journal of Medicine trial reports as a reference compound." },
     ],
     crossSell: ["tesamorelin", "mots-c", "cjc-ipa-blend"],
@@ -102,11 +102,11 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
     eyebrow: "Body Protection Compound",
     headline: ["BPC", "-157"],
     description:
-      "A synthetic pentadecapeptide derived from a gastric protein, widely referenced in connective-tissue and gastrointestinal repair research.",
+      "A synthetic pentadecapeptide derived from a gastric protein, widely referenced in connective-tissue and gastrointestinal research models.",
     features: [
       { icon: Zap, title: "Connective Tissue", body: "Appears throughout tendon, ligament, and muscle-integrity research models." },
       { icon: HeartPulse, title: "Gastrointestinal", body: "Studied in preclinical gut-lining and mucosal-protection assays." },
-      { icon: Activity, title: "Angiogenesis", body: "Investigated for its role in new-vessel formation during tissue-repair research." },
+      { icon: Activity, title: "Angiogenesis", body: "Investigated for its role in new-vessel formation in vascular-research models." },
     ],
     crossSell: ["tb-500", "wolverine-blend", "klow"],
   },
@@ -119,7 +119,7 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
       "A synthetic fragment of Thymosin β4 studied for actin regulation, cell migration, and angiogenesis across systemic tissue models.",
     features: [
       { icon: Waves, title: "Cell Migration", body: "Its actin-binding sequence is a frequent subject of cell-motility research." },
-      { icon: Activity, title: "Angiogenesis", body: "Referenced in new-vessel-formation and tissue-recovery study models." },
+      { icon: Activity, title: "Angiogenesis", body: "Referenced in new-vessel-formation and vascular-structure study models." },
       { icon: Repeat, title: "Systemic Reach", body: "Investigated for broad, circulating activity complementary to localized peptides." },
     ],
     crossSell: ["bpc-157", "wolverine-blend", "klow"],
@@ -130,11 +130,11 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
     eyebrow: "Nootropic Research Heptapeptide",
     headline: ["Sem", "ax"],
     description:
-      "A synthetic ACTH-derived heptapeptide studied for neuroprotective and cognitive-research applications in preclinical models.",
+      "A synthetic ACTH-derived heptapeptide studied for neuroprotective and neurochemical-signaling research applications in preclinical models.",
     features: [
       { icon: Brain, title: "Neuroprotection", body: "Investigated for neuroprotective signaling in cerebral research models." },
       { icon: Sparkles, title: "BDNF Expression", body: "Referenced for effects on brain-derived neurotrophic factor in cultured neurons." },
-      { icon: Microscope, title: "Cognitive Research", body: "Studied in attention, memory, and learning paradigms in animal models." },
+      { icon: Microscope, title: "Behavioral Models", body: "Studied across behavioral-paradigm research designs in animal models." },
     ],
     crossSell: ["selank", "dsip", "glutathione"],
   },
@@ -158,10 +158,10 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
     eyebrow: "Cellular Coenzyme · 500mg",
     headline: ["NAD", "+ 500mg"],
     description:
-      "Nicotinamide adenine dinucleotide — a central coenzyme studied across mitochondrial energy, sirtuin, and DNA-repair research.",
+      "Nicotinamide adenine dinucleotide — a central coenzyme studied across mitochondrial energy, sirtuin, and DNA damage-response research.",
     features: [
       { icon: Battery, title: "Mitochondrial Energy", body: "Essential cofactor in cellular respiration and ATP-production research." },
-      { icon: Dna, title: "DNA Repair", body: "Referenced as a substrate in PARP-mediated DNA-repair pathway studies." },
+      { icon: Dna, title: "DNA Damage Response", body: "Referenced as a substrate in PARP-mediated DNA damage-response pathway studies." },
       { icon: Hourglass, title: "Sirtuin Activation", body: "Investigated for sirtuin and longevity-pathway signaling in cell models." },
     ],
     crossSell: ["nad-plus-1000", "glutathione", "epithalon"],
@@ -200,11 +200,11 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
     eyebrow: "Mitochondrial-Derived Peptide",
     headline: ["MOTS", "-c"],
     description:
-      "A mitochondrial-derived peptide studied for metabolic regulation and exercise-mimetic signaling in preclinical models.",
+      "A mitochondrial-derived peptide studied for cellular energy-signaling and AMPK-pathway research in preclinical models.",
     features: [
-      { icon: Battery, title: "Metabolic Regulation", body: "Investigated for insulin-sensitivity and glucose-homeostasis research." },
-      { icon: Gauge, title: "AMPK Pathway", body: "Referenced as an activator of the AMPK metabolic master-switch." },
-      { icon: Flame, title: "Exercise Mimetic", body: "Studied for exercise-like metabolic effects in cellular and animal models." },
+      { icon: Battery, title: "Energy Signaling", body: "Investigated for its role in cellular energy-signaling pathways in preclinical models." },
+      { icon: Gauge, title: "AMPK Pathway", body: "Referenced as an activator of the AMPK cellular energy-sensing pathway." },
+      { icon: Flame, title: "Mitochondrial Signaling", body: "Studied for mitochondrial-signaling effects in cellular and animal models." },
     ],
     crossSell: ["mots-c-40", "retatrutide", "nad-plus-1000"],
   },
@@ -214,11 +214,11 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
     eyebrow: "Mitochondrial Peptide · Bulk 40mg",
     headline: ["MOTS-c", "40mg"],
     description:
-      "The same mitochondrial-derived peptide in a 40mg bulk vial for extended metabolic-research programs.",
+      "The same mitochondrial-derived peptide in a 40mg bulk vial for extended cellular-energy-research programs.",
     features: [
       { icon: Scale, title: "Bulk Mass", body: "40mg vial lowers per-milligram cost for higher-throughput studies." },
-      { icon: Gauge, title: "AMPK Pathway", body: "Referenced as an activator of the AMPK metabolic master-switch." },
-      { icon: Battery, title: "Metabolic Regulation", body: "Investigated for insulin-sensitivity and glucose-homeostasis research." },
+      { icon: Gauge, title: "AMPK Pathway", body: "Referenced as an activator of the AMPK cellular energy-sensing pathway." },
+      { icon: Battery, title: "Energy Signaling", body: "Investigated for its role in cellular energy-signaling pathways in preclinical models." },
     ],
     crossSell: ["mots-c", "retatrutide", "nad-plus-1000"],
   },
@@ -242,10 +242,10 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
     eyebrow: "GHRH Analog · 10mg",
     headline: ["Tesa", "morelin"],
     description:
-      "A stabilized growth-hormone-releasing-hormone analog studied for GH secretagogue activity and visceral-adiposity research.",
+      "A stabilized growth-hormone-releasing-hormone analog studied for GH secretagogue activity and endocrine-signaling research.",
     features: [
       { icon: Activity, title: "GH Secretagogue", body: "Investigated for stimulation of endogenous growth-hormone release." },
-      { icon: Gauge, title: "Visceral Adiposity", body: "Referenced in clinical research on visceral-fat reduction." },
+      { icon: Gauge, title: "Endocrine Signaling", body: "Referenced in clinical research on GH/IGF-1 axis signaling." },
       { icon: Repeat, title: "IGF-1 Axis", body: "Studied for downstream effects on the GH/IGF-1 signaling axis." },
     ],
     crossSell: ["tesamorelin-2mg", "cjc-ipa-blend", "retatrutide"],
@@ -270,11 +270,11 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
     eyebrow: "Melanocortin Research Peptide",
     headline: ["PT", "-141"],
     description:
-      "Bremelanotide — a melanocortin-receptor agonist studied for central-nervous-system signaling in libido research models.",
+      "Bremelanotide — a melanocortin-receptor agonist studied for central-nervous-system and receptor-signaling pathways in preclinical pharmacology models.",
     features: [
       { icon: Target, title: "Melanocortin Receptor", body: "Referenced as an agonist at MC3R and MC4R receptor subtypes." },
       { icon: Brain, title: "Central Pathways", body: "Investigated for centrally-mediated signaling distinct from vascular agents." },
-      { icon: Microscope, title: "Behavioral Models", body: "Studied across preclinical and clinical libido-research designs." },
+      { icon: Microscope, title: "Behavioral Models", body: "Studied across preclinical and clinical receptor-pharmacology research designs." },
     ],
     crossSell: ["kisspeptin", "mt2", "tesamorelin"],
   },
@@ -298,11 +298,11 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
     eyebrow: "Delta Sleep-Inducing Peptide",
     headline: ["D", "SIP"],
     description:
-      "A naturally occurring nonapeptide studied for its influence on sleep architecture and neuroendocrine regulation.",
+      "A naturally occurring nonapeptide studied for its influence on delta-wave EEG activity and neuroendocrine regulation.",
     features: [
-      { icon: Moon, title: "Sleep Architecture", body: "Referenced in delta-wave and sleep-pattern research models." },
+      { icon: Moon, title: "Delta-Wave EEG", body: "Referenced in delta-wave EEG and neuroendocrine research models." },
       { icon: Bed, title: "Neuroendocrine", body: "Investigated for modulation of stress-hormone and circadian signaling." },
-      { icon: Clock, title: "Stress Response", body: "Studied for effects on stress-adaptation and recovery pathways." },
+      { icon: Clock, title: "Stress Response", body: "Studied for effects on stress-adaptation and homeostatic signaling pathways." },
     ],
     crossSell: ["selank", "semax", "epithalon"],
   },
@@ -323,19 +323,19 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
 
   "wolverine-blend": {
     accentHue: 172,
-    eyebrow: "Dual-Peptide Recovery Blend",
-    headline: ["Wolverine", "Blend"],
+    eyebrow: "Dual-Peptide Reference Blend",
+    headline: ["BPC-157 / TB-500", "Blend"],
     description:
-      "Two of the most-studied regenerative research peptides — BPC-157 and TB-500 — combined in a single 10mg vial. The pairing researchers reach for when one protocol needs both localized and systemic coverage.",
+      "Two of the most-studied structural-research peptides — BPC-157 and TB-500 — combined in a single 10mg vial for laboratories running combined localized and systemic research panels.",
     composition: [
-      { code: "BPC-157", dose: "5 mg", pct: 50, focus: "Localized tissue & gut research", blurb: "A synthetic pentadecapeptide derived from a gastric protein, studied in preclinical models for connective-tissue, tendon, and gastrointestinal repair pathways." },
-      { code: "TB-500", dose: "5 mg", pct: 50, focus: "Systemic cell-migration research", blurb: "A synthetic fragment of Thymosin β4, investigated for its role in actin regulation, cell migration, and angiogenesis across systemic tissue models." },
+      { code: "BPC-157", dose: "5 mg", pct: 50, focus: "Localized tissue & gut research", blurb: "A synthetic pentadecapeptide studied in connective-tissue and gastrointestinal research models." },
+      { code: "TB-500", dose: "5 mg", pct: 50, focus: "Systemic cell-migration research", blurb: "A synthetic Thymosin β4 fragment studied for actin regulation and cell-migration research." },
     ],
     compositionSub: "A 1:1 split of two complementary research peptides — 10mg total.",
     featuresSub:
-      "The two peptides are studied for overlapping but distinct pathways — together they cover more of the regenerative-research surface than either alone.",
+      "The two peptides are studied for distinct but complementary structural and cell-signaling pathways.",
     features: [
-      { icon: Target, title: "Localized + Systemic", body: "BPC-157 is studied at the site of injury while TB-500 is investigated for broader, circulating activity — the reason researchers pair them." },
+      { icon: Target, title: "Localized + Systemic", body: "BPC-157 is studied in site-specific tissue models while TB-500 is investigated for broader, circulating activity in systemic research models." },
       { icon: Activity, title: "Actin & Angiogenesis", body: "TB-500's actin-binding fragment is a frequent subject of cell-migration and new-vessel-formation studies." },
       { icon: Zap, title: "Connective Tissue", body: "BPC-157 appears across the tendon, ligament, and gastrointestinal literature as a reference compound." },
     ],
@@ -363,10 +363,10 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
 
   "bac-water-3ml": {
     accentHue: 210,
-    eyebrow: "Sterile Reconstitution Diluent",
+    eyebrow: "Sterile Dilution Buffer",
     headline: ["BAC", "Water · 3mL"],
     description:
-      "USP-grade bacteriostatic water for reconstituting lyophilized research peptides. The lab essential that every peptide order needs.",
+      "USP-grade bacteriostatic water for preparing lyophilized research-peptide solutions. The lab essential that every peptide order needs.",
     trust: ["USP Grade", "Sterility Tested", "Multi-Use Vial", "Research Use Only"],
     form: "Sterile solution",
     specs: [
@@ -379,7 +379,7 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
     ],
     features: [
       { icon: Droplets, title: "Bacteriostatic", body: "Benzyl-alcohol preservative supports multiple draws from a single vial." },
-      { icon: TestTube, title: "Reconstitution", body: "The standard diluent for returning lyophilized peptides to solution." },
+      { icon: TestTube, title: "Solution Preparation", body: "The standard diluent for returning lyophilized peptides to solution." },
       { icon: ShieldCheck, title: "Sterility Tested", body: "USP-grade and sterility verified for laboratory handling." },
     ],
     crossSell: ["bac-water-10ml", "bpc-157", "tb-500"],
@@ -387,10 +387,10 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
 
   "bac-water-10ml": {
     accentHue: 210,
-    eyebrow: "Sterile Reconstitution Diluent",
+    eyebrow: "Sterile Dilution Buffer",
     headline: ["BAC", "Water · 10mL"],
     description:
-      "USP-grade bacteriostatic water in a larger 10mL vial — best value for labs reconstituting peptides at volume.",
+      "USP-grade bacteriostatic water in a larger 10mL vial — best value for labs preparing peptide solutions at volume.",
     trust: ["USP Grade", "Sterility Tested", "Multi-Use Vial", "Research Use Only"],
     form: "Sterile solution",
     specs: [
@@ -402,9 +402,9 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
       { label: "Documentation", value: "CoA available upon request" },
     ],
     features: [
-      { icon: Scale, title: "Best Value", body: "10mL vial covers many reconstitutions for higher-throughput labs." },
+      { icon: Scale, title: "Best Value", body: "10mL vial supports many solution preparations for higher-throughput labs." },
       { icon: Droplets, title: "Bacteriostatic", body: "Benzyl-alcohol preservative supports multiple draws from a single vial." },
-      { icon: TestTube, title: "Reconstitution", body: "The standard diluent for returning lyophilized peptides to solution." },
+      { icon: TestTube, title: "Solution Preparation", body: "The standard diluent for returning lyophilized peptides to solution." },
     ],
     crossSell: ["bac-water-3ml", "bpc-157", "tb-500"],
   },

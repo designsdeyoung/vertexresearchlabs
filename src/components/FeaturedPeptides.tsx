@@ -6,7 +6,7 @@ import { products } from "@/data/products";
 import { SITEWIDE_SALE } from "@/config/sale";
 import { productGradient } from "@/lib/productVisuals";
 
-/** Curated best-sellers with compliant compound-class descriptors
+/** Curated catalog highlights with compliant compound-class descriptors
  *  (no benefit/treatment claims — research-use language only). */
 const FEATURED: { id: string; blurb: string }[] = [
   { id: "klow", blurb: "GHK-Cu · BPC-157 · TB-500 · KPV blend" },
@@ -45,10 +45,10 @@ const FeaturedPeptides = () => {
         >
           <div>
             <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.24em] text-navy/50">
-              Best Sellers
+              Catalog Highlights
             </p>
             <h2 className="font-display text-3xl font-black tracking-tight text-navy md:text-4xl">
-              Featured Peptides
+              Featured Reference Materials
             </h2>
           </div>
           <div className="flex items-center gap-3">

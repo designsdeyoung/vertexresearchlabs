@@ -9,7 +9,7 @@ import semaxVial from "@/assets/showcase/semax-png.png";
 import klowVial from "@/assets/showcase/klow-png.png";
 import FloatingParticles from "./FloatingParticles";
 
-// Curated best sellers (most popular)
+// Curated catalog highlights (most referenced)
 const vials = [
   { src: klowVial, alt: "KLOW Peptide Blend Research Vial", name: "KLOW", tagline: "Four-peptide blend · research grade", productId: "klow" },
   { src: ghkVial, alt: "GHK-Cu Copper Peptide Research Vial", name: "GHK-Cu", tagline: "Copper tripeptide · research grade", productId: "ghk-cu" },
@@ -50,7 +50,7 @@ const BestSellersShowcase = () => {
   return (
     <section
       ref={containerRef}
-      aria-label="Best selling research peptides"
+      aria-label="Featured research peptides"
       className="relative overflow-hidden py-20 md:py-28"
     >
       <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background" />
@@ -69,7 +69,7 @@ const BestSellersShowcase = () => {
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1">
             <Flame size={12} className="text-primary" />
             <span className="font-mono text-[10px] font-medium uppercase tracking-[0.25em] text-primary">
-              Best Sellers
+              Featured Reference Materials
             </span>
           </div>
           <h2 className="mt-4 text-3xl font-semibold leading-tight text-foreground md:text-4xl lg:text-5xl">
@@ -170,7 +170,7 @@ const BestSellersShowcase = () => {
                     href="#products"
                     className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:bg-card"
                   >
-                    Shop All
+                    View All
                   </a>
                 </div>
               </motion.div>

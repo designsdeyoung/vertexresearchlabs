@@ -58,7 +58,7 @@ export const articles: Article[] = [
       {
         heading: "Structural Properties",
         content:
-          "As a pentadecapeptide, BPC-157 contains multiple proline residues which confer conformational rigidity, contributing to its relative stability compared to many other peptide sequences. Its chemical formula is C₆₂H₉₈N₁₆O₂₂. In laboratory settings it is supplied as a lyophilized (freeze-dried) powder and requires reconstitution with an appropriate sterile diluent before use in in vitro or in vivo research protocols.",
+          "As a pentadecapeptide, BPC-157 contains multiple proline residues which confer conformational rigidity, contributing to its relative stability compared to many other peptide sequences. Its chemical formula is C₆₂H₉₈N₁₆O₂₂. In laboratory settings it is supplied as a lyophilized (freeze-dried) powder and is dissolved in a suitable aqueous buffer for in vitro analytical and research applications.",
         list: [
           "Length: 15 amino acids (pentadecapeptide)",
           "Molecular weight: ~1419.5 Da",
@@ -79,7 +79,7 @@ export const articles: Article[] = [
         list: [
           "Nitric oxide (NO) pathway interactions in rodent models",
           "VEGFR2 and FAK receptor expression in cell culture",
-          "Tendon-to-bone junction healing models in rats",
+          "Connective-tissue (tendon-to-bone junction) research models in rats",
           "Gut motility and gastric mucosal models",
           "Cytoskeletal (actin/tubulin) effects in vitro",
         ],
@@ -179,7 +179,7 @@ export const articles: Article[] = [
           "Copper-binding peptide chemistry and coordination studies",
           "Antioxidant pathway research (SOD, catalase interactions)",
           "Extracellular matrix and collagen synthesis models",
-          "Wound-healing cell migration assays (in vitro scratch assays)",
+          "Cell migration assays (in vitro scratch assays)",
         ],
       },
       {
@@ -223,106 +223,6 @@ export const articles: Article[] = [
     ],
   },
 
-  {
-    slug: "retatrutide-triple-agonist-research",
-    title: "Retatrutide: The Triple Agonist Peptide Researchers Are Watching",
-    metaTitle: "Retatrutide Research Overview: GLP-1/GIP/Glucagon Triple Agonist | Vertex Research Labs",
-    metaDescription:
-      "Research overview of Retatrutide (LY3437943), the GLP-1, GIP, and glucagon triple receptor agonist peptide. Covers structure, Phase 2 trial data, and comparisons with Semaglutide and Tirzepatide.",
-    keywords: [
-      "Retatrutide research",
-      "Retatrutide LY3437943",
-      "triple agonist peptide research",
-      "GLP-1 GIP glucagon agonist",
-      "Retatrutide vs Semaglutide",
-      "Retatrutide vs Tirzepatide",
-      "Retatrutide Phase 2 trial",
-      "GLP-1 peptide research 2024 2025",
-      "incretin peptide research",
-      "trending peptide research",
-    ],
-    publishedDate: "2025-02-01",
-    modifiedDate: "2025-04-01",
-    category: "Research Overview",
-    readTime: 8,
-    excerpt:
-      "Retatrutide (LY3437943) is a synthetic peptide that simultaneously agonizes GLP-1, GIP, and glucagon receptors. Phase 2 trial data published in the New England Journal of Medicine has made it one of the most discussed peptides in metabolic research. This overview covers its structure, receptor pharmacology, and published clinical data.",
-    sections: [
-      {
-        heading: "What Is Retatrutide?",
-        content:
-          "Retatrutide (INN: retatrutide; Eli Lilly code: LY3437943) is a synthetic acylated peptide designed as a triple agonist at three key metabolic hormone receptors: the glucagon-like peptide-1 receptor (GLP-1R), the glucose-dependent insulinotropic polypeptide receptor (GIPR), and the glucagon receptor (GCGR). This triple-receptor pharmacology distinguishes it structurally from all currently approved GLP-1 class drugs and makes it a significant research subject in metabolic science.",
-      },
-      {
-        heading: "Receptor Pharmacology",
-        content:
-          "Understanding Retatrutide's receptor targets requires context on the incretin hormone system. GLP-1R and GIPR are both incretin receptors involved in insulin secretion regulation, while GCGR mediates glucagon signaling. Retatrutide's triple agonism creates a distinct pharmacological profile that researchers are using to study the interaction between these three receptor pathways in metabolic regulation.",
-        list: [
-          "GLP-1R (Glucagon-like Peptide-1 Receptor) — incretin signaling",
-          "GIPR (Glucose-dependent Insulinotropic Polypeptide Receptor) — incretin signaling",
-          "GCGR (Glucagon Receptor) — counterregulatory hormone signaling",
-        ],
-      },
-      {
-        heading: "Phase 2 Clinical Trial Data",
-        content:
-          "In June 2023, the New England Journal of Medicine published Phase 2 trial results for Retatrutide (Jastreboff AM et al., DOI: 10.1056/NEJMoa2301972). The trial enrolled 338 participants with obesity and examined multiple dose levels over 48 weeks. The published data represents a clinical research finding and does not constitute a treatment claim. Retatrutide remains an investigational compound with no approved indication as of 2025.",
-      },
-      {
-        heading: "Structural Comparison: Retatrutide vs. Semaglutide vs. Tirzepatide",
-        content:
-          "For researchers studying GLP-1 class peptides, the structural and pharmacological distinctions between these compounds are important reference points.",
-        list: [
-          "Semaglutide (Ozempic/Wegovy): GLP-1R mono-agonist, C18 fatty diacid acylation, ~34 amino acids",
-          "Tirzepatide (Mounjaro/Zepbound): GLP-1R/GIPR dual agonist, C20 fatty diacid acylation, 39 amino acids",
-          "Retatrutide (LY3437943): GLP-1R/GIPR/GCGR triple agonist, C20 fatty diacid acylation, ~39 amino acids",
-        ],
-      },
-      {
-        heading: "Research Grade Retatrutide Specifications",
-        content:
-          "As an investigational peptide, research-grade Retatrutide requires rigorous purity verification. Vertex Research Labs supplies Retatrutide at ≥99% purity, independently verified by HPLC, with mass spectrometry identity confirmation. Certificates of Analysis are available on request where applicable. It is available in 10mg vials for laboratory use.",
-      },
-      {
-        heading: "Regulatory Status and Disclaimer",
-        content:
-          "Retatrutide is an investigational compound. As of 2025 it has not received FDA approval or approval from any other regulatory authority for any indication. All Retatrutide reference materials from Vertex Research Labs are supplied exclusively for laboratory research use. This overview is for scientific reference only and does not constitute medical advice or a health claim of any kind.",
-      },
-    ],
-    faqs: [
-      {
-        question: "What makes Retatrutide different from Semaglutide?",
-        answer:
-          "Semaglutide is a GLP-1 receptor mono-agonist. Retatrutide targets three receptors simultaneously: GLP-1R, GIPR, and GCGR. This triple-agonism creates a distinct pharmacological profile that is the primary subject of current research interest.",
-      },
-      {
-        question: "Is Retatrutide FDA-approved?",
-        answer:
-          "No. As of 2025, Retatrutide (LY3437943) is an investigational compound that has not received FDA approval for any indication. It is available only as a research reference material.",
-      },
-      {
-        question: "Where was the Retatrutide Phase 2 trial published?",
-        answer:
-          "The Phase 2 trial data was published in the New England Journal of Medicine in June 2023 (Jastreboff AM et al., NEJM 2023;389:514-526, DOI: 10.1056/NEJMoa2301972).",
-      },
-      {
-        question: "What purity is research-grade Retatrutide?",
-        answer:
-          "Research-grade Retatrutide from Vertex Research Labs is independently verified at ≥99% purity by HPLC. Certificates of Analysis are available on request where applicable.",
-      },
-      {
-        question: "Can I compare Retatrutide to Tirzepatide in my research?",
-        answer:
-          "Yes — as distinct reference materials, both are available for comparative receptor pharmacology research. Tirzepatide (dual GLP-1R/GIPR agonist) and Retatrutide (triple GLP-1R/GIPR/GCGR agonist) represent useful structural and pharmacological comparators in incretin research.",
-      },
-    ],
-    relatedProducts: ["retatrutide", "tesamorelin", "cjc-ipa-blend"],
-    relatedSlugs: [
-      "glp1-peptides-research-overview",
-      "research-grade-peptide-purity-standards",
-      "how-to-read-peptide-coa",
-    ],
-  },
 
   {
     slug: "mots-c-mitochondrial-peptide-research",
@@ -635,7 +535,7 @@ export const articles: Article[] = [
           "The accepted benchmark for research-grade peptides is ≥99% purity by HPLC. Materials below 98% are generally considered below research grade and may introduce confounding variables into experimental results.",
       },
     ],
-    relatedProducts: ["bpc-157", "ghk-cu", "tb-500", "retatrutide"],
+    relatedProducts: ["bpc-157", "ghk-cu", "tb-500"],
     relatedSlugs: [
       "research-grade-peptide-purity-standards",
       "bpc-157-research-overview",
@@ -704,7 +604,7 @@ export const articles: Article[] = [
       {
         heading: "TB-500 and BPC-157: Frequently Co-Researched",
         content:
-          "TB-500 and BPC-157 are among the most frequently co-studied peptides in the preclinical literature. Researchers investigating cytoskeletal dynamics, tissue remodeling models, or growth factor signaling often use both as reference materials in parallel experimental arms. Vertex Research Labs offers both individually and as the Wolverine Blend (BPC-157 5mg + TB-500 5mg) for researchers who need both in a single verified vial.",
+          "TB-500 and BPC-157 are among the most frequently co-studied peptides in the preclinical literature. Researchers investigating cytoskeletal dynamics, tissue remodeling models, or growth factor signaling often use both as reference materials in parallel experimental arms. Vertex Research Labs offers both individually and as the BPC-157 / TB-500 Blend (BPC-157 5mg + TB-500 5mg) for researchers who need both in a single verified vial.",
       },
       {
         heading: "Disclaimer",
@@ -731,7 +631,7 @@ export const articles: Article[] = [
       {
         question: "Can TB-500 and BPC-157 be ordered together?",
         answer:
-          "Yes — they are available individually or as the Wolverine Blend (5mg BPC-157 + 5mg TB-500 in a single co-lyophilized vial) for researchers studying both peptides in the same protocol.",
+          "Yes — they are available individually or as the BPC-157 / TB-500 Blend (5mg BPC-157 + 5mg TB-500 in a single co-lyophilized vial) for researchers studying both peptides in parallel experimental arms.",
       },
     ],
     relatedProducts: ["tb-500", "bpc-157", "wolverine-blend"],
@@ -742,117 +642,6 @@ export const articles: Article[] = [
     ],
   },
 
-  {
-    slug: "glp1-peptides-research-overview",
-    title: "GLP-1 Peptides in Research: Semaglutide, Tirzepatide, and Retatrutide",
-    metaTitle: "GLP-1 Peptides Research Overview: Semaglutide, Tirzepatide, Retatrutide | Vertex Research Labs",
-    metaDescription:
-      "Research overview of the GLP-1 peptide class: comparing Semaglutide, Tirzepatide, and Retatrutide as incretin receptor research tools. Covers receptor targets, structural differences, and published clinical data.",
-    keywords: [
-      "GLP-1 peptide research",
-      "Semaglutide research",
-      "Tirzepatide research",
-      "Retatrutide research",
-      "GLP-1 receptor agonist",
-      "incretin peptide research",
-      "GLP-1 GIP glucagon",
-      "GLP-1 peptide comparison",
-      "GLP-1 class peptides 2024 2025",
-      "trending peptide research",
-    ],
-    publishedDate: "2025-03-10",
-    modifiedDate: "2025-04-01",
-    category: "Research Overview",
-    readTime: 9,
-    excerpt:
-      "The GLP-1 peptide class has emerged as one of the most active areas in metabolic research. This overview compares Semaglutide, Tirzepatide, and Retatrutide as distinct research tools — covering their receptor targets, structural properties, and published clinical data.",
-    sections: [
-      {
-        heading: "The Incretin Hormone System",
-        content:
-          "GLP-1 (Glucagon-Like Peptide-1) is an incretin hormone secreted by intestinal L-cells in response to food intake. It stimulates insulin secretion, inhibits glucagon release, and slows gastric emptying in a glucose-dependent manner. GIP (Glucose-dependent Insulinotropic Polypeptide) is a related incretin hormone secreted by intestinal K-cells with complementary effects. Glucagon, secreted by pancreatic alpha-cells, counteracts insulin and promotes glucose production. The GLP-1 class of synthetic peptides mimics and extends the actions of these endogenous hormones, making them central tools in metabolic receptor research.",
-      },
-      {
-        heading: "Semaglutide: GLP-1R Mono-Agonist",
-        content:
-          "Semaglutide (brand names Ozempic, Wegovy, Rybelsus) is a GLP-1 receptor mono-agonist developed by Novo Nordisk. It consists of a 34-amino-acid sequence homologous to human GLP-1(7-37) with two substitutions and a C18 fatty diacid acylation at Lys26 for albumin binding and extended half-life. FDA-approved for type 2 diabetes management and chronic weight management, it is the reference compound for GLP-1R agonism research. As an approved drug it is not supplied by Vertex Research Labs, but understanding its pharmacology provides essential context for researchers studying the broader GLP-1 class.",
-        list: [
-          "Receptor: GLP-1R only (mono-agonist)",
-          "Half-life: ~1 week (albumin-bound)",
-          "Route of administration (clinical): Subcutaneous or oral",
-          "Approval status: FDA-approved (multiple indications)",
-        ],
-      },
-      {
-        heading: "Tirzepatide: GLP-1R / GIPR Dual Agonist",
-        content:
-          "Tirzepatide (Mounjaro, Zepbound) is a 39-amino-acid synthetic peptide developed by Eli Lilly that acts as a dual agonist at both GLP-1R and GIPR. Its C20 fatty diacid acylation provides extended half-life similar to Semaglutide. Phase 3 SURMOUNT trials published in NEJM (2022) established its clinical profile. For researchers, Tirzepatide's dual-receptor pharmacology makes it a useful comparator for studying synergistic incretin receptor signaling versus single-receptor activation.",
-        list: [
-          "Receptors: GLP-1R + GIPR (dual agonist)",
-          "Half-life: ~5 days",
-          "Approval status: FDA-approved (type 2 diabetes, obesity)",
-        ],
-      },
-      {
-        heading: "Retatrutide: GLP-1R / GIPR / GCGR Triple Agonist",
-        content:
-          "Retatrutide (LY3437943, Eli Lilly) extends the dual-agonism of Tirzepatide by adding full glucagon receptor (GCGR) agonism, creating the first triple-receptor incretin peptide to reach Phase 2 clinical trials. Phase 2 data published in NEJM (Jastreboff AM et al., 2023) reported the metabolic effects of multiple dose levels over 48 weeks. Retatrutide is investigational with no approved indication as of 2025 and is available from Vertex Research Labs as a research reference material.",
-        list: [
-          "Receptors: GLP-1R + GIPR + GCGR (triple agonist)",
-          "Status: Investigational (Phase 2 completed)",
-          "Key publication: NEJM 2023; 389:514–526",
-        ],
-      },
-      {
-        heading: "Comparative Receptor Profile Summary",
-        content:
-          "For researchers designing comparative studies of GLP-1 class peptides, this receptor target matrix provides a quick reference.",
-        list: [
-          "Semaglutide: GLP-1R ✓ | GIPR ✗ | GCGR ✗",
-          "Tirzepatide: GLP-1R ✓ | GIPR ✓ | GCGR ✗",
-          "Retatrutide: GLP-1R ✓ | GIPR ✓ | GCGR ✓",
-        ],
-      },
-      {
-        heading: "Research Applications",
-        content:
-          "For laboratory researchers, these peptides offer distinct tools for probing incretin biology. Retatrutide is the only one of the three available as a research reference material from Vertex Research Labs, as Semaglutide and Tirzepatide are FDA-approved drugs subject to different regulatory frameworks.",
-      },
-      {
-        heading: "Disclaimer",
-        content:
-          "This overview is for scientific reference only. No therapeutic claims are made for any compound discussed. Semaglutide and Tirzepatide are FDA-approved drugs not supplied by Vertex Research Labs. Retatrutide is supplied as a laboratory research reference material only and is not for human or veterinary use.",
-      },
-    ],
-    faqs: [
-      {
-        question: "What does GLP-1 stand for?",
-        answer:
-          "GLP-1 stands for Glucagon-Like Peptide-1. It is an endogenous incretin hormone secreted by intestinal L-cells in response to nutrient intake, involved in glucose-dependent insulin secretion.",
-      },
-      {
-        question: "What makes Retatrutide different from Tirzepatide?",
-        answer:
-          "Tirzepatide is a dual GLP-1R/GIPR agonist. Retatrutide adds full GCGR (glucagon receptor) agonism to that profile, creating a triple-receptor pharmacology. This additional receptor activity is the primary research interest distinguishing Retatrutide.",
-      },
-      {
-        question: "Can I buy Semaglutide or Tirzepatide as a research peptide?",
-        answer:
-          "Semaglutide and Tirzepatide are FDA-approved drugs and are not supplied by Vertex Research Labs. Retatrutide remains investigational and is available as a research reference material.",
-      },
-      {
-        question: "Where is the Retatrutide Phase 2 data published?",
-        answer:
-          "The Phase 2 trial data was published in the New England Journal of Medicine: Jastreboff AM et al., NEJM 2023; 389:514–526. DOI: 10.1056/NEJMoa2301972.",
-      },
-    ],
-    relatedProducts: ["retatrutide", "tesamorelin", "cjc-ipa-blend"],
-    relatedSlugs: [
-      "retatrutide-triple-agonist-research",
-      "research-grade-peptide-purity-standards",
-      "how-to-read-peptide-coa",
-    ],
-  },
 
   {
     slug: "research-grade-peptide-purity-standards",
@@ -946,7 +735,7 @@ export const articles: Article[] = [
           "Request whatever COA documentation is available, ideally showing the HPLC chromatogram (not just the percentage number), the testing laboratory's name, and mass spectrometry data. Reviewing this documentation helps a purity claim be independently assessed.",
       },
     ],
-    relatedProducts: ["bpc-157", "ghk-cu", "tb-500", "retatrutide"],
+    relatedProducts: ["bpc-157", "ghk-cu", "tb-500"],
     relatedSlugs: [
       "how-to-read-peptide-coa",
       "bpc-157-research-overview",
@@ -1014,7 +803,7 @@ export const articles: Article[] = [
       {
         heading: "The CJC/IPA Blend from Vertex Research Labs",
         content:
-          "Vertex Research Labs offers a pre-blended CJC/IPA Blend containing CJC-1295 (No DAC) 5mg and Ipamorelin 5mg in a single 10mg research vial. Both components are independently verified at ≥99% purity. Certificates of Analysis are available on request where applicable. This format is designed for researchers who need both peptides simultaneously without managing two separate procurement and reconstitution workflows.",
+          "Vertex Research Labs offers a pre-blended CJC/IPA Blend containing CJC-1295 (No DAC) 5mg and Ipamorelin 5mg in a single 10mg research vial. Both components are independently verified at ≥99% purity. Certificates of Analysis are available on request where applicable. This format is designed for researchers who need both peptides simultaneously without managing two separate procurement workflows.",
       },
       {
         heading: "Disclaimer",
@@ -1026,7 +815,7 @@ export const articles: Article[] = [
       {
         question: "What is the difference between CJC-1295 with DAC and without DAC?",
         answer:
-          "CJC-1295 with DAC contains a Drug Affinity Complex that covalently binds albumin, extending half-life to approximately 8 days. Without DAC, the half-life is approximately 30 minutes, similar to native GHRH. The No DAC form is preferred for research protocols studying pulsatile GH dynamics.",
+          "CJC-1295 with DAC contains a Drug Affinity Complex that covalently binds albumin, extending half-life to approximately 8 days. Without DAC, the half-life is approximately 30 minutes, similar to native GHRH. The No DAC form is preferred for research studying pulsatile GH secretion dynamics.",
       },
       {
         question: "Why is Ipamorelin considered more selective than other GH secretagogues?",
@@ -1046,7 +835,7 @@ export const articles: Article[] = [
     ],
     relatedProducts: ["cjc-ipa-blend", "tesamorelin", "mots-c"],
     relatedSlugs: [
-      "retatrutide-triple-agonist-research",
+      "tesamorelin-research-overview",
       "research-grade-peptide-purity-standards",
       "how-to-read-peptide-coa",
     ],
@@ -1106,7 +895,7 @@ export const articles: Article[] = [
           "BDNF and NGF expression in hippocampal tissue (rodent models)",
           "Neuronal survival in ischemia-reperfusion animal models",
           "Monoamine receptor binding studies (serotonin, dopamine)",
-          "Cognitive behavior assays in aged rodent models",
+          "Behavioral assays in aged rodent models",
           "Cerebral microcirculation parameters in rat models",
         ],
       },
@@ -1153,7 +942,7 @@ export const articles: Article[] = [
 
   {
     slug: "selank-peptide-research",
-    title: "Selank Peptide Research: Tuftsin Analog and Anxiolytic Studies",
+    title: "Selank Peptide Research: Tuftsin Analog and GABAergic Studies",
     metaTitle: "Selank Peptide Research: Tuftsin Analog Studies | Vertex Research Labs",
     metaDescription:
       "Research-focused overview of Selank, the synthetic tuftsin analog heptapeptide. Covers structure, GABAergic and serotonin pathway research, published preclinical literature, and lab purity standards.",
@@ -1162,7 +951,7 @@ export const articles: Article[] = [
       "Selank peptide research",
       "Selank tuftsin analog",
       "Selank mechanism",
-      "Selank anxiolytic research",
+      "Selank GABAergic pathway research",
       "Selank GABA research",
       "Selank serotonin study",
       "Selank preclinical data",
@@ -1483,7 +1272,7 @@ export const articles: Article[] = [
       {
         heading: "Structural Properties of KP-10",
         content:
-          "KP-10 (Tyr-Asn-Trp-Asn-Ser-Phe-Gly-Leu-Arg-Phe-NH₂) is a decapeptide with a C-terminal amide and molecular weight of approximately 1302.5 Da. The C-terminal arginine-phenylalanine (RF-amide) motif is essential for GPR54 receptor binding. KP-10 is supplied as a lyophilized powder and requires reconstitution with water or dilute buffer for laboratory use.",
+          "KP-10 (Tyr-Asn-Trp-Asn-Ser-Phe-Gly-Leu-Arg-Phe-NH₂) is a decapeptide with a C-terminal amide and molecular weight of approximately 1302.5 Da. The C-terminal arginine-phenylalanine (RF-amide) motif is essential for GPR54 receptor binding. KP-10 is supplied as a lyophilized powder and is dissolved in water or dilute buffer for laboratory use.",
         list: [
           "KP-10 sequence: Tyr-Asn-Trp-Asn-Ser-Phe-Gly-Leu-Arg-Phe-NH₂",
           "Molecular weight (KP-10): ~1302.5 Da",
@@ -1529,7 +1318,7 @@ export const articles: Article[] = [
       {
         question: "Why is KP-10 preferred over longer kisspeptin forms in laboratory research?",
         answer:
-          "KP-10 is the shortest fully active kisspeptin fragment containing the conserved RF-amide receptor-binding motif. Its smaller size (10 amino acids, ~1302.5 Da) simplifies synthesis, purification, and reconstitution while retaining full GPR54 binding activity in in vitro assays.",
+          "KP-10 is the shortest fully active kisspeptin fragment containing the conserved RF-amide receptor-binding motif. Its smaller size (10 amino acids, ~1302.5 Da) simplifies synthesis, purification, and handling while retaining full GPR54 binding activity in in vitro assays.",
       },
       {
         question: "What was the significance of the 2003 Nature kisspeptin papers?",
@@ -1545,7 +1334,7 @@ export const articles: Article[] = [
     relatedProducts: ["kisspeptin"],
     relatedSlugs: [
       "cjc-1295-ipamorelin-research",
-      "retatrutide-triple-agonist-research",
+      "tesamorelin-research-overview",
       "research-grade-peptide-purity-standards",
     ],
   },
@@ -1564,7 +1353,7 @@ export const articles: Article[] = [
       "Tesamorelin mechanism",
       "Tesamorelin GH IGF-1 research",
       "Tesamorelin preclinical study",
-      "Tesamorelin Egrifta research",
+      "Tesamorelin receptor pharmacology research",
       "growth hormone releasing hormone analog",
     ],
     publishedDate: "2025-05-01",
@@ -1577,7 +1366,7 @@ export const articles: Article[] = [
       {
         heading: "What Is Tesamorelin?",
         content:
-          "Tesamorelin is a 44-amino-acid synthetic analog of endogenous human growth hormone-releasing hormone (hGHRH) in which the N-terminus of the native GHRH(1-44) sequence is conjugated to a trans-3-hexenoic acid moiety. This modification prevents dipeptidyl peptidase IV (DPP-IV) cleavage at the Ala²-Asp³ bond, extending the half-life of the molecule compared to native GHRH. Tesamorelin was approved by the FDA in 2010 under the brand name Egrifta for a specific HIV-associated lipodystrophy indication in adults, making it one of the few GHRH analogs with published Phase 3 clinical data, though it remains a research compound in all other contexts.",
+          "Tesamorelin is a 44-amino-acid synthetic analog of endogenous human growth hormone-releasing hormone (hGHRH) in which the N-terminus of the native GHRH(1-44) sequence is conjugated to a trans-3-hexenoic acid moiety. This modification prevents dipeptidyl peptidase IV (DPP-IV) cleavage at the Ala²-Asp³ bond, extending the half-life of the molecule compared to native GHRH. Tesamorelin has been evaluated in published Phase 3 clinical research and received FDA approval for a specific clinical indication in 2010, making it one of the few GHRH analogs with clinical-stage published data, though it is supplied here strictly as a research compound.",
       },
       {
         heading: "Structural Properties",
@@ -1599,7 +1388,7 @@ export const articles: Article[] = [
       {
         heading: "Published GH/IGF-1 Axis Research",
         content:
-          "Phase 3 clinical research on Tesamorelin was conducted in HIV-positive adults with lipodystrophy and published in journals including the New England Journal of Medicine and AIDS. These studies documented effects on GH pulse amplitude and IGF-1 levels in this specific patient population. Beyond the FDA-approved indication, published preclinical research has examined Tesamorelin's effects on somatotroph cell signaling, GH pulse dynamics, and downstream IGF-1 secretion in rodent models. Researchers studying GHRH receptor pharmacology use Tesamorelin as a reference agonist due to its documented receptor selectivity and well-characterized pharmacokinetics.",
+          "Published Phase 3 clinical research on Tesamorelin documented effects on GH pulse amplitude and IGF-1 levels and appeared in journals including the New England Journal of Medicine. Beyond that clinical work, published preclinical research has examined Tesamorelin's effects on somatotroph cell signaling, GH pulse dynamics, and downstream IGF-1 secretion in rodent models. Researchers studying GHRH receptor pharmacology use Tesamorelin as a reference agonist due to its documented receptor selectivity and well-characterized pharmacokinetics.",
       },
       {
         heading: "Laboratory Specifications",
@@ -1615,7 +1404,7 @@ export const articles: Article[] = [
       {
         heading: "Research Disclaimer",
         content:
-          "Tesamorelin reference materials from Vertex Research Labs are supplied for in vitro laboratory research and analytical purposes only. While Tesamorelin (Egrifta) has FDA approval for a specific clinical indication, the research reference material supplied here is not intended for therapeutic use. Nothing in this article constitutes medical advice. Researchers should consult applicable institutional and regulatory guidelines.",
+          "Tesamorelin reference materials from Vertex Research Labs are supplied for in vitro laboratory research and analytical purposes only. While Tesamorelin has FDA approval for a specific clinical indication, the research reference material supplied here is not intended for therapeutic use. Nothing in this article constitutes medical advice. Researchers should consult applicable institutional and regulatory guidelines.",
       },
     ],
     faqs: [
@@ -1630,9 +1419,9 @@ export const articles: Article[] = [
           "DPP-IV cleaves peptides at the Ala-X bond near the N-terminus. The trans-3-hexenoic acid modification at the N-terminal Tyr¹ of GHRH(1-44) sterically blocks DPP-IV access, extending the plasma half-life of Tesamorelin relative to the unmodified GHRH sequence.",
       },
       {
-        question: "For what indication was Tesamorelin FDA-approved?",
+        question: "Has Tesamorelin been studied in clinical trials?",
         answer:
-          "Tesamorelin (Egrifta) was approved by the FDA in 2010 for the reduction of excess abdominal fat in HIV-infected adults with lipodystrophy. This approved indication does not extend to other uses, and the research reference material from Vertex Research Labs is not intended for therapeutic application.",
+          "Yes. Tesamorelin has been evaluated in published Phase 3 clinical trials and received FDA approval for a specific clinical indication in 2010. That approved clinical context does not extend to other uses, and the research reference material from Vertex Research Labs is supplied for laboratory research only, not therapeutic application.",
       },
       {
         question: "What purity standard is used for research-grade Tesamorelin?",
@@ -1643,7 +1432,7 @@ export const articles: Article[] = [
     relatedProducts: ["tesamorelin", "tesamorelin-2mg"],
     relatedSlugs: [
       "cjc-1295-ipamorelin-research",
-      "glp1-peptides-research-overview",
+      "how-to-read-peptide-coa",
       "research-grade-peptide-purity-standards",
     ],
   },
@@ -1662,7 +1451,7 @@ export const articles: Article[] = [
       "PT-141 mechanism",
       "melanocortin receptor peptide research",
       "PT-141 preclinical study",
-      "PT-141 Vyleesi research",
+      "PT-141 melanocortin agonist research",
       "cyclic melanocortin peptide",
     ],
     publishedDate: "2025-05-01",
@@ -1675,7 +1464,7 @@ export const articles: Article[] = [
       {
         heading: "What Is PT-141 (Bremelanotide)?",
         content:
-          "PT-141, formally designated Bremelanotide, is a synthetic cyclic heptapeptide derived from the Melanotan II (MT-II) backbone via structural modification — specifically, removal of the N-terminal acetyl group and opening of the lactam ring to produce the linear precursor, followed by cyclization via a different chemistry. It is an analog of alpha-melanocyte-stimulating hormone (α-MSH), itself a cleavage product of pro-opiomelanocortin (POMC). Bremelanotide was approved by the FDA in 2019 under the brand name Vyleesi for a specific indication in premenopausal adults. The research reference material is an entirely distinct context from this approved therapeutic product.",
+          "PT-141, formally designated Bremelanotide, is a synthetic cyclic heptapeptide derived from the Melanotan II (MT-II) backbone via structural modification — specifically, removal of the N-terminal acetyl group and opening of the lactam ring to produce the linear precursor, followed by cyclization via a different chemistry. It is an analog of alpha-melanocyte-stimulating hormone (α-MSH), itself a cleavage product of pro-opiomelanocortin (POMC). Bremelanotide has an FDA-approved therapeutic form for a specific clinical indication. The research reference material discussed here is an entirely distinct context, supplied for laboratory study only.",
       },
       {
         heading: "Structural Properties",
@@ -1713,7 +1502,7 @@ export const articles: Article[] = [
       {
         heading: "Research Disclaimer",
         content:
-          "PT-141 (Bremelanotide) reference materials from Vertex Research Labs are supplied for in vitro laboratory research and analytical applications only. While Bremelanotide (Vyleesi) has FDA approval for a specific clinical indication, the research reference material supplied here is not intended for therapeutic use. Nothing in this article constitutes medical advice. Researchers should consult all applicable institutional and regulatory guidelines.",
+          "PT-141 (Bremelanotide) reference materials from Vertex Research Labs are supplied for in vitro laboratory research and analytical applications only. While Bremelanotide has an FDA-approved therapeutic form for a specific clinical indication, the research reference material supplied here is not intended for therapeutic use. Nothing in this article constitutes medical advice. Researchers should consult all applicable institutional and regulatory guidelines.",
       },
     ],
     faqs: [
@@ -1728,9 +1517,9 @@ export const articles: Article[] = [
           "Published binding studies indicate that PT-141 (Bremelanotide) shows highest affinity for MC3R and MC4R, with lower affinity for MC1R, MC2R, and MC5R. MC4R, expressed in hypothalamic nuclei, has been the primary focus of published behavioral neuroscience research using this compound.",
       },
       {
-        question: "What was PT-141 FDA-approved for?",
+        question: "Does PT-141 have an FDA-approved therapeutic form?",
         answer:
-          "Bremelanotide (Vyleesi) was approved by the FDA in 2019 for a specific indication in premenopausal adults. This approved clinical context is entirely separate from the research reference material supplied by Vertex Research Labs, which is intended for laboratory research only.",
+          "Bremelanotide has an FDA-approved therapeutic form for a specific clinical indication. That approved clinical context is entirely separate from the research reference material supplied by Vertex Research Labs, which is intended for laboratory research only.",
       },
       {
         question: "What purity standard is required for research-grade PT-141?",
@@ -1877,7 +1666,7 @@ export const articles: Article[] = [
       {
         heading: "Structural Properties",
         content:
-          "DSIP is a linear nonapeptide with no disulfide bonds or cyclic structure. Its molecular formula is C₃₅H₄₈N₁₀O₁₅ and molecular weight is 848.9 Da. DSIP is water-soluble and relatively susceptible to proteolytic degradation compared to cyclic peptides, which has been noted in published pharmacokinetic studies in animal models. For laboratory use it is supplied as a lyophilized powder requiring reconstitution in aqueous buffer.",
+          "DSIP is a linear nonapeptide with no disulfide bonds or cyclic structure. Its molecular formula is C₃₅H₄₈N₁₀O₁₅ and molecular weight is 848.9 Da. DSIP is water-soluble and relatively susceptible to proteolytic degradation compared to cyclic peptides, which has been noted in published pharmacokinetic studies in animal models. For laboratory use it is supplied as a lyophilized powder and is dissolved in aqueous buffer for in vitro work.",
         list: [
           "Sequence: Trp-Ala-Gly-Gly-Asp-Ala-Ser-Gly-Glu (9 amino acids)",
           "Molecular weight: 848.9 Da",
@@ -1946,16 +1735,16 @@ export const articles: Article[] = [
 
   {
     slug: "wolverine-blend-peptide-research",
-    title: "Wolverine Blend Research Overview: BPC-157 and TB-500 Combination Studies",
-    metaTitle: "Wolverine Blend Research: BPC-157 + TB-500 Peptide Combination | Vertex Research Labs",
+    title: "BPC-157 / TB-500 Blend Research Overview: BPC-157 and TB-500 Combination Studies",
+    metaTitle: "BPC-157 / TB-500 Blend Research: BPC-157 + TB-500 Peptide Combination | Vertex Research Labs",
     metaDescription:
-      "Research overview of the Wolverine Blend — a co-formulated BPC-157 and TB-500 peptide combination. Covers the published research on each component, their proposed complementary mechanisms in preclinical studies, and laboratory specifications.",
+      "Research overview of the BPC-157 / TB-500 Blend — a co-formulated BPC-157 and TB-500 peptide combination. Covers the published research on each component, their proposed complementary mechanisms in preclinical studies, and laboratory specifications.",
     keywords: [
-      "Wolverine blend research",
+      "BPC-157 / TB-500 blend research",
       "BPC-157 TB-500 blend research",
       "BPC-157 TB-500 combination research",
       "peptide blend research",
-      "Wolverine blend peptide study",
+      "BPC-157 / TB-500 blend peptide study",
       "BPC-157 TB-500 mechanism",
       "combined peptide research",
       "TB-500 BPC-157 preclinical",
@@ -1966,12 +1755,12 @@ export const articles: Article[] = [
     category: "Research Overview",
     readTime: 8,
     excerpt:
-      "The Wolverine Blend co-formulates BPC-157 (Body Protection Compound 157) and TB-500 (Thymosin Beta-4 fragment) in a single research vial. This overview covers the published preclinical research on each component, the proposed complementary signaling interactions studied in the literature, and laboratory specifications for the combination.",
+      "The BPC-157 / TB-500 Blend co-formulates BPC-157 (Body Protection Compound 157) and TB-500 (Thymosin Beta-4 fragment) in a single research vial. This overview covers the published preclinical research on each component, the proposed complementary signaling interactions studied in the literature, and laboratory specifications for the combination.",
     sections: [
       {
-        heading: "What Is the Wolverine Blend?",
+        heading: "What Is the BPC-157 / TB-500 Blend?",
         content:
-          "The Wolverine Blend is a co-formulated research preparation containing BPC-157 (Body Protection Compound 157, a synthetic pentadecapeptide) and TB-500 (a synthetic analog of the Thymosin Beta-4 fragment Ac-SDKP). The blend is available as a single lyophilized vial for researchers who wish to study both peptides in parallel experimental protocols without preparing separate reconstitutions. Each component has an independent published preclinical literature base, and the combination is of interest to researchers studying complementary mechanisms of tissue signaling in animal models. The Wolverine Blend is a research reference preparation only, not a pharmaceutical product.",
+          "The BPC-157 / TB-500 Blend is a co-formulated research preparation containing BPC-157 (Body Protection Compound 157, a synthetic pentadecapeptide) and TB-500 (a synthetic analog of the Thymosin Beta-4 fragment Ac-SDKP). The blend is available as a single lyophilized vial for researchers who wish to study both peptides in parallel experimental protocols without preparing separate reconstitutions. Each component has an independent published preclinical literature base, and the combination is of interest to researchers studying complementary mechanisms of tissue signaling in animal models. The BPC-157 / TB-500 Blend is a research reference preparation only, not a pharmaceutical product.",
       },
       {
         heading: "BPC-157 Component: Research Background",
@@ -2003,7 +1792,7 @@ export const articles: Article[] = [
       {
         heading: "Blend Specifications and Quality",
         content:
-          "The Wolverine Blend from Vertex Research Labs contains both BPC-157 and TB-500 as verified research-grade components, each at ≥99% purity by HPLC. The blend is supplied as a co-lyophilized powder in a sealed research vial. Where applicable, Certificate of Analysis documentation covering purity and identity (by mass spectrometry for both components) is available on request.",
+          "The BPC-157 / TB-500 Blend from Vertex Research Labs contains both BPC-157 and TB-500 as verified research-grade components, each at ≥99% purity by HPLC. The blend is supplied as a co-lyophilized powder in a sealed research vial. Where applicable, Certificate of Analysis documentation covering purity and identity (by mass spectrometry for both components) is available on request.",
         list: [
           "Components: BPC-157 (≥99% HPLC) + TB-500 (≥99% HPLC)",
           "Form: Co-lyophilized powder, single research vial",
@@ -2014,19 +1803,19 @@ export const articles: Article[] = [
       {
         heading: "Research Disclaimer",
         content:
-          "The Wolverine Blend reference material from Vertex Research Labs is supplied for in vitro laboratory research and analytical applications only. Neither BPC-157 nor TB-500 is FDA-approved. This preparation is not intended for human or veterinary use. Nothing in this article constitutes medical advice or a therapeutic claim. Researchers should follow all applicable institutional biosafety and regulatory guidelines.",
+          "The BPC-157 / TB-500 Blend reference material from Vertex Research Labs is supplied for in vitro laboratory research and analytical applications only. Neither BPC-157 nor TB-500 is FDA-approved. This preparation is not intended for human or veterinary use. Nothing in this article constitutes medical advice or a therapeutic claim. Researchers should follow all applicable institutional biosafety and regulatory guidelines.",
       },
     ],
     faqs: [
       {
         question: "Why are BPC-157 and TB-500 often studied together in preclinical research?",
         answer:
-          "Both BPC-157 and TB-500 have published preclinical literature in areas of vascular and tissue remodeling biology, though via distinct mechanisms — BPC-157 through NO/VEGFR2 signaling and TB-500's Ac-SDKP fragment through actin dynamics and endothelial migration. Researchers studying tissue repair biology have noted these complementary research profiles, motivating interest in studying them in the same experimental context.",
+          "Both BPC-157 and TB-500 have published preclinical literature in areas of vascular and tissue remodeling biology, though via distinct mechanisms — BPC-157 through NO/VEGFR2 signaling and TB-500's Ac-SDKP fragment through actin dynamics and endothelial migration. Researchers studying tissue and vascular biology have noted these complementary research profiles, motivating interest in studying them in the same experimental context.",
       },
       {
         question: "Are there published studies that have combined BPC-157 and TB-500 together?",
         answer:
-          "As of the publication of this article, no peer-reviewed studies examining the two peptides in direct combination under controlled conditions have been identified in the published literature. The Wolverine Blend is designed for researchers who wish to run parallel or sequential single-compound experiments using verified-purity reference material for both.",
+          "As of the publication of this article, no peer-reviewed studies examining the two peptides in direct combination under controlled conditions have been identified in the published literature. The BPC-157 / TB-500 Blend is designed for researchers who wish to run parallel or sequential single-compound experiments using verified-purity reference material for both.",
       },
       {
         question: "What is the active sequence in TB-500 that researchers study?",
@@ -2034,14 +1823,14 @@ export const articles: Article[] = [
           "The pharmacologically active fragment of Thymosin Beta-4 studied in cell biology research is the N-terminal tetrapeptide Ac-Ser-Asp-Lys-Pro (Ac-SDKP). This tetrapeptide retains G-actin sequestering activity and has been used as a research tool in actin dynamics and endothelial migration assays.",
       },
       {
-        question: "Does the Wolverine Blend COA cover both peptide components?",
+        question: "Does the BPC-157 / TB-500 Blend COA cover both peptide components?",
         answer:
           "Where Certificate of Analysis documentation is available, it covers the identity and purity of both BPC-157 and TB-500 components individually, by HPLC and mass spectrometry for each peptide in the blend. Certificates of Analysis are available on request where applicable.",
       },
       {
-        question: "What purity standards apply to each component in the Wolverine Blend?",
+        question: "What purity standards apply to each component in the BPC-157 / TB-500 Blend?",
         answer:
-          "Both BPC-157 and TB-500 in the Wolverine Blend are held to ≥99% HPLC purity standards, with each component verified independently before being combined into the research preparation. Certificates of Analysis are available on request where applicable.",
+          "Both BPC-157 and TB-500 in the BPC-157 / TB-500 Blend are held to ≥99% HPLC purity standards, with each component verified independently before being combined into the research preparation. Certificates of Analysis are available on request where applicable.",
       },
     ],
     relatedProducts: ["wolverine-blend"],

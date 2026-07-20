@@ -21,6 +21,7 @@ import {
   Mail,
   Send,
   Plus,
+  DollarSign,
 } from "lucide-react";
 
 const ADMIN_EMAILS = ["info@vertexdata.ai", "designsdeyoung@gmail.com", "adamdeyoung11@gmail.com", "info@vertexresearchlabs.com"];
@@ -39,6 +40,7 @@ interface Order {
   status: string;
   created_at: string;
   paid_at: string | null;
+  payment_method: string | null;
   tracking_number: string | null;
   tracking_url: string | null;
   label_url: string | null;
@@ -345,6 +347,8 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
   const [emails, setEmails] = useState<any[] | null>(null);
   const [emailsLoading, setEmailsLoading] = useState(false);
   const [sendingReminder, setSendingReminder] = useState(false);
+  const [payMethod, setPayMethod] = useState<string | null>(null);
+  const [markingPaid, setMarkingPaid] = useState(false);
 
   const loadEmails = async () => {
     setEmailsLoading(true);
@@ -395,6 +399,35 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
       toast({ title: "Couldn't send follow-up", description: e.message, variant: "destructive" });
     } finally {
       setSendingReminder(false);
+    }
+  };
+
+  const handleMarkPaid = async (method: string) => {
+    setMarkingPaid(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("mark-order-paid", {
+        body: { orderId: order.id, method },
+      });
+      if (error) throw error;
+      if ((data as any)?.error) throw new Error((data as any).error);
+      if ((data as any)?.alreadyPaid) {
+        toast({ title: "Already paid", description: `This order was marked paid on ${new Date((data as any).paidAt).toLocaleDateString()}.` });
+      } else {
+        const pts = (data as any)?.pointsAwarded ?? 0;
+        toast({
+          title: `Payment recorded — ${method}`,
+          description: pts > 0
+            ? `${order.order_number || "Order"} marked paid. ${pts.toLocaleString()} points credited${(data as any)?.emailSent ? " and emailed to customer" : ""}.`
+            : `${order.order_number || "Order"} marked paid (points were already credited).`,
+          duration: 8000,
+        });
+      }
+      setPayMethod(null);
+      onLabelGenerated();
+    } catch (e: any) {
+      toast({ title: "Couldn't record payment", description: e.message, variant: "destructive" });
+    } finally {
+      setMarkingPaid(false);
     }
   };
 
@@ -457,6 +490,12 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
           </div>
         </div>
         <div className="flex items-center gap-3">
+          <Badge
+            variant="outline"
+            className={`text-xs ${isPaid ? "border-green-500/40 text-green-400" : "border-amber-500/50 text-amber-400"}`}
+          >
+            {isPaid ? `Paid${order.payment_method ? ` · ${order.payment_method}` : ""}` : "Unpaid"}
+          </Badge>
           <Badge variant={isShipped ? "default" : "secondary"} className="text-xs">
             {isShipped ? "Shipped" : "Unfulfilled"}
           </Badge>
@@ -629,6 +668,50 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
               </div>
             )}
           </div>
+
+          {/* Payment status / record offline payment */}
+          {isPaid ? (
+            <div className="p-3 rounded-lg bg-green-500/10 border border-green-500/20">
+              <p className="text-xs text-green-400 font-semibold uppercase tracking-wider">
+                ✓ Paid{order.payment_method ? ` · ${order.payment_method}` : ""}
+                {order.paid_at ? ` · ${new Date(order.paid_at).toLocaleDateString()}` : ""}
+              </p>
+            </div>
+          ) : (
+            <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 space-y-2">
+              <p className="text-xs text-amber-400 font-semibold uppercase tracking-wider">
+                Payment not received — {fmt(order.total)} due
+              </p>
+              {payMethod === null ? (
+                <Button size="sm" variant="outline" onClick={() => setPayMethod("cash")}>
+                  <DollarSign size={14} className="mr-1" /> Record Payment
+                </Button>
+              ) : (
+                <div className="flex flex-wrap items-center gap-2">
+                  <select
+                    className="bg-background border border-border rounded px-2 py-1.5 text-sm text-foreground"
+                    value={payMethod}
+                    onChange={(e) => setPayMethod(e.target.value)}
+                    disabled={markingPaid}
+                  >
+                    <option value="cash">Cash</option>
+                    <option value="zelle">Zelle</option>
+                    <option value="venmo">Venmo</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <Button size="sm" variant="hero" disabled={markingPaid} onClick={() => handleMarkPaid(payMethod)}>
+                    {markingPaid ? "Recording..." : `Confirm ${fmt(order.total)} received`}
+                  </Button>
+                  <Button size="sm" variant="ghost" disabled={markingPaid} onClick={() => setPayMethod(null)}>
+                    Cancel
+                  </Button>
+                </div>
+              )}
+              <p className="text-[11px] text-muted-foreground">
+                Marks the order paid and credits 3× points to the customer (skipped if already credited).
+              </p>
+            </div>
+          )}
 
           <div className="flex flex-wrap gap-2">
             <Button size="sm" variant="outline" onClick={() => printPackingSlip(order)}>

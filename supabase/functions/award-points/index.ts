@@ -91,7 +91,7 @@ const handler = async (req: Request): Promise<Response> => {
     const pointsEarned = Math.floor(subtotal * POINTS_PER_DOLLAR);
 
     // Check if user already exists
-    const { data: existingUsers } = await supabaseAdmin.auth.admin.listUsers();
+    const { data: existingUsers } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 });
     const existingUser = existingUsers?.users?.find(u => u.email === customerEmail);
 
     let userId: string | null = null;

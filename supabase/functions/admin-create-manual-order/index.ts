@@ -42,9 +42,23 @@ serve(async (req) => {
       );
     }
 
-    // 1. Find or create auth user
-    const { data: list } = await admin.auth.admin.listUsers();
-    let userId = list?.users?.find((u) => u.email?.toLowerCase() === email.toLowerCase())?.id;
+    // 1. Find or create auth user. listUsers() is paginated (50/page), so a
+    // first-page-only lookup misses users once the base grows — check the
+    // profiles table first, then walk every page before creating.
+    let userId: string | undefined;
+    const { data: profRows } = await admin
+      .from("profiles")
+      .select("user_id")
+      .ilike("email", email)
+      .not("user_id", "is", null)
+      .limit(1);
+    userId = profRows?.[0]?.user_id ?? undefined;
+    for (let page = 1; !userId; page++) {
+      const { data: list, error: luErr } = await admin.auth.admin.listUsers({ page, perPage: 1000 });
+      if (luErr) throw luErr;
+      userId = list?.users?.find((u) => u.email?.toLowerCase() === email.toLowerCase())?.id;
+      if (!list?.users?.length || list.users.length < 1000) break;
+    }
     if (!userId) {
       const { data: newUser, error: cuErr } = await admin.auth.admin.createUser({
         email,

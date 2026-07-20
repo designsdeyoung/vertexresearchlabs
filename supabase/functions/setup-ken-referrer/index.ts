@@ -18,7 +18,7 @@ serve(async (req) => {
   const fullName = "Ken Russell";
 
   // Find or create auth user
-  const { data: list } = await admin.auth.admin.listUsers();
+  const { data: list } = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 });
   let user = list?.users?.find((u) => u.email === email);
   if (!user) {
     const { data, error } = await admin.auth.admin.createUser({

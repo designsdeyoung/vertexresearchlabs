@@ -174,7 +174,7 @@ serve(async (req) => {
     let profileId: string | null = null;
     try {
       const email = customer.email.trim();
-      const { data: existingUsers } = await admin.auth.admin.listUsers();
+      const { data: existingUsers } = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 });
       const existingUser = existingUsers?.users?.find((u) => (u.email || "").toLowerCase() === email.toLowerCase());
 
       let userId = existingUser?.id ?? null;

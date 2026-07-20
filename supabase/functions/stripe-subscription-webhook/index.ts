@@ -60,7 +60,7 @@ Deno.serve(async (req) => {
             profileId = existingProfile.id;
           } else {
             // Silent account create (matches award-points pattern)
-            const { data: users } = await supabase.auth.admin.listUsers();
+            const { data: users } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 });
             let userId = users?.users?.find((u) => u.email === customerEmail)?.id || null;
             if (!userId) {
               const { data: newUser } = await supabase.auth.admin.createUser({

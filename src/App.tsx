@@ -1,9 +1,11 @@
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
+import { Loader2 } from "lucide-react";
 import { InquiryCartProvider } from "@/contexts/InquiryCartContext";
 import { ComplianceProvider } from "@/contexts/ComplianceContext";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -12,32 +14,41 @@ import ScrollToTop from "@/components/ScrollToTop";
 import RequireResearchAccess from "@/components/RequireResearchAccess";
 import ReferralCapture from "@/components/ReferralCapture";
 import ChatWidget from "@/components/ChatWidget";
+// Landing page stays eager for the fastest first paint; every other route is
+// code-split so it only downloads when visited.
 import Index from "./pages/Index";
-import ProductDetail from "./pages/ProductDetail";
-import ResearchAccess from "./pages/ResearchAccess";
-import Checkout from "./pages/Checkout";
-import OrderConfirmation from "./pages/OrderConfirmation";
-import Disclaimer from "./pages/Disclaimer";
-import Terms from "./pages/Terms";
-import Privacy from "./pages/Privacy";
-import Shipping from "./pages/Shipping";
-import Quality from "./pages/Quality";
-import TestingCOAs from "./pages/TestingCOAs";
-import Methods from "./pages/Methods";
-import ChainOfCustody from "./pages/ChainOfCustody";
-import Auth from "./pages/Auth";
-import ResetPassword from "./pages/ResetPassword";
-import Dashboard from "./pages/Dashboard";
-import Learn from "./pages/Learn";
-import TrackOrder from "./pages/TrackOrder";
-import ArticlePage from "./pages/ArticlePage";
-import Fulfillment from "./pages/Fulfillment";
-import CashOrder from "./pages/admin/CashOrder";
-import Welcome from "./pages/Welcome";
-import Magic from "./pages/Magic";
-import NotFound from "./pages/NotFound";
+
+const ProductDetail = lazy(() => import("./pages/ProductDetail"));
+const ResearchAccess = lazy(() => import("./pages/ResearchAccess"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+const OrderConfirmation = lazy(() => import("./pages/OrderConfirmation"));
+const Disclaimer = lazy(() => import("./pages/Disclaimer"));
+const Terms = lazy(() => import("./pages/Terms"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Shipping = lazy(() => import("./pages/Shipping"));
+const Quality = lazy(() => import("./pages/Quality"));
+const TestingCOAs = lazy(() => import("./pages/TestingCOAs"));
+const Methods = lazy(() => import("./pages/Methods"));
+const ChainOfCustody = lazy(() => import("./pages/ChainOfCustody"));
+const Auth = lazy(() => import("./pages/Auth"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Learn = lazy(() => import("./pages/Learn"));
+const TrackOrder = lazy(() => import("./pages/TrackOrder"));
+const ArticlePage = lazy(() => import("./pages/ArticlePage"));
+const Fulfillment = lazy(() => import("./pages/Fulfillment"));
+const CashOrder = lazy(() => import("./pages/admin/CashOrder"));
+const Welcome = lazy(() => import("./pages/Welcome"));
+const Magic = lazy(() => import("./pages/Magic"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
+
+const RouteFallback = () => (
+  <div className="flex min-h-screen items-center justify-center bg-background">
+    <Loader2 className="h-6 w-6 animate-spin text-primary" aria-label="Loading" />
+  </div>
+);
 
 const App = () => (
   <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark" enableSystem={false}>
@@ -53,6 +64,7 @@ const App = () => (
                 <ReferralCapture />
                 <InquiryCart />
                 <ChatWidget />
+                <Suspense fallback={<RouteFallback />}>
                 <Routes>
                   <Route
                     path="/"
@@ -94,6 +106,7 @@ const App = () => (
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
+                </Suspense>
               </BrowserRouter>
             </InquiryCartProvider>
           </ComplianceProvider>

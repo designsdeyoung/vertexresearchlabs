@@ -17,4 +17,18 @@ export default defineConfig(() => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        // Split heavy, cache-stable vendor code out of the app bundle so the
+        // homepage doesn't ship everything in one chunk.
+        manualChunks: {
+          "vendor-react": ["react", "react-dom", "react-router-dom"],
+          "vendor-three": ["three", "@react-three/fiber", "@react-three/drei"],
+          "vendor-charts": ["recharts"],
+          "vendor-motion": ["framer-motion"],
+        },
+      },
+    },
+  },
 }));

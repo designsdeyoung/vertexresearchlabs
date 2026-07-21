@@ -8,7 +8,6 @@ import CategoryCards from "@/components/CategoryCards";
 import ProductCatalog from "@/components/ProductCatalog";
 import QualityTransparency from "@/components/QualityTransparency";
 import WhyVertex from "@/components/WhyVertex";
-import NewsletterSection from "@/components/NewsletterSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
@@ -58,7 +57,6 @@ const Index = () => {
         <ProductCatalog />
         <QualityTransparency />
         <WhyVertex />
-        <NewsletterSection />
         <ContactSection />
       </main>
       <Footer />

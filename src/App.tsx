@@ -12,7 +12,6 @@ import ScrollToTop from "@/components/ScrollToTop";
 import ResearchDisclaimerDialog from "@/components/ResearchDisclaimerDialog";
 import ReferralCapture from "@/components/ReferralCapture";
 import ChatWidget from "@/components/ChatWidget";
-import EmailCapturePopup from "@/components/EmailCapturePopup";
 import Index from "./pages/Index";
 import ProductDetail from "./pages/ProductDetail";
 import ResearchAccess from "./pages/ResearchAccess";
@@ -55,7 +54,6 @@ const App = () => (
                 <ReferralCapture />
                 <InquiryCart />
                 <ChatWidget />
-                <EmailCapturePopup />
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/product/:productId" element={<ProductDetail />} />

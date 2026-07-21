@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useParams, useNavigate, Navigate } from "react-router-dom";
-import { products, DISCONTINUED_PRODUCT_IDS } from "@/data/products";
+import { useParams, useNavigate, Navigate, Link } from "react-router-dom";
+import { products, DISCONTINUED_PRODUCT_IDS, type Product } from "@/data/products";
 import { productSEO } from "@/data/productSEO";
-import { customProductPages } from "@/pages/products/customPages";
+import { storageGuidance } from "@/lib/storageGuidance";
 import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import ComplianceBanner from "@/components/ComplianceBanner";
@@ -19,7 +19,12 @@ import {
   FileText,
   FlaskConical,
   Mail,
+  Minus,
   Plus,
+  Snowflake,
+  ClipboardList,
+  ShieldAlert,
+  type LucideIcon,
 } from "lucide-react";
 import {
   Dialog,
@@ -37,6 +42,33 @@ import {
 
 const formatPrice = (p: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(p);
+
+/** Neutral section wrapper — consistent heading + card for technical blocks. */
+const TechSection = ({
+  icon: Icon,
+  title,
+  children,
+}: {
+  icon: LucideIcon;
+  title: string;
+  children: React.ReactNode;
+}) => (
+  <section className="rounded-xl border border-border bg-card/60 p-6">
+    <h2 className="mb-4 flex items-center gap-2 font-display text-sm font-semibold uppercase tracking-wider text-foreground">
+      <Icon size={16} className="text-muted-foreground" />
+      {title}
+    </h2>
+    {children}
+  </section>
+);
+
+/** Definition row for spec/storage tables. */
+const SpecRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
+  <div className="flex justify-between gap-6 border-b border-border/50 py-2.5 last:border-0">
+    <dt className="text-sm text-muted-foreground">{label}</dt>
+    <dd className="text-right text-sm font-medium text-foreground">{value}</dd>
+  </div>
+);
 
 const ProductDetail = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -62,7 +94,7 @@ const ProductDetail = () => {
             <h1 className="font-display text-2xl font-semibold text-foreground">
               Product Not Found
             </h1>
-            <Button className="mt-6" onClick={() => navigate("/")}>
+            <Button className="mt-6" onClick={() => navigate("/#products")}>
               Return to Catalog
             </Button>
           </div>
@@ -72,14 +104,8 @@ const ProductDetail = () => {
     );
   }
 
-  // Fully bespoke pages take over rendering when registered; others use the
-  // shared template below.
-  const BespokePage = customProductPages[product.id];
-  if (BespokePage) {
-    return <BespokePage product={product} seo={seo} />;
-  }
-
-  const { name, subtitle, size, purity, image, category, coa, references, price } = product;
+  const { name, subtitle, size, purity, image, category, coa, references, price, description } =
+    product;
 
   const salePrice = SITEWIDE_SALE.active ? price * (1 - SITEWIDE_SALE.discount) : price;
 
@@ -88,6 +114,12 @@ const ProductDetail = () => {
     toast({ title: "Added to cart", description: `${name} ${size} × ${qty}` });
     openCart();
   };
+
+  const relatedIds = (seo?.relatedProducts ?? []).filter((id) => id !== product.id);
+  const related = relatedIds
+    .map((id) => products.find((p) => p.id === id))
+    .filter((p): p is Product => Boolean(p) && !p!.outOfStock)
+    .slice(0, 4);
 
   const BASE_URL = "https://vertexresearchlabs.com";
 
@@ -102,7 +134,9 @@ const ProductDetail = () => {
       "@type": "Offer",
       priceCurrency: "USD",
       price: product.price.toFixed(2),
-      availability: "https://schema.org/InStock",
+      availability: product.outOfStock
+        ? "https://schema.org/OutOfStock"
+        : "https://schema.org/InStock",
       url: `${BASE_URL}/product/${product.id}`,
       seller: { "@type": "Organization", name: "Vertex Research Labs" },
     },
@@ -147,27 +181,31 @@ const ProductDetail = () => {
       <Header />
 
       <main className="flex-1 pb-32 pt-24 md:pb-16">
-        <div className="container mx-auto px-6">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="-ml-2 mb-6 text-muted-foreground hover:text-foreground"
-            onClick={() => navigate("/#products")}
-          >
-            <ArrowLeft size={14} />
-            Back to Catalog
-          </Button>
+        <div className="container mx-auto max-w-6xl px-6">
+          {/* Breadcrumb */}
+          <nav aria-label="Breadcrumb" className="mb-6">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="-ml-2 text-muted-foreground hover:text-foreground"
+              onClick={() => navigate("/#products")}
+            >
+              <ArrowLeft size={14} />
+              Back to Catalog
+            </Button>
+          </nav>
 
-          <div className="grid gap-12 lg:grid-cols-[2fr_3fr]">
-            {/* Left: Image */}
+          {/* Top: image + purchase panel */}
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+            {/* Image */}
             <div>
               <div className="overflow-hidden rounded-xl border border-border bg-card">
                 <div className="aspect-square">
                   {image ? (
                     <img
                       src={image}
-                      alt={`${name} ${size} research material`}
-                      className="h-full w-full object-contain object-center scale-[1.5]"
+                      alt={`${name} ${size} research reference material vial`}
+                      className="h-full w-full scale-[1.4] object-contain object-center"
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center">
@@ -176,47 +214,25 @@ const ProductDetail = () => {
                   )}
                 </div>
               </div>
-
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <span className="rounded-md bg-primary/10 px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-wider text-primary">
-                  ≥99% Purity
+                  {purity} Purity
                 </span>
                 <span className="rounded-md border border-border px-2 py-1 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
                   {category}
                 </span>
-                {coa && (
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <button className="ml-auto inline-flex items-center gap-1 text-xs text-primary hover:underline">
-                        <FileText size={12} />
-                        CoA Available Upon Request
-                      </button>
-                    </DialogTrigger>
-                    <DialogContent className="max-h-[90vh] max-w-3xl overflow-auto">
-                      <DialogHeader>
-                        <DialogTitle>Certificate of Analysis — {name}</DialogTitle>
-                      </DialogHeader>
-                      <img
-                        src={coa}
-                        alt={`Certificate of Analysis for ${name}`}
-                        className="mt-2 w-full rounded-md border border-border"
-                      />
-                    </DialogContent>
-                  </Dialog>
-                )}
               </div>
             </div>
 
-            {/* Right: Info */}
+            {/* Purchase panel */}
             <div>
-              <h1 className="font-display text-3xl font-bold text-foreground md:text-4xl">
-                {name}
-              </h1>
-              {subtitle && (
-                <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
-              )}
+              <h1 className="font-display text-3xl font-bold text-foreground md:text-4xl">{name}</h1>
+              {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
+              <p className="mt-4 max-w-prose text-sm leading-relaxed text-muted-foreground">
+                {description}
+              </p>
 
-              {/* Spec key-values */}
+              {/* Quick specs */}
               <dl className="mt-6 grid grid-cols-3 gap-4 border-y border-border py-4 text-sm">
                 <div>
                   <dt className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
@@ -226,15 +242,15 @@ const ProductDetail = () => {
                 </div>
                 <div>
                   <dt className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-                    Grade
+                    Purity
                   </dt>
-                  <dd className="mt-1 text-foreground">Research</dd>
+                  <dd className="mt-1 text-foreground">{purity}</dd>
                 </div>
                 <div>
                   <dt className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-                    Category
+                    Grade
                   </dt>
-                  <dd className="mt-1 text-foreground">{category}</dd>
+                  <dd className="mt-1 text-foreground">Research</dd>
                 </div>
               </dl>
 
@@ -259,7 +275,7 @@ const ProductDetail = () => {
                     onClick={() => setQty((q) => Math.max(1, q - 1))}
                     aria-label="Decrease quantity"
                   >
-                    −
+                    <Minus size={16} />
                   </button>
                   <Input
                     type="number"
@@ -269,6 +285,7 @@ const ProductDetail = () => {
                     onChange={(e) =>
                       setQty(Math.min(10, Math.max(1, parseInt(e.target.value) || 1)))
                     }
+                    aria-label="Quantity"
                     className="h-10 w-14 border-0 bg-transparent text-center font-mono text-sm focus-visible:ring-0"
                   />
                   <button
@@ -277,7 +294,7 @@ const ProductDetail = () => {
                     onClick={() => setQty((q) => Math.min(10, q + 1))}
                     aria-label="Increase quantity"
                   >
-                    +
+                    <Plus size={16} />
                   </button>
                 </div>
                 <Button
@@ -296,64 +313,128 @@ const ProductDetail = () => {
                   Currently out of stock — restock pending
                 </p>
               ) : (
-              <>
-              {product.stock !== undefined &&
+                product.stock !== undefined &&
                 product.stock > 0 &&
                 product.stock <= 5 && (
                   <p className="mt-4 flex items-center gap-1.5 font-mono text-xs font-medium uppercase tracking-wider text-amber-500">
                     <AlertTriangle size={13} className="shrink-0" />
                     Low stock — order soon
                   </p>
-                )}
-              </>
+                )
               )}
 
-              {/* Compliance */}
-              <p className="mt-6 text-xs text-amber-400/90">
-                For research use only. Not for human consumption.
+              <p className="mt-4 text-xs text-amber-400/90">
+                For laboratory research use only. Not for human or veterinary use.
               </p>
+            </div>
+          </div>
 
-              {/* Spec table */}
-              <div className="mt-8 border-t border-border pt-6">
-                <h2 className="mb-4 font-display text-sm font-semibold uppercase tracking-wider text-foreground">
-                  Specifications
-                </h2>
-                <dl className="space-y-2 text-sm">
-                  <div className="flex justify-between border-b border-border/60 py-2">
-                    <dt className="text-muted-foreground">Purity</dt>
-                    <dd className="font-mono text-foreground">{purity}</dd>
-                  </div>
-                  <div className="flex justify-between border-b border-border/60 py-2">
-                    <dt className="text-muted-foreground">Testing</dt>
-                    <dd className="text-foreground">Independent analytical verification</dd>
-                  </div>
-                  <div className="flex justify-between py-2">
-                    <dt className="text-muted-foreground">Documentation</dt>
-                    <dd className="text-foreground">CoA available upon request</dd>
-                  </div>
-                </dl>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="sm"
-                  className="mt-4 border-border"
-                >
+          {/* Technical sections */}
+          <div className="mt-14 grid gap-6 md:grid-cols-2">
+            {/* Specifications */}
+            <TechSection icon={ClipboardList} title="Specifications">
+              <dl>
+                <SpecRow label="Compound" value={name} />
+                <SpecRow label="Presentation" value={`${size} vial`} />
+                <SpecRow label="Purity" value={purity} />
+                <SpecRow label="Category" value={category} />
+                <SpecRow label="Testing" value="Independent analytical verification" />
+                <SpecRow label="Grade" value="Research reference material" />
+              </dl>
+            </TechSection>
+
+            {/* Documentation */}
+            <TechSection icon={FileText} title="Documentation">
+              <ul className="space-y-2.5 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                  Certificate of Analysis (CoA) available on request
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                  Identity and purity by analytical verification
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                  Lot-specific documentation on file
+                </li>
+              </ul>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {coa && (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" size="sm" className="border-border">
+                        <FileText size={14} />
+                        View sample CoA
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-h-[90vh] max-w-3xl overflow-auto">
+                      <DialogHeader>
+                        <DialogTitle>Certificate of Analysis — {name}</DialogTitle>
+                      </DialogHeader>
+                      <img
+                        src={coa}
+                        alt={`Certificate of Analysis for ${name}`}
+                        className="mt-2 w-full rounded-md border border-border"
+                      />
+                    </DialogContent>
+                  </Dialog>
+                )}
+                <Button asChild variant="outline" size="sm" className="border-border">
                   <a href={`mailto:info@vertexresearchlabs.com?subject=CoA Request — ${name} ${size}`}>
                     <Mail size={14} />
                     Request CoA
                   </a>
                 </Button>
               </div>
-            </div>
+            </TechSection>
+
+            {/* Storage & handling */}
+            <TechSection icon={Snowflake} title="Storage & Handling">
+              <dl>
+                {storageGuidance(product).map((row) => (
+                  <SpecRow key={row.label} label={row.label} value={row.value} />
+                ))}
+              </dl>
+            </TechSection>
+
+            {/* Research notices */}
+            <TechSection icon={ShieldAlert} title="Research Notices">
+              <ul className="space-y-2.5 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <ShieldAlert size={14} className="mt-0.5 shrink-0 text-amber-400" />
+                  Supplied exclusively for laboratory and analytical research use.
+                </li>
+                <li className="flex items-start gap-2">
+                  <ShieldAlert size={14} className="mt-0.5 shrink-0 text-amber-400" />
+                  Not for human or veterinary use, ingestion, diagnosis, or treatment.
+                </li>
+                <li className="flex items-start gap-2">
+                  <ShieldAlert size={14} className="mt-0.5 shrink-0 text-amber-400" />
+                  Handling by qualified research personnel only.
+                </li>
+              </ul>
+              <p className="mt-4 border-t border-border/50 pt-3 text-xs leading-relaxed text-muted-foreground/80">
+                See our{" "}
+                <Link to="/terms" className="text-primary hover:underline">
+                  Terms
+                </Link>{" "}
+                and{" "}
+                <Link to="/disclaimer" className="text-primary hover:underline">
+                  Disclaimer
+                </Link>{" "}
+                for full research-use conditions.
+              </p>
+            </TechSection>
           </div>
 
-          {/* Research summary (kept for SEO) */}
+          {/* Research overview (SEO) */}
           {seo?.researchSummary && (
-            <div className="mt-16 rounded-xl border border-border bg-card p-6">
-              <h2 className="font-display text-lg font-semibold text-foreground">
+            <div className="mt-6 rounded-xl border border-border bg-card/60 p-6">
+              <h2 className="font-display text-sm font-semibold uppercase tracking-wider text-foreground">
                 Research Overview
               </h2>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted-foreground">
                 {seo.researchSummary}
               </p>
             </div>
@@ -361,7 +442,7 @@ const ProductDetail = () => {
 
           {/* FAQs */}
           {seo?.faqs && seo.faqs.length > 0 && (
-            <div className="mt-8">
+            <div className="mt-10">
               <h2 className="mb-4 font-display text-xl font-semibold text-foreground">
                 Frequently Asked Questions
               </h2>
@@ -373,9 +454,7 @@ const ProductDetail = () => {
                     className="rounded-lg border border-border bg-card px-5"
                   >
                     <AccordionTrigger className="py-4 text-left hover:no-underline">
-                      <span className="text-sm font-medium text-foreground">
-                        {faq.question}
-                      </span>
+                      <span className="text-sm font-medium text-foreground">{faq.question}</span>
                     </AccordionTrigger>
                     <AccordionContent className="pb-4 text-sm leading-relaxed text-muted-foreground">
                       {faq.answer}
@@ -388,7 +467,7 @@ const ProductDetail = () => {
 
           {/* References */}
           {references && references.length > 0 && (
-            <div className="mt-8">
+            <div className="mt-10">
               <Accordion type="single" collapsible>
                 <AccordionItem
                   value="references"
@@ -401,9 +480,9 @@ const ProductDetail = () => {
                   </AccordionTrigger>
                   <AccordionContent className="pb-5">
                     <p className="mb-4 rounded-md border border-border bg-background/40 p-3 text-xs text-muted-foreground">
-                      The following peer-reviewed publications are provided for general
-                      scientific reference only. They are not endorsements or claims.
-                      All materials are for laboratory research use only.
+                      The following peer-reviewed publications are provided for general scientific
+                      reference only. They are not endorsements or claims. All materials are for
+                      laboratory research use only.
                     </p>
                     <ul className="space-y-2">
                       {references.map((ref, idx) => (
@@ -413,10 +492,7 @@ const ProductDetail = () => {
                         >
                           <p className="text-sm text-foreground">
                             {ref.authors},{" "}
-                            <span className="text-muted-foreground">
-                              {ref.journal}
-                            </span>{" "}
-                            ({ref.year})
+                            <span className="text-muted-foreground">{ref.journal}</span> ({ref.year})
                           </p>
                           <a
                             href={ref.url}
@@ -433,6 +509,45 @@ const ProductDetail = () => {
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
+            </div>
+          )}
+
+          {/* Related products */}
+          {related.length > 0 && (
+            <div className="mt-14">
+              <h2 className="mb-4 font-display text-xl font-semibold text-foreground">
+                Related Reference Materials
+              </h2>
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                {related.map((r) => (
+                  <Link
+                    key={r.id}
+                    to={`/product/${r.id}`}
+                    className="group rounded-xl border border-border bg-card/60 p-4 transition-colors hover:border-primary/40"
+                  >
+                    <div className="aspect-square overflow-hidden rounded-lg bg-card">
+                      {r.image ? (
+                        <img
+                          src={r.image}
+                          alt={`${r.name} ${r.size}`}
+                          loading="lazy"
+                          className="h-full w-full scale-[1.4] object-contain"
+                        />
+                      ) : (
+                        <div className="flex h-full items-center justify-center">
+                          <FlaskConical size={28} className="text-muted-foreground/30" />
+                        </div>
+                      )}
+                    </div>
+                    <p className="mt-3 text-sm font-medium text-foreground group-hover:text-primary">
+                      {r.name}
+                    </p>
+                    <p className="font-mono text-xs text-muted-foreground">
+                      {r.size} · {formatPrice(r.price)}
+                    </p>
+                  </Link>
+                ))}
+              </div>
             </div>
           )}
         </div>

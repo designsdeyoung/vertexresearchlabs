@@ -13,13 +13,10 @@ import nadPlus1000Image from "@/assets/products/nad-plus-1000.png";
 import glutathioneImage from "@/assets/products/glutathione.png";
 import motsCImage from "@/assets/products/mots-c.png";
 import motsC40Image from "@/assets/products/mots-c-40.png";
-import kisspeptinImage from "@/assets/products/kisspeptin.png";
 import tesamorelinImage from "@/assets/products/tesamorelin.png";
-import pt141Image from "@/assets/products/pt-141.png";
 import mt2Image from "@/assets/products/mt2.png";
 import bacWater3mlImage from "@/assets/products/bac-water-3ml.png";
 import bacWater10mlImage from "@/assets/products/bac-water-10ml.png";
-import epithalonImage from "@/assets/products/epithalon.png";
 import dsipImage from "@/assets/products/dsip.png";
 import cjcIpaImage from "@/assets/products/cjc-ipa.png";
 import wolverineBlendImage from "@/assets/products/wolverine-blend.png";
@@ -60,6 +57,16 @@ export interface Product {
    *  A value of 0 means sold out; pair it with outOfStock: true. */
   stock?: number;
 }
+
+/** Product ids that have been discontinued and removed from the catalog.
+ *  Their old /product/:id URLs redirect to the catalog so inbound links and
+ *  search-engine results don't hit a dead page. */
+export const DISCONTINUED_PRODUCT_IDS = new Set<string>([
+  "kisspeptin",
+  "tesamorelin-2mg",
+  "pt-141",
+  "epithalon",
+]);
 
 export const products: Product[] = [
   {
@@ -430,45 +437,6 @@ export const products: Product[] = [
     ]
   },
   {
-    id: "kisspeptin",
-    name: "Kisspeptin",
-    subtitle: "Research Grade",
-    size: "5mg",
-    price: 38,
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: kisspeptinImage,
-    outOfStock: true,
-    category: "Peptide",
-    references: [
-      {
-        authors: "Kotani M et al.",
-        journal: "Journal of Biological Chemistry",
-        year: 2001,
-        title: "Kisspeptin Receptor Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/11385580/"
-      },
-      {
-        authors: "Ohtaki T et al.",
-        journal: "Nature",
-        year: 2001,
-        title: "Metastasis Suppressor Gene KiSS-1 Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/11457843/"
-      },
-      {
-        authors: "Oakley AE et al.",
-        journal: "Physiological Reviews",
-        year: 2010,
-        title: "Kisspeptin Signaling Research",
-        url: "https://journals.physiology.org/doi/abs/10.1152/physrev.00037.2010"
-      }
-    ]
-  },
-  {
     id: "tesamorelin",
     groupId: "tesamorelin",
     name: "Tesamorelin",
@@ -498,57 +466,6 @@ export const products: Product[] = [
         year: 2007,
         title: "Tesamorelin GHRH Analog Studies",
         url: "https://www.nejm.org/doi/full/10.1056/NEJMoa072375"
-      }
-    ]
-  },
-  {
-    id: "tesamorelin-2mg",
-    groupId: "tesamorelin",
-    name: "Tesamorelin",
-    subtitle: "Research Grade",
-    size: "2mg",
-    price: 38,
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: tesamorelinImage,
-    category: "Peptide",
-    outOfStock: true,
-    references: [
-      {
-        authors: "Falutz J et al.",
-        journal: "AIDS",
-        year: 2007,
-        title: "Tesamorelin Clinical Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/18057338/"
-      }
-    ]
-  },
-  {
-    id: "pt-141",
-    name: "PT-141",
-    subtitle: "Research Grade",
-    size: "10mg",
-    price: 55,
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: pt141Image,
-    category: "Peptide",
-    outOfStock: true,
-    references: [
-      {
-        authors: "Kingsberg SA et al.",
-        journal: "Journal of Sexual Medicine",
-        year: 2012,
-        title: "Bremelanotide (PT-141) clinical research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/22906405/"
       }
     ]
   },
@@ -598,31 +515,6 @@ export const products: Product[] = [
         year: 1984,
         title: "Delta Sleep-Inducing Peptide (DSIP) Research",
         url: "https://pubmed.ncbi.nlm.nih.gov/6438537/"
-      }
-    ]
-  },
-  {
-    id: "epithalon",
-    name: "Epithalon (Epitalon)",
-    subtitle: "Research Grade",
-    size: "10mg",
-    price: 65,
-    description: "Tetrapeptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: epithalonImage,
-    category: "Peptide",
-    outOfStock: true,
-    references: [
-      {
-        authors: "Khavinson VK et al.",
-        journal: "Bulletin of Experimental Biology and Medicine",
-        year: 2003,
-        title: "Epithalon Peptide Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/12937682/"
       }
     ]
   },

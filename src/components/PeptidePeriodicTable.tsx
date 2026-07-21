@@ -35,12 +35,9 @@ const peptideElements = [
   { id: "selank", symbol: "SLK", category: "neuroactive", researchFocus: "Tuftsin analog studies" },
   { id: "nad-plus-1000", symbol: "NAD", category: "metabolic", researchFocus: "Coenzyme metabolism research" },
   { id: "mots-c", symbol: "MOT", category: "metabolic", researchFocus: "Mitochondrial-derived peptide studies" },
-  { id: "kisspeptin", symbol: "KSP", category: "hormonal", researchFocus: "GPR54 ligand research" },
   { id: "tesamorelin", symbol: "TSM", category: "hormonal", researchFocus: "GHRH analog peptide analysis" },
-  { id: "pt-141", symbol: "PT1", category: "melanocortin", researchFocus: "Melanocortin receptor studies" },
   { id: "mt2", symbol: "MT2", category: "melanocortin", researchFocus: "Alpha-MSH analog research" },
   { id: "dsip", symbol: "DSP", category: "neuroactive", researchFocus: "Delta sleep-inducing peptide studies", isNew: true },
-  { id: "epithalon", symbol: "EPT", category: "longevity", researchFocus: "Telomerase-related peptide research", isNew: true },
 ];
 
 const categoryColors: Record<string, { bg: string; border: string; text: string; badge: string; glow: string }> = {

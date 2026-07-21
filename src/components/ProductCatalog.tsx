@@ -55,13 +55,10 @@ const ProductCatalog = () => {
     "selank",
     "glutathione",
     // Remaining products
-    "kisspeptin",
     "mt2",
-    "pt-141",
     "ghk-cu-100",
     "mots-c-40",
     "dsip",
-    "epithalon",
     // Diluents — always last; surfaced as upsell in cart instead.
     "bac-water-3ml",
     "bac-water-10ml",

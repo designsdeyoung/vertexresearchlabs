@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { products } from "@/data/products";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
+import { products, DISCONTINUED_PRODUCT_IDS } from "@/data/products";
 import { productSEO } from "@/data/productSEO";
 import { customProductPages } from "@/pages/products/customPages";
 import SEOHead from "@/components/SEOHead";
@@ -43,6 +43,11 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { addItem, openCart } = useInquiryCart();
   const [qty, setQty] = useState(1);
+
+  // Discontinued products: redirect old URLs to the catalog (no dead pages).
+  if (productId && DISCONTINUED_PRODUCT_IDS.has(productId)) {
+    return <Navigate to="/#products" replace />;
+  }
 
   const product = products.find((p) => p.id === productId);
   const seo = productId ? productSEO[productId] : undefined;

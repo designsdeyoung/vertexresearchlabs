@@ -223,20 +223,6 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
     crossSell: ["mots-c", "retatrutide", "nad-plus-1000"],
   },
 
-  kisspeptin: {
-    accentHue: 330,
-    eyebrow: "Reproductive Signaling Peptide",
-    headline: ["Kiss", "peptin"],
-    description:
-      "A neuropeptide encoded by the KISS1 gene and a key reference compound in reproductive-endocrinology research.",
-    features: [
-      { icon: Network, title: "GnRH Axis", body: "Studied as an upstream regulator of gonadotropin-releasing hormone signaling." },
-      { icon: Target, title: "KISS1R Signaling", body: "Referenced in receptor-binding and downstream signaling research." },
-      { icon: Microscope, title: "Endocrinology", body: "Investigated across reproductive and neuroendocrine study models." },
-    ],
-    crossSell: ["pt-141", "tesamorelin", "mt2"],
-  },
-
   tesamorelin: {
     accentHue: 190,
     eyebrow: "GHRH Analog · 10mg",
@@ -248,35 +234,7 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
       { icon: Gauge, title: "Visceral Adiposity", body: "Referenced in clinical research on visceral-fat reduction." },
       { icon: Repeat, title: "IGF-1 Axis", body: "Studied for downstream effects on the GH/IGF-1 signaling axis." },
     ],
-    crossSell: ["tesamorelin-2mg", "cjc-ipa-blend", "retatrutide"],
-  },
-
-  "tesamorelin-2mg": {
-    accentHue: 190,
-    eyebrow: "GHRH Analog · 2mg",
-    headline: ["Tesamorelin", "2mg"],
-    description:
-      "The same GHRH-analog reference material in a 2mg vial for smaller-scale or pilot research.",
-    features: [
-      { icon: TestTube, title: "Pilot Scale", body: "2mg vial suits dose-ranging and small-batch research designs." },
-      { icon: Activity, title: "GH Secretagogue", body: "Investigated for stimulation of endogenous growth-hormone release." },
-      { icon: Repeat, title: "IGF-1 Axis", body: "Studied for downstream effects on the GH/IGF-1 signaling axis." },
-    ],
-    crossSell: ["tesamorelin", "cjc-ipa-blend", "retatrutide"],
-  },
-
-  "pt-141": {
-    accentHue: 320,
-    eyebrow: "Melanocortin Research Peptide",
-    headline: ["PT", "-141"],
-    description:
-      "Bremelanotide — a melanocortin-receptor agonist studied for central-nervous-system signaling in libido research models.",
-    features: [
-      { icon: Target, title: "Melanocortin Receptor", body: "Referenced as an agonist at MC3R and MC4R receptor subtypes." },
-      { icon: Brain, title: "Central Pathways", body: "Investigated for centrally-mediated signaling distinct from vascular agents." },
-      { icon: Microscope, title: "Behavioral Models", body: "Studied across preclinical and clinical libido-research designs." },
-    ],
-    crossSell: ["kisspeptin", "mt2", "tesamorelin"],
+    crossSell: ["cjc-ipa-blend", "retatrutide", "mots-c"],
   },
 
   mt2: {
@@ -290,7 +248,7 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
       { icon: Target, title: "MC1R / MC4R", body: "Referenced as a non-selective melanocortin-receptor agonist." },
       { icon: Microscope, title: "Pigmentation Research", body: "Investigated across dermatological and cellular pigmentation assays." },
     ],
-    crossSell: ["pt-141", "kisspeptin", "glutathione"],
+    crossSell: ["glutathione", "tesamorelin", "semax"],
   },
 
   dsip: {
@@ -304,21 +262,7 @@ export const bespokeConfigs: Record<string, BespokeConfig> = {
       { icon: Bed, title: "Neuroendocrine", body: "Investigated for modulation of stress-hormone and circadian signaling." },
       { icon: Clock, title: "Stress Response", body: "Studied for effects on stress-adaptation and recovery pathways." },
     ],
-    crossSell: ["selank", "semax", "epithalon"],
-  },
-
-  epithalon: {
-    accentHue: 280,
-    eyebrow: "Telomerase Research Tetrapeptide",
-    headline: ["Epi", "thalon"],
-    description:
-      "A synthetic tetrapeptide (Epitalon) studied for telomerase activity and pineal-regulation in longevity research models.",
-    features: [
-      { icon: Hourglass, title: "Telomerase Activity", body: "Investigated for telomerase induction and telomere-length research." },
-      { icon: Moon, title: "Pineal Regulation", body: "Referenced for effects on melatonin and circadian-rhythm signaling." },
-      { icon: Dna, title: "Longevity Models", body: "Studied across cellular-senescence and lifespan research designs." },
-    ],
-    crossSell: ["nad-plus-1000", "glutathione", "dsip"],
+    crossSell: ["selank", "semax", "bpc-157"],
   },
 
   "wolverine-blend": {

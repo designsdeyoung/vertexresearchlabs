@@ -76,7 +76,9 @@ const ProductCatalog = () => {
         q === "" ||
         p.name.toLowerCase().includes(q) ||
         p.category.toLowerCase().includes(q) ||
-        (p.subtitle ?? "").toLowerCase().includes(q);
+        p.size.toLowerCase().includes(q) ||
+        (p.subtitle ?? "").toLowerCase().includes(q) ||
+        p.description.toLowerCase().includes(q);
       const matchesCategory = !group || group.categories.includes(p.category);
       return matchesSearch && matchesCategory;
     });
@@ -97,6 +99,30 @@ const ProductCatalog = () => {
     }
     return list;
   }, [searchQuery, selectedGroup, sort]);
+
+  // Group size-variants into single cards (preserving order). Also drives the
+  // visible results count.
+  const cards = useMemo(() => {
+    const seen = new Set<string>();
+    const out: { key: string; variants: typeof filteredProducts }[] = [];
+    for (const p of filteredProducts) {
+      const key = p.groupId ?? p.id;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      const variants = p.groupId
+        ? filteredProducts.filter((x) => x.groupId === p.groupId)
+        : [p];
+      out.push({ key, variants });
+    }
+    return out;
+  }, [filteredProducts]);
+
+  const hasActiveFilters = searchQuery.trim() !== "" || selectedGroup !== "all";
+  const clearFilters = () => {
+    setSearchQuery("");
+    setSelectedGroup("all");
+    setSort("featured");
+  };
 
   return (
     <section id="products" className="bg-cream py-16 md:py-20">
@@ -119,14 +145,20 @@ const ProductCatalog = () => {
         <div className="sticky top-[72px] z-30 -mx-6 mb-8 border-y border-navy/10 bg-cream/95 px-6 py-3 backdrop-blur-md">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             {/* Category pills */}
-            <div className="no-scrollbar -mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1 md:pb-0">
+            <div
+              role="group"
+              aria-label="Filter by category"
+              className="no-scrollbar -mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1 md:pb-0"
+            >
               {[{ key: "all", label: "All" }, ...CATEGORY_GROUPS].map((g) => {
                 const active = selectedGroup === g.key;
                 return (
                   <button
                     key={g.key}
+                    type="button"
                     onClick={() => setSelectedGroup(g.key)}
-                    className={`whitespace-nowrap rounded-full border px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider transition-colors duration-200 ${
+                    aria-pressed={active}
+                    className={`whitespace-nowrap rounded-full border px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40 ${
                       active
                         ? "border-navy bg-navy text-white"
                         : "border-navy/15 bg-transparent text-navy/60 hover:border-navy/40 hover:text-navy"
@@ -139,15 +171,17 @@ const ProductCatalog = () => {
             </div>
 
             {/* Search + sort */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2" role="search">
               <div className="relative flex-1 md:w-[220px] md:flex-none">
                 <Search
                   size={14}
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-navy/40"
+                  aria-hidden="true"
                 />
                 <Input
-                  type="text"
+                  type="search"
                   placeholder="Search products..."
+                  aria-label="Search products by name, category, or size"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="h-9 rounded-full border-navy/15 bg-white pl-9 text-sm text-navy placeholder:text-navy/40 focus-visible:ring-navy/30"
@@ -168,33 +202,41 @@ const ProductCatalog = () => {
           </div>
         </div>
 
+        {/* Results count + clear */}
+        <div className="mb-5 flex items-center justify-between gap-3">
+          <p aria-live="polite" className="font-mono text-[11px] uppercase tracking-wider text-navy/50">
+            {cards.length} {cards.length === 1 ? "product" : "products"}
+          </p>
+          {hasActiveFilters && (
+            <button
+              type="button"
+              onClick={clearFilters}
+              className="font-mono text-[11px] uppercase tracking-wider text-navy/60 underline-offset-2 hover:text-navy hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40"
+            >
+              Clear filters
+            </button>
+          )}
+        </div>
+
         {/* Grid */}
-        {filteredProducts.length > 0 ? (
+        {cards.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {(() => {
-              // Group variants by groupId; preserve original order using the
-              // first occurrence of each group.
-              const seen = new Set<string>();
-              const cards: { key: string; variants: typeof filteredProducts }[] = [];
-              for (const p of filteredProducts) {
-                const key = p.groupId ?? p.id;
-                if (seen.has(key)) continue;
-                seen.add(key);
-                const variants = p.groupId
-                  ? filteredProducts.filter((x) => x.groupId === p.groupId)
-                  : [p];
-                cards.push({ key, variants });
-              }
-              return cards.map(({ key, variants }) => (
-                <ProductCard key={key} product={variants[0]} variants={variants} />
-              ));
-            })()}
+            {cards.map(({ key, variants }) => (
+              <ProductCard key={key} product={variants[0]} variants={variants} />
+            ))}
           </div>
         ) : (
           <div className="py-16 text-center">
-            <p className="text-sm text-navy/55">
-              No products match your filters.
-            </p>
+            <p className="text-sm text-navy/55">No products match your filters.</p>
+            {hasActiveFilters && (
+              <button
+                type="button"
+                onClick={clearFilters}
+                className="mt-3 font-mono text-[11px] uppercase tracking-wider text-navy underline underline-offset-2"
+              >
+                Clear filters
+              </button>
+            )}
           </div>
         )}
       </div>

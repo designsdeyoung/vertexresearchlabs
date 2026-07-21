@@ -13,9 +13,7 @@ import { FREE_SHIPPING_THRESHOLD, FLAT_RATE_SHIPPING } from "@/contexts/InquiryC
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { calculatePointsForPrice } from "@/hooks/useRewards";
 import { getStoredReferralCode } from "@/hooks/useReferralCapture";
-import CreditRedemption from "@/components/checkout/CreditRedemption";
 import StripePayment from "@/components/checkout/StripePayment";
 import AddressAutocomplete from "@/components/checkout/AddressAutocomplete";
 import { finalizeOrder, PENDING_ORDER_KEY, type PendingOrder } from "@/lib/finalizeOrder";
@@ -37,22 +35,13 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-interface ActiveCredit {
-  id: string;
-  amount: number;
-  points_cost: number;
-  min_cart: number;
-  max_percent: number;
-}
-
 const Checkout = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { hasAcknowledged, eligibilityType, resetCompliance } = useCompliance();
-  const { items, clearCart, subtotal, shippingCost, total, qualifiesForFreeShipping, hasAutoship } = useInquiryCart();
+  const { items, clearCart, subtotal, shippingCost, total, qualifiesForFreeShipping } = useInquiryCart();
   const { user, profile } = useAuth();
 
-  const [selectedCredit, setSelectedCredit] = useState<ActiveCredit | null>(null);
   const paymentMethod = "stripe";
   const [showPayment, setShowPayment] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
@@ -71,22 +60,14 @@ const Checkout = () => {
   };
 
   // Percentage discount code — rate comes from validate-discount response.
-  // Credits and discount codes STACK: the % applies to the subtotal first,
-  // then the Vertex Credit comes off whatever is left.
+  // The % applies to the subtotal.
   const discountAmount = discountValid ? subtotal * discountRate : 0;
 
   // Override shipping when promo grants free shipping
   const effectiveShipping = promoFreeShipping ? 0 : shippingCost;
   const effectiveTotal = subtotal + effectiveShipping;
 
-  // Credit applies after the % discount, capped at max_percent of the
-  // already-discounted total so a 100%-cap credit can't overshoot it.
-  const discountedTotal = Math.max(0, effectiveTotal - discountAmount);
-  const creditDiscount = selectedCredit
-    ? Math.min(selectedCredit.amount, discountedTotal * (selectedCredit.max_percent / 100))
-    : 0;
-  const finalTotal = Math.max(0, discountedTotal - creditDiscount);
-  const pointsEarned = calculatePointsForPrice(subtotal);
+  const finalTotal = Math.max(0, effectiveTotal - discountAmount);
 
   const handleApplyDiscount = async () => {
     if (!discountCode.trim()) return;
@@ -239,67 +220,6 @@ const Checkout = () => {
       return;
     }
 
-    // Autoship branch: redirect to Stripe Checkout (subscription mode)
-    if (hasAutoship) {
-      setIsSubmitting(true);
-      try {
-        const autoshipLines = items
-          .filter((i) => i.isAutoship)
-          .map((i) => ({
-            productId: i.product.id,
-            productName: i.product.name,
-            unitAmount: computeUnitPrice(i),
-            quantity: i.quantity,
-            is3Pack: !!i.is3Pack,
-            intervalDays: i.intervalDays ?? (i.is3Pack ? 90 : 30),
-          }));
-        const oneTimeLines = items
-          .filter((i) => !i.isAutoship)
-          .map((i) => ({
-            productId: i.product.id,
-            productName: i.product.name,
-            unitAmount: computeUnitPrice(i),
-            quantity: i.quantity,
-          }));
-
-        const origin = window.location.origin;
-        const { data, error } = await supabase.functions.invoke("create-subscription-checkout", {
-          body: {
-            email: formData.email,
-            customerName: formData.fullName,
-            autoshipLines,
-            oneTimeLines,
-            shippingAmount: effectiveShipping,
-            shippingAddress: {
-              line1: formData.addressLine1,
-              line2: formData.addressLine2,
-              city: formData.city,
-              state: formData.state,
-              postal_code: formData.zipCode,
-              country: formData.country,
-              phone: formData.phoneNumber,
-              organization: formData.organization,
-            },
-            successUrl: `${origin}/order-confirmation?autoship=1`,
-            cancelUrl: `${origin}/checkout`,
-          },
-        });
-        if (error || !data?.url) {
-          throw new Error(error?.message || "Could not start subscription checkout");
-        }
-        window.location.href = data.url;
-      } catch (err) {
-        console.error(err);
-        toast({
-          title: "Subscription error",
-          description: err instanceof Error ? err.message : "Please try again.",
-          variant: "destructive",
-        });
-        setIsSubmitting(false);
-      }
-      return;
-    }
-
     setShowPayment(true);
     // Scroll payment section into view
     setTimeout(() => {
@@ -316,7 +236,7 @@ const Checkout = () => {
       quantity: item.quantity,
       lineTotal: item.product.price * item.quantity,
     }));
-    const effectivePaymentMethod = finalTotal === 0 ? "credit" : paymentMethod;
+    const effectivePaymentMethod = finalTotal === 0 ? "comp" : paymentMethod;
     const referralCode = discountValid ? discountCode.trim().toUpperCase() : getStoredReferralCode();
     return {
       paymentIntentId: stripePaymentIntentId,
@@ -326,14 +246,14 @@ const Checkout = () => {
       subtotal,
       shipping: effectiveShipping,
       total: finalTotal,
-      creditApplied: creditDiscount,
-      creditId: selectedCredit?.id || null,
+      creditApplied: 0,
+      creditId: null,
       referrerCode: referralCode || null,
       referrerProfileId: discountReferrerId || null,
       discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
       discountAmount,
       paymentMethod: effectivePaymentMethod,
-      pointsEarnedFallback: pointsEarned,
+      pointsEarnedFallback: 0,
       marketingConsent,
     };
   };
@@ -365,11 +285,8 @@ const Checkout = () => {
       resetCompliance();
       navigate("/order-confirmation", {
         state: {
-          pointsEarned: result.pointsEarned,
-          creditApplied: result.creditApplied,
           total: result.total,
           orderNumber: result.orderNumber,
-          referralCode: result.referralCode,
           paymentMethod: result.paymentMethod,
         },
       });
@@ -386,14 +303,8 @@ const Checkout = () => {
   };
 
 
-  const handleCoveredByCredits = () => {
-    void handleStripeSuccess(`credit-${Date.now()}`);
-  };
-
-  // Credits and discount codes stack — selecting a credit leaves any applied
-  // discount code intact (and vice-versa).
-  const handleSelectCredit = (credit: ActiveCredit | null) => {
-    setSelectedCredit(credit);
+  const handleCoveredInFull = () => {
+    void handleStripeSuccess(`comp-${Date.now()}`);
   };
 
   // Emergency manual-invoice fallback: submit an order request (no Stripe call,
@@ -623,25 +534,13 @@ const Checkout = () => {
                   </div>
                   {discountValid === true && (
                     <p className="text-xs text-primary mt-2 flex items-center gap-1">
-                      <Sparkles size={10} /> {Math.round(discountRate * 100)}% discount applied{promoFreeShipping ? " + FREE shipping" : ""}{selectedCredit ? " · stacks with your Vertex Credit" : ""} — you save {formatPrice(discountAmount + (promoFreeShipping && !qualifiesForFreeShipping ? FLAT_RATE_SHIPPING : 0))}
+                      <Sparkles size={10} /> {Math.round(discountRate * 100)}% discount applied{promoFreeShipping ? " + FREE shipping" : ""} — you save {formatPrice(discountAmount + (promoFreeShipping && !qualifiesForFreeShipping ? FLAT_RATE_SHIPPING : 0))}
                     </p>
                   )}
                   {discountValid === false && (
                     <p className="text-xs text-destructive mt-2">{discountMessage || "Invalid or expired code. Please try again."}</p>
                   )}
                 </div>
-
-                {/* Credit Redemption — works for logged-in users AND guests via email lookup */}
-                <CreditRedemption
-                  profileId={profile?.id}
-                  email={formData.email}
-                  cartTotal={total}
-                  pointsBalance={profile?.points_balance ?? 0}
-                  isAuthenticated={!!profile?.id}
-                  selectedCredit={selectedCredit}
-                  onSelectCredit={handleSelectCredit}
-                />
-
 
                 {/* Additional Notes */}
                 <div className="glass-card rounded-lg p-6">
@@ -695,18 +594,18 @@ const Checkout = () => {
                 ) : !showPayment ? (
                   <Button type="submit" variant="hero" size="xl" className="w-full" disabled={!isFormValid || isSubmitting}>
                     <CreditCard size={18} />
-                    {hasAutoship ? (isSubmitting ? "Redirecting…" : "Continue to Subscription Checkout") : (finalTotal === 0 ? "Complete Order" : "Continue to Payment")}
+                    {finalTotal === 0 ? "Complete Order" : "Continue to Payment"}
                   </Button>
                 ) : finalTotal === 0 ? (
                   <div id="stripe-payment-section" className="glass-card rounded-lg p-6 border-l-4 border-l-primary">
                     <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
                       <CheckCircle2 size={20} className="text-primary" />
-                      Covered by Vertex Credit
+                      No Payment Required
                     </h2>
                     <p className="text-xs text-muted-foreground mb-4">
-                      Your credit covers this order total. No card payment is required.
+                      This order total is $0.00. No card payment is required.
                     </p>
-                    <Button type="button" variant="hero" size="xl" className="w-full" disabled={isSubmitting} onClick={handleCoveredByCredits}>
+                    <Button type="button" variant="hero" size="xl" className="w-full" disabled={isSubmitting} onClick={handleCoveredInFull}>
                       <CheckCircle2 size={18} />
                       {isSubmitting ? "Submitting…" : "Submit Order"}
                     </Button>
@@ -767,16 +666,13 @@ const Checkout = () => {
 
                 <div className="space-y-3 mb-6">
                   {items.map((item) => (
-                    <div key={`${item.product.id}-${item.is3Pack ? "3" : "1"}-${item.isAutoship ? "a" : "o"}`} className="flex justify-between items-start py-2 border-b border-border/30 last:border-0">
+                    <div key={item.product.id} className="flex justify-between items-start py-2 border-b border-border/30 last:border-0">
                       <div className="flex-1">
                         <p className="text-sm font-medium text-foreground">
                           {item.product.name}
-                          {item.isAutoship && <span className="ml-1.5 text-[10px] text-primary font-medium">· Autoship</span>}
-                          {item.is3Pack && <span className="ml-1.5 text-[10px] text-primary font-medium">· 3-Pack</span>}
                         </p>
                         <p className="text-xs text-muted-foreground">
                           {item.product.size} × {item.quantity}
-                          {item.isAutoship && " · every 30d"}
                         </p>
                       </div>
                       <span className="text-sm font-medium text-foreground">{formatPrice(computeUnitPrice(item) * item.quantity)}</span>
@@ -809,31 +705,10 @@ const Checkout = () => {
                     </div>
                   )}
 
-                  {creditDiscount > 0 && (
-                    <div className="flex justify-between text-sm">
-                      <span className="text-primary flex items-center gap-1">
-                        <Sparkles size={12} />
-                        Vertex Credit
-                      </span>
-                      <span className="text-primary font-medium">-{formatPrice(creditDiscount)}</span>
-                    </div>
-                  )}
-
                   <div className="flex justify-between text-base pt-2 border-t border-border/30">
                     <span className="font-medium text-foreground">Total</span>
                     <span className="font-semibold text-foreground">{formatPrice(finalTotal)}</span>
                   </div>
-
-                  {/* Points preview — hidden in manual mode (points award on payment) */}
-                  {!MANUAL_INVOICE_MODE && (
-                    <div className="flex items-center justify-between text-xs pt-2 border-t border-border/30">
-                      <span className="text-muted-foreground flex items-center gap-1">
-                        <Sparkles size={10} className="text-primary" />
-                        Points you'll earn
-                      </span>
-                      <span className="text-primary font-medium">+{pointsEarned} pts</span>
-                    </div>
-                  )}
                 </div>
 
                 {/* Compliance Badge */}

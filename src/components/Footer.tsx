@@ -14,7 +14,6 @@ const companyLinks = [
 const supportLinks = [
   { label: "Shipping & Returns", to: "/shipping" },
   { label: "Track Order", to: "/track" },
-  { label: "Rewards", to: "/rewards" },
   { label: "Terms of Service", to: "/terms" },
   { label: "Privacy Policy", to: "/privacy" },
   { label: "Disclaimer", to: "/disclaimer" },

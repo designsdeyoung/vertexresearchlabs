@@ -24,11 +24,7 @@ import Footer from "@/components/Footer";
 import ComplianceBanner from "@/components/ComplianceBanner";
 import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
-import {
-  useInquiryCart,
-  AUTOSHIP_DISCOUNT,
-  THREE_PACK_DISCOUNT,
-} from "@/contexts/InquiryCartContext";
+import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { SITEWIDE_SALE } from "@/config/sale";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -132,16 +128,13 @@ export const makeBespokePage = (config: BespokeConfig): ComponentType<BespokePro
 
   const BespokePage = ({ product, seo }: BespokeProps) => {
     const navigate = useNavigate();
-    const { addItem, add3Pack, openCart } = useInquiryCart();
+    const { addItem, openCart } = useInquiryCart();
     const [qty, setQty] = useState(1);
 
     const { name, size, price, originalPrice, image, coa, references } = product;
 
     const salePrice = SITEWIDE_SALE.active ? price * (1 - SITEWIDE_SALE.discount) : price;
     const strikePrice = SITEWIDE_SALE.active ? price : originalPrice;
-    const subPrice = salePrice * (1 - AUTOSHIP_DISCOUNT);
-    const threePackUnit = salePrice * (1 - THREE_PACK_DISCOUNT);
-    const threePackTotal = threePackUnit * 3;
 
     const lowStock =
       !product.outOfStock &&
@@ -150,18 +143,8 @@ export const makeBespokePage = (config: BespokeConfig): ComponentType<BespokePro
       product.stock <= 5;
 
     const handleAdd = () => {
-      for (let i = 0; i < qty; i++) addItem(product, { isAutoship: false });
+      for (let i = 0; i < qty; i++) addItem(product);
       toast({ title: "Added to cart", description: `${name} ${size} × ${qty}` });
-      openCart();
-    };
-    const handle3Pack = () => {
-      add3Pack(product, { isAutoship: false });
-      toast({ title: "3-Pack added", description: `${name} × 3` });
-      openCart();
-    };
-    const handleSubscribe = () => {
-      addItem(product, { isAutoship: true });
-      toast({ title: "Subscription added", description: `${name} ships every 30 days.` });
       openCart();
     };
 
@@ -439,24 +422,6 @@ export const makeBespokePage = (config: BespokeConfig): ComponentType<BespokePro
                         >
                           <Plus size={18} />
                           Add to Cart
-                        </Button>
-                      </div>
-                      <div className="grid grid-cols-2 gap-3">
-                        <Button
-                          variant="outline"
-                          onClick={handle3Pack}
-                          className="h-11 justify-between border-primary/30 bg-primary/5 px-3 text-xs hover:bg-primary/10"
-                        >
-                          <span>3-Pack · Save 10%</span>
-                          <span className="font-mono text-primary">{formatPrice(threePackTotal)}</span>
-                        </Button>
-                        <Button
-                          variant="outline"
-                          onClick={handleSubscribe}
-                          className="h-11 justify-between border-border px-3 text-xs hover:border-primary/30"
-                        >
-                          <span>Subscribe · Save 10%</span>
-                          <span className="font-mono text-primary">{formatPrice(subPrice)}/mo</span>
                         </Button>
                       </div>
                     </div>

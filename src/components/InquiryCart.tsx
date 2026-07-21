@@ -1,24 +1,21 @@
 import { useNavigate } from "react-router-dom";
-import { useInquiryCart, computeUnitPrice, lineKey } from "@/contexts/InquiryCartContext";
+import { useInquiryCart, lineKey } from "@/contexts/InquiryCartContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, Trash2, FlaskConical, ShieldCheck, ArrowRight, Truck, Sparkles, Package, Droplet, Plus as PlusIcon, Repeat } from "lucide-react";
-import { FREE_SHIPPING_THRESHOLD, FLAT_RATE_SHIPPING, THREE_PACK_DISCOUNT } from "@/contexts/InquiryCartContext";
-import { calculatePointsForPrice } from "@/hooks/useRewards";
+import { Minus, Plus, Trash2, FlaskConical, ShieldCheck, ArrowRight, Truck, Droplet, Plus as PlusIcon } from "lucide-react";
+import { FREE_SHIPPING_THRESHOLD, FLAT_RATE_SHIPPING } from "@/contexts/InquiryCartContext";
 import { products } from "@/data/products";
 
 const InquiryCart = () => {
-  const { 
-    items, 
-    isOpen, 
-    closeCart, 
-    removeItem, 
-    updateQuantity, 
+  const {
+    items,
+    isOpen,
+    closeCart,
+    removeItem,
+    updateQuantity,
     clearCart,
     addItem,
-    add3Pack,
     subtotal,
-    shippingCost,
     total,
     qualifiesForFreeShipping,
     amountToFreeShipping
@@ -31,11 +28,6 @@ const InquiryCart = () => {
   const showBacUpsell = hasPeptide && !hasBacWater;
   const bacWater3ml = products.find(p => p.id === "bac-water-3ml");
   const bacWater10ml = products.find(p => p.id === "bac-water-10ml");
-
-  // 3-Pack upsell: items that are single (not 3-pack), not autoship, not diluent
-  const threePackCandidates = items.filter(
-    (i) => !i.is3Pack && !i.isAutoship && i.product.category !== "Diluent" && !i.product.outOfStock
-  );
 
   const handleProceedToAccess = () => {
     closeCart();
@@ -119,34 +111,11 @@ const InquiryCart = () => {
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-foreground truncate">
                       {item.product.name}
-                      {item.is3Pack && (
-                        <span className="ml-1.5 inline-flex items-center gap-1 text-[10px] text-primary font-medium">
-                          <Package size={10} /> 3-Pack
-                        </span>
-                      )}
-                      {item.isAutoship && (
-                        <span className="ml-1.5 inline-flex items-center gap-1 text-[10px] text-primary font-medium">
-                          <Repeat size={10} /> Autoship
-                        </span>
-                      )}
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {item.product.size}
-                      {item.isAutoship && (
-                        <span className="text-primary/70">
-                          {" "}• every {item.intervalDays ?? (item.is3Pack ? 90 : 30)} days
-                        </span>
-                      )}
                     </p>
-                    {item.is3Pack || item.isAutoship ? (
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-xs text-muted-foreground line-through">{formatPrice(item.product.price)}</span>
-                        <span className="text-sm font-medium text-primary">{formatPrice(computeUnitPrice(item))}</span>
-                        <span className="text-[10px] text-primary/70">ea</span>
-                      </div>
-                    ) : (
-                      <p className="text-sm font-medium text-primary">{formatPrice(item.product.price)}</p>
-                    )}
+                    <p className="text-sm font-medium text-primary">{formatPrice(item.product.price)}</p>
                   </div>
                   <div className="flex items-center gap-1 shrink-0">
                     <button
@@ -178,42 +147,6 @@ const InquiryCart = () => {
                 </div>
               ))}
             </div>
-
-            {/* 3-Pack Upsell */}
-            {threePackCandidates.length > 0 && (
-              <div className="mt-3 space-y-2">
-                {threePackCandidates.map((item) => {
-                  const single = item.product.price;
-                  const threePackTotal = single * 3 * (1 - THREE_PACK_DISCOUNT);
-                  const savings = single * 3 - threePackTotal;
-                  return (
-                    <div
-                      key={`3pack-upsell-${item.product.id}`}
-                      className="p-3 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/30"
-                    >
-                      <div className="flex items-start gap-2 mb-2">
-                        <Package size={16} className="text-primary mt-0.5 shrink-0" />
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-semibold text-foreground">
-                            Upgrade {item.product.name} to a 3-Pack
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            Save {formatPrice(savings)} ({Math.round(THREE_PACK_DISCOUNT * 100)}% off · {formatPrice(threePackTotal / 3)} ea)
-                          </p>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => add3Pack(item.product)}
-                        className="w-full flex items-center justify-center gap-1.5 p-2 rounded-md bg-primary/15 hover:bg-primary/25 border border-primary/40 hover:border-primary text-primary text-xs font-medium transition-all"
-                      >
-                        <PlusIcon size={14} />
-                        Add 3-Pack — {formatPrice(threePackTotal)}
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
 
             {/* BAC Water Upsell */}
             {showBacUpsell && bacWater3ml && bacWater10ml && (
@@ -252,16 +185,6 @@ const InquiryCart = () => {
             </div>
 
             <div className="pt-4 border-t border-border/50 space-y-3 mt-4 shrink-0">
-              {/* Points earned preview */}
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground flex items-center gap-1">
-                  <Sparkles size={12} className="text-primary" />
-                  Points you'll earn
-                </span>
-                <span className="text-primary font-medium">
-                  +{calculatePointsForPrice(subtotal)} pts
-                </span>
-              </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Subtotal</span>
                 <span className="text-foreground font-medium">{formatPrice(subtotal)}</span>

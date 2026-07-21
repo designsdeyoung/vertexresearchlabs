@@ -1,17 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle, ChevronDown, FlaskConical, Package } from "lucide-react";
-import { useInquiryCart, AUTOSHIP_DISCOUNT, THREE_PACK_DISCOUNT, THREE_PACK_AUTOSHIP_INTERVAL_DAYS } from "@/contexts/InquiryCartContext";
+import { AlertTriangle, FlaskConical } from "lucide-react";
+import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { SITEWIDE_SALE } from "@/config/sale";
 import type { Product } from "@/data/products";
 import { toast } from "@/hooks/use-toast";
 import { productGradient } from "@/lib/productVisuals";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 
 interface ProductCardProps {
   product: Product;
@@ -43,39 +38,19 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
     allVariants.find((v) => v.id === selectedId) ?? allVariants[0];
 
   const { name, subtitle, size, price, image, category } = selected;
-  const { addItem, add3Pack, openCart } = useInquiryCart();
-  const [subOpen, setSubOpen] = useState(false);
+  const { addItem, openCart } = useInquiryCart();
 
   const salePrice = SITEWIDE_SALE.active ? price * (1 - SITEWIDE_SALE.discount) : price;
-  const subPrice = salePrice * (1 - AUTOSHIP_DISCOUNT);
-  const threePackUnit = salePrice * (1 - THREE_PACK_DISCOUNT);
-  const threePackTotal = threePackUnit * 3;
   const savings = price - salePrice;
 
-  const handleAdd = (autoship: boolean) => {
-    addItem(selected, { isAutoship: autoship });
+  const handleAdd = () => {
+    addItem(selected);
     toast({
-      title: autoship ? "Subscription added" : "Added to cart",
+      title: "Added to cart",
       description: `${name} ${size}`,
     });
     openCart();
   };
-
-  const handle3Pack = () => {
-    add3Pack(selected, { isAutoship: false });
-    toast({ title: "3-Pack added", description: `${name} × 3` });
-    openCart();
-  };
-
-  const handle3PackSubscribe = () => {
-    add3Pack(selected, { isAutoship: true, intervalDays: THREE_PACK_AUTOSHIP_INTERVAL_DAYS });
-    toast({ title: "3-Pack subscription added", description: `${name} × 3 · every 90 days` });
-    openCart();
-  };
-
-  // 3-Pack on subscribe: 3-pack discount + autoship discount stacked
-  const threePackSubUnit = threePackUnit * (1 - AUTOSHIP_DISCOUNT);
-  const threePackSubTotal = threePackSubUnit * 3;
 
   return (
     <article className="group flex h-full flex-col rounded-card border border-navy/5 bg-white shadow-boutique transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-boutique-lift">
@@ -102,12 +77,9 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
           </div>
         )}
 
-        {/* Deal ribbon — bracket-accented, dispensary style */}
-        {!selected.outOfStock && (
-          <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-md bg-deal px-2 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-white shadow-boutique">
-            <span aria-hidden="true" className="text-white/70">[</span>
-            Deal · 3 for {formatPrice(threePackTotal)}
-            <span aria-hidden="true" className="text-white/70">]</span>
+        {selected.isNew && !selected.outOfStock && (
+          <span className="absolute left-3 top-3 rounded-md bg-tierblue px-2 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-white shadow-boutique">
+            New
           </span>
         )}
         {selected.outOfStock && (
@@ -201,80 +173,12 @@ const ProductCard = ({ product, variants }: ProductCardProps) => {
 
         {/* Add to cart */}
         <Button
-          onClick={() => handleAdd(false)}
+          onClick={handleAdd}
           disabled={selected.outOfStock}
           className="h-11 w-full rounded-full bg-navy text-[13px] font-semibold uppercase tracking-[0.1em] text-white transition-colors duration-200 hover:bg-navy-soft disabled:cursor-not-allowed disabled:opacity-50"
         >
           {selected.outOfStock ? "Out of Stock" : "Add to Cart"}
         </Button>
-
-        {/* 3-Pack quick add (hidden when out of stock) */}
-        {!selected.outOfStock && (
-          <Button
-            variant="outline"
-            onClick={handle3Pack}
-            className="h-10 w-full justify-between rounded-full border-navy/15 bg-cream/60 px-4 text-xs font-semibold text-navy hover:bg-cream hover:text-navy"
-          >
-            <span className="inline-flex items-center gap-1.5">
-              <Package size={13} className="text-deal" />
-              3-Pack — Save 10%
-            </span>
-            <span className="font-mono tabular-nums text-navy">{formatPrice(threePackTotal)}</span>
-          </Button>
-        )}
-
-        {/* Subscribe accordion (hidden when out of stock) */}
-        {!selected.outOfStock && (
-        <Collapsible open={subOpen} onOpenChange={setSubOpen}>
-          <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md py-1.5 text-xs text-navy/55 transition-colors hover:text-navy">
-            <span>Subscribe & save extra 10% (stacks with 3-Pack & sale)</span>
-            <ChevronDown
-              size={14}
-              className={`transition-transform ${subOpen ? "rotate-180" : ""}`}
-            />
-          </CollapsibleTrigger>
-          <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-            <div className="mt-2 space-y-2 rounded-xl border border-navy/10 bg-cream/60 p-3">
-              {/* 30-day single */}
-              <div className="space-y-2">
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-navy/50">Single · every 30 days</p>
-                <p className="text-xs text-navy/60">
-                  <span className="font-mono font-medium text-navy">{formatPrice(subPrice)}</span>{" "}
-                  / 30 days · Cancel anytime
-                </p>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => handleAdd(true)}
-                  className="h-9 w-full rounded-full border-navy/25 text-navy hover:bg-navy/5 hover:text-navy"
-                >
-                  Subscribe — {formatPrice(subPrice)}/mo
-                </Button>
-              </div>
-
-              {/* Divider */}
-              <div className="border-t border-navy/10" />
-
-              {/* 90-day 3-Pack */}
-              <div className="space-y-2">
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-deal">3-Pack · every 90 days</p>
-                <p className="text-xs text-navy/60">
-                  <span className="font-mono font-medium text-navy">{formatPrice(threePackSubTotal)}</span>{" "}
-                  / 90 days · {formatPrice(threePackSubUnit)} ea · Stacks 3-Pack 10% + Subscribe 10%
-                </p>
-                <Button
-                  size="sm"
-                  onClick={handle3PackSubscribe}
-                  className="h-9 w-full rounded-full bg-navy text-white hover:bg-navy-soft"
-                >
-                  <Package size={13} className="mr-1.5" />
-                  Subscribe 3-Pack — {formatPrice(threePackSubTotal)}/90d
-                </Button>
-              </div>
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
-        )}
       </div>
     </article>
   );

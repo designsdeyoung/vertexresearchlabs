@@ -9,23 +9,16 @@ import ComplianceBanner from "@/components/ComplianceBanner";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  useInquiryCart,
-  THREE_PACK_DISCOUNT,
-  AUTOSHIP_DISCOUNT,
-  THREE_PACK_AUTOSHIP_INTERVAL_DAYS,
-} from "@/contexts/InquiryCartContext";
+import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { SITEWIDE_SALE } from "@/config/sale";
 import { toast } from "@/hooks/use-toast";
 import {
   AlertTriangle,
   ArrowLeft,
-  ChevronDown,
   ExternalLink,
   FileText,
   FlaskConical,
   Mail,
-  Package,
   Plus,
 } from "lucide-react";
 import {
@@ -41,11 +34,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 
 const formatPrice = (p: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(p);
@@ -53,9 +41,8 @@ const formatPrice = (p: number) =>
 const ProductDetail = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
-  const { addItem, add3Pack, openCart } = useInquiryCart();
+  const { addItem, openCart } = useInquiryCart();
   const [qty, setQty] = useState(1);
-  const [subOpen, setSubOpen] = useState(false);
 
   const product = products.find((p) => p.id === productId);
   const seo = productId ? productSEO[productId] : undefined;
@@ -90,33 +77,10 @@ const ProductDetail = () => {
   const { name, subtitle, size, purity, image, category, coa, references, price } = product;
 
   const salePrice = SITEWIDE_SALE.active ? price * (1 - SITEWIDE_SALE.discount) : price;
-  const subPrice = salePrice * (1 - AUTOSHIP_DISCOUNT);
-  const threePackUnit = salePrice * (1 - THREE_PACK_DISCOUNT);
-  const threePackTotal = threePackUnit * 3;
-  const threePackSubUnit = threePackUnit * (1 - AUTOSHIP_DISCOUNT);
-  const threePackSubTotal = threePackSubUnit * 3;
 
   const handleAdd = () => {
-    for (let i = 0; i < qty; i++) addItem(product, { isAutoship: false });
+    for (let i = 0; i < qty; i++) addItem(product);
     toast({ title: "Added to cart", description: `${name} ${size} × ${qty}` });
-    openCart();
-  };
-
-  const handleSubscribe = () => {
-    addItem(product, { isAutoship: true });
-    toast({ title: "Subscription added", description: `${name} ships every 30 days.` });
-    openCart();
-  };
-
-  const handle3Pack = () => {
-    add3Pack(product, { isAutoship: false });
-    toast({ title: "3-Pack added", description: `${name} × 3` });
-    openCart();
-  };
-
-  const handle3PackSubscribe = () => {
-    add3Pack(product, { isAutoship: true, intervalDays: THREE_PACK_AUTOSHIP_INTERVAL_DAYS });
-    toast({ title: "3-Pack subscription added", description: `${name} × 3 · every 90 days` });
     openCart();
   };
 
@@ -336,74 +300,6 @@ const ProductDetail = () => {
                     Low stock — order soon
                   </p>
                 )}
-              {/* Subscribe */}
-              <Collapsible open={subOpen} onOpenChange={setSubOpen} className="mt-4">
-                <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground hover:border-primary/30">
-                  <span>Subscribe & save extra 10% (stacks with 3-Pack & sale)</span>
-                  <ChevronDown
-                    size={14}
-                    className={`transition-transform ${subOpen ? "rotate-180" : ""}`}
-                  />
-                </CollapsibleTrigger>
-                <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-                  <div className="mt-2 rounded-md border border-border bg-card p-4">
-                    <p className="text-sm text-muted-foreground">
-                      <span className="font-mono font-medium text-foreground">
-                        {formatPrice(subPrice)}
-                      </span>{" "}
-                      / 30 days · Cancel anytime · Extra 10% off even on 3-Packs
-                    </p>
-                    <Button
-                      variant="outline"
-                      onClick={handleSubscribe}
-                      className="mt-3 w-full border-primary/40 text-primary hover:bg-primary/10 hover:text-primary"
-                    >
-                      Subscribe — {formatPrice(subPrice)}/mo
-                    </Button>
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-
-              {/* 3-Pack */}
-              <div className="mt-3 flex items-center justify-between rounded-md border border-border bg-card px-4 py-3">
-                <div>
-                  <div className="flex items-center gap-2 text-sm text-foreground">
-                    <Package size={14} className="text-primary" />
-                    3-Pack — Save 10%
-                  </div>
-                  <p className="mt-0.5 font-mono text-xs text-muted-foreground">
-                    {formatPrice(threePackTotal)} ({formatPrice(threePackUnit)} each)
-                  </p>
-                </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handle3Pack}
-                  className="border-border"
-                >
-                  Add 3-Pack
-                </Button>
-              </div>
-
-              {/* 3-Pack Subscribe (90 days) */}
-              <div className="mt-3 flex items-center justify-between rounded-md border border-primary/30 bg-primary/5 px-4 py-3">
-                <div>
-                  <div className="flex items-center gap-2 text-sm text-foreground">
-                    <Package size={14} className="text-primary" />
-                    Subscribe 3-Pack — every 90 days
-                  </div>
-                  <p className="mt-0.5 font-mono text-xs text-muted-foreground">
-                    {formatPrice(threePackSubTotal)} / 90 days · {formatPrice(threePackSubUnit)} ea · 3-Pack 10% + Subscribe 10%
-                  </p>
-                </div>
-                <Button
-                  size="sm"
-                  onClick={handle3PackSubscribe}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90"
-                >
-                  Subscribe
-                </Button>
-              </div>
               </>
               )}
 

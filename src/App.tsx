@@ -29,7 +29,6 @@ import ChainOfCustody from "./pages/ChainOfCustody";
 import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
-import Rewards from "./pages/Rewards";
 import Learn from "./pages/Learn";
 import TrackOrder from "./pages/TrackOrder";
 import ArticlePage from "./pages/ArticlePage";
@@ -74,7 +73,6 @@ const App = () => (
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/reset-password" element={<ResetPassword />} />
                   <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/rewards" element={<Rewards />} />
                   <Route path="/learn" element={<Learn />} />
                   <Route path="/track" element={<TrackOrder />} />
                   <Route path="/learn/:slug" element={<ArticlePage />} />

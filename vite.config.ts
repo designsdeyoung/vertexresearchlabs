@@ -24,7 +24,6 @@ export default defineConfig(() => ({
         // homepage doesn't ship everything in one chunk.
         manualChunks: {
           "vendor-react": ["react", "react-dom", "react-router-dom"],
-          "vendor-three": ["three", "@react-three/fiber", "@react-three/drei"],
           "vendor-charts": ["recharts"],
           "vendor-motion": ["framer-motion"],
         },

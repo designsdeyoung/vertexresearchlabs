@@ -29,9 +29,9 @@ const InquiryCart = () => {
   const bacWater3ml = products.find(p => p.id === "bac-water-3ml");
   const bacWater10ml = products.find(p => p.id === "bac-water-10ml");
 
-  const handleProceedToAccess = () => {
+  const handleProceedToCheckout = () => {
     closeCart();
-    navigate("/research-access");
+    navigate("/checkout");
   };
 
   const formatPrice = (price: number) => {
@@ -84,14 +84,14 @@ const InquiryCart = () => {
               </div>
             </div>
 
-            {/* Research Access Notice */}
+            {/* Research-use reminder */}
             <div className="p-3 rounded-lg bg-primary/5 border border-primary/20 mt-3">
               <div className="flex items-center gap-2 mb-1">
                 <ShieldCheck size={16} className="text-primary" />
-                <span className="text-xs font-medium text-primary">Research Access Required</span>
+                <span className="text-xs font-medium text-primary">For laboratory research use only</span>
               </div>
               <p className="text-xs text-muted-foreground">
-                Complete compliance acknowledgment to proceed with your order.
+                Not for human or veterinary use.
               </p>
             </div>
 
@@ -201,9 +201,8 @@ const InquiryCart = () => {
                 <span className="font-medium text-foreground">Total</span>
                 <span className="font-semibold text-foreground text-lg">{formatPrice(total)}</span>
               </div>
-              <Button variant="hero" className="w-full" onClick={handleProceedToAccess}>
-                <ShieldCheck size={16} />
-                Proceed to Research Access
+              <Button variant="hero" className="w-full" onClick={handleProceedToCheckout}>
+                Proceed to Checkout
                 <ArrowRight size={16} />
               </Button>
               <Button variant="ghost" size="sm" className="w-full text-xs" onClick={clearCart}>

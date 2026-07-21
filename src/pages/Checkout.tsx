@@ -38,7 +38,7 @@ import { Link } from "react-router-dom";
 const Checkout = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { hasAcknowledged, eligibilityType, resetCompliance } = useCompliance();
+  const { hasAcknowledged, eligibilityType } = useCompliance();
   const { items, clearCart, subtotal, shippingCost, total, qualifiesForFreeShipping } = useInquiryCart();
   const { user, profile } = useAuth();
 
@@ -172,7 +172,7 @@ const Checkout = () => {
             <p className="text-muted-foreground mb-6">
               Please complete the research access acknowledgment before proceeding to checkout.
             </p>
-            <Button variant="hero" onClick={() => navigate("/research-access")}>
+            <Button variant="hero" onClick={() => navigate("/research-access?next=/checkout")}>
               Complete Research Access
             </Button>
           </div>
@@ -282,7 +282,6 @@ const Checkout = () => {
       });
 
       clearCart();
-      resetCompliance();
       navigate("/order-confirmation", {
         state: {
           total: result.total,
@@ -347,7 +346,6 @@ const Checkout = () => {
       }
 
       clearCart();
-      resetCompliance();
       navigate("/order-confirmation", {
         state: {
           manualInvoice: true,
@@ -385,9 +383,9 @@ const Checkout = () => {
 
       <main className="flex-1 pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-4xl">
-          <Button variant="ghost" size="sm" className="mb-8 -ml-2" onClick={() => navigate("/research-access")}>
+          <Button variant="ghost" size="sm" className="mb-8 -ml-2" onClick={() => navigate("/#products")}>
             <ArrowLeft size={16} />
-            Back to Research Access
+            Back to Catalog
           </Button>
 
           <div className="grid lg:grid-cols-3 gap-8">

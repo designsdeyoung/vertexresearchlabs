@@ -9,7 +9,7 @@ import { ComplianceProvider } from "@/contexts/ComplianceContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import InquiryCart from "@/components/InquiryCart";
 import ScrollToTop from "@/components/ScrollToTop";
-import ResearchDisclaimerDialog from "@/components/ResearchDisclaimerDialog";
+import RequireResearchAccess from "@/components/RequireResearchAccess";
 import ReferralCapture from "@/components/ReferralCapture";
 import ChatWidget from "@/components/ChatWidget";
 import Index from "./pages/Index";
@@ -48,15 +48,28 @@ const App = () => (
             <InquiryCartProvider>
               <Toaster />
               <Sonner />
-              <ResearchDisclaimerDialog />
                 <BrowserRouter>
                 <ScrollToTop />
                 <ReferralCapture />
                 <InquiryCart />
                 <ChatWidget />
                 <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/product/:productId" element={<ProductDetail />} />
+                  <Route
+                    path="/"
+                    element={
+                      <RequireResearchAccess>
+                        <Index />
+                      </RequireResearchAccess>
+                    }
+                  />
+                  <Route
+                    path="/product/:productId"
+                    element={
+                      <RequireResearchAccess>
+                        <ProductDetail />
+                      </RequireResearchAccess>
+                    }
+                  />
                   <Route path="/research-access" element={<ResearchAccess />} />
                   <Route path="/checkout" element={<Checkout />} />
                   <Route path="/order-confirmation" element={<OrderConfirmation />} />

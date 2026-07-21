@@ -6,17 +6,13 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { motion } from "framer-motion";
-import { CountUp } from "@/components/checkout/CountUp";
 import { finalizeOrder, PENDING_ORDER_KEY, type FinalizeResult, type PendingOrder } from "@/lib/finalizeOrder";
 
-import ShareAndEarn from "@/components/checkout/ShareAndEarn";
 import {
   CheckCircle2,
   Mail,
   FileText,
   Home,
-  Sparkles,
-  ArrowRight,
   Phone,
   ShieldCheck,
   Loader2,
@@ -30,7 +26,7 @@ const OrderConfirmation = () => {
   const { user } = useAuth();
   const { clearCart } = useInquiryCart();
 
-  const state = location.state as { pointsEarned?: number; creditApplied?: number; total?: number; orderNumber?: string; referralCode?: string; paymentMethod?: string } | null;
+  const state = location.state as { total?: number; orderNumber?: string; paymentMethod?: string } | null;
 
   const [finalizedResult, setFinalizedResult] = useState<FinalizeResult | null>(null);
   const [finalizing, setFinalizing] = useState(false);
@@ -66,10 +62,7 @@ const OrderConfirmation = () => {
   }, [searchParams, clearCart]);
 
   const displayed = finalizedResult ?? state ?? {};
-  const pointsEarned = (displayed as { pointsEarned?: number }).pointsEarned || 0;
-  const creditApplied = (displayed as { creditApplied?: number }).creditApplied || 0;
   const orderNumber = (displayed as { orderNumber?: string | null }).orderNumber || null;
-  const referralCode = (displayed as { referralCode?: string | null }).referralCode || null;
   const totalAmount = (displayed as { total?: number }).total;
   const isManualInvoice = (state as { manualInvoice?: boolean } | null)?.manualInvoice === true;
   const payment = (state as { payment?: { amount?: number; memo?: string; note?: string; methods?: { id: string; label: string; emoji: string; to: string }[] } } | null)?.payment ?? null;
@@ -140,7 +133,7 @@ const OrderConfirmation = () => {
               <ol className="text-sm text-muted-foreground space-y-2 list-decimal list-inside">
                 <li>Send your payment using any option above</li>
                 <li>We confirm payment (usually same day)</li>
-                <li>Your order ships within 1 business day and points are credited</li>
+                <li>Your order ships within 1 business day</li>
               </ol>
             </div>
 
@@ -244,71 +237,24 @@ const OrderConfirmation = () => {
             </motion.div>
           ) : null}
 
-          {/* Rewards Earned Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="glass-card rounded-xl p-6 mb-6 border-primary/20 relative overflow-hidden"
-          >
-            <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/5 rounded-full blur-2xl" />
-            <div className="relative">
-              <div className="flex items-center gap-2 mb-3">
-                <Sparkles size={20} className="text-primary" />
-                <h2 className="text-lg font-medium text-foreground">Vertex Rewards</h2>
+          {/* Account activation (guest checkout) */}
+          {!user && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="glass-card rounded-xl p-6 mb-6 border-primary/20"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <ShieldCheck size={18} className="text-primary" />
+                <p className="text-sm text-foreground font-semibold">Activate Your Account</p>
               </div>
-
-              {pointsEarned > 0 && (
-                <div className="flex items-center gap-3 mb-4 p-3 rounded-lg bg-primary/10 border border-primary/20">
-                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Sparkles size={20} className="text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-primary">
-                      +<CountUp end={pointsEarned} duration={1.5} /> pts
-                    </p>
-                    <p className="text-xs text-muted-foreground">earned on this order</p>
-                  </div>
-                </div>
-              )}
-
-              {!pointsEarned && (
-                <p className="text-sm text-muted-foreground mb-4">
-                  Points will be added to your account once your order is confirmed.
-                  Earn <span className="text-primary font-medium">3 points per $1</span> on every order.
-                </p>
-              )}
-
-              {!user && (
-                <div className="p-4 rounded-lg bg-primary/10 border-2 border-primary/30">
-                  <div className="flex items-center gap-2 mb-2">
-                    <ShieldCheck size={18} className="text-primary" />
-                    <p className="text-sm text-foreground font-semibold">
-                      Activate Your Account
-                    </p>
-                  </div>
-                  <p className="text-sm text-muted-foreground mb-1">
-                    Check your email for a magic link — one click to claim your points and unlock your rewards dashboard.
-                  </p>
-                  <p className="text-xs text-primary font-medium">
-                    Activate to track your referral earnings and redeem rewards.
-                  </p>
-                </div>
-              )}
-
-              {user && (
-                <Button variant="hero" size="sm" asChild>
-                  <Link to="/dashboard">
-                    <Sparkles size={14} />
-                    View Your Dashboard
-                  </Link>
-                </Button>
-              )}
-            </div>
-          </motion.div>
-
-          {/* Share & Earn Section */}
-          {referralCode && <ShareAndEarn referralCode={referralCode} />}
+              <p className="text-sm text-muted-foreground">
+                Check your email for a magic link — one click to activate your account and track
+                your order history.
+              </p>
+            </motion.div>
+          )}
 
           {/* What's Next */}
           <motion.div
@@ -394,14 +340,6 @@ const OrderConfirmation = () => {
               <Home size={18} />
               Return to Home
             </Button>
-            {!user && (
-              <Button variant="heroOutline" size="lg" asChild>
-                <Link to="/dashboard">
-                  <Sparkles size={16} />
-                  View Rewards
-                </Link>
-              </Button>
-            )}
             {user && (
               <Button variant="heroOutline" size="lg" asChild>
                 <Link to="/dashboard">

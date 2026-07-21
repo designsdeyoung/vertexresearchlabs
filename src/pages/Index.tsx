@@ -6,10 +6,8 @@ import TrustBar from "@/components/TrustBar";
 import FeaturedPeptides from "@/components/FeaturedPeptides";
 import CategoryCards from "@/components/CategoryCards";
 import ProductCatalog from "@/components/ProductCatalog";
-import RewardsShowcase from "@/components/rewards/RewardsShowcase";
 import QualityTransparency from "@/components/QualityTransparency";
 import WhyVertex from "@/components/WhyVertex";
-import NewsletterSection from "@/components/NewsletterSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
@@ -54,13 +52,11 @@ const Index = () => {
         <Hero />
         <TrustBar />
         <CategoryCards />
-        {/* Light commerce canvas — featured rail, rewards banner, catalog */}
+        {/* Featured rail + full catalog */}
         <FeaturedPeptides />
-        <RewardsShowcase />
         <ProductCatalog />
         <QualityTransparency />
         <WhyVertex />
-        <NewsletterSection />
         <ContactSection />
       </main>
       <Footer />

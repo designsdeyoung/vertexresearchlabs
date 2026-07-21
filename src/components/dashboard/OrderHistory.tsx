@@ -1,4 +1,4 @@
-import { Package, Sparkles } from "lucide-react";
+import { Package } from "lucide-react";
 
 interface Order {
   id: string;
@@ -6,7 +6,6 @@ interface Order {
   items: any;
   subtotal: number;
   total: number;
-  points_earned: number;
   status: string;
   created_at: string;
 }
@@ -64,12 +63,6 @@ const OrderHistory = ({ orders }: OrderHistoryProps) => {
                 <span className="text-sm font-medium text-foreground">
                   {formatPrice(order.total)}
                 </span>
-                {order.points_earned > 0 && (
-                  <span className="text-xs text-primary flex items-center gap-1">
-                    <Sparkles size={10} />
-                    +{order.points_earned} pts
-                  </span>
-                )}
               </div>
               <p className="text-[10px] text-muted-foreground mt-1">
                 {new Date(order.created_at).toLocaleDateString()}

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, User, Sparkles, Search, ArrowRight } from "lucide-react";
+import { Menu, X, User, Search, ArrowRight } from "lucide-react";
 import logo from "@/assets/logo.png";
 import CartButton from "./CartButton";
 import AnnouncementBar from "./AnnouncementBar";
@@ -147,7 +147,7 @@ const SearchBox = ({ onNavigate }: { onNavigate?: () => void }) => {
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const { user, profile } = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -205,29 +205,16 @@ const Header = () => {
           {/* Right cluster */}
           <div className="hidden items-center gap-2 md:flex">
             <SearchBox />
-            {user ? (
-              <Link
-                to="/dashboard"
-                aria-label="Account dashboard"
-                className="flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 transition-colors hover:bg-primary/20"
-              >
-                <Sparkles size={12} className="text-primary" />
-                <span className="font-mono text-[11px] font-medium text-primary">
-                  {profile?.points_balance?.toLocaleString() ?? 0}
-                </span>
+            <Button
+              variant="ghost"
+              size="icon"
+              asChild
+              className="rounded-full text-muted-foreground hover:text-foreground"
+            >
+              <Link to={user ? "/dashboard" : "/auth"} aria-label={user ? "My account" : "Sign in"}>
+                <User size={16} />
               </Link>
-            ) : (
-              <Button
-                variant="ghost"
-                size="icon"
-                asChild
-                className="rounded-full text-muted-foreground hover:text-foreground"
-              >
-                <Link to="/auth" aria-label="Sign in">
-                  <User size={16} />
-                </Link>
-              </Button>
-            )}
+            </Button>
             <CartButton />
           </div>
 
@@ -274,25 +261,12 @@ const Header = () => {
                 )
               )}
               <div className="mt-3 flex items-center gap-2">
-                {user ? (
-                  <Link
-                    to="/dashboard"
-                    className="flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5"
-                    onClick={() => setOpen(false)}
-                  >
-                    <Sparkles size={12} className="text-primary" />
-                    <span className="font-mono text-[11px] text-primary">
-                      {profile?.points_balance?.toLocaleString() ?? 0}
-                    </span>
+                <Button variant="ghost" size="sm" asChild>
+                  <Link to={user ? "/dashboard" : "/auth"} onClick={() => setOpen(false)}>
+                    <User size={14} />
+                    {user ? "My Account" : "Sign In"}
                   </Link>
-                ) : (
-                  <Button variant="ghost" size="sm" asChild>
-                    <Link to="/auth" onClick={() => setOpen(false)}>
-                      <User size={14} />
-                      Sign In
-                    </Link>
-                  </Button>
-                )}
+                </Button>
               </div>
             </nav>
           </div>

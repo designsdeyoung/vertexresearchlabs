@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from "react";
 
 export type EligibilityType = "individual" | "laboratory" | "organization" | null;
 
@@ -12,6 +12,26 @@ interface ComplianceState {
     termsAccepted: boolean;
   };
 }
+
+// Persist the research-access acknowledgment per device so the gate is a
+// one-time step. Bump the version suffix to force re-acknowledgment after
+// material changes to the terms.
+const STORAGE_KEY = "vrl_research_access_v1";
+
+const loadPersisted = (): ComplianceState | null => {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as ComplianceState & { acknowledgedAt: string | null };
+    if (!parsed?.hasAcknowledged) return null;
+    return {
+      ...parsed,
+      acknowledgedAt: parsed.acknowledgedAt ? new Date(parsed.acknowledgedAt) : null,
+    };
+  } catch {
+    return null;
+  }
+};
 
 interface ComplianceContextType extends ComplianceState {
   setAcknowledgments: (acks: ComplianceState["acknowledgments"]) => void;
@@ -35,7 +55,20 @@ const initialState: ComplianceState = {
 const ComplianceContext = createContext<ComplianceContextType | undefined>(undefined);
 
 export const ComplianceProvider = ({ children }: { children: ReactNode }) => {
-  const [state, setState] = useState<ComplianceState>(initialState);
+  const [state, setState] = useState<ComplianceState>(() => loadPersisted() ?? initialState);
+
+  // Persist acknowledgment so the gate stays satisfied across reloads/visits.
+  useEffect(() => {
+    try {
+      if (state.hasAcknowledged) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } else {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    } catch {
+      /* storage unavailable — fall back to in-memory only */
+    }
+  }, [state]);
 
   const setAcknowledgments = useCallback((acks: ComplianceState["acknowledgments"]) => {
     setState(prev => ({

@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";
-import { Mail, ArrowRight, Sparkles, Shield, Zap, Lock } from "lucide-react";
+import { Mail, ArrowRight, Package, Shield, Zap, Lock } from "lucide-react";
 import logoFull from "@/assets/logo-full.png";
 
 const Auth = () => {
@@ -114,7 +114,7 @@ const Auth = () => {
               <div className="text-center mb-8">
                 <img src={logoFull} alt="Vertex Research Labs" className="h-16 w-auto mx-auto mb-6" />
                 <h1 className="text-2xl font-semibold text-foreground mb-2">Welcome to Vertex</h1>
-                <p className="text-muted-foreground">Access your rewards dashboard</p>
+                <p className="text-muted-foreground">Access your account</p>
               </div>
 
               <Tabs defaultValue="signin" className="w-full">
@@ -243,13 +243,13 @@ const Auth = () => {
               {/* Benefits */}
               <div className="mt-10 space-y-3">
                 <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider text-center mb-4">
-                  Vertex Rewards Benefits
+                  Your Account
                 </p>
                 {[
-                  { icon: Sparkles, text: "Earn 3x points on every dollar spent" },
-                  { icon: Zap, text: "Unlock credits up to $40 off your order" },
-                  { icon: Shield, text: "Refer friends & earn bonus rewards" },
-                  { icon: Lock, text: "Set a password so your points are always one click away" },
+                  { icon: Package, text: "Review your full order history" },
+                  { icon: Zap, text: "Track shipments and order status" },
+                  { icon: Shield, text: "Faster checkout with saved details" },
+                  { icon: Lock, text: "Secure sign-in with password or magic link" },
                 ].map(({ icon: Icon, text }, i) => (
                   <div
                     key={i}

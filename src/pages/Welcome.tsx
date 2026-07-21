@@ -18,9 +18,9 @@ const Welcome = () => {
   const [loading, setLoading] = useState(false);
   const [autoSent, setAutoSent] = useState(false);
 
-  // If already logged in, go straight to rewards
+  // If already logged in, go straight to the account dashboard
   useEffect(() => {
-    if (user) navigate("/rewards");
+    if (user) navigate("/dashboard");
   }, [user, navigate]);
 
   // Auto-send magic link if email came from QR code
@@ -37,7 +37,7 @@ const Welcome = () => {
     setLoading(true);
     const { error } = await supabase.auth.signInWithOtp({
       email: emailAddr.trim(),
-      options: { emailRedirectTo: `${window.location.origin}/rewards` },
+      options: { emailRedirectTo: `${window.location.origin}/dashboard` },
     });
     if (!error) setSent(true);
     setLoading(false);
@@ -65,20 +65,20 @@ const Welcome = () => {
                 We sent a sign-in link to <span className="text-foreground font-medium">{email || searchParams.get("email")}</span>.
               </p>
               <p className="text-sm text-muted-foreground mb-8">
-                Click the link in your email and you'll land straight on your rewards dashboard — no password needed.
+                Click the link in your email and you'll land straight on your account — no password needed.
               </p>
               <div className="glass-card rounded-xl p-5 text-left space-y-3">
                 <div className="flex items-center gap-3">
-                  <Sparkles size={16} className="text-primary flex-shrink-0" />
-                  <span className="text-sm text-muted-foreground">View your points balance</span>
+                  <CheckCircle2 size={16} className="text-primary flex-shrink-0" />
+                  <span className="text-sm text-muted-foreground">Review your order history</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Sparkles size={16} className="text-primary flex-shrink-0" />
-                  <span className="text-sm text-muted-foreground">Redeem credits on your next order</span>
+                  <CheckCircle2 size={16} className="text-primary flex-shrink-0" />
+                  <span className="text-sm text-muted-foreground">Track shipments and status</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Sparkles size={16} className="text-primary flex-shrink-0" />
-                  <span className="text-sm text-muted-foreground">Refer friends & earn bonus rewards</span>
+                  <CheckCircle2 size={16} className="text-primary flex-shrink-0" />
+                  <span className="text-sm text-muted-foreground">Reorder in one tap</span>
                 </div>
               </div>
             </>
@@ -89,7 +89,7 @@ const Welcome = () => {
               </div>
               <h1 className="text-2xl font-semibold text-foreground mb-2">Welcome back</h1>
               <p className="text-muted-foreground mb-8">
-                {loading ? "Sending your sign-in link..." : "Enter your email and we'll send you a one-tap sign-in link straight to your rewards."}
+                {loading ? "Sending your sign-in link..." : "Enter your email and we'll send you a one-tap sign-in link to your account."}
               </p>
               {!loading && (
                 <form onSubmit={handleSubmit} className="space-y-3">

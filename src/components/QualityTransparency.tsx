@@ -36,7 +36,7 @@ const features = [
 
 const coas = [
   { name: "GHK-Cu", size: "50mg", image: ghkCuCoa, productId: "ghk-cu" },
-  { name: "Retatrutide", size: "10mg", image: retatrutideCoa, productId: "retatrutide" },
+  { name: "RP-300", size: "10mg", image: retatrutideCoa, productId: "retatrutide" },
 ];
 
 const QualityTransparency = () => {

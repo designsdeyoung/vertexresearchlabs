@@ -185,7 +185,7 @@ export const products: Product[] = [
   },
   {
     id: "retatrutide",
-    name: "Retatrutide",
+    name: "RP-300",
     subtitle: "Research Grade",
     size: "10mg",
     price: 98,
@@ -218,7 +218,7 @@ export const products: Product[] = [
   },
   {
     id: "tirzepatide",
-    name: "Tirzepatide",
+    name: "RP-200",
     subtitle: "Research Grade",
     size: "10mg",
     price: 85,
@@ -520,7 +520,7 @@ export const products: Product[] = [
   },
   {
     id: "wolverine-blend",
-    name: "Wolverine Blend",
+    name: "BPC-157/TB-500",
     subtitle: "Research Grade",
     size: "10mg",
     price: 55,

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate, Navigate, Link } from "react-router-dom";
-import { products, DISCONTINUED_PRODUCT_IDS, type Product } from "@/data/products";
+import { products, DISCONTINUED_PRODUCT_IDS, SLUG_REDIRECTS, type Product } from "@/data/products";
 import { productSEO } from "@/data/productSEO";
 import { storageGuidance } from "@/lib/storageGuidance";
 import SEOHead from "@/components/SEOHead";
@@ -75,6 +75,11 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { addItem, openCart } = useInquiryCart();
   const [qty, setQty] = useState(1);
+
+  // Renamed products: permanently redirect old slugs to the new one.
+  if (productId && SLUG_REDIRECTS[productId]) {
+    return <Navigate to={`/product/${SLUG_REDIRECTS[productId]}`} replace />;
+  }
 
   // Discontinued products: redirect old URLs to the catalog (no dead pages).
   if (productId && DISCONTINUED_PRODUCT_IDS.has(productId)) {

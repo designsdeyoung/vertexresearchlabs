@@ -35,7 +35,7 @@ const Dashboard = () => {
     }
   }, [user, loading, navigate]);
 
-  // Pre-fill cart from a shared/emailed link, e.g. /dashboard?add=tirzepatide&qty=2
+  // Pre-fill cart from a shared/emailed link, e.g. /dashboard?add=rp-200&qty=2
   useEffect(() => {
     if (prefilledCart.current) return;
     const addId = searchParams.get("add");

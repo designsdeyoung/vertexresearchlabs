@@ -19,7 +19,7 @@ const Learn = () => {
     "@type": "CollectionPage",
     name: "Research Learning Center — Vertex Research Labs",
     description:
-      "Peer-reviewed research overviews and laboratory guides for research peptides including BPC-157, GHK-Cu, Retatrutide, MOTS-c, and more.",
+      "Peer-reviewed research overviews and laboratory guides for research peptides including BPC-157, GHK-Cu, MOTS-c, and more.",
     url: "https://vertexresearchlabs.com/learn",
     publisher: {
       "@type": "Organization",
@@ -39,14 +39,13 @@ const Learn = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <SEOHead
         title="Research Learning Center | Peptide Science Guides & Overviews"
-        description="In-depth research overviews and laboratory guides for BPC-157, GHK-Cu, Retatrutide, MOTS-c, Epithalon, and more. Peer-referenced, compliant, research-use context only."
+        description="In-depth research overviews and laboratory guides for BPC-157, GHK-Cu, MOTS-c, and more. Peer-referenced, compliant, research-use context only."
         canonical="/learn"
         ogType="website"
         keywords={[
           "research peptide guides",
           "BPC-157 research overview",
           "GHK-Cu guide",
-          "Retatrutide research",
           "MOTS-c peptide science",
           "how to read peptide COA",
           "research grade peptides explained",

@@ -42,8 +42,8 @@ const ProductCatalog = () => {
   // Products not listed fall to the bottom in their original order.
   const salesRank: string[] = [
     // Featured merchandising order (top of catalog)
-    "retatrutide",
-    "tirzepatide",
+    "rp-300",
+    "rp-200",
     "wolverine-blend",
     "klow",
     "ghk-cu",

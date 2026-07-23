@@ -3,9 +3,8 @@ import ghkCu100Image from "@/assets/products/ghk-cu-100.png";
 
 // Import COA images
 import ghkCuCoa from "@/assets/coa/ghk-cu-coa.jpg";
-import retatrutideCoa from "@/assets/coa/retatrutide-coa.jpg";
-import retatrutideImage from "@/assets/products/retatrutide.png";
-import tirzepatideImage from "@/assets/products/tirzepatide.png";
+import rp300Image from "@/assets/products/rp-300.png";
+import rp200Image from "@/assets/products/rp-200.png";
 import ghkCuImage from "@/assets/products/ghk-cu.png";
 import semaxImage from "@/assets/products/semax.png";
 import selankImage from "@/assets/products/selank.png";
@@ -67,6 +66,13 @@ export const DISCONTINUED_PRODUCT_IDS = new Set<string>([
   "pt-141",
   "epithalon",
 ]);
+
+/** Old product slugs that have been renamed. Their old /product/:id URLs
+ *  permanently redirect to the new slug so inbound links keep working. */
+export const SLUG_REDIRECTS: Record<string, string> = {
+  tirzepatide: "rp-200",
+  retatrutide: "rp-300",
+};
 
 export const products: Product[] = [
   {
@@ -184,7 +190,7 @@ export const products: Product[] = [
     ]
   },
   {
-    id: "retatrutide",
+    id: "rp-300",
     name: "RP-300",
     subtitle: "Research Grade",
     size: "10mg",
@@ -195,29 +201,12 @@ export const products: Product[] = [
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
-    image: retatrutideImage,
+    image: rp300Image,
     category: "Peptide",
-    coa: retatrutideCoa,
     stock: 22,
-    references: [
-      {
-        authors: "Jastreboff AM et al.",
-        journal: "New England Journal of Medicine",
-        year: 2023,
-        title: "Triple-Hormone-Receptor Agonist Retatrutide for Obesity",
-        url: "https://pubmed.ncbi.nlm.nih.gov/37366315/"
-      },
-      {
-        authors: "Jastreboff AM et al.",
-        journal: "New England Journal of Medicine",
-        year: 2023,
-        title: "Retatrutide Phase 2 Trial",
-        url: "https://www.nejm.org/doi/full/10.1056/NEJMoa2301972"
-      }
-    ]
   },
   {
-    id: "tirzepatide",
+    id: "rp-200",
     name: "RP-200",
     subtitle: "Research Grade",
     size: "10mg",
@@ -228,25 +217,9 @@ export const products: Product[] = [
     documentation: "Certificate of Analysis available upon request",
     intendedUse: "Laboratory research use only.",
     disclaimer: "Not for human consumption or veterinary use.",
-    image: tirzepatideImage,
+    image: rp200Image,
     category: "Peptide",
     isNew: true,
-    references: [
-      {
-        authors: "Jastreboff AM et al.",
-        journal: "New England Journal of Medicine",
-        year: 2022,
-        title: "Tirzepatide Once Weekly for the Treatment of Obesity (SURMOUNT-1)",
-        url: "https://pubmed.ncbi.nlm.nih.gov/35658024/"
-      },
-      {
-        authors: "Frías JP et al.",
-        journal: "New England Journal of Medicine",
-        year: 2021,
-        title: "Tirzepatide versus Semaglutide Once Weekly in Type 2 Diabetes (SURPASS-2)",
-        url: "https://pubmed.ncbi.nlm.nih.gov/34170647/"
-      }
-    ]
   },
   {
     id: "igf1-lr3",

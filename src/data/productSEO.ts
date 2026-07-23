@@ -99,58 +99,6 @@ export const productSEO: Record<string, ProductSEOData> = {
     relatedProducts: ["ghk-cu", "bpc-157", "epithalon"],
   },
 
-  "retatrutide": {
-    metaTitle: "Retatrutide 10mg | ≥99% Purity Triple Agonist Research Peptide",
-    metaDescription:
-      "Buy Retatrutide 10mg research peptide. ≥99% purity, HPLC verified. GLP-1/GIP/glucagon triple receptor agonist reference material for laboratory research.",
-    keywords: [
-      "retatrutide",
-      "buy retatrutide",
-      "retatrutide research peptide",
-      "retatrutide 10mg",
-      "retatrutide for sale",
-      "triple agonist peptide",
-      "GLP-1 GIP glucagon agonist research",
-      "retatrutide purity",
-      "retatrutide COA",
-      "LY3437943 research peptide",
-      "best retatrutide",
-      "retatrutide research grade",
-      "GLP-1 peptide research",
-      "trending research peptides 2024",
-    ],
-    researchSummary:
-      "Retatrutide (LY3437943) is a triple hormone receptor agonist targeting GLP-1, GIP, and glucagon receptors. Phase 2 clinical trial data published in the New England Journal of Medicine (2023) examined its metabolic effects in research settings. It represents one of the most actively studied peptide structures in current preclinical and clinical metabolic research.",
-    faqs: [
-      {
-        question: "What is Retatrutide?",
-        answer:
-          "Retatrutide (LY3437943) is a synthetic peptide that acts as a triple agonist at GLP-1, GIP, and glucagon receptors. It is an active subject of metabolic research and has been studied in Phase 2 clinical trials. Vertex Research Labs supplies it as a reference material for laboratory use only.",
-      },
-      {
-        question: "What purity is your Retatrutide?",
-        answer:
-          "Our Retatrutide is independently verified at ≥99% purity by HPLC analysis. Certificates of Analysis are available on request where applicable.",
-      },
-      {
-        question: "How does Retatrutide differ from Semaglutide or Tirzepatide?",
-        answer:
-          "From a structural research perspective, Retatrutide is distinct in that it agonizes three receptors (GLP-1, GIP, and glucagon), whereas Semaglutide targets GLP-1 only and Tirzepatide targets GLP-1 and GIP. These differences make Retatrutide a unique research tool for studying multi-receptor metabolic signaling.",
-      },
-      {
-        question: "Is Retatrutide FDA-approved?",
-        answer:
-          "As of the current date, Retatrutide is an investigational compound and is not FDA-approved for any use. Vertex Research Labs supplies it exclusively as a laboratory reference material, not for human or veterinary use.",
-      },
-      {
-        question: "What research has been published on Retatrutide?",
-        answer:
-          "Phase 2 trial findings were published in the New England Journal of Medicine (Jastreboff AM et al., 2023), examining its metabolic receptor activity profile. This is among the most cited recent peptide research publications.",
-      },
-    ],
-    relatedProducts: ["bpc-157", "tesamorelin", "mots-c"],
-  },
-
   "klow": {
     metaTitle: "KLOW 80mg Blend | GHK-Cu BPC-157 TB-500 KPV | ≥99% Purity",
     metaDescription:

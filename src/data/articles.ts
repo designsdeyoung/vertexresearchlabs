@@ -224,107 +224,6 @@ export const articles: Article[] = [
   },
 
   {
-    slug: "retatrutide-triple-agonist-research",
-    title: "Retatrutide: The Triple Agonist Peptide Researchers Are Watching",
-    metaTitle: "Retatrutide Research Overview: GLP-1/GIP/Glucagon Triple Agonist | Vertex Research Labs",
-    metaDescription:
-      "Research overview of Retatrutide (LY3437943), the GLP-1, GIP, and glucagon triple receptor agonist peptide. Covers structure, Phase 2 trial data, and comparisons with Semaglutide and Tirzepatide.",
-    keywords: [
-      "Retatrutide research",
-      "Retatrutide LY3437943",
-      "triple agonist peptide research",
-      "GLP-1 GIP glucagon agonist",
-      "Retatrutide vs Semaglutide",
-      "Retatrutide vs Tirzepatide",
-      "Retatrutide Phase 2 trial",
-      "GLP-1 peptide research 2024 2025",
-      "incretin peptide research",
-      "trending peptide research",
-    ],
-    publishedDate: "2025-02-01",
-    modifiedDate: "2025-04-01",
-    category: "Research Overview",
-    readTime: 8,
-    excerpt:
-      "Retatrutide (LY3437943) is a synthetic peptide that simultaneously agonizes GLP-1, GIP, and glucagon receptors. Phase 2 trial data published in the New England Journal of Medicine has made it one of the most discussed peptides in metabolic research. This overview covers its structure, receptor pharmacology, and published clinical data.",
-    sections: [
-      {
-        heading: "What Is Retatrutide?",
-        content:
-          "Retatrutide (INN: retatrutide; Eli Lilly code: LY3437943) is a synthetic acylated peptide designed as a triple agonist at three key metabolic hormone receptors: the glucagon-like peptide-1 receptor (GLP-1R), the glucose-dependent insulinotropic polypeptide receptor (GIPR), and the glucagon receptor (GCGR). This triple-receptor pharmacology distinguishes it structurally from all currently approved GLP-1 class drugs and makes it a significant research subject in metabolic science.",
-      },
-      {
-        heading: "Receptor Pharmacology",
-        content:
-          "Understanding Retatrutide's receptor targets requires context on the incretin hormone system. GLP-1R and GIPR are both incretin receptors involved in insulin secretion regulation, while GCGR mediates glucagon signaling. Retatrutide's triple agonism creates a distinct pharmacological profile that researchers are using to study the interaction between these three receptor pathways in metabolic regulation.",
-        list: [
-          "GLP-1R (Glucagon-like Peptide-1 Receptor) — incretin signaling",
-          "GIPR (Glucose-dependent Insulinotropic Polypeptide Receptor) — incretin signaling",
-          "GCGR (Glucagon Receptor) — counterregulatory hormone signaling",
-        ],
-      },
-      {
-        heading: "Phase 2 Clinical Trial Data",
-        content:
-          "In June 2023, the New England Journal of Medicine published Phase 2 trial results for Retatrutide (Jastreboff AM et al., DOI: 10.1056/NEJMoa2301972). The trial enrolled 338 participants with obesity and examined multiple dose levels over 48 weeks. The published data represents a clinical research finding and does not constitute a treatment claim. Retatrutide remains an investigational compound with no approved indication as of 2025.",
-      },
-      {
-        heading: "Structural Comparison: Retatrutide vs. Semaglutide vs. Tirzepatide",
-        content:
-          "For researchers studying GLP-1 class peptides, the structural and pharmacological distinctions between these compounds are important reference points.",
-        list: [
-          "Semaglutide (Ozempic/Wegovy): GLP-1R mono-agonist, C18 fatty diacid acylation, ~34 amino acids",
-          "Tirzepatide (Mounjaro/Zepbound): GLP-1R/GIPR dual agonist, C20 fatty diacid acylation, 39 amino acids",
-          "Retatrutide (LY3437943): GLP-1R/GIPR/GCGR triple agonist, C20 fatty diacid acylation, ~39 amino acids",
-        ],
-      },
-      {
-        heading: "Research Grade Retatrutide Specifications",
-        content:
-          "As an investigational peptide, research-grade Retatrutide requires rigorous purity verification. Vertex Research Labs supplies Retatrutide at ≥99% purity, independently verified by HPLC, with mass spectrometry identity confirmation. Certificates of Analysis are available on request where applicable. It is available in 10mg vials for laboratory use.",
-      },
-      {
-        heading: "Regulatory Status and Disclaimer",
-        content:
-          "Retatrutide is an investigational compound. As of 2025 it has not received FDA approval or approval from any other regulatory authority for any indication. All Retatrutide reference materials from Vertex Research Labs are supplied exclusively for laboratory research use. This overview is for scientific reference only and does not constitute medical advice or a health claim of any kind.",
-      },
-    ],
-    faqs: [
-      {
-        question: "What makes Retatrutide different from Semaglutide?",
-        answer:
-          "Semaglutide is a GLP-1 receptor mono-agonist. Retatrutide targets three receptors simultaneously: GLP-1R, GIPR, and GCGR. This triple-agonism creates a distinct pharmacological profile that is the primary subject of current research interest.",
-      },
-      {
-        question: "Is Retatrutide FDA-approved?",
-        answer:
-          "No. As of 2025, Retatrutide (LY3437943) is an investigational compound that has not received FDA approval for any indication. It is available only as a research reference material.",
-      },
-      {
-        question: "Where was the Retatrutide Phase 2 trial published?",
-        answer:
-          "The Phase 2 trial data was published in the New England Journal of Medicine in June 2023 (Jastreboff AM et al., NEJM 2023;389:514-526, DOI: 10.1056/NEJMoa2301972).",
-      },
-      {
-        question: "What purity is research-grade Retatrutide?",
-        answer:
-          "Research-grade Retatrutide from Vertex Research Labs is independently verified at ≥99% purity by HPLC. Certificates of Analysis are available on request where applicable.",
-      },
-      {
-        question: "Can I compare Retatrutide to Tirzepatide in my research?",
-        answer:
-          "Yes — as distinct reference materials, both are available for comparative receptor pharmacology research. Tirzepatide (dual GLP-1R/GIPR agonist) and Retatrutide (triple GLP-1R/GIPR/GCGR agonist) represent useful structural and pharmacological comparators in incretin research.",
-      },
-    ],
-    relatedProducts: ["retatrutide", "tesamorelin", "cjc-ipa-blend"],
-    relatedSlugs: [
-      "glp1-peptides-research-overview",
-      "research-grade-peptide-purity-standards",
-      "how-to-read-peptide-coa",
-    ],
-  },
-
-  {
     slug: "mots-c-mitochondrial-peptide-research",
     title: "MOTS-c: The Mitochondrial-Derived Peptide Redefining Longevity Research",
     metaTitle: "MOTS-c Research Overview: Mitochondrial-Derived Peptide | Vertex Research Labs",
@@ -635,7 +534,7 @@ export const articles: Article[] = [
           "The accepted benchmark for research-grade peptides is ≥99% purity by HPLC. Materials below 98% are generally considered below research grade and may introduce confounding variables into experimental results.",
       },
     ],
-    relatedProducts: ["bpc-157", "ghk-cu", "tb-500", "retatrutide"],
+    relatedProducts: ["bpc-157", "ghk-cu", "tb-500", "rp-300"],
     relatedSlugs: [
       "research-grade-peptide-purity-standards",
       "bpc-157-research-overview",
@@ -743,118 +642,6 @@ export const articles: Article[] = [
   },
 
   {
-    slug: "glp1-peptides-research-overview",
-    title: "GLP-1 Peptides in Research: Semaglutide, Tirzepatide, and Retatrutide",
-    metaTitle: "GLP-1 Peptides Research Overview: Semaglutide, Tirzepatide, Retatrutide | Vertex Research Labs",
-    metaDescription:
-      "Research overview of the GLP-1 peptide class: comparing Semaglutide, Tirzepatide, and Retatrutide as incretin receptor research tools. Covers receptor targets, structural differences, and published clinical data.",
-    keywords: [
-      "GLP-1 peptide research",
-      "Semaglutide research",
-      "Tirzepatide research",
-      "Retatrutide research",
-      "GLP-1 receptor agonist",
-      "incretin peptide research",
-      "GLP-1 GIP glucagon",
-      "GLP-1 peptide comparison",
-      "GLP-1 class peptides 2024 2025",
-      "trending peptide research",
-    ],
-    publishedDate: "2025-03-10",
-    modifiedDate: "2025-04-01",
-    category: "Research Overview",
-    readTime: 9,
-    excerpt:
-      "The GLP-1 peptide class has emerged as one of the most active areas in metabolic research. This overview compares Semaglutide, Tirzepatide, and Retatrutide as distinct research tools — covering their receptor targets, structural properties, and published clinical data.",
-    sections: [
-      {
-        heading: "The Incretin Hormone System",
-        content:
-          "GLP-1 (Glucagon-Like Peptide-1) is an incretin hormone secreted by intestinal L-cells in response to food intake. It stimulates insulin secretion, inhibits glucagon release, and slows gastric emptying in a glucose-dependent manner. GIP (Glucose-dependent Insulinotropic Polypeptide) is a related incretin hormone secreted by intestinal K-cells with complementary effects. Glucagon, secreted by pancreatic alpha-cells, counteracts insulin and promotes glucose production. The GLP-1 class of synthetic peptides mimics and extends the actions of these endogenous hormones, making them central tools in metabolic receptor research.",
-      },
-      {
-        heading: "Semaglutide: GLP-1R Mono-Agonist",
-        content:
-          "Semaglutide (brand names Ozempic, Wegovy, Rybelsus) is a GLP-1 receptor mono-agonist developed by Novo Nordisk. It consists of a 34-amino-acid sequence homologous to human GLP-1(7-37) with two substitutions and a C18 fatty diacid acylation at Lys26 for albumin binding and extended half-life. FDA-approved for type 2 diabetes management and chronic weight management, it is the reference compound for GLP-1R agonism research. As an approved drug it is not supplied by Vertex Research Labs, but understanding its pharmacology provides essential context for researchers studying the broader GLP-1 class.",
-        list: [
-          "Receptor: GLP-1R only (mono-agonist)",
-          "Half-life: ~1 week (albumin-bound)",
-          "Route of administration (clinical): Subcutaneous or oral",
-          "Approval status: FDA-approved (multiple indications)",
-        ],
-      },
-      {
-        heading: "Tirzepatide: GLP-1R / GIPR Dual Agonist",
-        content:
-          "Tirzepatide (Mounjaro, Zepbound) is a 39-amino-acid synthetic peptide developed by Eli Lilly that acts as a dual agonist at both GLP-1R and GIPR. Its C20 fatty diacid acylation provides extended half-life similar to Semaglutide. Phase 3 SURMOUNT trials published in NEJM (2022) established its clinical profile. For researchers, Tirzepatide's dual-receptor pharmacology makes it a useful comparator for studying synergistic incretin receptor signaling versus single-receptor activation.",
-        list: [
-          "Receptors: GLP-1R + GIPR (dual agonist)",
-          "Half-life: ~5 days",
-          "Approval status: FDA-approved (type 2 diabetes, obesity)",
-        ],
-      },
-      {
-        heading: "Retatrutide: GLP-1R / GIPR / GCGR Triple Agonist",
-        content:
-          "Retatrutide (LY3437943, Eli Lilly) extends the dual-agonism of Tirzepatide by adding full glucagon receptor (GCGR) agonism, creating the first triple-receptor incretin peptide to reach Phase 2 clinical trials. Phase 2 data published in NEJM (Jastreboff AM et al., 2023) reported the metabolic effects of multiple dose levels over 48 weeks. Retatrutide is investigational with no approved indication as of 2025 and is available from Vertex Research Labs as a research reference material.",
-        list: [
-          "Receptors: GLP-1R + GIPR + GCGR (triple agonist)",
-          "Status: Investigational (Phase 2 completed)",
-          "Key publication: NEJM 2023; 389:514–526",
-        ],
-      },
-      {
-        heading: "Comparative Receptor Profile Summary",
-        content:
-          "For researchers designing comparative studies of GLP-1 class peptides, this receptor target matrix provides a quick reference.",
-        list: [
-          "Semaglutide: GLP-1R ✓ | GIPR ✗ | GCGR ✗",
-          "Tirzepatide: GLP-1R ✓ | GIPR ✓ | GCGR ✗",
-          "Retatrutide: GLP-1R ✓ | GIPR ✓ | GCGR ✓",
-        ],
-      },
-      {
-        heading: "Research Applications",
-        content:
-          "For laboratory researchers, these peptides offer distinct tools for probing incretin biology. Retatrutide is the only one of the three available as a research reference material from Vertex Research Labs, as Semaglutide and Tirzepatide are FDA-approved drugs subject to different regulatory frameworks.",
-      },
-      {
-        heading: "Disclaimer",
-        content:
-          "This overview is for scientific reference only. No therapeutic claims are made for any compound discussed. Semaglutide and Tirzepatide are FDA-approved drugs not supplied by Vertex Research Labs. Retatrutide is supplied as a laboratory research reference material only and is not for human or veterinary use.",
-      },
-    ],
-    faqs: [
-      {
-        question: "What does GLP-1 stand for?",
-        answer:
-          "GLP-1 stands for Glucagon-Like Peptide-1. It is an endogenous incretin hormone secreted by intestinal L-cells in response to nutrient intake, involved in glucose-dependent insulin secretion.",
-      },
-      {
-        question: "What makes Retatrutide different from Tirzepatide?",
-        answer:
-          "Tirzepatide is a dual GLP-1R/GIPR agonist. Retatrutide adds full GCGR (glucagon receptor) agonism to that profile, creating a triple-receptor pharmacology. This additional receptor activity is the primary research interest distinguishing Retatrutide.",
-      },
-      {
-        question: "Can I buy Semaglutide or Tirzepatide as a research peptide?",
-        answer:
-          "Semaglutide and Tirzepatide are FDA-approved drugs and are not supplied by Vertex Research Labs. Retatrutide remains investigational and is available as a research reference material.",
-      },
-      {
-        question: "Where is the Retatrutide Phase 2 data published?",
-        answer:
-          "The Phase 2 trial data was published in the New England Journal of Medicine: Jastreboff AM et al., NEJM 2023; 389:514–526. DOI: 10.1056/NEJMoa2301972.",
-      },
-    ],
-    relatedProducts: ["retatrutide", "tesamorelin", "cjc-ipa-blend"],
-    relatedSlugs: [
-      "retatrutide-triple-agonist-research",
-      "research-grade-peptide-purity-standards",
-      "how-to-read-peptide-coa",
-    ],
-  },
-
-  {
     slug: "research-grade-peptide-purity-standards",
     title: "Research Grade Peptides: What Purity Standards Actually Mean",
     metaTitle: "Research Grade Peptide Purity Standards Explained | Vertex Research Labs",
@@ -946,7 +733,7 @@ export const articles: Article[] = [
           "Request whatever COA documentation is available, ideally showing the HPLC chromatogram (not just the percentage number), the testing laboratory's name, and mass spectrometry data. Reviewing this documentation helps a purity claim be independently assessed.",
       },
     ],
-    relatedProducts: ["bpc-157", "ghk-cu", "tb-500", "retatrutide"],
+    relatedProducts: ["bpc-157", "ghk-cu", "tb-500", "rp-300"],
     relatedSlugs: [
       "how-to-read-peptide-coa",
       "bpc-157-research-overview",
@@ -1046,7 +833,6 @@ export const articles: Article[] = [
     ],
     relatedProducts: ["cjc-ipa-blend", "tesamorelin", "mots-c"],
     relatedSlugs: [
-      "retatrutide-triple-agonist-research",
       "research-grade-peptide-purity-standards",
       "how-to-read-peptide-coa",
     ],
@@ -1545,7 +1331,6 @@ export const articles: Article[] = [
     relatedProducts: ["kisspeptin"],
     relatedSlugs: [
       "cjc-1295-ipamorelin-research",
-      "retatrutide-triple-agonist-research",
       "research-grade-peptide-purity-standards",
     ],
   },

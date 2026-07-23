@@ -14,10 +14,19 @@ import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { getStoredReferralCode } from "@/hooks/useReferralCapture";
+import CreditRedemption from "@/components/checkout/CreditRedemption";
 import StripePayment from "@/components/checkout/StripePayment";
 import AddressAutocomplete from "@/components/checkout/AddressAutocomplete";
 import { finalizeOrder, PENDING_ORDER_KEY, type PendingOrder } from "@/lib/finalizeOrder";
 import { MANUAL_INVOICE_MODE } from "@/config/checkoutMode";
+
+interface ActiveCredit {
+  id: string;
+  amount: number;
+  points_cost: number;
+  min_cart: number;
+  max_percent: number;
+}
 
 import {
   Shield,
@@ -42,6 +51,7 @@ const Checkout = () => {
   const { items, clearCart, subtotal, shippingCost, total, qualifiesForFreeShipping } = useInquiryCart();
   const { user, profile } = useAuth();
 
+  const [selectedCredit, setSelectedCredit] = useState<ActiveCredit | null>(null);
   const paymentMethod = "stripe";
   const [showPayment, setShowPayment] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
@@ -67,7 +77,14 @@ const Checkout = () => {
   const effectiveShipping = promoFreeShipping ? 0 : shippingCost;
   const effectiveTotal = subtotal + effectiveShipping;
 
-  const finalTotal = Math.max(0, effectiveTotal - discountAmount);
+  // Credits and discount codes stack: the % applies to the subtotal first, then
+  // the Vertex Credit comes off whatever is left, capped at max_percent of the
+  // already-discounted total so a 100%-cap credit can't overshoot it.
+  const discountedTotal = Math.max(0, effectiveTotal - discountAmount);
+  const creditDiscount = selectedCredit
+    ? Math.min(selectedCredit.amount, discountedTotal * (selectedCredit.max_percent / 100))
+    : 0;
+  const finalTotal = Math.max(0, discountedTotal - creditDiscount);
 
   const handleApplyDiscount = async () => {
     if (!discountCode.trim()) return;
@@ -236,7 +253,7 @@ const Checkout = () => {
       quantity: item.quantity,
       lineTotal: item.product.price * item.quantity,
     }));
-    const effectivePaymentMethod = finalTotal === 0 ? "comp" : paymentMethod;
+    const effectivePaymentMethod = finalTotal === 0 ? "credit" : paymentMethod;
     const referralCode = discountValid ? discountCode.trim().toUpperCase() : getStoredReferralCode();
     return {
       paymentIntentId: stripePaymentIntentId,
@@ -246,8 +263,8 @@ const Checkout = () => {
       subtotal,
       shipping: effectiveShipping,
       total: finalTotal,
-      creditApplied: 0,
-      creditId: null,
+      creditApplied: creditDiscount,
+      creditId: selectedCredit?.id || null,
       referrerCode: referralCode || null,
       referrerProfileId: discountReferrerId || null,
       discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
@@ -303,7 +320,13 @@ const Checkout = () => {
 
 
   const handleCoveredInFull = () => {
-    void handleStripeSuccess(`comp-${Date.now()}`);
+    void handleStripeSuccess(`credit-${Date.now()}`);
+  };
+
+  // Credits and discount codes stack — selecting a credit leaves any applied
+  // discount code intact (and vice-versa).
+  const handleSelectCredit = (credit: ActiveCredit | null) => {
+    setSelectedCredit(credit);
   };
 
   // Emergency manual-invoice fallback: submit an order request (no Stripe call,
@@ -540,6 +563,17 @@ const Checkout = () => {
                   )}
                 </div>
 
+                {/* Credit Redemption — works for logged-in users AND guests via email lookup */}
+                <CreditRedemption
+                  profileId={profile?.id}
+                  email={formData.email}
+                  cartTotal={total}
+                  pointsBalance={profile?.points_balance ?? 0}
+                  isAuthenticated={!!profile?.id}
+                  selectedCredit={selectedCredit}
+                  onSelectCredit={handleSelectCredit}
+                />
+
                 {/* Additional Notes */}
                 <div className="glass-card rounded-lg p-6">
                   <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
@@ -598,10 +632,10 @@ const Checkout = () => {
                   <div id="stripe-payment-section" className="glass-card rounded-lg p-6 border-l-4 border-l-primary">
                     <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
                       <CheckCircle2 size={20} className="text-primary" />
-                      No Payment Required
+                      Covered by Vertex Credit
                     </h2>
                     <p className="text-xs text-muted-foreground mb-4">
-                      This order total is $0.00. No card payment is required.
+                      Your credit covers this order total. No card payment is required.
                     </p>
                     <Button type="button" variant="hero" size="xl" className="w-full" disabled={isSubmitting} onClick={handleCoveredInFull}>
                       <CheckCircle2 size={18} />
@@ -700,6 +734,16 @@ const Checkout = () => {
                         Discount ({discountCode})
                       </span>
                       <span className="text-primary font-medium">-{formatPrice(discountAmount)}</span>
+                    </div>
+                  )}
+
+                  {creditDiscount > 0 && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-primary flex items-center gap-1">
+                        <Sparkles size={12} />
+                        Vertex Credit
+                      </span>
+                      <span className="text-primary font-medium">-{formatPrice(creditDiscount)}</span>
                     </div>
                   )}
 

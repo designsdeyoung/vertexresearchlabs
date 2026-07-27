@@ -435,24 +435,33 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
     }
   };
 
-  const handleCancelOrder = async (reason: string) => {
+  const handleCancelOrder = async (reason: string, resendEmail = false) => {
     setCancelling(true);
     try {
       const { data, error } = await supabase.functions.invoke("cancel-order", {
-        body: { orderId: order.id, reason },
+        body: { orderId: order.id, reason, resendEmail },
       });
       if (error) throw error;
-      if ((data as any)?.error) throw new Error((data as any).error);
-      if ((data as any)?.alreadyCancelled) {
+      const d = data as any;
+      if (d?.error) throw new Error(d.error);
+
+      if (d?.alreadyCancelled) {
         toast({ title: "Already cancelled", description: `${order.order_number} was already cancelled.` });
-      } else {
-        const wasPaid = (data as any)?.wasPaid;
+      } else if (d?.emailSent) {
         toast({
-          title: "Order cancelled",
-          description: `${order.order_number} cancelled${(data as any)?.emailSent ? " and the customer was emailed" : ""}.${
-            wasPaid ? " This order had a payment recorded — issue any refund in Stripe." : ""
+          title: resendEmail ? "Cancellation email re-sent" : "Order cancelled",
+          description: `Sent to ${d.customerEmail}.${
+            d.wasPaid ? " This order had a payment recorded — issue any refund in Stripe." : ""
           }`,
           duration: 9000,
+        });
+      } else {
+        // Never let a failed send look like a success.
+        toast({
+          title: resendEmail ? "Email not sent" : "Cancelled — but no email sent",
+          description: d?.emailSkippedReason || "No cancellation email was sent.",
+          variant: "destructive",
+          duration: 12000,
         });
       }
       setCancelReason(null);
@@ -754,9 +763,22 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
                 Marks the order paid and credits 3× points to the customer (skipped if already credited).
               </p>
 
-              {/* Cancel — destructive, so it takes a reason + explicit confirm. */}
+              {/* Cancel — destructive, so it takes a reason + explicit confirm.
+                  Once cancelled, the same slot offers a re-send of the notice. */}
               <div className="pt-2 mt-1 border-t border-amber-500/20">
-                {cancelReason === null ? (
+                {order.status === "cancelled" ? (
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-[11px] text-muted-foreground">Order cancelled.</span>
+                    <button
+                      type="button"
+                      disabled={cancelling}
+                      onClick={() => handleCancelOrder("non-payment", true)}
+                      className="text-[11px] text-primary underline underline-offset-2 hover:text-primary/80 disabled:opacity-50"
+                    >
+                      {cancelling ? "Sending..." : "Resend cancellation email"}
+                    </button>
+                  </div>
+                ) : cancelReason === null ? (
                   <button
                     type="button"
                     onClick={() => setCancelReason("non-payment")}

@@ -21,6 +21,11 @@ const LOGO_URL = "https://qgritvsluilqptgtvayv.supabase.co/storage/v1/object/pub
 /** Orders in these states are already out the door — refuse unless force:true. */
 const SHIPPED_STATES = ["shipped", "delivered"];
 
+// Deliberately plain and transactional. Gmail sorts image-heavy, big-CTA,
+// marketing-styled mail into Promotions — a cancellation notice must land in
+// the primary inbox, so: no hero logo, no promotional call-to-action, no
+// unsubscribe footer (this is a transactional receipt, not marketing), and a
+// matching plain-text part, which is one of the strongest inbox signals.
 const buildHtml = (opts: {
   firstName: string;
   orderNumber: string;
@@ -29,50 +34,72 @@ const buildHtml = (opts: {
   wasPaid: boolean;
 }) => {
   const { firstName, orderNumber, total, reason, wasPaid } = opts;
-  return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#0b0b0b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
-<div style="max-width:520px;margin:0 auto;background:#111;border:1px solid #1f1f1f;border-radius:14px;overflow:hidden">
-  <div style="padding:26px 28px 6px;text-align:center">
-    <img src="${LOGO_URL}" alt="Vertex Research Labs" width="52" height="52" style="display:inline-block;border-radius:12px"/>
-    <div style="color:#2DD4BF;font-size:10px;letter-spacing:3px;font-weight:700;text-transform:uppercase;margin-top:8px">Vertex Research Labs</div>
-  </div>
-  <div style="padding:8px 28px 4px">
-    <div style="font-size:24px;font-weight:800;color:#fff;line-height:1.25">Your order has been cancelled</div>
-    <div style="color:#9ca3af;font-size:14px;margin-top:10px;line-height:1.6">
-      Hi ${firstName}, we've cancelled order <strong style="color:#fff">${orderNumber}</strong>${
-        reason ? ` — ${reason}` : ""
-      }. Nothing further is needed from you.
-    </div>
-  </div>
-  <div style="padding:14px 28px">
-    <div style="background:#161616;border:1px solid #232323;border-radius:10px;padding:14px 16px">
-      <div style="display:flex;justify-content:space-between;color:#9ca3af;font-size:13px">
-        <span>Order</span><span style="color:#fff;font-weight:700">${orderNumber}</span>
-      </div>
-      <div style="margin-top:6px;color:#9ca3af;font-size:13px">
-        Order total: <span style="color:#fff;font-weight:700">$${Number(total || 0).toFixed(2)}</span>
-      </div>
-    </div>
+  return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#ffffff;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6">
+<div style="max-width:560px;margin:0 auto;padding:24px">
+  <p style="margin:0 0 16px">Hi ${firstName},</p>
+  <p style="margin:0 0 16px">
+    Your order <strong>${orderNumber}</strong> has been cancelled${reason ? ` — ${reason}` : ""}.
+    Nothing further is needed from you.
+  </p>
+  <table cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;margin:0 0 16px">
+    <tr>
+      <td style="padding:6px 0;color:#555">Order number</td>
+      <td style="padding:6px 0;text-align:right"><strong>${orderNumber}</strong></td>
+    </tr>
+    <tr>
+      <td style="padding:6px 0;color:#555">Order total</td>
+      <td style="padding:6px 0;text-align:right"><strong>$${Number(total || 0).toFixed(2)}</strong></td>
+    </tr>
+    <tr>
+      <td style="padding:6px 0;color:#555">Status</td>
+      <td style="padding:6px 0;text-align:right"><strong>Cancelled</strong></td>
+    </tr>
+  </table>
+  <p style="margin:0 0 16px">
     ${
       wasPaid
-        ? `<div style="margin-top:12px;color:#9ca3af;font-size:13px;line-height:1.6">
-             This order had a payment recorded. If a refund is due, it will be processed
-             separately — we'll be in touch to confirm.
-           </div>`
-        : `<div style="margin-top:12px;color:#9ca3af;font-size:13px;line-height:1.6">
-             No payment was taken for this order.
-           </div>`
+        ? "This order had a payment recorded. If a refund is due, we'll process it separately and be in touch to confirm."
+        : "No payment was taken for this order."
     }
-  </div>
-  <div style="padding:6px 28px 26px;text-align:center">
-    <a href="${SITE}" style="display:inline-block;background:#2DD4BF;color:#000;font-weight:800;font-size:15px;padding:14px 38px;border-radius:8px;text-decoration:none">Browse the catalog →</a>
-  </div>
-  <div style="padding:18px 28px;text-align:center;border-top:1px solid #1a1a1a">
-    <div style="color:#374151;font-size:11px;line-height:1.8">
-      Questions? <a href="mailto:info@vertexresearchlabs.com" style="color:#2DD4BF;text-decoration:none">info@vertexresearchlabs.com</a><br/>
-      All products are for laboratory research use only. Not for human or veterinary use.
-    </div>
-  </div>
+  </p>
+  <p style="margin:0 0 16px">
+    If you have any questions, just reply to this email or write to
+    <a href="mailto:info@vertexresearchlabs.com" style="color:#0a7ea4">info@vertexresearchlabs.com</a>.
+  </p>
+  <p style="margin:0 0 4px">— Vertex Research Labs</p>
+  <p style="margin:16px 0 0;color:#888;font-size:12px">
+    All products are supplied for laboratory research use only. Not for human or veterinary use.
+  </p>
 </div></body></html>`;
+};
+
+const buildText = (opts: {
+  firstName: string;
+  orderNumber: string;
+  total: number;
+  reason?: string;
+  wasPaid: boolean;
+}) => {
+  const { firstName, orderNumber, total, reason, wasPaid } = opts;
+  return [
+    `Hi ${firstName},`,
+    ``,
+    `Your order ${orderNumber} has been cancelled${reason ? ` — ${reason}` : ""}.`,
+    `Nothing further is needed from you.`,
+    ``,
+    `Order number: ${orderNumber}`,
+    `Order total: $${Number(total || 0).toFixed(2)}`,
+    `Status: Cancelled`,
+    ``,
+    wasPaid
+      ? `This order had a payment recorded. If a refund is due, we'll process it separately and be in touch to confirm.`
+      : `No payment was taken for this order.`,
+    ``,
+    `Questions? Just reply to this email or write to info@vertexresearchlabs.com.`,
+    ``,
+    `— Vertex Research Labs`,
+    `All products are supplied for laboratory research use only. Not for human or veterinary use.`,
+  ].join("\n");
 };
 
 serve(async (req) => {
@@ -104,6 +131,12 @@ serve(async (req) => {
       force = false,
       // Standing rule: BCC the ops inbox on manually-sent customer emails.
       bcc = "designsdeyoung@gmail.com",
+      // Re-send the notice for an order that is already cancelled (e.g. the
+      // first attempt had no address on file, or it never arrived).
+      resendEmail = false,
+      // Explicit recipient, for guest/manual orders that have no linked
+      // profile and therefore no email address of their own.
+      toEmail,
     } = await req.json();
 
     if (!orderId && !orderNumber) {
@@ -124,7 +157,10 @@ serve(async (req) => {
       });
     }
 
-    if (order.status === "cancelled") {
+    // Already cancelled: bail out unless we've been asked to (re)send the
+    // notice, which is the recovery path when the first email never landed.
+    const alreadyCancelled = order.status === "cancelled";
+    if (alreadyCancelled && !resendEmail) {
       return new Response(
         JSON.stringify({ alreadyCancelled: true, orderNumber: order.order_number }),
         { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -132,7 +168,7 @@ serve(async (req) => {
     }
 
     // Safety: don't silently cancel something already in the customer's hands.
-    if (SHIPPED_STATES.includes(order.status) && !force) {
+    if (!alreadyCancelled && SHIPPED_STATES.includes(order.status) && !force) {
       return new Response(
         JSON.stringify({
           error: `Order is already ${order.status}. Re-send with force:true to cancel anyway.`,
@@ -142,16 +178,20 @@ serve(async (req) => {
       );
     }
 
-    const { error: uErr } = await admin
-      .from("orders")
-      .update({ status: "cancelled" })
-      .eq("id", order.id);
-    if (uErr) throw uErr;
+    // On a pure re-send the order is already cancelled — don't rewrite state.
+    if (!alreadyCancelled) {
+      const { error: uErr } = await admin
+        .from("orders")
+        .update({ status: "cancelled" })
+        .eq("id", order.id);
+      if (uErr) throw uErr;
+    }
 
-    // Optionally reverse points that this order earned.
+    // Optionally reverse points that this order earned. Skipped on a re-send so
+    // points can't be clawed back twice.
     let pointsReversed = 0;
     const earned = Number(order.points_earned ?? 0);
-    if (reversePoints && earned > 0 && order.profile_id) {
+    if (!alreadyCancelled && reversePoints && earned > 0 && order.profile_id) {
       await admin.from("points_transactions").insert({
         profile_id: order.profile_id,
         amount: -earned,
@@ -175,42 +215,65 @@ serve(async (req) => {
       pointsReversed = earned;
     }
 
-    // Email the customer a cancellation notice.
+    // Email the customer a cancellation notice. An explicit toEmail wins, then
+    // the linked profile. Guest/manual orders store no address of their own, so
+    // without either there is genuinely nobody to write to — say so plainly
+    // instead of silently reporting emailSent:false.
     let emailSent = false;
     let customerEmail: string | null = null;
-    if (sendEmail && order.profile_id) {
+    let emailSkippedReason: string | null = null;
+    let customerName: string | null = null;
+
+    if (order.profile_id) {
       const { data: profile } = await admin
         .from("profiles")
         .select("email, full_name")
         .eq("id", order.profile_id)
         .maybeSingle();
       customerEmail = profile?.email ?? null;
-      if (customerEmail) {
-        const firstName = (profile?.full_name || "there").split(" ")[0];
-        const html = buildHtml({
-          firstName,
-          orderNumber: order.order_number || "your order",
-          total: Number(order.total) || 0,
-          reason,
-          wasPaid: !!order.paid_at,
-        });
-        const res = await fetch("https://api.resend.com/emails", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${Deno.env.get("RESEND_API_KEY")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            from: "Vertex Research Labs <info@vertexresearchlabs.com>",
-            reply_to: "info@vertexresearchlabs.com",
-            to: [customerEmail],
-            ...(bcc ? { bcc: Array.isArray(bcc) ? bcc : [bcc] } : {}),
-            subject: `Your order ${order.order_number} has been cancelled`,
-            html,
-          }),
-        });
-        emailSent = res.ok;
-        if (!res.ok) console.error("cancel-order: resend failed", await res.text());
+      customerName = profile?.full_name ?? null;
+    }
+    if (toEmail) customerEmail = String(toEmail).trim();
+
+    if (!sendEmail) {
+      emailSkippedReason = "sendEmail was false";
+    } else if (!customerEmail) {
+      emailSkippedReason = order.profile_id
+        ? "the linked profile has no email address on file"
+        : "this order has no linked customer profile — pass toEmail to send the notice";
+    } else {
+      const firstName = (customerName || "there").split(" ")[0];
+      const parts = {
+        firstName,
+        orderNumber: order.order_number || "your order",
+        total: Number(order.total) || 0,
+        reason,
+        wasPaid: !!order.paid_at,
+      };
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${Deno.env.get("RESEND_API_KEY")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: "Vertex Research Labs <info@vertexresearchlabs.com>",
+          reply_to: "info@vertexresearchlabs.com",
+          to: [customerEmail],
+          ...(bcc ? { bcc: Array.isArray(bcc) ? bcc : [bcc] } : {}),
+          subject: `Your order ${order.order_number} has been cancelled`,
+          html: buildHtml(parts),
+          // Plain-text alternative — a strong signal for primary-inbox placement.
+          text: buildText(parts),
+          // Mark as transactional so it isn't grouped with bulk mail.
+          headers: { "X-Entity-Ref-ID": `cancel-${order.id}` },
+        }),
+      });
+      emailSent = res.ok;
+      if (!res.ok) {
+        const detail = await res.text();
+        emailSkippedReason = `Resend rejected the send: ${detail}`;
+        console.error("cancel-order: resend failed", detail);
       }
     }
 
@@ -220,12 +283,14 @@ serve(async (req) => {
         orderNumber: order.order_number,
         previousStatus: order.status,
         status: "cancelled",
+        resent: alreadyCancelled,
         // True when money was already collected — a refund may be owed and is
         // NOT handled here.
         wasPaid: !!order.paid_at,
         pointsReversed,
         emailSent,
         customerEmail,
+        emailSkippedReason,
       }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );

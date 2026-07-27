@@ -349,6 +349,10 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
   const [sendingReminder, setSendingReminder] = useState(false);
   const [payMethod, setPayMethod] = useState<string | null>(null);
   const [markingPaid, setMarkingPaid] = useState(false);
+  // Cancellation is destructive and emails the customer — require an explicit
+  // confirm step rather than a single click.
+  const [cancelReason, setCancelReason] = useState<string | null>(null);
+  const [cancelling, setCancelling] = useState(false);
 
   const loadEmails = async () => {
     setEmailsLoading(true);
@@ -428,6 +432,35 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
       toast({ title: "Couldn't record payment", description: e.message, variant: "destructive" });
     } finally {
       setMarkingPaid(false);
+    }
+  };
+
+  const handleCancelOrder = async (reason: string) => {
+    setCancelling(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("cancel-order", {
+        body: { orderId: order.id, reason },
+      });
+      if (error) throw error;
+      if ((data as any)?.error) throw new Error((data as any).error);
+      if ((data as any)?.alreadyCancelled) {
+        toast({ title: "Already cancelled", description: `${order.order_number} was already cancelled.` });
+      } else {
+        const wasPaid = (data as any)?.wasPaid;
+        toast({
+          title: "Order cancelled",
+          description: `${order.order_number} cancelled${(data as any)?.emailSent ? " and the customer was emailed" : ""}.${
+            wasPaid ? " This order had a payment recorded — issue any refund in Stripe." : ""
+          }`,
+          duration: 9000,
+        });
+      }
+      setCancelReason(null);
+      onLabelGenerated();
+    } catch (e: any) {
+      toast({ title: "Couldn't cancel order", description: e.message, variant: "destructive" });
+    } finally {
+      setCancelling(false);
     }
   };
 
@@ -710,6 +743,50 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
               <p className="text-[11px] text-muted-foreground">
                 Marks the order paid and credits 3× points to the customer (skipped if already credited).
               </p>
+
+              {/* Cancel — destructive, so it takes a reason + explicit confirm. */}
+              <div className="pt-2 mt-1 border-t border-amber-500/20">
+                {cancelReason === null ? (
+                  <button
+                    type="button"
+                    onClick={() => setCancelReason("non-payment")}
+                    className="text-[11px] text-muted-foreground underline underline-offset-2 hover:text-destructive"
+                  >
+                    Cancel this order
+                  </button>
+                ) : (
+                  <div className="space-y-2">
+                    <select
+                      className="bg-background border border-border rounded px-2 py-1.5 text-sm text-foreground w-full"
+                      value={cancelReason}
+                      onChange={(e) => setCancelReason(e.target.value)}
+                      disabled={cancelling}
+                    >
+                      <option value="non-payment">Non-payment</option>
+                      <option value="at your request">Customer request</option>
+                      <option value="an item was out of stock">Out of stock</option>
+                      <option value="">No reason given</option>
+                    </select>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        disabled={cancelling}
+                        onClick={() => handleCancelOrder(cancelReason)}
+                      >
+                        {cancelling ? "Cancelling..." : `Confirm cancel ${order.order_number || ""}`}
+                      </Button>
+                      <Button size="sm" variant="ghost" disabled={cancelling} onClick={() => setCancelReason(null)}>
+                        Keep order
+                      </Button>
+                    </div>
+                    <p className="text-[11px] text-muted-foreground">
+                      Sets the order to cancelled and emails the customer (BCC ops). No refund is
+                      issued — handle any refund in Stripe.
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           )}
 

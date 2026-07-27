@@ -22,7 +22,9 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
   try {
-    const { profileId, email, bcc, addProductId, addQty, productLabel, unitPrice } = await req.json();
+    // `note` renders an optional free-text line under the headline — used for
+    // one-off context like "both of your usual compounds are back in stock".
+    const { profileId, email, bcc, addProductId, addQty, productLabel, unitPrice, note } = await req.json();
     if (!profileId && !email) throw new Error("profileId or email required");
 
     const admin = createClient(
@@ -89,6 +91,7 @@ serve(async (req) => {
   <div style="padding:8px 28px 4px">
     <div style="font-size:25px;font-weight:800;color:#fff;line-height:1.25">${productLabel ? `Your ${productLabel} is waiting, ${firstName} 🔬` : `Ready to order, ${firstName}? 🔬`}</div>
     <div style="color:#9ca3af;font-size:14px;margin-top:8px;line-height:1.6">Your points are loaded and waiting. Tap below to log in instantly — no password — and they'll apply at checkout${productLabel ? ", with your pick already in the cart" : ""}.</div>
+    ${note ? `<div style="color:#e5e7eb;font-size:14px;margin-top:12px;line-height:1.6;background:#161616;border:1px solid #232323;border-left:3px solid #2DD4BF;border-radius:8px;padding:12px 14px">${note}</div>` : ""}
   </div>
   <div style="padding:18px 28px 24px;text-align:center">
     ${pickBlock}

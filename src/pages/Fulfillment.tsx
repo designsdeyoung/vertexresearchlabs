@@ -762,65 +762,69 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
               <p className="text-[11px] text-muted-foreground">
                 Marks the order paid and credits 3× points to the customer (skipped if already credited).
               </p>
-
-              {/* Cancel — destructive, so it takes a reason + explicit confirm.
-                  Once cancelled, the same slot offers a re-send of the notice. */}
-              <div className="pt-2 mt-1 border-t border-amber-500/20">
-                {order.status === "cancelled" ? (
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-[11px] text-muted-foreground">Order cancelled.</span>
-                    <button
-                      type="button"
-                      disabled={cancelling}
-                      onClick={() => handleCancelOrder("non-payment", true)}
-                      className="text-[11px] text-primary underline underline-offset-2 hover:text-primary/80 disabled:opacity-50"
-                    >
-                      {cancelling ? "Sending..." : "Resend cancellation email"}
-                    </button>
-                  </div>
-                ) : cancelReason === null ? (
-                  <button
-                    type="button"
-                    onClick={() => setCancelReason("non-payment")}
-                    className="text-[11px] text-muted-foreground underline underline-offset-2 hover:text-destructive"
-                  >
-                    Cancel this order
-                  </button>
-                ) : (
-                  <div className="space-y-2">
-                    <select
-                      className="bg-background border border-border rounded px-2 py-1.5 text-sm text-foreground w-full"
-                      value={cancelReason}
-                      onChange={(e) => setCancelReason(e.target.value)}
-                      disabled={cancelling}
-                    >
-                      <option value="non-payment">Non-payment</option>
-                      <option value="at your request">Customer request</option>
-                      <option value="an item was out of stock">Out of stock</option>
-                      <option value="">No reason given</option>
-                    </select>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        disabled={cancelling}
-                        onClick={() => handleCancelOrder(cancelReason)}
-                      >
-                        {cancelling ? "Cancelling..." : `Confirm cancel ${order.order_number || ""}`}
-                      </Button>
-                      <Button size="sm" variant="ghost" disabled={cancelling} onClick={() => setCancelReason(null)}>
-                        Keep order
-                      </Button>
-                    </div>
-                    <p className="text-[11px] text-muted-foreground">
-                      Sets the order to cancelled and emails the customer (BCC ops). No refund is
-                      issued — handle any refund in Stripe.
-                    </p>
-                  </div>
-                )}
-              </div>
             </div>
           )}
+
+          {/* Cancel / resend — lives outside the paid-vs-unpaid block so it is
+              reachable for every order, including paid and already-cancelled
+              ones (a cancelled order still needs its notice re-sendable). */}
+          <div className="mt-3 p-3 rounded-lg border border-border/60 bg-secondary/20">
+            {order.status === "cancelled" ? (
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-destructive">
+                  Cancelled
+                </span>
+                <button
+                  type="button"
+                  disabled={cancelling}
+                  onClick={() => handleCancelOrder("non-payment", true)}
+                  className="text-[11px] text-primary underline underline-offset-2 hover:text-primary/80 disabled:opacity-50"
+                >
+                  {cancelling ? "Sending..." : "Resend cancellation email"}
+                </button>
+                <span className="text-[11px] text-muted-foreground">· BCC ops</span>
+              </div>
+            ) : cancelReason === null ? (
+              <button
+                type="button"
+                onClick={() => setCancelReason("non-payment")}
+                className="text-[11px] text-muted-foreground underline underline-offset-2 hover:text-destructive"
+              >
+                Cancel this order
+              </button>
+            ) : (
+              <div className="space-y-2">
+                <select
+                  className="bg-background border border-border rounded px-2 py-1.5 text-sm text-foreground w-full"
+                  value={cancelReason}
+                  onChange={(e) => setCancelReason(e.target.value)}
+                  disabled={cancelling}
+                >
+                  <option value="non-payment">Non-payment</option>
+                  <option value="at your request">Customer request</option>
+                  <option value="an item was out of stock">Out of stock</option>
+                  <option value="">No reason given</option>
+                </select>
+                <div className="flex flex-wrap items-center gap-2">
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    disabled={cancelling}
+                    onClick={() => handleCancelOrder(cancelReason)}
+                  >
+                    {cancelling ? "Cancelling..." : `Confirm cancel ${order.order_number || ""}`}
+                  </Button>
+                  <Button size="sm" variant="ghost" disabled={cancelling} onClick={() => setCancelReason(null)}>
+                    Keep order
+                  </Button>
+                </div>
+                <p className="text-[11px] text-muted-foreground">
+                  Sets the order to cancelled and emails the customer (BCC ops). No refund is
+                  issued — handle any refund in Stripe.
+                </p>
+              </div>
+            )}
+          </div>
 
           <div className="flex flex-wrap gap-2">
             <Button size="sm" variant="outline" onClick={() => printPackingSlip(order)}>

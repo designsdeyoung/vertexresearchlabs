@@ -21,6 +21,32 @@ const LOGO_URL = "https://qgritvsluilqptgtvayv.supabase.co/storage/v1/object/pub
 /** Orders in these states are already out the door — refuse unless force:true. */
 const SHIPPED_STATES = ["shipped", "delivered"];
 
+const money = (n: number) => `$${(Number(n) || 0).toFixed(2)}`;
+
+/** Order line items are written by several different paths over the years, so
+ *  accept every key shape they use rather than assuming one. */
+interface Line { name: string; size: string; qty: number; total: number | null }
+const normalizeItems = (raw: unknown): Line[] => {
+  let arr: any[] = [];
+  try {
+    arr = Array.isArray(raw) ? raw : JSON.parse(String(raw || "[]"));
+  } catch {
+    return [];
+  }
+  if (!Array.isArray(arr)) return [];
+  return arr.map((i: any) => {
+    const qty = Number(i?.quantity ?? i?.qty ?? 1) || 1;
+    const unit = Number(i?.price ?? i?.unitPrice ?? 0) || 0;
+    const total = i?.lineTotal != null ? Number(i.lineTotal) : unit ? unit * qty : null;
+    return {
+      name: i?.productName || i?.name || i?.product_name || "Item",
+      size: i?.size || i?.weight || "",
+      qty,
+      total,
+    };
+  });
+};
+
 // Deliberately plain and transactional. Gmail sorts image-heavy, big-CTA,
 // marketing-styled mail into Promotions — a cancellation notice must land in
 // the primary inbox, so: no hero logo, no promotional call-to-action, no
@@ -32,8 +58,23 @@ const buildHtml = (opts: {
   total: number;
   reason?: string;
   wasPaid: boolean;
+  items: Line[];
 }) => {
-  const { firstName, orderNumber, total, reason, wasPaid } = opts;
+  const { firstName, orderNumber, total, reason, wasPaid, items } = opts;
+  const itemRows = items
+    .map(
+      (l) => `    <tr>
+      <td style="padding:8px 0;border-bottom:1px solid #eee">
+        ${l.name}${l.size ? ` · ${l.size}` : ""}
+        <span style="color:#777"> × ${l.qty}</span>
+      </td>
+      <td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right;white-space:nowrap">
+        ${l.total != null ? money(l.total) : ""}
+      </td>
+    </tr>`
+    )
+    .join("\n");
+
   return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#ffffff;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6">
 <div style="max-width:560px;margin:0 auto;padding:24px">
   <p style="margin:0 0 16px">Hi ${firstName},</p>
@@ -41,6 +82,14 @@ const buildHtml = (opts: {
     Your order <strong>${orderNumber}</strong> has been cancelled${reason ? ` — ${reason}` : ""}.
     Nothing further is needed from you.
   </p>
+  ${
+    items.length
+      ? `<p style="margin:0 0 6px;color:#555;font-size:13px;text-transform:uppercase;letter-spacing:0.5px">What was on this order</p>
+  <table cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;margin:0 0 16px">
+${itemRows}
+  </table>`
+      : ""
+  }
   <table cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;margin:0 0 16px">
     <tr>
       <td style="padding:6px 0;color:#555">Order number</td>
@@ -48,7 +97,7 @@ const buildHtml = (opts: {
     </tr>
     <tr>
       <td style="padding:6px 0;color:#555">Order total</td>
-      <td style="padding:6px 0;text-align:right"><strong>$${Number(total || 0).toFixed(2)}</strong></td>
+      <td style="padding:6px 0;text-align:right"><strong>${money(total)}</strong></td>
     </tr>
     <tr>
       <td style="padding:6px 0;color:#555">Status</td>
@@ -79,16 +128,29 @@ const buildText = (opts: {
   total: number;
   reason?: string;
   wasPaid: boolean;
+  items: Line[];
 }) => {
-  const { firstName, orderNumber, total, reason, wasPaid } = opts;
+  const { firstName, orderNumber, total, reason, wasPaid, items } = opts;
   return [
     `Hi ${firstName},`,
     ``,
     `Your order ${orderNumber} has been cancelled${reason ? ` — ${reason}` : ""}.`,
     `Nothing further is needed from you.`,
     ``,
+    ...(items.length
+      ? [
+          `What was on this order:`,
+          ...items.map(
+            (l) =>
+              `  - ${l.name}${l.size ? ` · ${l.size}` : ""} × ${l.qty}${
+                l.total != null ? ` — ${money(l.total)}` : ""
+              }`
+          ),
+          ``,
+        ]
+      : []),
     `Order number: ${orderNumber}`,
-    `Order total: $${Number(total || 0).toFixed(2)}`,
+    `Order total: ${money(total)}`,
     `Status: Cancelled`,
     ``,
     wasPaid
@@ -146,7 +208,7 @@ serve(async (req) => {
     }
 
     // Look up by id or by the human-facing VRL- number.
-    const sel = "id, order_number, profile_id, total, points_earned, paid_at, status";
+    const sel = "id, order_number, profile_id, total, points_earned, paid_at, status, items";
     const { data: order, error: oErr } = orderId
       ? await admin.from("orders").select(sel).eq("id", orderId).maybeSingle()
       : await admin.from("orders").select(sel).ilike("order_number", String(orderNumber).trim()).maybeSingle();
@@ -249,6 +311,7 @@ serve(async (req) => {
         total: Number(order.total) || 0,
         reason,
         wasPaid: !!order.paid_at,
+        items: normalizeItems(order.items),
       };
       const res = await fetch("https://api.resend.com/emails", {
         method: "POST",

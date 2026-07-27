@@ -546,6 +546,16 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
               <p className="text-sm text-muted-foreground">{addr1}</p>
               <p className="text-sm text-muted-foreground">{city}, {state} {zip}</p>
               {profile?.email && <p className="text-xs text-muted-foreground mt-1">{profile.email}</p>}
+              {profile?.phone_number && (
+                <p className="text-xs mt-0.5">
+                  <a
+                    href={`tel:${profile.phone_number.replace(/[^\d+]/g, "")}`}
+                    className="text-muted-foreground hover:text-primary"
+                  >
+                    {profile.phone_number}
+                  </a>
+                </p>
+              )}
             </div>
             <div>
               <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Items</p>

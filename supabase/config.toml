@@ -32,3 +32,9 @@ verify_jwt = false
 
 [functions.send-new-compound-announcement]
 verify_jwt = false
+
+[functions.upload-tracking]
+verify_jwt = false
+
+[functions.easypost-webhook]
+verify_jwt = false

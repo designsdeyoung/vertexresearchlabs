@@ -22,6 +22,7 @@ import {
   Send,
   Plus,
   DollarSign,
+  Link2,
 } from "lucide-react";
 
 const ADMIN_EMAILS = ["info@vertexdata.ai", "designsdeyoung@gmail.com", "adamdeyoung11@gmail.com", "info@vertexresearchlabs.com"];
@@ -349,6 +350,9 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
   const [sendingReminder, setSendingReminder] = useState(false);
   const [payMethod, setPayMethod] = useState<string | null>(null);
   const [markingPaid, setMarkingPaid] = useState(false);
+  const [trackingEntryOpen, setTrackingEntryOpen] = useState(false);
+  const [trackingNumber, setTrackingNumber] = useState("");
+  const [attachingTracking, setAttachingTracking] = useState(false);
   // Cancellation is destructive and emails the customer — require an explicit
   // confirm step rather than a single click.
   const [cancelReason, setCancelReason] = useState<string | null>(null);
@@ -516,6 +520,48 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
     }
   };
 
+  const handleAttachTracking = async () => {
+    const code = trackingNumber.replace(/\s+/g, "").toUpperCase();
+    if (!code) {
+      toast({ title: "Enter a tracking number", variant: "destructive" });
+      return;
+    }
+
+    setAttachingTracking(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("upload-tracking", {
+        body: {
+          orderId: order.id,
+          trackingNumber: code,
+          carrier: "USPS",
+          sendShipped: true,
+          bcc: "designsdeyoung@gmail.com",
+        },
+      });
+      if (error) throw error;
+      if ((data as any)?.error) throw new Error((data as any).error);
+
+      const emailSent = (data as any)?.email_sent === true;
+      toast({
+        title: emailSent ? "Marked shipped — customer notified" : "Marked shipped — check customer email",
+        description: `${order.order_number || "Order"} now uses tracking ${code}. ${
+          emailSent
+            ? "Future USPS scan notifications will follow this tracking number."
+            : "The tracking number was saved, but the shipped email was not confirmed."
+        }`,
+        variant: emailSent ? "default" : "destructive",
+        duration: 10000,
+      });
+      setTrackingEntryOpen(false);
+      setTrackingNumber("");
+      onLabelGenerated();
+    } catch (e: any) {
+      toast({ title: "Couldn't attach tracking", description: e.message, variant: "destructive" });
+    } finally {
+      setAttachingTracking(false);
+    }
+  };
+
   return (
     <div className="glass-card rounded-xl p-4">
       <div
@@ -613,6 +659,52 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
                   <input className="w-16 bg-background border border-border rounded px-2 py-1.5 text-sm text-foreground" placeholder="ST" maxLength={2} value={manualAddr.state} onChange={e => setManualAddr(a => ({ ...a, state: e.target.value.toUpperCase() }))} />
                   <input className="flex-1 bg-background border border-border rounded px-2 py-1.5 text-sm text-foreground" placeholder="ZIP" value={manualAddr.zip} onChange={e => setManualAddr(a => ({ ...a, zip: e.target.value }))} />
                 </div>
+              </div>
+            </div>
+          )}
+
+          {!isShipped && trackingEntryOpen && (
+            <div className="p-3 rounded-lg bg-primary/5 border border-primary/25 space-y-2">
+              <p className="text-xs text-primary font-semibold uppercase tracking-wider">
+                Use an existing shipping label
+              </p>
+              <p className="text-[11px] text-muted-foreground">
+                Paste a tracking number you already paid for. This order will be marked shipped,
+                the customer will receive the normal shipped email, and future USPS scan emails
+                will apply to every order sharing the number.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <input
+                  className="min-w-64 flex-1 bg-background border border-border rounded px-3 py-2 text-sm font-mono text-foreground"
+                  placeholder="USPS tracking number"
+                  value={trackingNumber}
+                  onChange={(e) => setTrackingNumber(e.target.value.toUpperCase())}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") void handleAttachTracking();
+                  }}
+                  autoFocus
+                  disabled={attachingTracking}
+                />
+                <Button
+                  size="sm"
+                  variant="hero"
+                  onClick={handleAttachTracking}
+                  disabled={attachingTracking || !trackingNumber.trim()}
+                >
+                  <Link2 size={14} className="mr-1" />
+                  {attachingTracking ? "Saving…" : "Mark Shipped & Notify"}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    setTrackingEntryOpen(false);
+                    setTrackingNumber("");
+                  }}
+                  disabled={attachingTracking}
+                >
+                  Cancel
+                </Button>
               </div>
             </div>
           )}
@@ -837,10 +929,20 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
               </Button>
             )}
             {!isShipped && !preview && (
-              <Button size="sm" variant="hero" onClick={handlePreviewLabel} disabled={generating}>
-                <Truck size={14} className="mr-1" />
-                {generating ? "Loading preview..." : "Preview USPS Label"}
-              </Button>
+              <>
+                <Button size="sm" variant="hero" onClick={handlePreviewLabel} disabled={generating || attachingTracking}>
+                  <Truck size={14} className="mr-1" />
+                  {generating ? "Loading preview..." : "Preview USPS Label"}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setTrackingEntryOpen((open) => !open)}
+                  disabled={generating || attachingTracking}
+                >
+                  <Link2 size={14} className="mr-1" /> Use Existing Tracking
+                </Button>
+              </>
             )}
           </div>
         </div>

@@ -789,7 +789,7 @@ const Checkout = () => {
                     <div className="flex justify-between text-sm">
                       <span className="text-primary flex items-center gap-1">
                         <Sparkles size={12} />
-                        Discount ({discountCode})
+                        Discount ({recordedDiscountCode})
                       </span>
                       <span className="text-primary font-medium">-{formatPrice(discountAmount)}</span>
                     </div>

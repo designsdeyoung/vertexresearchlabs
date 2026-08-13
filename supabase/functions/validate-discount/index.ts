@@ -29,6 +29,24 @@ const handler = async (req: Request): Promise<Response> => {
 
     const normalizedCode = code.trim().toUpperCase();
 
+    // Product-specific promotion. Checkout applies this first, setting each
+    // NAD+ 1000mg unit to $120, and may then stack one customer/referral code.
+    if (normalizedCode === "NADTREAT") {
+      return new Response(
+        JSON.stringify({
+          valid: true,
+          referrerId: null,
+          isPromo: true,
+          discountType: "fixed_product_price",
+          productId: "nad-plus-1000",
+          unitPrice: 120,
+          stackable: true,
+          freeShipping: false,
+        }),
+        { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
     // Special promo codes
     // globalSingleUse defaults to true for firstOrderOnly codes (personal codes
     // that may only ever be redeemed once). VERTEX10 is a mass welcome code, so

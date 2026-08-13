@@ -37,6 +37,7 @@ interface ReqBody {
   eligibilityType?: string | null;
   items: ReqItem[];
   subtotal: number; shipping: number; tax?: number; total: number;
+  discountCode?: string | null; discountAmount?: number;
   marketingConsent?: boolean;
 }
 
@@ -63,6 +64,7 @@ function invoiceHtml(o: {
   firstName: string; orderRef: string;
   items: { productName: string; size?: string; quantity: number; lineTotal: number }[];
   subtotal: number; shipping: number; tax: number; total: number;
+  discountCode?: string | null; discountAmount?: number;
 }): string {
   const enabledMethods = PAYMENT_METHODS.filter((m) => m.enabled);
   const rows = o.items.map((i) =>
@@ -87,6 +89,7 @@ function invoiceHtml(o: {
     <table style="width:100%;margin-top:10px">
       <tr><td style="text-align:right;color:#9ca3af;font-size:13px;padding:2px 0">Subtotal</td><td style="text-align:right;color:#e5e7eb;font-size:13px;width:90px">${fmt(o.subtotal)}</td></tr>
       <tr><td style="text-align:right;color:#9ca3af;font-size:13px;padding:2px 0">Shipping</td><td style="text-align:right;color:#e5e7eb;font-size:13px">${fmt(o.shipping)}</td></tr>
+      ${o.discountAmount ? `<tr><td style="text-align:right;color:#9ca3af;font-size:13px;padding:2px 0">Discount${o.discountCode ? ` (${o.discountCode})` : ""}</td><td style="text-align:right;color:#2DD4BF;font-size:13px">-${fmt(o.discountAmount)}</td></tr>` : ""}
       ${o.tax ? `<tr><td style="text-align:right;color:#9ca3af;font-size:13px;padding:2px 0">Tax</td><td style="text-align:right;color:#e5e7eb;font-size:13px">${fmt(o.tax)}</td></tr>` : ""}
       <tr><td style="text-align:right;color:#fff;font-weight:700;font-size:15px;padding-top:6px;border-top:1px solid #1f1f1f">Total Due</td><td style="text-align:right;color:#2DD4BF;font-weight:800;font-size:15px;padding-top:6px;border-top:1px solid #1f1f1f">${fmt(o.total)}</td></tr>
     </table>
@@ -156,7 +159,7 @@ serve(async (req) => {
       });
     }
 
-    const { customer, items, subtotal, shipping, total } = body as ReqBody;
+    const { customer, items, subtotal, shipping, total, discountCode, discountAmount = 0 } = body as ReqBody;
     const tax = body.tax || 0;
 
     if (!customer?.email || !customer?.fullName || !Array.isArray(items) || items.length === 0) {
@@ -224,6 +227,8 @@ serve(async (req) => {
         is_autoship: false,
         payment_method: "manual_invoice",
         paid_at: null,
+        discount_code: discountCode || null,
+        discount_amount: discountAmount,
         shipping_name: customer.fullName,
         shipping_address1: customer.addressLine1,
         shipping_address2: customer.addressLine2 || null,
@@ -259,6 +264,7 @@ serve(async (req) => {
   <table style="width:100%;margin-bottom:16px">
     <tr><td style="text-align:right;color:#666">Subtotal</td><td style="text-align:right;width:90px">${fmt(subtotal)}</td></tr>
     <tr><td style="text-align:right;color:#666">Shipping</td><td style="text-align:right">${fmt(shipping)}</td></tr>
+    ${discountAmount ? `<tr><td style="text-align:right;color:#666">Discount${discountCode ? ` (${discountCode})` : ""}</td><td style="text-align:right;color:#0f6e56">-${fmt(discountAmount)}</td></tr>` : ""}
     ${tax ? `<tr><td style="text-align:right;color:#666">Tax</td><td style="text-align:right">${fmt(tax)}</td></tr>` : ""}
     <tr><td style="text-align:right;font-weight:700;border-top:2px solid #000;padding-top:4px">Total</td><td style="text-align:right;font-weight:700;border-top:2px solid #000;padding-top:4px">${fmt(total)}</td></tr>
   </table>
@@ -287,7 +293,7 @@ serve(async (req) => {
     // 2) Customer invoice
     const custHtml = invoiceHtml({
       firstName: customer.fullName.split(" ")[0],
-      orderRef, items, subtotal, shipping, tax, total,
+      orderRef, items, subtotal, shipping, tax, total, discountCode, discountAmount,
     });
     const invoiceSubject = `Your Vertex Research Labs invoice ${orderRef} — ${fmt(total)} (pay by app)`;
     const custRes = await sendEmail(resendKey, {

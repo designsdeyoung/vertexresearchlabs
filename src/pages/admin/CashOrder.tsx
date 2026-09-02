@@ -238,11 +238,12 @@ const CashOrder = () => {
                 Items
               </h2>
               {rows.map((row, i) => (
-                <div key={i} className="flex items-center gap-2">
+                <div key={i} className="grid grid-cols-[minmax(0,1fr)_5rem_auto] items-center gap-2">
                   <select
-                    className={`${inputCls} flex-1`}
+                    className={`${inputCls} min-w-0`}
                     value={row.productId}
                     onChange={(e) => updateRow(i, { productId: e.target.value })}
+                    aria-label={`Product ${i + 1}`}
                   >
                     {products.map((p) => (
                       <option key={p.id} value={p.id}>
@@ -251,11 +252,15 @@ const CashOrder = () => {
                     ))}
                   </select>
                   <input
-                    className={`${inputCls} w-16 text-center`}
+                    className={`${inputCls} text-center`}
                     type="number"
                     min={1}
+                    step={1}
+                    inputMode="numeric"
                     value={row.quantity}
+                    onFocus={(e) => e.currentTarget.select()}
                     onChange={(e) => updateRow(i, { quantity: Math.max(1, Number(e.target.value) || 1) })}
+                    aria-label={`Quantity for ${labelFor(row.productId)}`}
                   />
                   <button
                     onClick={() => removeRow(i)}

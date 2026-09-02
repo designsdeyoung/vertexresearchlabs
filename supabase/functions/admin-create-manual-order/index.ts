@@ -189,6 +189,7 @@ serve(async (req) => {
     <div style="background:#111;border:1px solid #1f1f1f;border-radius:12px;padding:16px 18px">
       <div style="color:#6b7280;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:8px">Order ${order.order_number}</div>
       <table style="width:100%;border-collapse:collapse">${itemRows}
+        ${discountAmount > 0 ? `<tr><td style="padding:6px 0;color:#2DD4BF;font-size:13px">Discount${discountCode ? ` (${discountCode})` : ""}</td><td style="padding:6px 0;color:#2DD4BF;font-size:13px;text-align:right">−${fmt(discountAmount)}</td></tr>` : ""}
         <tr><td style="padding:10px 0 0;border-top:1px solid #1f1f1f;color:#9ca3af;font-size:13px">Total paid</td><td style="padding:10px 0 0;border-top:1px solid #1f1f1f;color:#e5e7eb;font-size:13px;text-align:right">${fmt(total)} cash</td></tr>
         <tr><td style="padding:4px 0;color:#2DD4BF;font-size:13px;font-weight:700">Points earned</td><td style="padding:4px 0;color:#2DD4BF;font-size:13px;font-weight:700;text-align:right">+${pointsEarned.toLocaleString()} pts</td></tr>
         <tr><td style="padding:4px 0;color:#9ca3af;font-size:13px">New balance</td><td style="padding:4px 0;color:#fff;font-size:13px;font-weight:700;text-align:right">${newBalance.toLocaleString()} pts</td></tr>

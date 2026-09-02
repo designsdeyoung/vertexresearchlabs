@@ -6,6 +6,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { products } from "@/data/products";
 import { POINTS_PER_DOLLAR } from "@/hooks/useRewards";
 import { Button } from "@/components/ui/button";
+import {
+  calculateRp20020mgPairDiscount,
+  RP200_20MG_PAIR_CODE,
+  RP200_20MG_PRODUCT_ID,
+  RP200_20MG_UNIT_PRICE,
+} from "@/lib/cashOrderPricing";
 
 // Same allowlist that gates /fulfillment.
 const ADMIN_EMAILS = [
@@ -53,13 +59,31 @@ interface PreviousOrder {
 const fmt = (n: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
 
+// The 20mg RP-200 is currently offered through the admin cash-order flow.
+// Reuse the catalog entry's metadata and image while keeping its own SKU/price.
+const cashOrderProducts = products.flatMap((product) =>
+  product.id === "rp-200"
+    ? [
+        product,
+        {
+          ...product,
+          id: RP200_20MG_PRODUCT_ID,
+          size: "20mg",
+          price: RP200_20MG_UNIT_PRICE,
+        },
+      ]
+    : [product],
+);
+
 // Cash orders earn the base 3× rate on the amount actually paid (subtotal
 // after any discount). Matches calculatePointsForPrice() in useRewards.
 const pointsFor = (paid: number) => Math.floor(paid * POINTS_PER_DOLLAR);
 
 const labelFor = (id: string) => {
-  const p = products.find((x) => x.id === id);
-  return p ? `${p.name} · ${p.size} — ${fmt(p.price)}` : id;
+  const p = cashOrderProducts.find((x) => x.id === id);
+  if (!p) return id;
+  const pairOffer = p.id === RP200_20MG_PRODUCT_ID ? " · 2 for $300" : "";
+  return `${p.name} · ${p.size} — ${fmt(p.price)}${pairOffer}`;
 };
 
 const inputCls =
@@ -92,7 +116,7 @@ const CashOrder = () => {
   const [customerSearchOpen, setCustomerSearchOpen] = useState(false);
 
   const [rows, setRows] = useState<LineRow[]>([
-    { productId: products[0]?.id ?? "", quantity: 1 },
+    { productId: cashOrderProducts[0]?.id ?? "", quantity: 1 },
   ]);
 
   const [submitting, setSubmitting] = useState(false);
@@ -169,7 +193,7 @@ const CashOrder = () => {
     () =>
       rows
         .map((r) => {
-          const p = products.find((x) => x.id === r.productId);
+          const p = cashOrderProducts.find((x) => x.id === r.productId);
           if (!p || r.quantity < 1) return null;
           return {
             productId: p.id,
@@ -195,7 +219,12 @@ const CashOrder = () => {
     () => +lineItems.reduce((s, i) => s + i.lineTotal, 0).toFixed(2),
     [lineItems],
   );
-  const paid = Math.max(0, +(subtotal - discount).toFixed(2));
+  const rp200PairDiscount = useMemo(
+    () => calculateRp20020mgPairDiscount(lineItems),
+    [lineItems],
+  );
+  const totalDiscount = Math.min(subtotal, +(rp200PairDiscount + discount).toFixed(2));
+  const paid = Math.max(0, +(subtotal - totalDiscount).toFixed(2));
   const total = +(paid + shipping).toFixed(2);
   const points = pointsFor(paid);
 
@@ -208,7 +237,7 @@ const CashOrder = () => {
   const updateRow = (i: number, patch: Partial<LineRow>) =>
     setRows((prev) => prev.map((r, idx) => (idx === i ? { ...r, ...patch } : r)));
   const addRow = () =>
-    setRows((prev) => [...prev, { productId: products[0]?.id ?? "", quantity: 1 }]);
+    setRows((prev) => [...prev, { productId: cashOrderProducts[0]?.id ?? "", quantity: 1 }]);
   const removeRow = (i: number) =>
     setRows((prev) => (prev.length > 1 ? prev.filter((_, idx) => idx !== i) : prev));
 
@@ -226,7 +255,8 @@ const CashOrder = () => {
             subtotal,
             shipping,
             total,
-            discountAmount: discount,
+            discountAmount: totalDiscount,
+            discountCode: rp200PairDiscount > 0 ? RP200_20MG_PAIR_CODE : null,
             pointsEarned: points,
             shippingAddress: {
               name: fullName.trim(),
@@ -293,7 +323,7 @@ const CashOrder = () => {
               variant="outline"
               onClick={() => {
                 setResult(null);
-                setRows([{ productId: products[0]?.id ?? "", quantity: 1 }]);
+                setRows([{ productId: cashOrderProducts[0]?.id ?? "", quantity: 1 }]);
                 setFullName(""); setEmail(""); setAddress1(""); setAddress2("");
                 setCity(""); setState(""); setZip(""); setDiscount(0); setShipping(0);
                 setCustomerSearchOpen(false);
@@ -405,7 +435,7 @@ const CashOrder = () => {
                     onChange={(e) => updateRow(i, { productId: e.target.value })}
                     aria-label={`Product ${i + 1}`}
                   >
-                    {products.map((p) => (
+                    {cashOrderProducts.map((p) => (
                       <option key={p.id} value={p.id}>
                         {labelFor(p.id)}
                       </option>
@@ -444,7 +474,7 @@ const CashOrder = () => {
             <section className="space-y-3 rounded-lg border border-border bg-card/40 p-4">
               <div className="grid gap-3 sm:grid-cols-2">
                 <label className="text-sm">
-                  <span className="text-muted-foreground">Discount ($)</span>
+                  <span className="text-muted-foreground">Additional discount ($)</span>
                   <input className={`${inputCls} mt-1`} type="number" min={0} step="0.01" value={discount} onChange={(e) => setDiscount(Math.max(0, Number(e.target.value) || 0))} />
                 </label>
                 <label className="text-sm">
@@ -454,6 +484,7 @@ const CashOrder = () => {
               </div>
               <div className="space-y-1 border-t border-border pt-3 text-sm">
                 <div className="flex justify-between text-muted-foreground"><span>Subtotal</span><span className="tabular-nums text-foreground">{fmt(subtotal)}</span></div>
+                {rp200PairDiscount > 0 && <div className="flex justify-between text-primary"><span>RP-200 20mg special (2 for $300)</span><span className="tabular-nums">−{fmt(rp200PairDiscount)}</span></div>}
                 {discount > 0 && <div className="flex justify-between text-muted-foreground"><span>Discount</span><span className="tabular-nums">−{fmt(discount)}</span></div>}
                 {shipping > 0 && <div className="flex justify-between text-muted-foreground"><span>Shipping</span><span className="tabular-nums text-foreground">{fmt(shipping)}</span></div>}
                 <div className="flex justify-between pt-1 font-semibold"><span>Total (cash)</span><span className="tabular-nums">{fmt(total)}</span></div>

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Loader2, Plus, Trash2, Check, ArrowLeft } from "lucide-react";
+import { Loader2, Plus, Trash2, Check, ArrowLeft, Search } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { products } from "@/data/products";
@@ -18,6 +18,36 @@ const ADMIN_EMAILS = [
 interface LineRow {
   productId: string;
   quantity: number;
+}
+
+interface PreviousCustomer {
+  email: string;
+  fullName: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  zip: string;
+  lastOrderNumber: string | null;
+}
+
+interface PreviousOrder {
+  order_number: string | null;
+  shipping_name: string | null;
+  shipping_address1: string | null;
+  shipping_address2: string | null;
+  shipping_city: string | null;
+  shipping_state: string | null;
+  shipping_zip: string | null;
+  profiles: {
+    full_name: string | null;
+    email: string;
+    address_line1: string | null;
+    address_line2: string | null;
+    city: string | null;
+    state: string | null;
+    zip_code: string | null;
+  } | null;
 }
 
 const fmt = (n: number) =>
@@ -57,6 +87,9 @@ const CashOrder = () => {
   const [zip, setZip] = useState(params.get("zip") ?? "");
   const [discount, setDiscount] = useState(0);
   const [shipping, setShipping] = useState(0);
+  const [previousCustomers, setPreviousCustomers] = useState<PreviousCustomer[]>([]);
+  const [customerSearchLoading, setCustomerSearchLoading] = useState(false);
+  const [customerSearchOpen, setCustomerSearchOpen] = useState(false);
 
   const [rows, setRows] = useState<LineRow[]>([
     { productId: products[0]?.id ?? "", quantity: 1 },
@@ -68,6 +101,69 @@ const CashOrder = () => {
     | { ok: false; message: string }
     | null
   >(null);
+
+  useEffect(() => {
+    if (!isAdmin) return;
+
+    let active = true;
+    const loadPreviousCustomers = async () => {
+      setCustomerSearchLoading(true);
+      const { data, error } = await supabase.functions.invoke("get-fulfillment-orders", {
+        body: { filter: "all" },
+      });
+
+      if (!active) return;
+      if (!error && Array.isArray(data?.orders)) {
+        // The endpoint returns newest orders first. Keeping the first order for
+        // each email gives us that customer's latest known shipping address.
+        const byEmail = new Map<string, PreviousCustomer>();
+        for (const order of data.orders as PreviousOrder[]) {
+          const customerEmail = order.profiles?.email?.trim();
+          if (!customerEmail) continue;
+          const key = customerEmail.toLowerCase();
+          if (byEmail.has(key)) continue;
+
+          byEmail.set(key, {
+            email: customerEmail,
+            fullName: order.shipping_name || order.profiles?.full_name || "",
+            address1: order.shipping_address1 || order.profiles?.address_line1 || "",
+            address2: order.shipping_address2 || order.profiles?.address_line2 || "",
+            city: order.shipping_city || order.profiles?.city || "",
+            state: order.shipping_state || order.profiles?.state || "",
+            zip: order.shipping_zip || order.profiles?.zip_code || "",
+            lastOrderNumber: order.order_number,
+          });
+        }
+        setPreviousCustomers([...byEmail.values()]);
+      }
+      setCustomerSearchLoading(false);
+    };
+
+    void loadPreviousCustomers();
+    return () => { active = false; };
+  }, [isAdmin]);
+
+  const matchingCustomers = useMemo(() => {
+    const query = fullName.trim().toLowerCase();
+    if (query.length < 2) return [];
+    return previousCustomers
+      .filter((customer) =>
+        customer.fullName.toLowerCase().includes(query) ||
+        customer.email.toLowerCase().includes(query),
+      )
+      .slice(0, 6);
+  }, [fullName, previousCustomers]);
+
+  const selectCustomer = (customer: PreviousCustomer) => {
+    setFullName(customer.fullName);
+    setEmail(customer.email);
+    setAddress1(customer.address1);
+    setAddress2(customer.address2);
+    setCity(customer.city);
+    setState(customer.state);
+    setZip(customer.zip);
+    setCustomerSearchOpen(false);
+  };
 
   const lineItems = useMemo(
     () =>
@@ -200,6 +296,7 @@ const CashOrder = () => {
                 setRows([{ productId: products[0]?.id ?? "", quantity: 1 }]);
                 setFullName(""); setEmail(""); setAddress1(""); setAddress2("");
                 setCity(""); setState(""); setZip(""); setDiscount(0); setShipping(0);
+                setCustomerSearchOpen(false);
               }}
             >
               New order
@@ -213,7 +310,70 @@ const CashOrder = () => {
                 Customer
               </h2>
               <div className="grid gap-3 sm:grid-cols-2">
-                <input className={inputCls} placeholder="Full name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+                <div className="relative">
+                  <div className="relative">
+                    <Search
+                      size={15}
+                      className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                    />
+                    <input
+                      className={`${inputCls} pl-9`}
+                      placeholder="Start typing a customer name"
+                      value={fullName}
+                      onFocus={() => setCustomerSearchOpen(true)}
+                      onChange={(e) => {
+                        setFullName(e.target.value);
+                        setCustomerSearchOpen(true);
+                      }}
+                      onBlur={() => window.setTimeout(() => setCustomerSearchOpen(false), 150)}
+                      autoComplete="off"
+                      role="combobox"
+                      aria-autocomplete="list"
+                      aria-expanded={customerSearchOpen && fullName.trim().length >= 2}
+                      aria-controls="previous-customer-options"
+                    />
+                  </div>
+                  {customerSearchOpen && fullName.trim().length >= 2 && (
+                    <div
+                      id="previous-customer-options"
+                      role="listbox"
+                      className="absolute z-30 mt-1 max-h-72 w-full overflow-y-auto rounded-md border border-border bg-popover p-1 shadow-xl"
+                    >
+                      {customerSearchLoading ? (
+                        <div className="flex items-center gap-2 px-3 py-3 text-xs text-muted-foreground">
+                          <Loader2 size={13} className="animate-spin" /> Loading customers…
+                        </div>
+                      ) : matchingCustomers.length > 0 ? (
+                        matchingCustomers.map((customer) => (
+                          <button
+                            key={customer.email.toLowerCase()}
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={() => selectCustomer(customer)}
+                            className="w-full rounded-sm px-3 py-2 text-left transition-colors hover:bg-accent focus:bg-accent focus:outline-none"
+                          >
+                            <div className="text-sm font-medium text-foreground">{customer.fullName}</div>
+                            <div className="truncate text-xs text-muted-foreground">{customer.email}</div>
+                            {(customer.address1 || customer.city) && (
+                              <div className="mt-0.5 truncate text-[11px] text-muted-foreground/80">
+                                {[customer.address1, customer.city, customer.state, customer.zip]
+                                  .filter(Boolean)
+                                  .join(", ")}
+                                {customer.lastOrderNumber ? ` · ${customer.lastOrderNumber}` : ""}
+                              </div>
+                            )}
+                          </button>
+                        ))
+                      ) : (
+                        <div className="px-3 py-3 text-xs text-muted-foreground">
+                          No matching previous customer. Keep typing to add a new one.
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
                 <input className={inputCls} placeholder="Email (required for points)" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
             </section>

@@ -19,6 +19,13 @@ import StripePayment from "@/components/checkout/StripePayment";
 import AddressAutocomplete from "@/components/checkout/AddressAutocomplete";
 import { finalizeOrder, PENDING_ORDER_KEY, type PendingOrder } from "@/lib/finalizeOrder";
 import { MANUAL_INVOICE_MODE } from "@/config/checkoutMode";
+import {
+  calculateNadTreatDiscount,
+  calculatePercentageDiscount,
+  NAD_TREAT_CODE,
+  NAD_TREAT_PRODUCT_ID,
+  NAD_TREAT_UNIT_PRICE,
+} from "@/lib/discounts";
 
 interface ActiveCredit {
   id: string;
@@ -26,6 +33,12 @@ interface ActiveCredit {
   points_cost: number;
   min_cart: number;
   max_percent: number;
+}
+
+interface SubmitOrderRequestResponse {
+  error?: string;
+  orderNumber?: string | null;
+  payment?: unknown;
 }
 
 import {
@@ -57,6 +70,8 @@ const Checkout = () => {
   const [discountCode, setDiscountCode] = useState("");
   const [discountValid, setDiscountValid] = useState<boolean | null>(null);
   const [discountLoading, setDiscountLoading] = useState(false);
+  const [appliedDiscountCode, setAppliedDiscountCode] = useState<string | null>(null);
+  const [nadTreatApplied, setNadTreatApplied] = useState(false);
   const [discountReferrerId, setDiscountReferrerId] = useState<string | null>(null);
   const [promoFreeShipping, setPromoFreeShipping] = useState(false);
   const [discountMessage, setDiscountMessage] = useState<string | null>(null);
@@ -69,9 +84,21 @@ const Checkout = () => {
     }).format(price);
   };
 
-  // Percentage discount code — rate comes from validate-discount response.
-  // The % applies to the subtotal.
-  const discountAmount = discountValid ? subtotal * discountRate : 0;
+  const nadTreatDiscount = nadTreatApplied
+    ? calculateNadTreatDiscount(items.map((item) => ({
+        productId: item.product.id,
+        unitPrice: computeUnitPrice(item),
+        quantity: item.quantity,
+      })))
+    : 0;
+  // Product promotions apply first. One customer/referral percentage code may
+  // stack on the adjusted subtotal, followed by Vertex Credit below.
+  const percentageDiscount = appliedDiscountCode
+    ? calculatePercentageDiscount(subtotal, nadTreatDiscount, discountRate)
+    : 0;
+  const discountAmount = nadTreatDiscount + percentageDiscount;
+  const appliedDiscountCodes = [nadTreatApplied ? NAD_TREAT_CODE : null, appliedDiscountCode].filter(Boolean) as string[];
+  const recordedDiscountCode = appliedDiscountCodes.join(" + ") || null;
 
   // Override shipping when promo grants free shipping
   const effectiveShipping = promoFreeShipping ? 0 : shippingCost;
@@ -101,11 +128,23 @@ const Checkout = () => {
 
       if (error || !data?.valid) {
         setDiscountValid(false);
-        setDiscountReferrerId(null);
-        setPromoFreeShipping(false);
         setDiscountMessage(data?.reason || error?.message || "Invalid or expired code. Please try again.");
       } else {
+        const normalizedCode = discountCode.trim().toUpperCase();
+        if (data.discountType === "fixed_product_price") {
+          const hasEligibleProduct = items.some((item) => item.product.id === NAD_TREAT_PRODUCT_ID);
+          if (!hasEligibleProduct) {
+            setDiscountValid(false);
+            setDiscountMessage("NADTREAT applies to NAD+ 1000mg. Add it to your cart first.");
+            return;
+          }
+          setNadTreatApplied(true);
+          setDiscountValid(true);
+          setDiscountMessage(`NADTREAT applied — NAD+ 1000mg is $${NAD_TREAT_UNIT_PRICE}. You can add another coupon too.`);
+          return;
+        }
         setDiscountValid(true);
+        setAppliedDiscountCode(normalizedCode);
         setDiscountReferrerId(data.referrerId);
         setPromoFreeShipping(!!data.freeShipping);
         setDiscountRate(data.discount ?? 0.1);
@@ -113,8 +152,6 @@ const Checkout = () => {
       }
     } catch {
       setDiscountValid(false);
-      setDiscountReferrerId(null);
-      setPromoFreeShipping(false);
       setDiscountMessage("Invalid or expired code. Please try again.");
     } finally {
       setDiscountLoading(false);
@@ -221,7 +258,6 @@ const Checkout = () => {
   }
 
   const eligibilityLabels: Record<string, string> = {
-    individual: "Individual Researcher",
     laboratory: "Laboratory or Institution",
     organization: "Other Research Organization",
   };
@@ -254,7 +290,7 @@ const Checkout = () => {
       lineTotal: item.product.price * item.quantity,
     }));
     const effectivePaymentMethod = finalTotal === 0 ? "credit" : paymentMethod;
-    const referralCode = discountValid ? discountCode.trim().toUpperCase() : getStoredReferralCode();
+    const referralCode = appliedDiscountCode || getStoredReferralCode();
     return {
       paymentIntentId: stripePaymentIntentId,
       customer: formData,
@@ -267,11 +303,12 @@ const Checkout = () => {
       creditId: selectedCredit?.id || null,
       referrerCode: referralCode || null,
       referrerProfileId: discountReferrerId || null,
-      discountCode: discountValid ? discountCode.trim().toUpperCase() : null,
+      discountCode: recordedDiscountCode,
       discountAmount,
       paymentMethod: effectivePaymentMethod,
       pointsEarnedFallback: 0,
       marketingConsent,
+      researchUseAcknowledged: finalConfirmation,
     };
   };
 
@@ -361,20 +398,24 @@ const Checkout = () => {
           shipping: effectiveShipping,
           tax: 0,
           total: finalTotal,
+          discountCode: recordedDiscountCode,
+          discountAmount,
           marketingConsent,
+          researchUseAcknowledged: finalConfirmation,
         },
       });
-      if (error || (data as any)?.error) {
-        throw new Error((data as any)?.error || error?.message || "Could not submit request");
+      const response = data as SubmitOrderRequestResponse | null;
+      if (error || response?.error) {
+        throw new Error(response?.error || error?.message || "Could not submit request");
       }
 
       clearCart();
       navigate("/order-confirmation", {
         state: {
           manualInvoice: true,
-          orderNumber: (data as any)?.orderNumber,
+          orderNumber: response?.orderNumber,
           total: finalTotal,
-          payment: (data as any)?.payment ?? null,
+          payment: response?.payment ?? null,
         },
       });
     } catch (err) {
@@ -393,6 +434,7 @@ const Checkout = () => {
     formData.fullName.trim() !== "" &&
     formData.email.trim() !== "" &&
     formData.phoneNumber.trim() !== "" &&
+    formData.organization.trim() !== "" &&
     formData.addressLine1.trim() !== "" &&
     formData.city.trim() !== "" &&
     formData.state.trim() !== "" &&
@@ -464,8 +506,8 @@ const Checkout = () => {
                   </h2>
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="organization">Organization / University (Optional)</Label>
-                      <Input id="organization" maxLength={200} value={formData.organization} onChange={(e) => setFormData((prev) => ({ ...prev, organization: e.target.value }))} placeholder="University Research Laboratory" className="bg-secondary/50" />
+                      <Label htmlFor="organization">Laboratory / Institution / Research Organization *</Label>
+                      <Input id="organization" required maxLength={200} value={formData.organization} onChange={(e) => setFormData((prev) => ({ ...prev, organization: e.target.value }))} placeholder="Organization name" className="bg-secondary/50" />
                     </div>
                   </div>
                 </div>
@@ -536,8 +578,6 @@ const Checkout = () => {
                         setDiscountCode(e.target.value.toUpperCase());
                         if (discountValid !== null) {
                           setDiscountValid(null);
-                          setDiscountReferrerId(null);
-                          setPromoFreeShipping(false);
                           setDiscountMessage(null);
                         }
                       }}
@@ -555,11 +595,31 @@ const Checkout = () => {
                   </div>
                   {discountValid === true && (
                     <p className="text-xs text-primary mt-2 flex items-center gap-1">
-                      <Sparkles size={10} /> {Math.round(discountRate * 100)}% discount applied{promoFreeShipping ? " + FREE shipping" : ""} — you save {formatPrice(discountAmount + (promoFreeShipping && !qualifiesForFreeShipping ? FLAT_RATE_SHIPPING : 0))}
+                      <Sparkles size={10} /> {discountMessage || "Coupon applied."}
                     </p>
                   )}
                   {discountValid === false && (
                     <p className="text-xs text-destructive mt-2">{discountMessage || "Invalid or expired code. Please try again."}</p>
+                  )}
+                  {appliedDiscountCodes.length > 0 && (
+                    <div className="mt-3 space-y-2">
+                      {nadTreatApplied && (
+                        <div className="flex items-center justify-between gap-3 text-xs rounded-md border border-primary/20 bg-primary/5 px-3 py-2">
+                          <span><strong>{NAD_TREAT_CODE}</strong> · NAD+ 1000mg is ${NAD_TREAT_UNIT_PRICE}</span>
+                          <button type="button" className="text-muted-foreground hover:text-foreground underline" onClick={() => setNadTreatApplied(false)}>Remove</button>
+                        </div>
+                      )}
+                      {appliedDiscountCode && (
+                        <div className="flex items-center justify-between gap-3 text-xs rounded-md border border-primary/20 bg-primary/5 px-3 py-2">
+                          <span><strong>{appliedDiscountCode}</strong> · {Math.round(discountRate * 100)}% off{promoFreeShipping ? " + free shipping" : ""}</span>
+                          <button type="button" className="text-muted-foreground hover:text-foreground underline" onClick={() => {
+                            setAppliedDiscountCode(null);
+                            setDiscountReferrerId(null);
+                            setPromoFreeShipping(false);
+                          }}>Remove</button>
+                        </div>
+                      )}
+                    </div>
                   )}
                 </div>
 
@@ -593,11 +653,15 @@ const Checkout = () => {
                     <Label htmlFor="finalConfirmation" className="cursor-pointer leading-relaxed">
                       <span className="font-medium text-foreground">Final Confirmation Required</span>
                       <p className="text-sm text-muted-foreground mt-1">
-                        I confirm that this order is for laboratory research use only and that I agree to the{" "}
+                        I am authorized to place this order for the organization identified above. I confirm
+                        that each product is being purchased solely for legitimate laboratory research or
+                        analytical use, not for use in or on humans or animals, and I agree to the{" "}
                         <Link to="/terms" className="text-primary hover:underline">
                           Terms & Conditions
                         </Link>
-                        . I understand that all products from Vertex Research Labs are not intended for human or veterinary use.
+                        . I will not use or transfer these products for consumption, administration,
+                        diagnosis, treatment, supplementation, body modification, performance enhancement,
+                        or self-experimentation.
                       </p>
                     </Label>
                   </div>
@@ -731,7 +795,7 @@ const Checkout = () => {
                     <div className="flex justify-between text-sm">
                       <span className="text-primary flex items-center gap-1">
                         <Sparkles size={12} />
-                        Discount ({discountCode})
+                        Discount ({recordedDiscountCode})
                       </span>
                       <span className="text-primary font-medium">-{formatPrice(discountAmount)}</span>
                     </div>

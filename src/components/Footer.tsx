@@ -7,7 +7,6 @@ const companyLinks = [
   { label: "Quality", to: "/quality" },
   { label: "COAs", to: "/quality/testing" },
   { label: "Testing Methods", to: "/quality/methods" },
-  { label: "Learn", to: "/learn" },
   { label: "Contact", href: "/#contact" },
 ];
 
@@ -32,17 +31,17 @@ const Footer = () => {
               <img src={logo} alt="Vertex Research Labs" className="h-24 w-auto" />
             </Link>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              Research-grade peptides and analytical reference materials with
-              verified Certificates of Analysis.
+              Laboratory reference materials supplied only for qualified
+              research and analytical work.
             </p>
             <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/70">
-              Designed for researchers. Built on trust.
+              Lot documentation should be reviewed before procurement.
             </p>
           </div>
 
           {/* Shop */}
           <div>
-            <h4 className="mb-3 font-display text-sm font-semibold text-foreground">Shop</h4>
+            <h4 className="mb-3 font-display text-sm font-semibold text-foreground">Catalog</h4>
             <ul className="space-y-2 text-sm">
               {CATEGORY_GROUPS.map((g) => (
                 <li key={g.key}>
@@ -127,11 +126,10 @@ const Footer = () => {
             All products sold by Vertex Research Labs are intended for laboratory research and
             analytical applications only. Not for human consumption. Not for veterinary use.
             Must be handled by qualified research personnel in appropriate laboratory settings.
-            No product is a drug, supplement, or medical device. Nothing on this site is medical
-            advice or a health claim, and no product description or research summary is an
-            endorsement of any use in humans or animals. These statements have not been evaluated
-            by the FDA, and these products are not intended to diagnose, treat, cure, or prevent
-            any disease.
+            Products are not offered as medicines, dietary supplements, foods, cosmetics, medical
+            devices, or consumer products. Nothing on this site is medical advice or an instruction
+            for personal administration. Products are not intended to diagnose, treat, cure,
+            mitigate, or prevent disease.
           </p>
           <p className="mt-4 text-xs text-muted-foreground">
             © {year} Vertex Research Labs. All rights reserved.

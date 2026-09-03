@@ -1,10 +1,4 @@
-// Import product images
 import ghkCu100Image from "@/assets/products/ghk-cu-100.png";
-
-// Import COA images
-import ghkCuCoa from "@/assets/coa/ghk-cu-coa.jpg";
-import rp300Image from "@/assets/products/rp-300.png";
-import rp200Image from "@/assets/products/rp-200.png";
 import ghkCuImage from "@/assets/products/ghk-cu.png";
 import semaxImage from "@/assets/products/semax.png";
 import selankImage from "@/assets/products/selank.png";
@@ -14,26 +8,13 @@ import motsCImage from "@/assets/products/mots-c.png";
 import motsC40Image from "@/assets/products/mots-c-40.png";
 import tesamorelinImage from "@/assets/products/tesamorelin.png";
 import mt2Image from "@/assets/products/mt2.png";
-import bacWater3mlImage from "@/assets/products/bac-water-3ml.png";
-import bacWater10mlImage from "@/assets/products/bac-water-10ml.png";
 import dsipImage from "@/assets/products/dsip.png";
 import cjcIpaImage from "@/assets/products/cjc-ipa.png";
 import wolverineBlendImage from "@/assets/products/wolverine-blend.png";
 import klowImage from "@/assets/products/klow.png";
 
-export interface Reference {
-  authors: string;
-  journal: string;
-  year: number;
-  title: string;
-  url: string;
-}
-
 export interface Product {
   id: string;
-  /** Optional grouping key — multiple products with the same groupId are merged
-   *  into a single catalog card with size variants. Each variant keeps its own
-   *  id, image, price, and detail page. */
   groupId?: string;
   name: string;
   subtitle?: string;
@@ -48,546 +29,203 @@ export interface Product {
   disclaimer: string;
   image?: string;
   category: string;
-  coa?: string;
-  references?: Reference[];
   isNew?: boolean;
   outOfStock?: boolean;
-  /** Units on hand. Drives the "Low stock — order soon" badge when 1–5 remain.
-   *  A value of 0 means sold out; pair it with outOfStock: true. */
   stock?: number;
 }
 
-/** Product ids that have been discontinued and removed from the catalog.
- *  Their old /product/:id URLs redirect to the catalog so inbound links and
- *  search-engine results don't hit a dead page. */
+/**
+ * These identifiers are not offered through the public catalog. Historical
+ * URLs are redirected at the hosting layer so they cannot silently resolve to
+ * a coded substitute or imply that a discontinued material remains available.
+ */
 export const DISCONTINUED_PRODUCT_IDS = new Set<string>([
   "kisspeptin",
   "tesamorelin-2mg",
   "pt-141",
   "epithalon",
+  "tirzepatide",
+  "retatrutide",
+  "rp-200",
+  "rp-300",
+  "bac-water-3ml",
+  "bac-water-10ml",
 ]);
 
-/** Old product slugs that have been renamed. Their old /product/:id URLs
- *  permanently redirect to the new slug so inbound links keep working. */
-export const SLUG_REDIRECTS: Record<string, string> = {
-  tirzepatide: "rp-200",
-  retatrutide: "rp-300",
-};
+export const SLUG_REDIRECTS: Record<string, string> = {};
+
+const researchOnly = {
+  subtitle: "Laboratory Reference Material",
+  purity: "See lot documentation",
+  testing: "See lot-specific analytical documentation",
+  documentation: "Request current lot documentation before ordering",
+  intendedUse: "Laboratory research and analytical use only.",
+  disclaimer:
+    "Not for human or veterinary use. Not a medicine, food, dietary supplement, cosmetic, or consumer product.",
+} as const;
 
 export const products: Product[] = [
   {
+    ...researchOnly,
     id: "ghk-cu",
     groupId: "ghk-cu",
     name: "GHK-Cu",
-    subtitle: "Research Grade",
     size: "50mg",
     price: 44,
-    description: "Copper peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
+    description: "GHK-Cu reference material offered for qualified laboratory procurement and analytical workflows.",
     image: ghkCuImage,
     category: "Copper Peptide",
-    coa: ghkCuCoa,
     stock: 30,
-    references: [
-      {
-        authors: "Pickart L, Margolina A",
-        journal: "International Journal of Molecular Sciences",
-        year: 2015,
-        title: "Regenerative and Protective Actions of the GHK-Cu Peptide",
-        url: "https://pubmed.ncbi.nlm.nih.gov/26236730/"
-      },
-      {
-        authors: "Pickart L et al.",
-        journal: "Oxidative Medicine and Cellular Longevity",
-        year: 2018,
-        title: "GHK Peptide as a Natural Modulator of Multiple Cellular Pathways",
-        url: "https://pubmed.ncbi.nlm.nih.gov/29986520/"
-      }
-    ]
   },
   {
+    ...researchOnly,
     id: "ghk-cu-100",
     groupId: "ghk-cu",
     name: "GHK-Cu",
-    subtitle: "Research Grade",
     size: "100mg",
     price: 88,
-    description: "Copper peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
+    description: "GHK-Cu reference material offered for qualified laboratory procurement and analytical workflows.",
     image: ghkCu100Image,
     category: "Copper Peptide",
-    coa: ghkCuCoa,
     stock: 1,
-    references: [
-      {
-        authors: "Pickart L, Margolina A",
-        journal: "International Journal of Molecular Sciences",
-        year: 2015,
-        title: "Regenerative and Protective Actions of the GHK-Cu Peptide",
-        url: "https://pubmed.ncbi.nlm.nih.gov/26236730/"
-      },
-      {
-        authors: "Pickart L et al.",
-        journal: "Oxidative Medicine and Cellular Longevity",
-        year: 2018,
-        title: "GHK Peptide as a Natural Modulator of Multiple Cellular Pathways",
-        url: "https://pubmed.ncbi.nlm.nih.gov/29986520/"
-      }
-    ]
   },
   {
+    ...researchOnly,
     id: "klow",
-    name: "KLOW",
-    subtitle: "4-Peptide Blend • Research Grade",
+    name: "GHK-Cu/BPC-157/TB-500/KPV Blend",
     size: "80mg",
     price: 129,
-    description: "Four-peptide research blend combining GHK-Cu (50mg), BPC-157 (10mg), TB-500 (10mg), and KPV (10mg) in a single 80mg vial. Reference material supplied exclusively for laboratory research and analytical applications. Not for human consumption.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    category: "Peptide Blend",
+    description: "Co-formulated reference material labeled as GHK-Cu 50mg, BPC-157 10mg, TB-500 10mg, and KPV 10mg per vial. Obtain and review current lot documentation before ordering.",
     image: klowImage,
-    isNew: true,
-    references: [
-      {
-        authors: "Pickart L, Margolina A",
-        journal: "International Journal of Molecular Sciences",
-        year: 2018,
-        title: "GHK Peptide as a Natural Modulator of Multiple Cellular Pathways",
-        url: "https://pubmed.ncbi.nlm.nih.gov/29986520/"
-      },
-      {
-        authors: "Sikiric P et al.",
-        journal: "Current Pharmaceutical Design",
-        year: 2011,
-        title: "BPC-157 Peptide Studies",
-        url: "https://pubmed.ncbi.nlm.nih.gov/21548867/"
-      },
-      {
-        authors: "Philp D et al.",
-        journal: "FASEB Journal",
-        year: 2011,
-        title: "Thymosin β4 (TB-500) Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/22074294/"
-      },
-      {
-        authors: "Dalmasso G et al.",
-        journal: "Gastroenterology",
-        year: 2008,
-        title: "KPV Tripeptide Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/18061177/"
-      }
-    ]
+    category: "Peptide Blend",
   },
   {
-    id: "rp-300",
-    name: "RP-300",
-    subtitle: "Research Grade",
-    size: "10mg",
-    price: 98,
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: rp300Image,
-    category: "Peptide",
-    stock: 22,
-  },
-  {
-    id: "rp-200",
-    name: "RP-200",
-    subtitle: "Research Grade",
-    size: "10mg",
-    price: 85,
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: rp200Image,
-    category: "Peptide",
-    isNew: true,
-  },
-  {
+    ...researchOnly,
     id: "igf1-lr3",
     name: "IGF-1 LR3",
-    subtitle: "Research Grade",
     size: "1mg",
     price: 85,
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
+    description: "IGF-1 LR3 reference material offered for qualified laboratory procurement and analytical workflows.",
     category: "Peptide",
-    isNew: true
   },
   {
+    ...researchOnly,
     id: "semax",
     name: "Semax",
-    subtitle: "Research Grade",
     size: "5mg",
     price: 33,
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
+    description: "Semax reference material offered for qualified laboratory procurement and analytical workflows.",
     image: semaxImage,
     category: "Peptide",
     stock: 15,
-    references: [
-      {
-        authors: "Dolotov OV et al.",
-        journal: "Brain Research",
-        year: 2006,
-        title: "Semax Peptide Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/16635254/"
-      }
-    ]
   },
   {
+    ...researchOnly,
     id: "selank",
     name: "Selank",
-    subtitle: "Research Grade",
     size: "5mg",
     price: 33,
-    description: "Heptapeptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
+    description: "Selank reference material offered for qualified laboratory procurement and analytical workflows.",
     image: selankImage,
     category: "Heptapeptide",
-    references: [
-      {
-        authors: "Zolotarev YA et al.",
-        journal: "Neurochemical Research",
-        year: 2008,
-        title: "Selank Peptide Studies",
-        url: "https://pubmed.ncbi.nlm.nih.gov/18841804/"
-      },
-      {
-        authors: "Kasian A et al.",
-        journal: "Pharmaceutics",
-        year: 2018,
-        title: "Selank Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/30255741/"
-      }
-    ]
   },
   {
+    ...researchOnly,
     id: "nad-plus-1000",
     name: "NAD+",
-    subtitle: "Research Grade",
     size: "1000mg",
     price: 150,
-    description: "Coenzyme reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
+    description: "NAD+ reference material offered for qualified laboratory procurement and analytical workflows.",
     image: nadPlus1000Image,
     category: "Coenzyme",
     stock: 6,
-    references: [
-      {
-        authors: "Bogan KL, Brenner C",
-        journal: "Annual Review of Nutrition",
-        year: 2008,
-        title: "NAD+ Biosynthesis Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/18429699/"
-      }
-    ]
   },
   {
+    ...researchOnly,
     id: "glutathione",
     name: "Glutathione",
-    subtitle: "Research Grade",
     size: "1500mg",
     price: 75,
-    originalPrice: 85,
-    description: "Tripeptide antioxidant reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
+    description: "Glutathione reference material offered for qualified laboratory procurement and analytical workflows.",
     image: glutathioneImage,
-    category: "Antioxidant",
-    isNew: true,
+    category: "Tripeptide",
     stock: 7,
-    references: [
-      {
-        authors: "Pizzorno J",
-        journal: "Integrative Medicine",
-        year: 2014,
-        title: "Glutathione!",
-        url: "https://pubmed.ncbi.nlm.nih.gov/26770075/"
-      },
-      {
-        authors: "Wu G et al.",
-        journal: "Journal of Nutrition",
-        year: 2004,
-        title: "Glutathione Metabolism and Its Implications for Health",
-        url: "https://pubmed.ncbi.nlm.nih.gov/14988435/"
-      }
-    ]
   },
   {
+    ...researchOnly,
     id: "mots-c",
     groupId: "mots-c",
     name: "MOTS-C",
-    subtitle: "Research Grade",
     size: "10mg",
     price: 48,
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
+    description: "MOTS-C reference material offered for qualified laboratory procurement and analytical workflows.",
     image: motsCImage,
     category: "Peptide",
-    references: [
-      {
-        authors: "Lee C et al.",
-        journal: "Cell Metabolism",
-        year: 2015,
-        title: "MOTS-c Peptide Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/25738459/"
-      },
-      {
-        authors: "Lee C et al.",
-        journal: "Cell Metabolism",
-        year: 2015,
-        title: "Mitochondrial-derived Peptide MOTS-c",
-        url: "https://www.cell.com/cell-metabolism/fulltext/S1550-4131(15)00061-3"
-      }
-    ]
   },
   {
+    ...researchOnly,
     id: "mots-c-40",
     groupId: "mots-c",
     name: "MOTS-C",
-    subtitle: "Research Grade",
     size: "40mg",
     price: 140,
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
+    description: "MOTS-C reference material offered for qualified laboratory procurement and analytical workflows.",
     image: motsC40Image,
     category: "Peptide",
-    isNew: true,
-    references: [
-      {
-        authors: "Lee C et al.",
-        journal: "Cell Metabolism",
-        year: 2015,
-        title: "MOTS-c Peptide Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/25738459/"
-      }
-    ]
   },
   {
+    ...researchOnly,
     id: "tesamorelin",
-    groupId: "tesamorelin",
     name: "Tesamorelin",
-    subtitle: "Research Grade",
     size: "10mg",
     price: 85,
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
+    description: "Tesamorelin reference material offered for qualified laboratory procurement and analytical workflows.",
     image: tesamorelinImage,
     category: "Peptide",
-    isNew: true,
-    references: [
-      {
-        authors: "Falutz J et al.",
-        journal: "AIDS",
-        year: 2007,
-        title: "Tesamorelin Clinical Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/18057338/"
-      },
-      {
-        authors: "Falutz J et al.",
-        journal: "New England Journal of Medicine",
-        year: 2007,
-        title: "Tesamorelin GHRH Analog Studies",
-        url: "https://www.nejm.org/doi/full/10.1056/NEJMoa072375"
-      }
-    ]
   },
   {
+    ...researchOnly,
     id: "mt2",
-    name: "MT2 (Melanotan II)",
-    subtitle: "Research Grade",
+    name: "Melanotan II (MT-II)",
     size: "10mg",
     price: 45,
-    description: "Peptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
+    description: "Melanotan II reference material offered for qualified laboratory procurement and analytical workflows.",
     image: mt2Image,
     category: "Peptide",
     stock: 5,
-    references: [
-      {
-        authors: "Hadley ME et al.",
-        journal: "Endocrinology",
-        year: 1999,
-        title: "Melanocortin receptor activation by Melanotan II",
-        url: "https://pubmed.ncbi.nlm.nih.gov/10579327/"
-      }
-    ]
   },
   {
+    ...researchOnly,
     id: "dsip",
-    name: "DSIP (Delta Sleep-Inducing Peptide)",
-    subtitle: "Research Grade",
+    name: "Delta Sleep-Inducing Peptide (DSIP)",
     size: "5mg",
     price: 42,
-    description: "Nonapeptide reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
+    description: "DSIP reference material offered for qualified laboratory procurement and analytical workflows.",
     image: dsipImage,
     category: "Peptide",
-    references: [
-      {
-        authors: "Graf MV, Kastin AJ",
-        journal: "Peptides",
-        year: 1984,
-        title: "Delta Sleep-Inducing Peptide (DSIP) Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/6438537/"
-      }
-    ]
   },
   {
+    ...researchOnly,
     id: "wolverine-blend",
-    name: "BPC-157/TB-500",
-    subtitle: "Research Grade",
+    name: "BPC-157/TB-500 Blend",
     size: "10mg",
     price: 55,
-    originalPrice: 65,
-    description: "Premium blend of BPC-157 (5mg) and TB-500 (5mg) reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    category: "Peptide Blend",
+    description: "Co-formulated reference material labeled as BPC-157 5mg and TB-500 5mg per vial. Obtain and review current lot documentation before ordering.",
     image: wolverineBlendImage,
-    isNew: true,
+    category: "Peptide Blend",
     stock: 7,
-    references: [
-      {
-        authors: "Sikiric P et al.",
-        journal: "Current Pharmaceutical Design",
-        year: 2011,
-        title: "BPC-157 Peptide Studies",
-        url: "https://pubmed.ncbi.nlm.nih.gov/21548867/"
-      },
-      {
-        authors: "Philp D et al.",
-        journal: "FASEB Journal",
-        year: 2011,
-        title: "Thymosin β4 Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/22074294/"
-      }
-    ]
   },
   {
+    ...researchOnly,
     id: "cjc-ipa-blend",
-    name: "CJC/IPA Blend",
-    subtitle: "No DAC • Research Grade",
+    name: "CJC-1295 (No DAC)/Ipamorelin Blend",
     size: "10mg",
     price: 85,
-    description: "CJC-1295 (No DAC) and Ipamorelin blend reference material supplied exclusively for laboratory research and analytical applications.",
-    purity: "≥99%",
-    testing: "Independent analytical verification",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
+    description: "Co-formulated CJC-1295 (No DAC) and Ipamorelin reference material. Obtain and review current lot documentation before ordering.",
     image: cjcIpaImage,
     category: "Peptide Blend",
-    isNew: true,
     stock: 6,
-    references: [
-      {
-        authors: "Teichman SL et al.",
-        journal: "Journal of Clinical Endocrinology & Metabolism",
-        year: 2006,
-        title: "CJC-1295 Growth Hormone Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/16670164/"
-      },
-      {
-        authors: "Raun K et al.",
-        journal: "European Journal of Endocrinology",
-        year: 1998,
-        title: "Ipamorelin GH Secretagogue Research",
-        url: "https://pubmed.ncbi.nlm.nih.gov/9916862/"
-      }
-    ]
   },
-  {
-    id: "bac-water-3ml",
-    name: "BAC Water",
-    subtitle: "Research Grade",
-    size: "3mL",
-    price: 8,
-    description: "Sterile bacteriostatic diluent supplied exclusively for laboratory research and analytical applications.",
-    purity: "USP Grade",
-    testing: "Sterility tested",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: bacWater3mlImage,
-    category: "Diluent"
-  },
-  {
-    id: "bac-water-10ml",
-    name: "BAC Water",
-    subtitle: "Research Grade",
-    size: "10mL",
-    price: 15,
-    description: "Sterile bacteriostatic diluent supplied exclusively for laboratory research and analytical applications.",
-    purity: "USP Grade",
-    testing: "Sterility tested",
-    documentation: "Certificate of Analysis available upon request",
-    intendedUse: "Laboratory research use only.",
-    disclaimer: "Not for human consumption or veterinary use.",
-    image: bacWater10mlImage,
-    category: "Diluent"
-  }
 ];
 
 export const FREE_SHIPPING_THRESHOLD = 99;

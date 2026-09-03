@@ -52,74 +52,81 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    // Match the order by tracking number
-    const { data: order } = await admin
+    // A combined shipment can legitimately contain multiple orders. Fan each
+    // scan update out to every order sharing this tracking number.
+    const { data: orders, error: ordersErr } = await admin
       .from("orders")
       .select("id, status, in_transit_email_sent_at, out_for_delivery_email_sent_at, delivered_email_sent_at")
-      .eq("tracking_number", trackingCode)
-      .maybeSingle();
+      .eq("tracking_number", trackingCode);
 
-    if (!order) {
+    if (ordersErr) throw ordersErr;
+    if (!orders?.length) {
       console.log("easypost-webhook: no order for tracking_code", trackingCode);
       return new Response(JSON.stringify({ ignored: true, reason: "no matching order" }), {
         status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    let action = "none";
+    const actions: { order_id: string; action: string }[] = [];
 
-    // ── IN TRANSIT (first USPS scan / movement) ──
-    if (status === "in_transit" && !order.in_transit_email_sent_at) {
-      try {
-        await admin.functions.invoke("send-delivery-email", {
-          body: { orderId: order.id, phase: "in_transit", deliveryDetail: detailMessage },
-        });
-      } catch (e) { console.error("in_transit email failed:", e); }
+    for (const order of orders) {
+      let action = "none";
 
-      const { error: itErr } = await admin.from("orders").update({
-        in_transit_email_sent_at: new Date().toISOString(),
-      }).eq("id", order.id);
-      if (itErr) console.error("in_transit update failed:", itErr);
-      action = "sent_in_transit";
+      // ── IN TRANSIT (first USPS scan / movement) ──
+      if (status === "in_transit" && !order.in_transit_email_sent_at) {
+        try {
+          await admin.functions.invoke("send-delivery-email", {
+            body: { orderId: order.id, phase: "in_transit", deliveryDetail: detailMessage },
+          });
+        } catch (e) { console.error("in_transit email failed:", e); }
+
+        const { error: itErr } = await admin.from("orders").update({
+          in_transit_email_sent_at: new Date().toISOString(),
+        }).eq("id", order.id);
+        if (itErr) console.error("in_transit update failed:", itErr);
+        action = "sent_in_transit";
+      }
+
+      // ── OUT FOR DELIVERY ──
+      else if (status === "out_for_delivery" && !order.out_for_delivery_email_sent_at) {
+        try {
+          await admin.functions.invoke("send-delivery-email", {
+            body: { orderId: order.id, phase: "out_for_delivery", deliveryDetail: detailMessage },
+          });
+        } catch (e) { console.error("out_for_delivery email failed:", e); }
+
+        // Note: we keep status as "shipped" — "out_for_delivery" is transient and
+        // not an allowed value in the orders_status_check constraint. Only the
+        // email timestamp matters for dedup.
+        const { error: ofdErr } = await admin.from("orders").update({
+          out_for_delivery_email_sent_at: new Date().toISOString(),
+        }).eq("id", order.id);
+        if (ofdErr) console.error("ofd update failed:", ofdErr);
+        action = "sent_out_for_delivery";
+      }
+
+      // ── DELIVERED ──
+      else if (status === "delivered" && !order.delivered_email_sent_at) {
+        try {
+          await admin.functions.invoke("send-delivery-email", {
+            body: { orderId: order.id, phase: "delivered", deliveryDetail: detailMessage },
+          });
+        } catch (e) { console.error("delivered email failed:", e); }
+
+        const { error: delErr } = await admin.from("orders").update({
+          status: "delivered",
+          delivered_at: latest?.datetime || new Date().toISOString(),
+          delivery_detail: detailMessage || null,
+          delivered_email_sent_at: new Date().toISOString(),
+        }).eq("id", order.id);
+        if (delErr) console.error("delivered update failed:", delErr);
+        action = "sent_delivered";
+      }
+
+      actions.push({ order_id: order.id, action });
     }
 
-    // ── OUT FOR DELIVERY ──
-    else if (status === "out_for_delivery" && !order.out_for_delivery_email_sent_at) {
-      try {
-        await admin.functions.invoke("send-delivery-email", {
-          body: { orderId: order.id, phase: "out_for_delivery", deliveryDetail: detailMessage },
-        });
-      } catch (e) { console.error("out_for_delivery email failed:", e); }
-
-      // Note: we keep status as "shipped" — "out_for_delivery" is transient and
-      // not an allowed value in the orders_status_check constraint. Only the
-      // email timestamp matters for dedup.
-      const { error: ofdErr } = await admin.from("orders").update({
-        out_for_delivery_email_sent_at: new Date().toISOString(),
-      }).eq("id", order.id);
-      if (ofdErr) console.error("ofd update failed:", ofdErr);
-      action = "sent_out_for_delivery";
-    }
-
-    // ── DELIVERED ──
-    else if (status === "delivered" && !order.delivered_email_sent_at) {
-      try {
-        await admin.functions.invoke("send-delivery-email", {
-          body: { orderId: order.id, phase: "delivered", deliveryDetail: detailMessage },
-        });
-      } catch (e) { console.error("delivered email failed:", e); }
-
-      const { error: delErr } = await admin.from("orders").update({
-        status: "delivered",
-        delivered_at: latest?.datetime || new Date().toISOString(),
-        delivery_detail: detailMessage || null,
-        delivered_email_sent_at: new Date().toISOString(),
-      }).eq("id", order.id);
-      if (delErr) console.error("delivered update failed:", delErr);
-      action = "sent_delivered";
-    }
-
-    return new Response(JSON.stringify({ ok: true, action, tracking_code: trackingCode, status }), {
+    return new Response(JSON.stringify({ ok: true, actions, tracking_code: trackingCode, status }), {
       status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e: any) {

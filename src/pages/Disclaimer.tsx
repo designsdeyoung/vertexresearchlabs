@@ -1,97 +1,50 @@
 import { Link } from "react-router-dom";
+import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { AlertTriangle, FlaskConical, ShieldAlert, CheckCircle2 } from "lucide-react";
+import { FlaskConical, ShieldAlert } from "lucide-react";
 
-const Disclaimer = () => {
-  return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <Header />
-      
-      <main className="flex-1 pt-24 pb-16">
-        <div className="container mx-auto px-6 max-w-3xl">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="p-3 rounded-lg bg-destructive/10">
-              <ShieldAlert size={28} className="text-destructive" />
-            </div>
-            <h1 className="text-3xl md:text-4xl font-semibold text-foreground">
-              Disclaimer
-            </h1>
-          </div>
-          
-          <div className="space-y-6">
-            {/* Main Disclaimer */}
-            <div className="glass-card rounded-xl p-6">
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-lg bg-primary/10">
-                  <FlaskConical size={24} className="text-primary" />
-                </div>
-                <div className="space-y-4 text-muted-foreground">
-                  <p>
-                    Vertex Research Labs provides research-grade materials intended solely for laboratory research and analytical purposes.
-                  </p>
-                  <p>
-                    All products sold by Vertex Research Labs are not for human consumption or veterinary use. Products are not intended for diagnosis, treatment, cure, mitigation, or prevention of any disease or medical condition, and have not been approved for such uses.
-                  </p>
-                  <p>
-                    The information presented on this website is provided for general informational purposes only. Nothing on this site should be interpreted as medical, pharmaceutical, clinical, or scientific advice, nor should it be relied upon to make health-related decisions.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Purchaser Representations */}
-            <div className="glass-card rounded-xl p-6">
-              <h2 className="text-xl font-semibold text-foreground mb-4">Purchaser Representations</h2>
-              <p className="text-muted-foreground mb-4">
-                By purchasing products from Vertex Research Labs or requesting information through this website, the purchaser represents and warrants that:
-              </p>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 size={18} className="text-primary mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">
-                    The products will be used exclusively for legitimate laboratory research purposes.
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 size={18} className="text-primary mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">
-                    The purchaser is a qualified individual or institution authorized to handle research materials.
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 size={18} className="text-primary mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">
-                    The products will not be used in or on humans or animals, directly or indirectly.
-                  </span>
-                </li>
-              </ul>
-            </div>
-
-            {/* No Warranties */}
-            <div className="glass-card rounded-xl p-6">
-              <p className="text-muted-foreground">
-                Vertex Research Labs makes no representations or warranties, express or implied, regarding the safety, efficacy, performance, or outcomes of any product for human or animal use.
-              </p>
-            </div>
-
-            {/* Acceptance */}
-            <div className="flex items-start gap-3 p-4 rounded-lg bg-destructive/5 border border-destructive/20">
-              <AlertTriangle size={18} className="text-destructive/70 mt-0.5 flex-shrink-0" />
-              <p className="text-sm text-muted-foreground">
-                Use of this website and purchase of any products constitutes acceptance of this disclaimer and all related policies, including the{" "}
-                <Link to="/terms" className="text-primary hover:underline">Terms of Service</Link>
-                {" "}and{" "}
-                <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
-              </p>
-            </div>
-          </div>
+const Disclaimer = () => (
+  <div className="min-h-screen bg-background flex flex-col">
+    <SEOHead
+      title="Information and Research Disclaimer"
+      description="Research-use and information limitations for Vertex Research Labs materials and website content."
+      canonical="/disclaimer"
+    />
+    <Header />
+    <main className="flex-1 pt-24 pb-16">
+      <div className="container mx-auto px-6 max-w-3xl">
+        <div className="flex items-center gap-3 mb-8">
+          <div className="p-3 rounded-lg bg-destructive/10"><ShieldAlert size={28} className="text-destructive" /></div>
+          <h1 className="text-3xl md:text-4xl font-semibold text-foreground">Information and Research Disclaimer</h1>
         </div>
-      </main>
-      
-      <Footer />
-    </div>
-  );
-};
+        <div className="space-y-6 text-muted-foreground">
+          <section className="glass-card rounded-xl p-6">
+            <h2 className="flex items-center gap-2 text-xl font-semibold text-foreground mb-3"><FlaskConical size={20} className="text-primary" />Laboratory scope only</h2>
+            <p>Vertex Research Labs offers materials exclusively for legitimate laboratory research and analytical purposes. Products are not for use in or on humans or animals. They are not intended to diagnose, treat, cure, mitigate, or prevent disease and are not offered as medicines, dietary supplements, foods, cosmetics, medical devices, or consumer products.</p>
+          </section>
+          <section className="glass-card rounded-xl p-6">
+            <h2 className="text-xl font-semibold text-foreground mb-3">No medical or administration advice</h2>
+            <p>Site content is laboratory and procurement information only. Nothing is medical, clinical, pharmaceutical, or veterinary advice; no physician-patient, veterinarian-client-patient, or other professional relationship is created. Content must not be interpreted as instructions for personal dosing, administration, injection, reconstitution, treatment, supplementation, or self-experimentation.</p>
+          </section>
+          <section className="glass-card rounded-xl p-6">
+            <h2 className="text-xl font-semibold text-foreground mb-3">Scientific information and references</h2>
+            <p>A citation or discussion of published research does not endorse human or veterinary use and does not establish that a Vertex product is safe, effective, approved, equivalent to a studied material, or suitable for a particular method. Findings about another sample, formulation, species, model, or study cannot be attributed to a Vertex lot without appropriate evidence.</p>
+          </section>
+          <section className="glass-card rounded-xl p-6">
+            <h2 className="text-xl font-semibold text-foreground mb-3">Documentation limitations</h2>
+            <p>Analytical documentation applies only to the product, lot, sample, and method it identifies. Request and independently review current lot-specific records before procurement. A purity result does not establish sterility, endotoxin level, safety, efficacy, or suitability for administration.</p>
+          </section>
+          <section className="glass-card rounded-xl p-6">
+            <h2 className="text-xl font-semibold text-foreground mb-3">Purchaser responsibility</h2>
+            <p>Purchasers are responsible for lawful acquisition, trained handling, storage, institutional approvals, validated protocols, hazard controls, disposal, and compliance with applicable laws and policies. These notices do not themselves determine the legal status of a product or transaction.</p>
+          </section>
+          <p className="text-sm">See the <Link to="/terms" className="text-primary hover:underline">Terms and Conditions</Link> and <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.</p>
+        </div>
+      </div>
+    </main>
+    <Footer />
+  </div>
+);
 
 export default Disclaimer;

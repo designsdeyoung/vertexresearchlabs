@@ -22,6 +22,10 @@ import {
   Send,
   Plus,
   DollarSign,
+  Link2,
+  MessageCircle,
+  Phone,
+  Save,
 } from "lucide-react";
 
 const ADMIN_EMAILS = ["info@vertexdata.ai", "designsdeyoung@gmail.com", "adamdeyoung11@gmail.com", "info@vertexresearchlabs.com"];
@@ -65,6 +69,11 @@ interface Order {
     magic_token: string | null;
     referral_code: string | null;
   } | null;
+}
+
+interface UpdateCustomerPhoneResponse {
+  error?: string;
+  phoneNumber?: string;
 }
 
 function nextTier(balance: number) {
@@ -349,6 +358,13 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
   const [sendingReminder, setSendingReminder] = useState(false);
   const [payMethod, setPayMethod] = useState<string | null>(null);
   const [markingPaid, setMarkingPaid] = useState(false);
+  const [trackingEntryOpen, setTrackingEntryOpen] = useState(false);
+  const [trackingNumber, setTrackingNumber] = useState("");
+  const [attachingTracking, setAttachingTracking] = useState(false);
+  const [savedPhone, setSavedPhone] = useState(order.profiles?.phone_number || "");
+  const [phoneDraft, setPhoneDraft] = useState(order.profiles?.phone_number || "");
+  const [phoneEditing, setPhoneEditing] = useState(!order.profiles?.phone_number);
+  const [savingPhone, setSavingPhone] = useState(false);
   // Cancellation is destructive and emails the customer — require an explicit
   // confirm step rather than a single click.
   const [cancelReason, setCancelReason] = useState<string | null>(null);
@@ -384,6 +400,46 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
   const hasAddress = !!(addr1 && city && state && zip);
   const isShipped = order.status === "shipped" || !!order.tracking_number;
   const isPaid = !!order.paid_at;
+  const phoneHref = savedPhone.replace(/[^\d+]/g, "");
+
+  useEffect(() => {
+    const latestPhone = order.profiles?.phone_number || "";
+    if (latestPhone) {
+      setSavedPhone(latestPhone);
+      setPhoneDraft(latestPhone);
+      setPhoneEditing(false);
+    }
+  }, [order.profiles?.phone_number]);
+
+  const handleSavePhone = async () => {
+    const phoneNumber = phoneDraft.trim();
+    if (phoneNumber.length < 7) {
+      toast({ title: "Enter a valid phone number", variant: "destructive" });
+      return;
+    }
+    setSavingPhone(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("update-customer-phone", {
+        body: { orderId: order.id, phoneNumber },
+      });
+      if (error) throw error;
+      const response = data as UpdateCustomerPhoneResponse | null;
+      if (response?.error) throw new Error(response.error);
+      const persistedPhone = response?.phoneNumber || phoneNumber;
+      setSavedPhone(persistedPhone);
+      setPhoneDraft(persistedPhone);
+      setPhoneEditing(false);
+      toast({ title: "Phone number saved", description: "Text and call buttons are ready." });
+    } catch (e: unknown) {
+      toast({
+        title: "Couldn't save phone number",
+        description: e instanceof Error ? e.message : "Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setSavingPhone(false);
+    }
+  };
 
   const handleSendReminder = async () => {
     if (!order.order_number) {
@@ -516,6 +572,48 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
     }
   };
 
+  const handleAttachTracking = async () => {
+    const code = trackingNumber.replace(/\s+/g, "").toUpperCase();
+    if (!code) {
+      toast({ title: "Enter a tracking number", variant: "destructive" });
+      return;
+    }
+
+    setAttachingTracking(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("upload-tracking", {
+        body: {
+          orderId: order.id,
+          trackingNumber: code,
+          carrier: "USPS",
+          sendShipped: true,
+          bcc: "designsdeyoung@gmail.com",
+        },
+      });
+      if (error) throw error;
+      if ((data as any)?.error) throw new Error((data as any).error);
+
+      const emailSent = (data as any)?.email_sent === true;
+      toast({
+        title: emailSent ? "Marked shipped — customer notified" : "Marked shipped — check customer email",
+        description: `${order.order_number || "Order"} now uses tracking ${code}. ${
+          emailSent
+            ? "Future USPS scan notifications will follow this tracking number."
+            : "The tracking number was saved, but the shipped email was not confirmed."
+        }`,
+        variant: emailSent ? "default" : "destructive",
+        duration: 10000,
+      });
+      setTrackingEntryOpen(false);
+      setTrackingNumber("");
+      onLabelGenerated();
+    } catch (e: any) {
+      toast({ title: "Couldn't attach tracking", description: e.message, variant: "destructive" });
+    } finally {
+      setAttachingTracking(false);
+    }
+  };
+
   return (
     <div className="glass-card rounded-xl p-4">
       <div
@@ -555,16 +653,72 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
               <p className="text-sm text-muted-foreground">{addr1}</p>
               <p className="text-sm text-muted-foreground">{city}, {state} {zip}</p>
               {profile?.email && <p className="text-xs text-muted-foreground mt-1">{profile.email}</p>}
-              {profile?.phone_number && (
-                <p className="text-xs mt-0.5">
-                  <a
-                    href={`tel:${profile.phone_number.replace(/[^\d+]/g, "")}`}
-                    className="text-muted-foreground hover:text-primary"
-                  >
-                    {profile.phone_number}
-                  </a>
-                </p>
-              )}
+
+              <div className="mt-3 rounded-lg border border-primary/25 bg-primary/5 p-3">
+                {savedPhone && !phoneEditing ? (
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/15 text-primary">
+                        <Phone size={17} />
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Customer phone</p>
+                        <a href={`tel:${phoneHref}`} className="text-base font-semibold text-foreground hover:text-primary">
+                          {savedPhone}
+                        </a>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <a
+                        href={`sms:${phoneHref}`}
+                        className="inline-flex h-9 items-center gap-1.5 rounded-md bg-primary px-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+                      >
+                        <MessageCircle size={15} /> Text
+                      </a>
+                      <a
+                        href={`tel:${phoneHref}`}
+                        className="inline-flex h-9 items-center gap-1.5 rounded-md border border-border bg-background px-3 text-sm font-medium text-foreground hover:bg-secondary"
+                      >
+                        <Phone size={15} /> Call
+                      </a>
+                      <button
+                        type="button"
+                        className="px-1 text-xs text-muted-foreground underline hover:text-foreground"
+                        onClick={() => setPhoneEditing(true)}
+                      >
+                        Edit
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+                      <Phone size={15} className="text-primary" />
+                      {savedPhone ? "Edit customer phone" : "Phone number wasn't saved with this order"}
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <input
+                        type="tel"
+                        value={phoneDraft}
+                        onChange={(e) => setPhoneDraft(e.target.value)}
+                        onKeyDown={(e) => { if (e.key === "Enter") void handleSavePhone(); }}
+                        placeholder="(555) 123-4567"
+                        maxLength={30}
+                        className="min-w-52 flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground"
+                        disabled={savingPhone}
+                      />
+                      <Button size="sm" variant="hero" onClick={handleSavePhone} disabled={savingPhone || phoneDraft.trim().length < 7}>
+                        <Save size={14} className="mr-1" /> {savingPhone ? "Saving…" : "Save phone"}
+                      </Button>
+                      {savedPhone && (
+                        <Button size="sm" variant="ghost" onClick={() => { setPhoneDraft(savedPhone); setPhoneEditing(false); }} disabled={savingPhone}>
+                          Cancel
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
             <div>
               <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Items</p>
@@ -613,6 +767,52 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
                   <input className="w-16 bg-background border border-border rounded px-2 py-1.5 text-sm text-foreground" placeholder="ST" maxLength={2} value={manualAddr.state} onChange={e => setManualAddr(a => ({ ...a, state: e.target.value.toUpperCase() }))} />
                   <input className="flex-1 bg-background border border-border rounded px-2 py-1.5 text-sm text-foreground" placeholder="ZIP" value={manualAddr.zip} onChange={e => setManualAddr(a => ({ ...a, zip: e.target.value }))} />
                 </div>
+              </div>
+            </div>
+          )}
+
+          {!isShipped && trackingEntryOpen && (
+            <div className="p-3 rounded-lg bg-primary/5 border border-primary/25 space-y-2">
+              <p className="text-xs text-primary font-semibold uppercase tracking-wider">
+                Use an existing shipping label
+              </p>
+              <p className="text-[11px] text-muted-foreground">
+                Paste a tracking number you already paid for. This order will be marked shipped,
+                the customer will receive the normal shipped email, and future USPS scan emails
+                will apply to every order sharing the number.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <input
+                  className="min-w-64 flex-1 bg-background border border-border rounded px-3 py-2 text-sm font-mono text-foreground"
+                  placeholder="USPS tracking number"
+                  value={trackingNumber}
+                  onChange={(e) => setTrackingNumber(e.target.value.toUpperCase())}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") void handleAttachTracking();
+                  }}
+                  autoFocus
+                  disabled={attachingTracking}
+                />
+                <Button
+                  size="sm"
+                  variant="hero"
+                  onClick={handleAttachTracking}
+                  disabled={attachingTracking || !trackingNumber.trim()}
+                >
+                  <Link2 size={14} className="mr-1" />
+                  {attachingTracking ? "Saving…" : "Mark Shipped & Notify"}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    setTrackingEntryOpen(false);
+                    setTrackingNumber("");
+                  }}
+                  disabled={attachingTracking}
+                >
+                  Cancel
+                </Button>
               </div>
             </div>
           )}
@@ -837,10 +1037,20 @@ const OrderRow = ({ order, onLabelGenerated }: { order: Order; onLabelGenerated:
               </Button>
             )}
             {!isShipped && !preview && (
-              <Button size="sm" variant="hero" onClick={handlePreviewLabel} disabled={generating}>
-                <Truck size={14} className="mr-1" />
-                {generating ? "Loading preview..." : "Preview USPS Label"}
-              </Button>
+              <>
+                <Button size="sm" variant="hero" onClick={handlePreviewLabel} disabled={generating || attachingTracking}>
+                  <Truck size={14} className="mr-1" />
+                  {generating ? "Loading preview..." : "Preview USPS Label"}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setTrackingEntryOpen((open) => !open)}
+                  disabled={generating || attachingTracking}
+                >
+                  <Link2 size={14} className="mr-1" /> Use Existing Tracking
+                </Button>
+              </>
             )}
           </div>
         </div>

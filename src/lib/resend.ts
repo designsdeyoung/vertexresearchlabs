@@ -10,12 +10,6 @@ import { supabase } from "@/integrations/supabase/client";
  * function and are intentionally not duplicated here.
  */
 
-export interface RestockItem {
-  productId: string;
-  productName: string;
-  size: string;
-}
-
 /** Add an email to the Resend audience. `sendWelcome` also fires the welcome +
  *  discount email (used by the exit-intent popup; checkout consent omits it). */
 export async function subscribeEmail(
@@ -26,18 +20,6 @@ export async function subscribeEmail(
     body: { email, sendWelcome: opts.sendWelcome ?? false, source: opts.source },
   });
   return error ? { error: error.message } : {};
-}
-
-/** Schedule the day-14 reorder reminder. `scheduledAt` is ISO 8601 (~14 days out). */
-export async function scheduleRestockReminder(params: {
-  email: string;
-  fullName?: string;
-  items: RestockItem[];
-  orderNumber?: string;
-  scheduledAt: string;
-}): Promise<void> {
-  const { error } = await supabase.functions.invoke("send-restock-reminder", { body: params });
-  if (error) console.error("scheduleRestockReminder failed:", error);
 }
 
 /** Broadcast a new-compound announcement to a list of emails (admin use). */

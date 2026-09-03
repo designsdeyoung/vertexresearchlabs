@@ -1,4 +1,9 @@
 {
+  "redirects": [
+    { "source": "/learn", "destination": "/quality/methods", "permanent": true },
+    { "source": "/learn/:path*", "destination": "/quality/methods", "permanent": true },
+    { "source": "/product/:id(bpc-157|tb-500|tirzepatide|retatrutide|rp-200|rp-300|nad-plus|kisspeptin|tesamorelin-2mg|pt-141|epithalon|bac-water-3ml|bac-water-10ml)", "destination": "/", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/((?!api/|assets/|.*\\.).*)", "destination": "/index.html" }
   ]

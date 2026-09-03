@@ -1,212 +1,24 @@
 import { Link } from "react-router-dom";
+import { FileSearch, FlaskConical, PackageCheck } from "lucide-react";
 import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { 
-  Shield, 
-  FileCheck, 
-  FlaskConical, 
-  AlertTriangle,
-  ChevronRight,
-  Search,
-  Beaker,
-  Package,
-  Award,
-  ArrowRight
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
 
-const Quality = () => {
-  const qualityPages = [
-    {
-      title: "Testing & COAs",
-      description: "How our reference materials are tested. Certificates of Analysis are available on request where applicable.",
-      icon: Search,
-      href: "/quality/testing",
-      highlight: true
-    },
-    {
-      title: "Testing Methods",
-      description: "Identity testing, purity analysis, residual solvents, endotoxin, and microbial testing explained.",
-      icon: Beaker,
-      href: "/quality/methods"
-    },
-    {
-      title: "Handling & Quality Controls",
-      description: "Retention samples, pass/fail criteria, and quality control documentation.",
-      icon: Package,
-      href: "/quality/chain-of-custody"
-    }
-  ];
+const resources = [
+  { title: "Lot Documentation", body: "How to request and evaluate records for the specific lot under consideration.", href: "/quality/testing", icon: FileSearch },
+  { title: "Analytical Methods", body: "A neutral guide to common analytical methods and the limits of their results.", href: "/quality/methods", icon: FlaskConical },
+  { title: "Receiving & Records", body: "Purchaser-side receiving, traceability, storage, and deviation-record practices.", href: "/quality/chain-of-custody", icon: PackageCheck },
+];
 
-  return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <SEOHead
-        title="Peptide Quality Standards | HPLC Testing & Documentation"
-        description="Vertex Research Labs reference materials are independently HPLC tested with ≥99% purity verification. View our testing methods and quality documentation. Certificates of Analysis are available on request where applicable."
-        canonical="/quality"
-        keywords={[
-          "peptide COA",
-          "peptide certificate of analysis",
-          "HPLC tested peptides",
-          "research peptide purity testing",
-          "peptide quality standards",
-          "99% purity peptides",
-          "independent peptide testing",
-          "peptide purity documentation",
-        ]}
-      />
-      <Header />
-      
-      <main className="flex-1 pt-24 pb-16">
-        <div className="container mx-auto px-6">
-          {/* Hero */}
-          <div className="max-w-3xl mb-12">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 rounded-lg bg-primary/10">
-                <Shield size={28} className="text-primary" />
-              </div>
-              <h1 className="text-3xl md:text-4xl font-semibold text-foreground">
-                Quality Hub
-              </h1>
-            </div>
-            <p className="text-lg text-muted-foreground">
-              Transparency is foundational to research integrity. Access our complete quality documentation, testing methods, and third-party verification data.
-            </p>
-          </div>
-          
-          {/* Quick Links Grid */}
-          <div className="grid md:grid-cols-3 gap-6 mb-16">
-            {qualityPages.map((page) => (
-              <Link 
-                key={page.href}
-                to={page.href}
-                className={`glass-card rounded-xl p-6 group hover:border-primary/30 transition-all duration-300 ${
-                  page.highlight ? 'ring-1 ring-primary/20' : ''
-                }`}
-              >
-                <div className="flex items-start gap-4">
-                  <div className={`p-3 rounded-lg ${page.highlight ? 'bg-primary/20' : 'bg-primary/10'}`}>
-                    <page.icon size={24} className="text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h2 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors flex items-center gap-2">
-                      {page.title}
-                      <ArrowRight size={16} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </h2>
-                    <p className="text-sm text-muted-foreground">
-                      {page.description}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {/* Overview Cards */}
-          <div className="space-y-8">
-            <h2 className="text-2xl font-semibold text-foreground">Our Commitment</h2>
-            
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="glass-card rounded-lg p-6">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-lg bg-primary/10">
-                    <FlaskConical size={24} className="text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">Independent Testing</h3>
-                    <p className="text-muted-foreground mb-4">
-                      Our reference materials are tested by an independent, ISO-certified laboratory.
-                    </p>
-                    <Link to="/quality/testing" className="text-primary text-sm font-medium hover:underline inline-flex items-center gap-1">
-                      View certificates <ChevronRight size={14} />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="glass-card rounded-lg p-6">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-lg bg-primary/10">
-                    <FileCheck size={24} className="text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">Full Documentation</h3>
-                    <p className="text-muted-foreground mb-4">
-                      Not just purity numbers—our analytical methods cover chromatograms and mass spectra. Certificates of Analysis are available on request where applicable.
-                    </p>
-                    <Link to="/quality/methods" className="text-primary text-sm font-medium hover:underline inline-flex items-center gap-1">
-                      Learn about methods <ChevronRight size={14} />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="glass-card rounded-lg p-6">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-lg bg-primary/10">
-                    <Award size={24} className="text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">Third-Party Verification</h3>
-                    <p className="text-muted-foreground mb-4">
-                      We partner with Freedom Diagnostics, a US-based analytical laboratory, for independent verification.
-                    </p>
-                    <Link to="/quality/chain-of-custody" className="text-primary text-sm font-medium hover:underline inline-flex items-center gap-1">
-                      See verification details <ChevronRight size={14} />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="glass-card rounded-lg p-6">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-lg bg-primary/10">
-                    <Package size={24} className="text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">Quality Controls</h3>
-                    <p className="text-muted-foreground mb-4">
-                      Careful handling from receipt to delivery, with retention samples maintained for reference.
-                    </p>
-                    <Link to="/quality/chain-of-custody" className="text-primary text-sm font-medium hover:underline inline-flex items-center gap-1">
-                      View quality controls <ChevronRight size={14} />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* CTA */}
-          <div className="mt-16 glass-card rounded-xl p-8 text-center">
-            <h2 className="text-2xl font-semibold text-foreground mb-4">
-              Need a Certificate of Analysis?
-            </h2>
-            <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-              Certificates of Analysis are available on request where applicable. Contact us to request available documentation.
-            </p>
-            <Button variant="hero" size="lg" asChild>
-              <Link to="/quality/testing">
-                <Search size={18} />
-                View Testing & COAs
-              </Link>
-            </Button>
-          </div>
-
-          {/* Research Disclaimer */}
-          <div className="mt-8 flex items-start gap-3 p-4 rounded-lg bg-destructive/5 border border-destructive/20">
-            <AlertTriangle size={18} className="text-destructive/70 mt-0.5 flex-shrink-0" />
-            <p className="text-sm text-muted-foreground">
-              <strong className="text-foreground">Research Use Only:</strong> All products and documentation are provided exclusively for laboratory research purposes. Not intended for human or veterinary use.
-            </p>
-          </div>
-        </div>
-      </main>
-      
-      <Footer />
-    </div>
-  );
-};
-
-export default Quality;
+export default function Quality() {
+  return <div className="min-h-screen bg-background flex flex-col">
+    <SEOHead title="Quality Documentation | Vertex Research Labs" description="Request and independently review current lot-specific documentation before procuring laboratory reference materials." canonical="/quality" />
+    <Header />
+    <main className="flex-1 pt-24 pb-16"><div className="container mx-auto px-6 max-w-5xl">
+      <h1 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">Quality documentation</h1>
+      <p className="text-lg text-muted-foreground max-w-3xl mb-10">Documentation availability and test scope vary by material and lot. Contact us before ordering to request the records currently associated with the lot being offered, then determine whether those records satisfy your organization’s protocol.</p>
+      <div className="grid md:grid-cols-3 gap-6">{resources.map(({ title, body, href, icon: Icon }) => <Link key={href} to={href} className="glass-card rounded-xl p-6 hover:border-primary/30 transition-colors"><Icon className="text-primary mb-4"/><h2 className="text-lg font-semibold mb-2">{title}</h2><p className="text-sm text-muted-foreground">{body}</p></Link>)}</div>
+      <div className="glass-card rounded-xl p-6 mt-10 text-sm text-muted-foreground"><strong className="text-foreground">Important limitation:</strong> An analytical result applies only to the sample, lot, and method identified in the record. Purity or identity data do not establish sterility, endotoxin level, safety, efficacy, regulatory approval, or suitability for administration. Materials are not for use in or on humans or animals.</div>
+    </div></main><Footer />
+  </div>;
+}

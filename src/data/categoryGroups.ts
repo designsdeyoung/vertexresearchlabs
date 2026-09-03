@@ -15,26 +15,20 @@ export const CATEGORY_GROUPS: CategoryGroup[] = [
   {
     key: "peptides",
     label: "Peptides",
-    blurb: "High-purity research peptides",
+    blurb: "Laboratory peptide reference materials",
     categories: ["Peptide", "Copper Peptide", "Heptapeptide"],
   },
   {
     key: "blends",
     label: "Blends",
-    blurb: "Pre-formulated peptide blends",
+    blurb: "Defined laboratory reference blends",
     categories: ["Peptide Blend"],
   },
   {
     key: "coenzymes",
-    label: "Coenzymes & More",
-    blurb: "Coenzymes & antioxidant compounds",
-    categories: ["Coenzyme", "Antioxidant"],
-  },
-  {
-    key: "ancillaries",
-    label: "Ancillaries",
-    blurb: "Bacteriostatic water & diluents",
-    categories: ["Diluent"],
+    label: "Other Materials",
+    blurb: "Non-peptide laboratory reference materials",
+    categories: ["Coenzyme", "Tripeptide"],
   },
 ];
 

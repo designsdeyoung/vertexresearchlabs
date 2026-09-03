@@ -1,4 +1,4 @@
-project_id = "jpwkbeywurvrrwgxkvop"
+project_id = "qgritvsluilqptgtvayv"
 
 [functions.send-order-confirmation]
 verify_jwt = false
@@ -31,4 +31,10 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.send-new-compound-announcement]
+verify_jwt = true
+
+[functions.upload-tracking]
+verify_jwt = false
+
+[functions.easypost-webhook]
 verify_jwt = false

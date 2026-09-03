@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -7,6 +8,7 @@ const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
+const ADMIN_EMAILS = ["info@vertexdata.ai", "designsdeyoung@gmail.com", "adamdeyoung11@gmail.com", "info@vertexresearchlabs.com"];
 
 interface AnnounceRequest {
   emails: string[];
@@ -18,7 +20,7 @@ const announceHtml = (compoundName: string, compoundUrl: string) => `
 <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; color: #1a1a1a;">
   <p style="font-size: 15px; line-height: 1.6;">A new reference compound is now available at Vertex Research Labs:</p>
   <p style="font-size: 18px; font-weight: 600; margin: 16px 0;">${compoundName}</p>
-  <p style="font-size: 15px; line-height: 1.6;">Like everything in the catalog, it ships with a batch-specific COA and independent HPLC verification.</p>
+  <p style="font-size: 15px; line-height: 1.6;">Documentation availability varies by lot. Request and independently review the records for the current lot before ordering.</p>
   <p style="font-size: 15px; line-height: 1.6;">
     <a href="${compoundUrl}" style="color: #0F6E56; font-weight: 600;">View ${compoundName} →</a>
   </p>
@@ -32,6 +34,12 @@ const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
   try {
+    const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    const token = req.headers.get("Authorization")?.replace("Bearer ", "") || "";
+    const { data: { user } } = await admin.auth.getUser(token);
+    if (!user || !ADMIN_EMAILS.includes(user.email || "")) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } });
+    }
     const { emails, compoundName, compoundUrl }: AnnounceRequest = await req.json();
     if (!Array.isArray(emails) || emails.length === 0 || !compoundName || !compoundUrl) {
       return new Response(JSON.stringify({ error: "Missing emails, compoundName, or compoundUrl" }), {

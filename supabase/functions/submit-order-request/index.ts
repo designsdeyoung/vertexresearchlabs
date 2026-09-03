@@ -37,7 +37,9 @@ interface ReqBody {
   eligibilityType?: string | null;
   items: ReqItem[];
   subtotal: number; shipping: number; tax?: number; total: number;
+  discountCode?: string | null; discountAmount?: number;
   marketingConsent?: boolean;
+  researchUseAcknowledged?: boolean;
 }
 
 const fmt = (n: number) => `$${Number(n || 0).toFixed(2)}`;
@@ -63,6 +65,7 @@ function invoiceHtml(o: {
   firstName: string; orderRef: string;
   items: { productName: string; size?: string; quantity: number; lineTotal: number }[];
   subtotal: number; shipping: number; tax: number; total: number;
+  discountCode?: string | null; discountAmount?: number;
 }): string {
   const enabledMethods = PAYMENT_METHODS.filter((m) => m.enabled);
   const rows = o.items.map((i) =>
@@ -87,6 +90,7 @@ function invoiceHtml(o: {
     <table style="width:100%;margin-top:10px">
       <tr><td style="text-align:right;color:#9ca3af;font-size:13px;padding:2px 0">Subtotal</td><td style="text-align:right;color:#e5e7eb;font-size:13px;width:90px">${fmt(o.subtotal)}</td></tr>
       <tr><td style="text-align:right;color:#9ca3af;font-size:13px;padding:2px 0">Shipping</td><td style="text-align:right;color:#e5e7eb;font-size:13px">${fmt(o.shipping)}</td></tr>
+      ${o.discountAmount ? `<tr><td style="text-align:right;color:#9ca3af;font-size:13px;padding:2px 0">Discount${o.discountCode ? ` (${o.discountCode})` : ""}</td><td style="text-align:right;color:#2DD4BF;font-size:13px">-${fmt(o.discountAmount)}</td></tr>` : ""}
       ${o.tax ? `<tr><td style="text-align:right;color:#9ca3af;font-size:13px;padding:2px 0">Tax</td><td style="text-align:right;color:#e5e7eb;font-size:13px">${fmt(o.tax)}</td></tr>` : ""}
       <tr><td style="text-align:right;color:#fff;font-weight:700;font-size:15px;padding-top:6px;border-top:1px solid #1f1f1f">Total Due</td><td style="text-align:right;color:#2DD4BF;font-weight:800;font-size:15px;padding-top:6px;border-top:1px solid #1f1f1f">${fmt(o.total)}</td></tr>
     </table>
@@ -131,12 +135,10 @@ serve(async (req) => {
 
     // ── Preview mode: send a sample invoice to a test address (no order/account) ──
     if (body?.preview) {
+      throw new Error("Public email preview is disabled");
       const testTo = body.testTo;
       if (!testTo) throw new Error("testTo required for preview");
-      const sampleItems = body.items?.length ? body.items : [
-        { productName: "Retatrutide", size: "10mg", quantity: 1, lineTotal: 98 },
-        { productName: "BAC Water", size: "3mL", quantity: 1, lineTotal: 8 },
-      ];
+      const sampleItems = body.items?.length ? body.items : [];
       const sub = body.subtotal ?? sampleItems.reduce((s: number, i: any) => s + (i.lineTotal || 0), 0);
       const ship = body.shipping ?? 0;
       const tx = body.tax ?? 0;
@@ -156,11 +158,24 @@ serve(async (req) => {
       });
     }
 
-    const { customer, items, subtotal, shipping, total } = body as ReqBody;
+    const { customer, items, subtotal, shipping, total, discountCode, discountAmount = 0, researchUseAcknowledged } = body as ReqBody;
     const tax = body.tax || 0;
 
-    if (!customer?.email || !customer?.fullName || !Array.isArray(items) || items.length === 0) {
-      throw new Error("Missing required fields: customer name/email and items");
+    if (!customer?.email || !customer?.fullName || !customer?.organization?.trim() || !Array.isArray(items) || items.length === 0) {
+      throw new Error("Missing required fields: customer name/email, organization, and items");
+    }
+    if (researchUseAcknowledged !== true || body.eligibilityType !== "organization") {
+      throw new Error("Qualified-organization research-use acknowledgment is required");
+    }
+    if (![subtotal, shipping, total, discountAmount].every(Number.isFinite) || subtotal < 0 || shipping < 0 || total < 0 || discountAmount < 0) {
+      throw new Error("Invalid order totals");
+    }
+    if (!items.every((item) => item.productId && Number.isInteger(item.quantity) && item.quantity > 0 && item.quantity <= 100 && Number.isFinite(item.price) && item.price >= 0 && Number.isFinite(item.lineTotal) && Math.abs(item.lineTotal - item.price * item.quantity) < 0.01)) {
+      throw new Error("Invalid order item");
+    }
+    const calculatedSubtotal = items.reduce((sum, item) => sum + item.lineTotal, 0);
+    if (Math.abs(calculatedSubtotal - subtotal) >= 0.01 || Math.abs(subtotal + shipping - discountAmount - total) >= 0.01) {
+      throw new Error("Order totals do not reconcile");
     }
 
     const admin = createClient(
@@ -209,6 +224,16 @@ serve(async (req) => {
       } catch (_) { /* noop */ }
     }
 
+    // Phone is required at checkout. Persist it on the linked profile so the
+    // fulfillment screen can expose a direct text/call action.
+    if (profileId && customer.phoneNumber?.trim()) {
+      const { error: phoneErr } = await admin
+        .from("profiles")
+        .update({ phone_number: customer.phoneNumber.trim() })
+        .eq("id", profileId);
+      if (phoneErr) console.error("profile phone update failed (non-fatal):", phoneErr);
+    }
+
     // Create the order — NOT paid, no points, manual-invoice payment method
     const { data: order, error: orderErr } = await admin
       .from("orders")
@@ -224,12 +249,16 @@ serve(async (req) => {
         is_autoship: false,
         payment_method: "manual_invoice",
         paid_at: null,
+        discount_code: discountCode || null,
+        discount_amount: discountAmount,
         shipping_name: customer.fullName,
         shipping_address1: customer.addressLine1,
         shipping_address2: customer.addressLine2 || null,
         shipping_city: customer.city,
         shipping_state: customer.state,
         shipping_zip: customer.zipCode,
+        research_organization: customer.organization.trim(),
+        research_use_acknowledged_at: new Date().toISOString(),
       })
       .select("id, order_number")
       .single();
@@ -259,6 +288,7 @@ serve(async (req) => {
   <table style="width:100%;margin-bottom:16px">
     <tr><td style="text-align:right;color:#666">Subtotal</td><td style="text-align:right;width:90px">${fmt(subtotal)}</td></tr>
     <tr><td style="text-align:right;color:#666">Shipping</td><td style="text-align:right">${fmt(shipping)}</td></tr>
+    ${discountAmount ? `<tr><td style="text-align:right;color:#666">Discount${discountCode ? ` (${discountCode})` : ""}</td><td style="text-align:right;color:#0f6e56">-${fmt(discountAmount)}</td></tr>` : ""}
     ${tax ? `<tr><td style="text-align:right;color:#666">Tax</td><td style="text-align:right">${fmt(tax)}</td></tr>` : ""}
     <tr><td style="text-align:right;font-weight:700;border-top:2px solid #000;padding-top:4px">Total</td><td style="text-align:right;font-weight:700;border-top:2px solid #000;padding-top:4px">${fmt(total)}</td></tr>
   </table>
@@ -270,6 +300,7 @@ serve(async (req) => {
     ${customer.organization ? customer.organization + "<br/>" : ""}
     <br/>${addr}
   </p>
+  <p style="background:#f5f5f5;padding:10px;border-radius:6px"><strong>Procurement representation:</strong> Customer affirmed authorization to order for the named organization, laboratory-research-only use, and no human or veterinary use.</p>
   ${customer.notes ? `<p style="background:#f5f5f5;padding:10px;border-radius:6px"><strong>Notes:</strong> ${customer.notes}</p>` : ""}
   <p style="background:#eafaf3;padding:10px;border-radius:6px;color:#0f6e56;font-size:13px">
     ✅ A payment invoice for <strong>${fmt(total)}</strong> was automatically emailed to the customer. Options: ${methodsSummary} · memo ${orderRef}.
@@ -287,7 +318,7 @@ serve(async (req) => {
     // 2) Customer invoice
     const custHtml = invoiceHtml({
       firstName: customer.fullName.split(" ")[0],
-      orderRef, items, subtotal, shipping, tax, total,
+      orderRef, items, subtotal, shipping, tax, total, discountCode, discountAmount,
     });
     const invoiceSubject = `Your Vertex Research Labs invoice ${orderRef} — ${fmt(total)} (pay by app)`;
     const custRes = await sendEmail(resendKey, {

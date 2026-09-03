@@ -3,10 +3,8 @@ import Header from "@/components/Header";
 import ComplianceBanner from "@/components/ComplianceBanner";
 import Hero from "@/components/Hero";
 import TrustBar from "@/components/TrustBar";
-import FeaturedPeptides from "@/components/FeaturedPeptides";
 import CategoryCards from "@/components/CategoryCards";
 import ProductCatalog from "@/components/ProductCatalog";
-import QualityTransparency from "@/components/QualityTransparency";
 import WhyVertex from "@/components/WhyVertex";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
@@ -20,7 +18,7 @@ const Index = () => {
       url: "https://vertexresearchlabs.com",
       logo: "https://vertexresearchlabs.com/og-image.png",
       description:
-        "Research-grade peptides and analytical reference materials with verified Certificates of Analysis.",
+        "Laboratory reference materials for qualified research organizations.",
       sameAs: [],
     },
     {
@@ -34,16 +32,10 @@ const Index = () => {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SEOHead
-        title="Research-Grade Peptides | High-Purity Reference Materials – Vertex Research Labs"
-        description="Analytical-grade research peptides with ≥99% purity (HPLC). Certificates of Analysis are available on request where applicable. For laboratory research use only."
+        title="Laboratory Reference Materials | Vertex Research Labs"
+      description="Laboratory reference materials for qualified research organizations. Request and review current lot documentation before ordering. Not for human or veterinary use."
         canonical="/"
-        keywords={[
-          "research peptides",
-          "research grade peptides",
-          "analytical reference materials",
-          "peptides with COA",
-          "high purity peptides",
-        ]}
+        keywords={["laboratory reference materials", "analytical reference materials", "lot documentation"]}
         jsonLd={homepageSchema}
       />
       <ComplianceBanner />
@@ -52,10 +44,7 @@ const Index = () => {
         <Hero />
         <TrustBar />
         <CategoryCards />
-        {/* Featured rail + full catalog */}
-        <FeaturedPeptides />
         <ProductCatalog />
-        <QualityTransparency />
         <WhyVertex />
         <ContactSection />
       </main>

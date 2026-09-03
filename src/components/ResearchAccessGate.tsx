@@ -18,7 +18,7 @@ interface ResearchAccessGateProps {
 const assurances = [
   { icon: Microscope, text: "For laboratory & analytical research use only" },
   { icon: ShieldCheck, text: "Not for human or veterinary use" },
-  { icon: FileText, text: "Certificates of Analysis available on request" },
+  { icon: FileText, text: "Request current lot documentation before ordering" },
 ];
 
 /**
@@ -29,11 +29,11 @@ const assurances = [
 const ResearchAccessGate = ({ onComplete, continueLabel = "Enter the Catalog" }: ResearchAccessGateProps) => {
   const { setAcknowledgments, setEligibilityType, completeAcknowledgment } = useCompliance();
 
-  const [isOfAge, setIsOfAge] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [researchUse, setResearchUse] = useState(false);
 
-  const canProceed = isOfAge && agreedToTerms && researchUse;
+  const canProceed = isAuthorized && agreedToTerms && researchUse;
 
   const handleProceed = () => {
     if (!canProceed) return;
@@ -42,7 +42,7 @@ const ResearchAccessGate = ({ onComplete, continueLabel = "Enter the Catalog" }:
       notForMedicalUse: true,
       termsAccepted: true,
     });
-    setEligibilityType("individual");
+    setEligibilityType("organization");
     completeAcknowledgment();
     onComplete?.();
   };
@@ -98,12 +98,13 @@ const ResearchAccessGate = ({ onComplete, continueLabel = "Enter the Catalog" }:
 
           <label
             className={`flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3.5 transition-colors ${
-              isOfAge ? "border-primary/60 bg-primary/5" : "border-border hover:border-muted-foreground/50"
+              isAuthorized ? "border-primary/60 bg-primary/5" : "border-border hover:border-muted-foreground/50"
             }`}
           >
-            <Checkbox checked={isOfAge} onCheckedChange={(c) => setIsOfAge(c === true)} />
+            <Checkbox checked={isAuthorized} onCheckedChange={(c) => setIsAuthorized(c === true)} />
             <span className="text-sm text-foreground">
-              I am <span className="font-medium">21 years of age or older</span>.
+              I am at least 21 and authorized to procure materials for a legitimate laboratory,
+              academic institution, or research organization.
             </span>
           </label>
 
@@ -120,7 +121,8 @@ const ResearchAccessGate = ({ onComplete, continueLabel = "Enter the Catalog" }:
             <span className="text-sm leading-relaxed text-foreground">
               I understand these materials are for{" "}
               <span className="font-medium">laboratory research only</span> — not for
-              human or veterinary use, diagnosis, or treatment.
+              human or veterinary use, administration, diagnosis, treatment, supplementation,
+              body modification, performance enhancement, or self-experimentation.
             </span>
           </label>
 

@@ -21,6 +21,7 @@ interface OrderItem {
 interface AwardPointsRequest {
   customerEmail: string;
   customerName: string;
+  customerPhone?: string;
   items: OrderItem[];
   subtotal: number;
   shipping: number;
@@ -32,6 +33,7 @@ interface AwardPointsRequest {
   discountAmount?: number;
   stripePaymentIntentId?: string;
   paymentMethod?: string;
+  researchUseAcknowledged?: boolean;
   shippingAddress?: {
     name?: string;
     address1?: string;
@@ -57,10 +59,16 @@ const handler = async (req: Request): Promise<Response> => {
     const body: AwardPointsRequest = await req.json();
     console.log("Award points request:", JSON.stringify(body, null, 2));
 
-    const { customerEmail, customerName, items, subtotal, shipping, total, creditApplied, creditId, referrerCode, discountCode, discountAmount, stripePaymentIntentId, paymentMethod, shippingAddress } = body;
+    const { customerEmail, customerName, customerPhone, items, subtotal, shipping, total, creditApplied, creditId, referrerCode, discountCode, discountAmount, stripePaymentIntentId, paymentMethod, shippingAddress, researchUseAcknowledged } = body;
 
     if (!customerEmail || !items || items.length === 0) {
       throw new Error("Missing required fields: customerEmail, items");
+    }
+    if (researchUseAcknowledged !== true) {
+      throw new Error("Research-use acknowledgment is required");
+    }
+    if (Deno.env.get("CARD_PAYMENTS_ENABLED") !== "true") {
+      throw new Error("Card checkout is disabled");
     }
 
     // Idempotency: if this PaymentIntent already produced an order, return it
@@ -137,6 +145,7 @@ const handler = async (req: Request): Promise<Response> => {
             user_id: userId,
             email: customerEmail,
             full_name: customerName,
+            phone_number: customerPhone?.trim() || null,
             points_balance: 0,
             lifetime_points: 0,
           })
@@ -150,6 +159,16 @@ const handler = async (req: Request): Promise<Response> => {
           console.log(`Profile created: ${profile?.id}`);
         }
       }
+    }
+
+    // Checkout requires a phone number. Keep the latest value on the profile so
+    // fulfillment can offer one-click text/call actions for every new order.
+    if (profile && customerPhone?.trim()) {
+      const { error: phoneError } = await supabaseAdmin
+        .from("profiles")
+        .update({ phone_number: customerPhone.trim() })
+        .eq("id", profile.id);
+      if (phoneError) console.error("Error saving customer phone:", phoneError.message);
     }
 
     // Create order record

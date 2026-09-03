@@ -13,9 +13,7 @@ import { useInquiryCart } from "@/contexts/InquiryCartContext";
 import { SITEWIDE_SALE } from "@/config/sale";
 import { toast } from "@/hooks/use-toast";
 import {
-  AlertTriangle,
   ArrowLeft,
-  ExternalLink,
   FileText,
   FlaskConical,
   Mail,
@@ -26,13 +24,6 @@ import {
   ShieldAlert,
   type LucideIcon,
 } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import {
   Accordion,
   AccordionContent,
@@ -109,7 +100,7 @@ const ProductDetail = () => {
     );
   }
 
-  const { name, subtitle, size, purity, image, category, coa, references, price, description } =
+  const { name, subtitle, size, purity, image, category, price, description } =
     product;
 
   const salePrice = SITEWIDE_SALE.active ? price * (1 - SITEWIDE_SALE.discount) : price;
@@ -175,7 +166,7 @@ const ProductDetail = () => {
         title={seo?.metaTitle ?? `${name} ${size} | Research Grade Reference Material`}
         description={
           seo?.metaDescription ??
-          `${name} ${size} — research-grade reference material with ≥99% purity. CoA available. For laboratory research use only.`
+          `${name} ${size} — laboratory reference material. Request current lot documentation before ordering. Not for human or veterinary use.`
         }
         canonical={`/product/${product.id}`}
         ogType="product"
@@ -221,7 +212,7 @@ const ProductDetail = () => {
               </div>
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <span className="rounded-md bg-primary/10 px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-wider text-primary">
-                  {purity} Purity
+                  Lot documentation required
                 </span>
                 <span className="rounded-md border border-border px-2 py-1 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
                   {category}
@@ -317,16 +308,7 @@ const ProductDetail = () => {
                 <p className="mt-4 rounded-md border border-amber-500/30 bg-amber-500/5 px-4 py-3 font-mono text-xs uppercase tracking-wider text-amber-400">
                   Currently out of stock — restock pending
                 </p>
-              ) : (
-                product.stock !== undefined &&
-                product.stock > 0 &&
-                product.stock <= 5 && (
-                  <p className="mt-4 flex items-center gap-1.5 font-mono text-xs font-medium uppercase tracking-wider text-amber-500">
-                    <AlertTriangle size={13} className="shrink-0" />
-                    Low stock — order soon
-                  </p>
-                )
-              )}
+              ) : null}
 
               <p className="mt-4 text-xs text-amber-400/90">
                 For laboratory research use only. Not for human or veterinary use.
@@ -343,7 +325,7 @@ const ProductDetail = () => {
                 <SpecRow label="Presentation" value={`${size} vial`} />
                 <SpecRow label="Purity" value={purity} />
                 <SpecRow label="Category" value={category} />
-                <SpecRow label="Testing" value="Independent analytical verification" />
+                <SpecRow label="Testing" value={product.testing} />
                 <SpecRow label="Grade" value="Research reference material" />
               </dl>
             </TechSection>
@@ -353,38 +335,18 @@ const ProductDetail = () => {
               <ul className="space-y-2.5 text-sm text-muted-foreground">
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                  Certificate of Analysis (CoA) available on request
+                  Current lot documentation available on request where held
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                  Identity and purity by analytical verification
+                  Review the named method, sample identity, and reported result
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                  Lot-specific documentation on file
+                  Do not infer specifications from another product or lot
                 </li>
               </ul>
               <div className="mt-4 flex flex-wrap gap-2">
-                {coa && (
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant="outline" size="sm" className="border-border">
-                        <FileText size={14} />
-                        View sample CoA
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-h-[90vh] max-w-3xl overflow-auto">
-                      <DialogHeader>
-                        <DialogTitle>Certificate of Analysis — {name}</DialogTitle>
-                      </DialogHeader>
-                      <img
-                        src={coa}
-                        alt={`Certificate of Analysis for ${name}`}
-                        className="mt-2 w-full rounded-md border border-border"
-                      />
-                    </DialogContent>
-                  </Dialog>
-                )}
                 <Button asChild variant="outline" size="sm" className="border-border">
                   <a href={`mailto:info@vertexresearchlabs.com?subject=CoA Request — ${name} ${size}`}>
                     <Mail size={14} />
@@ -470,52 +432,6 @@ const ProductDetail = () => {
             </div>
           )}
 
-          {/* References */}
-          {references && references.length > 0 && (
-            <div className="mt-10">
-              <Accordion type="single" collapsible>
-                <AccordionItem
-                  value="references"
-                  className="rounded-lg border border-border bg-card px-5"
-                >
-                  <AccordionTrigger className="py-4 hover:no-underline">
-                    <span className="text-sm font-semibold text-foreground">
-                      Selected Research & References
-                    </span>
-                  </AccordionTrigger>
-                  <AccordionContent className="pb-5">
-                    <p className="mb-4 rounded-md border border-border bg-background/40 p-3 text-xs text-muted-foreground">
-                      The following peer-reviewed publications are provided for general scientific
-                      reference only. They are not endorsements or claims. All materials are for
-                      laboratory research use only.
-                    </p>
-                    <ul className="space-y-2">
-                      {references.map((ref, idx) => (
-                        <li
-                          key={idx}
-                          className="rounded-md border border-border/60 bg-background/30 p-3"
-                        >
-                          <p className="text-sm text-foreground">
-                            {ref.authors},{" "}
-                            <span className="text-muted-foreground">{ref.journal}</span> ({ref.year})
-                          </p>
-                          <a
-                            href={ref.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="mt-1 inline-flex items-center gap-1 text-xs text-primary hover:underline"
-                          >
-                            {ref.url}
-                            <ExternalLink size={12} />
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
-          )}
 
           {/* Related products */}
           {related.length > 0 && (

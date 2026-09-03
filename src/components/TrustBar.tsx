@@ -3,13 +3,13 @@ import { ShieldCheck, FileCheck, Lock, Truck } from "lucide-react";
 const items = [
   {
     icon: ShieldCheck,
-    label: "Third-Party Tested",
-    sub: "Independent lab verification",
+    label: "Qualified Procurement",
+    sub: "Organization confirmation",
   },
   {
     icon: FileCheck,
     label: "Documentation",
-    sub: "COA on request",
+    sub: "Lot records on request",
   },
   {
     icon: Lock,

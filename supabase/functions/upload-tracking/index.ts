@@ -11,6 +11,13 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+const ADMIN_EMAILS = [
+  "info@vertexdata.ai",
+  "designsdeyoung@gmail.com",
+  "adamdeyoung11@gmail.com",
+  "info@vertexresearchlabs.com",
+];
+
 async function easypost(path: string, method: string, body?: unknown) {
   const key = Deno.env.get("EASYPOST_API_KEY")!;
   const res = await fetch(`https://api.easypost.com/v2${path}`, {
@@ -27,15 +34,26 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
   try {
-    const { orderNumber, orderId, trackingNumber, carrier = "USPS", sendShipped, bcc } = await req.json();
-    if ((!orderNumber && !orderId) || !trackingNumber) throw new Error("order + trackingNumber required");
-
-    const code = String(trackingNumber).replace(/\s+/g, "");
-
     const admin = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
+
+    // This function mutates orders and sends customer email. Keep it callable
+    // from the browser, but only for the same admin allowlist as /fulfillment.
+    const token = (req.headers.get("authorization") || "").replace("Bearer ", "").trim();
+    const { data: { user }, error: userErr } = await admin.auth.getUser(token);
+    if (userErr || !user || !ADMIN_EMAILS.includes(user.email || "")) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const { orderNumber, orderId, trackingNumber, carrier = "USPS", sendShipped, bcc } = await req.json();
+    if ((!orderNumber && !orderId) || !trackingNumber) throw new Error("order + trackingNumber required");
+
+    const code = String(trackingNumber).replace(/\s+/g, "").toUpperCase();
+    if (!/^[A-Z0-9]{8,40}$/.test(code)) throw new Error("Enter a valid tracking number");
 
     const q = admin.from("orders").select("id, order_number, profile_id, shipping_name");
     const { data: order } = orderId
@@ -43,23 +61,42 @@ serve(async (req) => {
       : await q.eq("order_number", orderNumber).maybeSingle();
     if (!order) throw new Error("order not found");
 
-    // Register the tracker with EasyPost so webhook scan-updates flow to us
+    // If another order already uses this tracking number, share its tracker URL
+    // rather than creating/billing a duplicate EasyPost tracker. The webhook is
+    // intentionally fan-out capable, so every linked order receives scan emails.
     let publicUrl: string | null = null;
-    try {
-      const tracker = await easypost("/trackers", "POST", { tracker: { tracking_code: code, carrier } });
-      publicUrl = tracker?.public_url || null;
-    } catch (e) {
-      console.error("EasyPost tracker create failed (continuing):", e);
+    let trackerRegistered = false;
+    let reusedTracking = false;
+    const { data: existingOrders } = await admin
+      .from("orders")
+      .select("id, tracking_url, carrier")
+      .eq("tracking_number", code)
+      .neq("id", order.id)
+      .limit(1);
+    const existing = existingOrders?.[0];
+    if (existing) {
+      publicUrl = existing.tracking_url || null;
+      reusedTracking = true;
+      trackerRegistered = true;
+    } else {
+      try {
+        const tracker = await easypost("/trackers", "POST", { tracker: { tracking_code: code, carrier } });
+        publicUrl = tracker?.public_url || null;
+        trackerRegistered = true;
+      } catch (e) {
+        console.error("EasyPost tracker create failed (continuing):", e);
+      }
     }
 
     // Update the order
-    await admin.from("orders").update({
+    const { error: updateErr } = await admin.from("orders").update({
       tracking_number: code,
       tracking_url: publicUrl,
-      carrier,
+      carrier: existing?.carrier || carrier,
       status: "shipped",
       fulfilled_at: new Date().toISOString(),
     }).eq("id", order.id);
+    if (updateErr) throw updateErr;
 
     // Optionally send the shipped email now
     let shipped: any = null;
@@ -83,7 +120,9 @@ serve(async (req) => {
       orderNumber: order.order_number,
       tracking_number: code,
       tracking_url: publicUrl,
-      tracker_registered: !!publicUrl,
+      tracker_registered: trackerRegistered,
+      reused_tracking: reusedTracking,
+      email_sent: shipped?.success === true,
       shipped,
     }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (e: any) {

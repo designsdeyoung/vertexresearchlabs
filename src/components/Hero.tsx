@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, BadgeCheck, FileCheck, FileText } from "lucide-react";
+import { ArrowRight, FileCheck, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ghkVial from "@/assets/showcase/ghk-cu-png.png";
 import tesamorelinVial from "@/assets/showcase/tesamorelin-png.png";
@@ -49,16 +49,15 @@ const Hero = () => {
             </p>
 
             <h1 className="font-display text-4xl font-bold leading-[1.05] tracking-tight text-foreground md:text-5xl xl:text-[3.4rem]">
-              Research-Grade Peptides. Built on{" "}
+              Laboratory Reference Materials. Built on{" "}
               <span className="bg-gradient-to-r from-primary via-cyan-400 to-accent bg-clip-text text-transparent">
                 Purity, Precision, and Transparency.
               </span>
             </h1>
 
             <p className="mt-5 max-w-[480px] text-base leading-relaxed text-muted-foreground md:text-lg">
-              Ultra-high purity reference materials, independent purity
-              verification, and strict quality standards for researchers who
-              demand certainty.
+              Reference materials for qualified laboratory procurement. Review
+              current lot documentation and analytical records before ordering.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -68,7 +67,7 @@ const Hero = () => {
                 className="h-12 min-w-[180px] bg-primary text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:bg-primary/90 hover:shadow-primary/40"
               >
                 <a href="#products">
-                  Shop Peptides
+                  View Laboratory Catalog
                   <ArrowRight size={16} />
                 </a>
               </Button>
@@ -127,18 +126,7 @@ const Hero = () => {
               <div className="absolute inset-x-[24%] top-[calc(50%+10px)] h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
             </div>
 
-            {/* Floating trust chips */}
-            <motion.div
-              initial={{ opacity: 0, x: 16 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-              className="glass-panel absolute -right-2 top-6 hidden items-center gap-2 rounded-full px-3.5 py-2 sm:flex md:right-0"
-            >
-              <BadgeCheck size={14} className="shrink-0 text-primary" />
-              <span className="font-mono text-[10px] uppercase tracking-wider text-foreground/90">
-                ≥99% Purity · HPLC-MS
-              </span>
-            </motion.div>
+            {/* Floating documentation chip */}
             <motion.div
               initial={{ opacity: 0, x: -16 }}
               animate={{ opacity: 1, x: 0 }}
@@ -147,7 +135,7 @@ const Hero = () => {
             >
               <FileCheck size={14} className="shrink-0 text-primary" />
               <span className="font-mono text-[10px] uppercase tracking-wider text-foreground/90">
-                COA on request
+                Lot records on request
               </span>
             </motion.div>
           </div>

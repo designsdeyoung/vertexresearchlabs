@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { X, Wallet } from "lucide-react";
+import { X, FlaskConical } from "lucide-react";
 
 // Dismissible site-wide notice. Bump the COOKIE version to re-show after edits.
-const KEY = "vrl_announce_payments_v1";
+const KEY = "vrl_announce_qualification_v1";
 
 const AnnouncementBar = () => {
   const [hidden, setHidden] = useState(() => {
@@ -19,12 +19,9 @@ const AnnouncementBar = () => {
     <div className="relative w-full bg-primary/10 border-b border-primary/20">
       <div className="container mx-auto px-6 py-2 pr-10">
         <p className="text-center text-[12px] sm:text-[13px] leading-relaxed text-foreground/90">
-          <Wallet size={13} className="inline-block mr-1.5 -mt-0.5 text-primary" />
-          <span className="font-medium text-foreground">Card checkout is temporarily unavailable</span>
-          <span className="text-muted-foreground"> while we switch payment providers. </span>
-          <span className="text-foreground/90">Orders are shipping as normal — pay easily by </span>
-          <span className="font-semibold text-primary">Apple Cash or Zelle</span>
-          <span className="text-foreground/90"> at checkout.</span>
+          <FlaskConical size={13} className="inline-block mr-1.5 -mt-0.5 text-primary" />
+          <span className="font-medium text-foreground">Qualified organizations only.</span>
+          <span className="text-muted-foreground"> Materials are not for use in or on humans or animals. Orders are subject to review.</span>
         </p>
       </div>
       <button

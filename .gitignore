@@ -24,3 +24,10 @@ dist-ssr
 *.sw?
 supabase/.temp/
 .vercel
+
+# Production/customer exports must never be committed.
+migration/auth/
+migration/data/
+migration/seq.txt
+*.dump
+*.backup

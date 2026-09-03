@@ -258,7 +258,6 @@ const Checkout = () => {
   }
 
   const eligibilityLabels: Record<string, string> = {
-    individual: "Individual Researcher",
     laboratory: "Laboratory or Institution",
     organization: "Other Research Organization",
   };
@@ -309,6 +308,7 @@ const Checkout = () => {
       paymentMethod: effectivePaymentMethod,
       pointsEarnedFallback: 0,
       marketingConsent,
+      researchUseAcknowledged: finalConfirmation,
     };
   };
 
@@ -401,6 +401,7 @@ const Checkout = () => {
           discountCode: recordedDiscountCode,
           discountAmount,
           marketingConsent,
+          researchUseAcknowledged: finalConfirmation,
         },
       });
       const response = data as SubmitOrderRequestResponse | null;
@@ -433,6 +434,7 @@ const Checkout = () => {
     formData.fullName.trim() !== "" &&
     formData.email.trim() !== "" &&
     formData.phoneNumber.trim() !== "" &&
+    formData.organization.trim() !== "" &&
     formData.addressLine1.trim() !== "" &&
     formData.city.trim() !== "" &&
     formData.state.trim() !== "" &&
@@ -504,8 +506,8 @@ const Checkout = () => {
                   </h2>
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="organization">Organization / University (Optional)</Label>
-                      <Input id="organization" maxLength={200} value={formData.organization} onChange={(e) => setFormData((prev) => ({ ...prev, organization: e.target.value }))} placeholder="University Research Laboratory" className="bg-secondary/50" />
+                      <Label htmlFor="organization">Laboratory / Institution / Research Organization *</Label>
+                      <Input id="organization" required maxLength={200} value={formData.organization} onChange={(e) => setFormData((prev) => ({ ...prev, organization: e.target.value }))} placeholder="Organization name" className="bg-secondary/50" />
                     </div>
                   </div>
                 </div>
@@ -651,11 +653,15 @@ const Checkout = () => {
                     <Label htmlFor="finalConfirmation" className="cursor-pointer leading-relaxed">
                       <span className="font-medium text-foreground">Final Confirmation Required</span>
                       <p className="text-sm text-muted-foreground mt-1">
-                        I confirm that this order is for laboratory research use only and that I agree to the{" "}
+                        I am authorized to place this order for the organization identified above. I confirm
+                        that each product is being purchased solely for legitimate laboratory research or
+                        analytical use, not for use in or on humans or animals, and I agree to the{" "}
                         <Link to="/terms" className="text-primary hover:underline">
                           Terms & Conditions
                         </Link>
-                        . I understand that all products from Vertex Research Labs are not intended for human or veterinary use.
+                        . I will not use or transfer these products for consumption, administration,
+                        diagnosis, treatment, supplementation, body modification, performance enhancement,
+                        or self-experimentation.
                       </p>
                     </Label>
                   </div>

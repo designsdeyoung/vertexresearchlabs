@@ -6,24 +6,13 @@ export interface StorageRow {
 }
 
 /**
- * Storage & handling guidance for a research material. Peptides and most
- * lyophilized reference materials share the same cold-chain guidance;
- * diluents (BAC water) differ. Returned as neutral technical rows.
+ * Public guidance stays at the level of laboratory custody. Product-specific
+ * temperatures, solution preparation, and stability periods must come from
+ * current lot documentation and an institution's validated protocol.
  */
-export const storageGuidance = (product: Product): StorageRow[] => {
-  if (product.category === "Diluent") {
-    return [
-      { label: "Storage", value: "Room temperature (2–30 °C), away from direct light" },
-      { label: "After opening", value: "Refrigerate at 2–8 °C; use within 28 days" },
-      { label: "Shelf life", value: "See lot documentation" },
-      { label: "Handling", value: "Use aseptic technique for reconstitution" },
-    ];
-  }
-
-  return [
-    { label: "Lyophilized", value: "Store at −20 °C; protect from light and moisture" },
-    { label: "Reconstituted", value: "Refrigerate at 2–8 °C; use within 2–4 weeks" },
-    { label: "Shelf life", value: "≈ 24 months lyophilized at −20 °C" },
-    { label: "Handling", value: "Allow to reach room temperature before opening the vial" },
-  ];
-};
+export const storageGuidance = (_product: Product): StorageRow[] => [
+  { label: "Storage", value: "Follow current lot documentation" },
+  { label: "Environment", value: "Controlled laboratory setting" },
+  { label: "Handling", value: "Qualified laboratory personnel only" },
+  { label: "Protocol", value: "Use an institutionally approved procedure" },
+];

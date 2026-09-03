@@ -41,9 +41,6 @@ const ProductCatalog = () => {
   // Catalog display order. Lower index = higher placement.
   // Products not listed fall to the bottom in their original order.
   const salesRank: string[] = [
-    // Featured merchandising order (top of catalog)
-    "rp-300",
-    "rp-200",
     "wolverine-blend",
     "klow",
     "ghk-cu",
@@ -59,9 +56,6 @@ const ProductCatalog = () => {
     "ghk-cu-100",
     "mots-c-40",
     "dsip",
-    // Diluents — always last; surfaced as upsell in cart instead.
-    "bac-water-3ml",
-    "bac-water-10ml",
   ];
   const rankOf = (id: string) => {
     const i = salesRank.indexOf(id);
@@ -136,8 +130,8 @@ const ProductCatalog = () => {
             Research Materials
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-navy/60">
-            Analytical-grade reference compounds with documented purity.
-            Certificates of Analysis are available on request where applicable.
+            Reference compounds for qualified laboratory procurement. Request
+            and review current lot documentation before ordering.
           </p>
         </div>
 
@@ -192,7 +186,7 @@ const ProductCatalog = () => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="border-navy/10 bg-white text-navy">
-                  <SelectItem value="featured">Featured</SelectItem>
+                  <SelectItem value="featured">Catalog order</SelectItem>
                   <SelectItem value="price-asc">Price: Low–High</SelectItem>
                   <SelectItem value="price-desc">Price: High–Low</SelectItem>
                   <SelectItem value="name-asc">Name A–Z</SelectItem>

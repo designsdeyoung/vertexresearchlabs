@@ -31,7 +31,7 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.send-new-compound-announcement]
-verify_jwt = false
+verify_jwt = true
 
 [functions.upload-tracking]
 verify_jwt = false

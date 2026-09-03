@@ -13,7 +13,7 @@ import InquiryCart from "@/components/InquiryCart";
 import ScrollToTop from "@/components/ScrollToTop";
 import RequireResearchAccess from "@/components/RequireResearchAccess";
 import ReferralCapture from "@/components/ReferralCapture";
-import ChatWidget from "@/components/ChatWidget";
+import AnalyticsConsent from "@/components/AnalyticsConsent";
 // Landing page stays eager for the fastest first paint; every other route is
 // code-split so it only downloads when visited.
 import Index from "./pages/Index";
@@ -33,9 +33,7 @@ const ChainOfCustody = lazy(() => import("./pages/ChainOfCustody"));
 const Auth = lazy(() => import("./pages/Auth"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
-const Learn = lazy(() => import("./pages/Learn"));
 const TrackOrder = lazy(() => import("./pages/TrackOrder"));
-const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const Fulfillment = lazy(() => import("./pages/Fulfillment"));
 const CashOrder = lazy(() => import("./pages/admin/CashOrder"));
 const Welcome = lazy(() => import("./pages/Welcome"));
@@ -62,8 +60,8 @@ const App = () => (
                 <BrowserRouter>
                 <ScrollToTop />
                 <ReferralCapture />
+                <AnalyticsConsent />
                 <InquiryCart />
-                <ChatWidget />
                 <Suspense fallback={<RouteFallback />}>
                 <Routes>
                   <Route
@@ -96,9 +94,7 @@ const App = () => (
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/reset-password" element={<ResetPassword />} />
                   <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/learn" element={<Learn />} />
                   <Route path="/track" element={<TrackOrder />} />
-                  <Route path="/learn/:slug" element={<ArticlePage />} />
                   <Route path="/fulfillment" element={<Fulfillment />} />
                   <Route path="/admin/cash-order" element={<CashOrder />} />
                   <Route path="/welcome" element={<Welcome />} />

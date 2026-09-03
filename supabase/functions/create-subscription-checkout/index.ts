@@ -22,6 +22,11 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
   try {
+    if (Deno.env.get("CARD_PAYMENTS_ENABLED") !== "true") {
+      return new Response(JSON.stringify({ error: "Subscription checkout is disabled" }), {
+        status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
     if (!stripeKey) throw new Error("STRIPE_SECRET_KEY not configured");
     const stripe = new Stripe(stripeKey, { apiVersion: "2024-12-18.acacia" });

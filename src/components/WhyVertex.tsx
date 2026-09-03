@@ -11,7 +11,7 @@ const cards = [
   {
     icon: ShieldCheck,
     title: "Trust You Can Verify",
-    body: "Full transparency with COAs, third-party testing, and strict quality controls.",
+    body: "Request current lot-specific records and review their stated scope before procurement.",
   },
   {
     icon: Zap,
@@ -20,9 +20,9 @@ const cards = [
   },
   {
     icon: BookOpen,
-    title: "Education for Researchers",
-    body: "Clear guides, resources, and product information to support informed research decisions.",
-    href: "/learn",
+    title: "Analytical Method Context",
+    body: "Neutral explanations of common analytical records, with lot-specific documentation available separately.",
+    href: "/quality/methods",
   },
 ];
 

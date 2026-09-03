@@ -2,8 +2,7 @@ import { corsHeaders } from "https://esm.sh/@supabase/supabase-js@2.95.0/cors";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.95.0";
 import Stripe from "https://esm.sh/stripe@17.5.0?target=deno";
 
-// Webhook signature verification is optional here — Lovable Cloud users may not have set
-// STRIPE_WEBHOOK_SECRET. If present, we verify; otherwise we trust the event.
+// Stripe webhook signatures are mandatory. Never trust an unsigned event.
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
@@ -21,14 +20,13 @@ Deno.serve(async (req) => {
   const rawBody = await req.text();
   const sig = req.headers.get("stripe-signature");
   const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET");
+  if (!webhookSecret || !sig) {
+    return new Response("Webhook signature configuration or header missing", { status: 503 });
+  }
 
   let event: Stripe.Event;
   try {
-    if (webhookSecret && sig) {
-      event = await stripe.webhooks.constructEventAsync(rawBody, sig, webhookSecret);
-    } else {
-      event = JSON.parse(rawBody) as Stripe.Event;
-    }
+    event = await stripe.webhooks.constructEventAsync(rawBody, sig, webhookSecret);
   } catch (err) {
     console.error("Webhook signature verification failed:", err);
     return new Response("Bad signature", { status: 400 });

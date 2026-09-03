@@ -10,10 +10,9 @@ import { products } from "@/data/products";
 import { SITEWIDE_SALE } from "@/config/sale";
 
 const navLinks = [
-  { label: "Shop", href: "/#products", isHash: true },
+  { label: "Catalog", href: "/#products", isHash: true },
   { label: "Quality", href: "/quality", isHash: false },
   { label: "COAs", href: "/quality/testing", isHash: false },
-  { label: "Learn", href: "/learn", isHash: false },
   { label: "Contact", href: "/#contact", isHash: true },
 ];
 
@@ -85,7 +84,7 @@ const SearchBox = ({ onNavigate }: { onNavigate?: () => void }) => {
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setFocused(true)}
           onKeyDown={(e) => e.key === "Escape" && setFocused(false)}
-          placeholder="Search peptides, blends, ancillaries..."
+          placeholder="Search reference materials..."
           aria-label="Search products"
           className="h-9 w-full rounded-full border border-border bg-background/60 pl-9 pr-3 text-[13px] text-foreground placeholder:text-muted-foreground/70 outline-none transition-colors focus:border-primary/50 focus:bg-background [&::-webkit-search-cancel-button]:hidden"
         />

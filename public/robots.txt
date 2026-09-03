@@ -72,5 +72,11 @@ Disallow: /checkout
 Disallow: /order-confirmation
 Disallow: /reset-password
 Disallow: /auth
+Disallow: /fulfillment
+Disallow: /admin/
+Disallow: /magic
+Disallow: /welcome
+Disallow: /research-access
+Disallow: /track
 
 Sitemap: https://vertexresearchlabs.com/sitemap.xml

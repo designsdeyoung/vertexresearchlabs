@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from "react";
 
-export type EligibilityType = "individual" | "laboratory" | "organization" | null;
+export type EligibilityType = "laboratory" | "organization" | null;
 
 interface ComplianceState {
   hasAcknowledged: boolean;
@@ -16,7 +16,7 @@ interface ComplianceState {
 // Persist the research-access acknowledgment per device so the gate is a
 // one-time step. Bump the version suffix to force re-acknowledgment after
 // material changes to the terms.
-const STORAGE_KEY = "vrl_research_access_v1";
+const STORAGE_KEY = "vrl_research_access_v2";
 
 const loadPersisted = (): ComplianceState | null => {
   try {

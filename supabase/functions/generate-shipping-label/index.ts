@@ -7,6 +7,13 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+const ADMIN_EMAILS = [
+  "info@vertexdata.ai",
+  "designsdeyoung@gmail.com",
+  "adamdeyoung11@gmail.com",
+  "info@vertexresearchlabs.com",
+];
+
 const EASYPOST_API = "https://api.easypost.com/v2";
 
 async function easypost(path: string, method: string, body?: unknown) {
@@ -33,6 +40,15 @@ serve(async (req) => {
   );
 
   try {
+    const token = (req.headers.get("authorization") || "").replace("Bearer ", "").trim();
+    const { data: { user }, error: userErr } = await admin.auth.getUser(token);
+    if (userErr || !user || !ADMIN_EMAILS.includes(user.email || "")) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const { order_id, preview_only, override_address } = await req.json();
     if (!order_id) throw new Error("order_id required");
 

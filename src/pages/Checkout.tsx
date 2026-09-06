@@ -207,6 +207,7 @@ const Checkout = () => {
   }, [autoApplyDone, discountCode, discountValid, discountLoading, formData.email]);
 
   const [finalConfirmation, setFinalConfirmation] = useState(false);
+  const [showConfirmationError, setShowConfirmationError] = useState(false);
   // Single, unchecked-by-default marketing opt-in (order confirmations are
   // transactional and send regardless). Explicit opt-in keeps us compliant.
   const [marketingConsent, setMarketingConsent] = useState(false);
@@ -265,11 +266,14 @@ const Checkout = () => {
   const handleContinueToPayment = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!finalConfirmation) {
+      setShowConfirmationError(true);
       toast({
         title: "Confirmation Required",
         description: "Please confirm that your order is for laboratory research use only.",
         variant: "destructive",
       });
+      document.getElementById("finalConfirmation")?.focus();
+      document.getElementById("final-confirmation-section")?.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
 
@@ -371,6 +375,11 @@ const Checkout = () => {
   const handleSubmitOrderRequest = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isFormValid) {
+      if (!finalConfirmation) {
+        setShowConfirmationError(true);
+        document.getElementById("finalConfirmation")?.focus();
+        document.getElementById("final-confirmation-section")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
       toast({
         title: "Please complete the form",
         description: "Fill in your contact, shipping details, and confirm research use.",
@@ -522,6 +531,9 @@ const Checkout = () => {
                     <div className="space-y-2">
                       <Label htmlFor="addressLine1">Address Line 1 *</Label>
                       <AddressAutocomplete
+                        id="addressLine1"
+                        name="addressLine1"
+                        required
                         value={formData.addressLine1}
                         onChange={(v) => setFormData((prev) => ({ ...prev, addressLine1: v }))}
                         onAddressSelect={({ address1, city, state, zip }) =>
@@ -647,9 +659,22 @@ const Checkout = () => {
                 </div>
 
                 {/* Final Confirmation */}
-                <div className="glass-card rounded-lg p-6 border-l-4 border-l-primary">
+                <div
+                  id="final-confirmation-section"
+                  className={`glass-card rounded-lg p-6 border-l-4 ${showConfirmationError && !finalConfirmation ? "border-l-destructive" : "border-l-primary"}`}
+                >
                   <div className="flex items-start space-x-3">
-                    <Checkbox id="finalConfirmation" checked={finalConfirmation} onCheckedChange={(checked) => setFinalConfirmation(checked === true)} className="mt-1" />
+                    <Checkbox
+                      id="finalConfirmation"
+                      checked={finalConfirmation}
+                      aria-invalid={showConfirmationError && !finalConfirmation}
+                      onCheckedChange={(checked) => {
+                        const confirmed = checked === true;
+                        setFinalConfirmation(confirmed);
+                        if (confirmed) setShowConfirmationError(false);
+                      }}
+                      className="mt-1"
+                    />
                     <Label htmlFor="finalConfirmation" className="cursor-pointer leading-relaxed">
                       <span className="font-medium text-foreground">Final Confirmation Required</span>
                       <p className="text-sm text-muted-foreground mt-1">
@@ -665,6 +690,11 @@ const Checkout = () => {
                       </p>
                     </Label>
                   </div>
+                  {showConfirmationError && !finalConfirmation && (
+                    <p role="alert" className="mt-3 text-sm font-medium text-destructive">
+                      Check the confirmation above to place your order.
+                    </p>
+                  )}
                 </div>
 
                 {/* Email opt-in (single, unchecked-by-default) */}
@@ -683,12 +713,12 @@ const Checkout = () => {
 
                 {/* Manual invoice mode: single order-request button, no Stripe */}
                 {MANUAL_INVOICE_MODE ? (
-                  <Button type="submit" variant="hero" size="xl" className="w-full" disabled={!isFormValid || isSubmitting}>
+                  <Button type="submit" variant="hero" size="xl" className="w-full" disabled={isSubmitting}>
                     <FileSpreadsheet size={18} />
                     {isSubmitting ? "Submitting Request…" : "Submit Order Request"}
                   </Button>
                 ) : !showPayment ? (
-                  <Button type="submit" variant="hero" size="xl" className="w-full" disabled={!isFormValid || isSubmitting}>
+                  <Button type="submit" variant="hero" size="xl" className="w-full" disabled={isSubmitting}>
                     <CreditCard size={18} />
                     {finalTotal === 0 ? "Complete Order" : "Continue to Payment"}
                   </Button>

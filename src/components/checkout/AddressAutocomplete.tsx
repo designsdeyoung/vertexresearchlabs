@@ -11,6 +11,9 @@ interface AddressParts {
 }
 
 interface Props {
+  id?: string;
+  name?: string;
+  required?: boolean;
   value: string;
   onChange: (value: string) => void;
   onAddressSelect: (parts: AddressParts) => void;
@@ -38,7 +41,7 @@ function loadGooglePlaces(cb: () => void) {
   document.head.appendChild(script);
 }
 
-export default function AddressAutocomplete({ value, onChange, onAddressSelect, placeholder, className }: Props) {
+export default function AddressAutocomplete({ id, name, required, value, onChange, onAddressSelect, placeholder, className }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const [ready, setReady] = useState(scriptLoaded);
@@ -85,7 +88,10 @@ export default function AddressAutocomplete({ value, onChange, onAddressSelect, 
 
   return (
     <Input
+      id={id}
+      name={name}
       ref={inputRef}
+      required={required}
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder || "Start typing your address..."}

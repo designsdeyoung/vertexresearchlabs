@@ -108,6 +108,45 @@ serve(async (req) => {
       throw new Error("Incomplete shipping address for this order");
     }
 
+    // Verify and standardize the destination before showing or purchasing a
+    // USPS label. EasyPost's US verification returns the carrier-ready street,
+    // preferred city, and ZIP+4 when available.
+    const verified = await easypost("/addresses", "POST", {
+      address: {
+        name: toName,
+        street1: toStreet1,
+        street2: toStreet2 || undefined,
+        city: toCity,
+        state: toState,
+        zip: toZip,
+        country: "US",
+        email: profile?.email,
+      },
+      verify: true,
+    });
+    const deliveryVerification = verified.verifications?.delivery;
+    if (deliveryVerification && deliveryVerification.success === false) {
+      const reason = deliveryVerification.errors?.[0]?.message || "Address not found";
+      throw new Error(`Shipping address could not be verified: ${reason}`);
+    }
+    if (deliveryVerification?.success) {
+      toStreet1 = verified.street1 || toStreet1;
+      toStreet2 = verified.street2 || "";
+      toCity = verified.city || toCity;
+      toState = verified.state || toState;
+      toZip = verified.zip || toZip;
+
+      // Keep the order record aligned with the exact address printed on the
+      // label so later previews and customer support show the same destination.
+      await admin.from("orders").update({
+        shipping_address1: toStreet1,
+        shipping_address2: toStreet2 || null,
+        shipping_city: toCity,
+        shipping_state: toState,
+        shipping_zip: toZip,
+      }).eq("id", order_id);
+    }
+
     // Create shipment with USPS Priority Mail Small Flat Rate Box
     const shipment = await easypost("/shipments", "POST", {
       shipment: {
@@ -160,6 +199,7 @@ serve(async (req) => {
           service: flatRate.service,
           carrier: flatRate.carrier,
           delivery_days: flatRate.delivery_days,
+          address_verified: deliveryVerification?.success === true,
           to_name: toName,
           to_address: `${toStreet1}, ${toCity}, ${toState} ${toZip}`,
           to: {

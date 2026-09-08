@@ -14,6 +14,7 @@ interface Props {
   id?: string;
   name?: string;
   required?: boolean;
+  autoComplete?: string;
   value: string;
   onChange: (value: string) => void;
   onAddressSelect: (parts: AddressParts) => void;
@@ -26,6 +27,9 @@ let scriptLoading = false;
 const callbacks: (() => void)[] = [];
 
 function loadGooglePlaces(cb: () => void) {
+  // Browser address autofill still works without Google Places. Avoid loading
+  // a broken script when the optional production key is not configured.
+  if (!GOOGLE_API_KEY) return;
   if (scriptLoaded) { cb(); return; }
   callbacks.push(cb);
   if (scriptLoading) return;
@@ -41,7 +45,7 @@ function loadGooglePlaces(cb: () => void) {
   document.head.appendChild(script);
 }
 
-export default function AddressAutocomplete({ id, name, required, value, onChange, onAddressSelect, placeholder, className }: Props) {
+export default function AddressAutocomplete({ id, name, required, autoComplete, value, onChange, onAddressSelect, placeholder, className }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const [ready, setReady] = useState(scriptLoaded);
@@ -96,7 +100,7 @@ export default function AddressAutocomplete({ id, name, required, value, onChang
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder || "Start typing your address..."}
       className={className}
-      autoComplete="off"
+      autoComplete={autoComplete || "shipping address-line1"}
     />
   );
 }

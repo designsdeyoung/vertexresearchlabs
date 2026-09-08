@@ -494,15 +494,15 @@ const Checkout = () => {
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div className="space-y-2">
                       <Label htmlFor="fullName">Full Name *</Label>
-                      <Input id="fullName" required maxLength={100} value={formData.fullName} onChange={(e) => setFormData((prev) => ({ ...prev, fullName: e.target.value }))} placeholder="Dr. Jane Smith" className="bg-secondary/50" />
+                      <Input id="fullName" name="name" autoComplete="shipping name" required maxLength={100} value={formData.fullName} onChange={(e) => setFormData((prev) => ({ ...prev, fullName: e.target.value }))} placeholder="Dr. Jane Smith" className="bg-secondary/50" />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="email">Email Address *</Label>
-                      <Input id="email" type="email" required maxLength={255} value={formData.email} onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))} placeholder="jane.smith@research.edu" className="bg-secondary/50" />
+                      <Input id="email" name="email" type="email" autoComplete="shipping email" required maxLength={255} value={formData.email} onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))} placeholder="jane.smith@research.edu" className="bg-secondary/50" />
                     </div>
                     <div className="space-y-2 sm:col-span-2">
                       <Label htmlFor="phoneNumber">Phone Number *</Label>
-                      <Input id="phoneNumber" type="tel" required maxLength={30} value={formData.phoneNumber} onChange={(e) => setFormData((prev) => ({ ...prev, phoneNumber: e.target.value }))} placeholder="(555) 123-4567" className="bg-secondary/50" />
+                      <Input id="phoneNumber" name="tel" type="tel" autoComplete="shipping tel" required maxLength={30} value={formData.phoneNumber} onChange={(e) => setFormData((prev) => ({ ...prev, phoneNumber: e.target.value }))} placeholder="(555) 123-4567" className="bg-secondary/50" />
                     </div>
                   </div>
                 </div>
@@ -516,7 +516,7 @@ const Checkout = () => {
                   <div className="space-y-4">
                     <div className="space-y-2">
                       <Label htmlFor="organization">Laboratory / Institution / Research Organization *</Label>
-                      <Input id="organization" required maxLength={200} value={formData.organization} onChange={(e) => setFormData((prev) => ({ ...prev, organization: e.target.value }))} placeholder="Organization name" className="bg-secondary/50" />
+                      <Input id="organization" name="organization" autoComplete="organization" required maxLength={200} value={formData.organization} onChange={(e) => setFormData((prev) => ({ ...prev, organization: e.target.value }))} placeholder="Organization name" className="bg-secondary/50" />
                     </div>
                   </div>
                 </div>
@@ -533,6 +533,7 @@ const Checkout = () => {
                       <AddressAutocomplete
                         id="addressLine1"
                         name="addressLine1"
+                        autoComplete="shipping address-line1"
                         required
                         value={formData.addressLine1}
                         onChange={(v) => setFormData((prev) => ({ ...prev, addressLine1: v }))}
@@ -551,26 +552,26 @@ const Checkout = () => {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="addressLine2">Address Line 2 (Optional)</Label>
-                      <Input id="addressLine2" maxLength={200} value={formData.addressLine2} onChange={(e) => setFormData((prev) => ({ ...prev, addressLine2: e.target.value }))} placeholder="Suite 100, Room 205" className="bg-secondary/50" />
+                      <Input id="addressLine2" name="addressLine2" autoComplete="shipping address-line2" maxLength={200} value={formData.addressLine2} onChange={(e) => setFormData((prev) => ({ ...prev, addressLine2: e.target.value }))} placeholder="Suite 100, Room 205" className="bg-secondary/50" />
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="space-y-2">
                         <Label htmlFor="city">City *</Label>
-                        <Input id="city" required maxLength={100} value={formData.city} onChange={(e) => setFormData((prev) => ({ ...prev, city: e.target.value }))} placeholder="San Francisco" className="bg-secondary/50" />
+                        <Input id="city" name="city" autoComplete="shipping address-level2" required maxLength={100} value={formData.city} onChange={(e) => setFormData((prev) => ({ ...prev, city: e.target.value }))} placeholder="San Francisco" className="bg-secondary/50" />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="state">State / Province *</Label>
-                        <Input id="state" required maxLength={100} value={formData.state} onChange={(e) => setFormData((prev) => ({ ...prev, state: e.target.value }))} placeholder="California" className="bg-secondary/50" />
+                        <Input id="state" name="state" autoComplete="shipping address-level1" required maxLength={100} value={formData.state} onChange={(e) => setFormData((prev) => ({ ...prev, state: e.target.value }))} placeholder="California" className="bg-secondary/50" />
                       </div>
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="space-y-2">
                         <Label htmlFor="zipCode">ZIP / Postal Code *</Label>
-                        <Input id="zipCode" required maxLength={20} value={formData.zipCode} onChange={(e) => setFormData((prev) => ({ ...prev, zipCode: e.target.value }))} placeholder="94102" className="bg-secondary/50" />
+                        <Input id="zipCode" name="postal-code" inputMode="numeric" autoComplete="shipping postal-code" required maxLength={20} value={formData.zipCode} onChange={(e) => setFormData((prev) => ({ ...prev, zipCode: e.target.value }))} placeholder="94102" className="bg-secondary/50" />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="country">Country *</Label>
-                        <Input id="country" required maxLength={100} value={formData.country} onChange={(e) => setFormData((prev) => ({ ...prev, country: e.target.value }))} placeholder="United States" className="bg-secondary/50" />
+                        <Input id="country" name="country" autoComplete="shipping country-name" required maxLength={100} value={formData.country} onChange={(e) => setFormData((prev) => ({ ...prev, country: e.target.value }))} placeholder="United States" className="bg-secondary/50" />
                       </div>
                     </div>
                   </div>

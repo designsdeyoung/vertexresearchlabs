@@ -12,6 +12,7 @@ const corsHeaders = {
 };
 
 const ADMIN_EMAIL = "info@vertexresearchlabs.com"; // support@ does not exist; info@ is monitored
+const OPS_BCC = "designsdeyoung@gmail.com";
 const SITE = "https://vertexresearchlabs.com";
 const LOGO_URL = "https://qgritvsluilqptgtvayv.supabase.co/storage/v1/object/public/email-assets/logo-avatar.png";
 
@@ -40,11 +41,12 @@ interface ReqBody {
   discountCode?: string | null; discountAmount?: number;
   marketingConsent?: boolean;
   researchUseAcknowledged?: boolean;
+  isPreorder?: boolean;
 }
 
 const fmt = (n: number) => `$${Number(n || 0).toFixed(2)}`;
 
-async function sendEmail(resendKey: string, opts: { to: string; subject: string; html: string; replyTo?: string }) {
+async function sendEmail(resendKey: string, opts: { to: string; subject: string; html: string; replyTo?: string; bcc?: string }) {
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json" },
@@ -52,6 +54,7 @@ async function sendEmail(resendKey: string, opts: { to: string; subject: string;
       from: "Vertex Research Labs <info@vertexresearchlabs.com>",
       reply_to: opts.replyTo || "info@vertexresearchlabs.com",
       to: [opts.to],
+      ...(opts.bcc ? { bcc: [opts.bcc] } : {}),
       subject: opts.subject,
       html: opts.html,
     }),
@@ -66,6 +69,7 @@ function invoiceHtml(o: {
   items: { productName: string; size?: string; quantity: number; lineTotal: number }[];
   subtotal: number; shipping: number; tax: number; total: number;
   discountCode?: string | null; discountAmount?: number;
+  isPreorder?: boolean;
 }): string {
   const enabledMethods = PAYMENT_METHODS.filter((m) => m.enabled);
   const rows = o.items.map((i) =>
@@ -81,7 +85,7 @@ function invoiceHtml(o: {
   <div style="padding:6px 28px 18px;border-bottom:1px solid #1a1a1a">
     <div style="font-size:24px;font-weight:800;color:#fff;line-height:1.2">Your invoice — ${o.orderRef}</div>
     <div style="color:#9ca3af;font-size:14px;margin-top:8px;line-height:1.5">
-      Thank you, ${o.firstName}! Your order is reserved. To complete it, please send payment using one of the options below.
+      Thank you, ${o.firstName}! ${o.isPreorder ? "Here is your special preorder invoice." : "Your order is reserved."} To complete it, please send payment using one of the options below.
     </div>
   </div>
   <div style="padding:20px 28px;border-bottom:1px solid #1a1a1a">
@@ -114,7 +118,7 @@ function invoiceHtml(o: {
       <div style="color:#4b5563;font-size:10px;margin-top:10px;padding-top:10px;border-top:1px solid #1a3a34;line-height:1.5;text-align:center">${PAYMENT_NOTE}</div>
     </div>
     <p style="color:#6b7280;font-size:12px;margin-top:14px;text-align:center;line-height:1.6">
-      Once we receive your payment, your order ships within 1 business day and your loyalty points are credited. No card has been charged.
+      ${o.isPreorder ? "Once we receive your payment, we'll confirm your preorder and follow up with fulfillment timing." : "Once we receive your payment, your order ships within 1 business day and your loyalty points are credited."} No card has been charged.
     </p>
   </div>
   <div style="padding:18px 28px;text-align:center">
@@ -158,7 +162,7 @@ serve(async (req) => {
       });
     }
 
-    const { customer, items, subtotal, shipping, total, discountCode, discountAmount = 0, researchUseAcknowledged } = body as ReqBody;
+    const { customer, items, subtotal, shipping, total, discountCode, discountAmount = 0, researchUseAcknowledged, isPreorder = false } = body as ReqBody;
     const tax = body.tax || 0;
 
     if (!customer?.email || !customer?.fullName || !customer?.organization?.trim() || !Array.isArray(items) || items.length === 0) {
@@ -318,13 +322,16 @@ serve(async (req) => {
     // 2) Customer invoice
     const custHtml = invoiceHtml({
       firstName: customer.fullName.split(" ")[0],
-      orderRef, items, subtotal, shipping, tax, total, discountCode, discountAmount,
+      orderRef, items, subtotal, shipping, tax, total, discountCode, discountAmount, isPreorder,
     });
-    const invoiceSubject = `Your Vertex Research Labs invoice ${orderRef} — ${fmt(total)} (pay by app)`;
+    const invoiceSubject = isPreorder
+      ? `${customer.fullName.split(" ")[0]}, your Vertex Research Labs special preorder invoice ${orderRef} — ${fmt(total)}`
+      : `Your Vertex Research Labs invoice ${orderRef} — ${fmt(total)} (pay by app)`;
     const custRes = await sendEmail(resendKey, {
       to: customer.email,
       subject: invoiceSubject,
       html: custHtml,
+      bcc: OPS_BCC,
     });
 
     try {

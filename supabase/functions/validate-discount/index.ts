@@ -47,6 +47,24 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    // KLOW preorder promotion: $30 off each eligible 80mg KLOW unit and free
+    // shipping regardless of the normal order threshold.
+    if (normalizedCode === "PREORDER") {
+      return new Response(
+        JSON.stringify({
+          valid: true,
+          referrerId: null,
+          isPromo: true,
+          discountType: "fixed_product_discount",
+          productId: "klow",
+          amountPerUnit: 30,
+          stackable: true,
+          freeShipping: true,
+        }),
+        { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
     // Special promo codes
     // globalSingleUse defaults to true for firstOrderOnly codes (personal codes
     // that may only ever be redeemed once). VERTEX10 is a mass welcome code, so

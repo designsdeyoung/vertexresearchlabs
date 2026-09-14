@@ -1,6 +1,9 @@
 export const NAD_TREAT_CODE = "NADTREAT";
 export const NAD_TREAT_PRODUCT_ID = "nad-plus-1000";
 export const NAD_TREAT_UNIT_PRICE = 120;
+export const PREORDER_CODE = "PREORDER";
+export const PREORDER_PRODUCT_ID = "klow";
+export const PREORDER_UNIT_DISCOUNT = 30;
 
 export interface DiscountableItem {
   productId: string;
@@ -19,6 +22,19 @@ export const calculateNadTreatDiscount = (items: DiscountableItem[]): number => 
 
   return discountCents / 100;
 };
+
+export const calculatePreorderDiscount = (items: DiscountableItem[]): number => {
+  const discountCents = items.reduce((sum, item) => {
+    if (item.productId !== PREORDER_PRODUCT_ID || item.quantity <= 0) return sum;
+    const unitDiscountCents = Math.min(toCents(item.unitPrice), toCents(PREORDER_UNIT_DISCOUNT));
+    return sum + unitDiscountCents * item.quantity;
+  }, 0);
+
+  return discountCents / 100;
+};
+
+export const hasPreorderEligibleItem = (items: DiscountableItem[]): boolean =>
+  items.some((item) => item.productId === PREORDER_PRODUCT_ID && item.quantity > 0);
 
 export const calculatePercentageDiscount = (
   subtotal: number,

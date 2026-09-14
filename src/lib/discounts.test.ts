@@ -1,8 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
   calculateNadTreatDiscount,
+  calculatePreorderDiscount,
   calculatePercentageDiscount,
+  hasPreorderEligibleItem,
   NAD_TREAT_PRODUCT_ID,
+  PREORDER_PRODUCT_ID,
 } from "./discounts";
 
 describe("NADTREAT", () => {
@@ -24,5 +27,28 @@ describe("NADTREAT", () => {
       { productId: NAD_TREAT_PRODUCT_ID, unitPrice: 150, quantity: 1 },
     ]);
     expect(calculatePercentageDiscount(150, productDiscount, 0.1)).toBe(12);
+  });
+});
+
+describe("PREORDER", () => {
+  it("discounts each KLOW unit by $30", () => {
+    expect(calculatePreorderDiscount([
+      { productId: PREORDER_PRODUCT_ID, unitPrice: 129, quantity: 2 },
+    ])).toBe(60);
+  });
+
+  it("does not discount non-KLOW products", () => {
+    expect(calculatePreorderDiscount([
+      { productId: NAD_TREAT_PRODUCT_ID, unitPrice: 150, quantity: 1 },
+    ])).toBe(0);
+  });
+
+  it("grants the shipping override only when KLOW is present", () => {
+    expect(hasPreorderEligibleItem([
+      { productId: PREORDER_PRODUCT_ID, unitPrice: 50, quantity: 1 },
+    ])).toBe(true);
+    expect(hasPreorderEligibleItem([
+      { productId: NAD_TREAT_PRODUCT_ID, unitPrice: 50, quantity: 1 },
+    ])).toBe(false);
   });
 });

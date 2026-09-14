@@ -21,10 +21,15 @@ import { finalizeOrder, PENDING_ORDER_KEY, type PendingOrder } from "@/lib/final
 import { MANUAL_INVOICE_MODE } from "@/config/checkoutMode";
 import {
   calculateNadTreatDiscount,
+  calculatePreorderDiscount,
   calculatePercentageDiscount,
+  hasPreorderEligibleItem,
   NAD_TREAT_CODE,
   NAD_TREAT_PRODUCT_ID,
   NAD_TREAT_UNIT_PRICE,
+  PREORDER_CODE,
+  PREORDER_PRODUCT_ID,
+  PREORDER_UNIT_DISCOUNT,
 } from "@/lib/discounts";
 
 interface ActiveCredit {
@@ -72,6 +77,7 @@ const Checkout = () => {
   const [discountLoading, setDiscountLoading] = useState(false);
   const [appliedDiscountCode, setAppliedDiscountCode] = useState<string | null>(null);
   const [nadTreatApplied, setNadTreatApplied] = useState(false);
+  const [preorderApplied, setPreorderApplied] = useState(false);
   const [discountReferrerId, setDiscountReferrerId] = useState<string | null>(null);
   const [promoFreeShipping, setPromoFreeShipping] = useState(false);
   const [discountMessage, setDiscountMessage] = useState<string | null>(null);
@@ -91,17 +97,34 @@ const Checkout = () => {
         quantity: item.quantity,
       })))
     : 0;
+  const preorderDiscount = preorderApplied
+    ? calculatePreorderDiscount(items.map((item) => ({
+        productId: item.product.id,
+        unitPrice: computeUnitPrice(item),
+        quantity: item.quantity,
+      })))
+    : 0;
+  const productDiscount = nadTreatDiscount + preorderDiscount;
   // Product promotions apply first. One customer/referral percentage code may
   // stack on the adjusted subtotal, followed by Vertex Credit below.
   const percentageDiscount = appliedDiscountCode
-    ? calculatePercentageDiscount(subtotal, nadTreatDiscount, discountRate)
+    ? calculatePercentageDiscount(subtotal, productDiscount, discountRate)
     : 0;
-  const discountAmount = nadTreatDiscount + percentageDiscount;
-  const appliedDiscountCodes = [nadTreatApplied ? NAD_TREAT_CODE : null, appliedDiscountCode].filter(Boolean) as string[];
+  const discountAmount = productDiscount + percentageDiscount;
+  const appliedDiscountCodes = [
+    nadTreatApplied ? NAD_TREAT_CODE : null,
+    preorderApplied ? PREORDER_CODE : null,
+    appliedDiscountCode,
+  ].filter(Boolean) as string[];
   const recordedDiscountCode = appliedDiscountCodes.join(" + ") || null;
 
   // Override shipping when promo grants free shipping
-  const effectiveShipping = promoFreeShipping ? 0 : shippingCost;
+  const preorderFreeShipping = preorderApplied && hasPreorderEligibleItem(items.map((item) => ({
+    productId: item.product.id,
+    unitPrice: computeUnitPrice(item),
+    quantity: item.quantity,
+  })));
+  const effectiveShipping = promoFreeShipping || preorderFreeShipping ? 0 : shippingCost;
   const effectiveTotal = subtotal + effectiveShipping;
 
   // Credits and discount codes stack: the % applies to the subtotal first, then
@@ -141,6 +164,18 @@ const Checkout = () => {
           setNadTreatApplied(true);
           setDiscountValid(true);
           setDiscountMessage(`NADTREAT applied — NAD+ 1000mg is $${NAD_TREAT_UNIT_PRICE}. You can add another coupon too.`);
+          return;
+        }
+        if (data.discountType === "fixed_product_discount") {
+          const hasEligibleProduct = items.some((item) => item.product.id === PREORDER_PRODUCT_ID);
+          if (!hasEligibleProduct) {
+            setDiscountValid(false);
+            setDiscountMessage("PREORDER applies to KLOW 80mg. Add it to your cart first.");
+            return;
+          }
+          setPreorderApplied(true);
+          setDiscountValid(true);
+          setDiscountMessage(`PREORDER applied — $${PREORDER_UNIT_DISCOUNT} off each KLOW 80mg + free shipping.`);
           return;
         }
         setDiscountValid(true);
@@ -622,6 +657,12 @@ const Checkout = () => {
                           <button type="button" className="text-muted-foreground hover:text-foreground underline" onClick={() => setNadTreatApplied(false)}>Remove</button>
                         </div>
                       )}
+                      {preorderApplied && (
+                        <div className="flex items-center justify-between gap-3 text-xs rounded-md border border-primary/20 bg-primary/5 px-3 py-2">
+                          <span><strong>{PREORDER_CODE}</strong> · ${PREORDER_UNIT_DISCOUNT} off each KLOW 80mg + free shipping</span>
+                          <button type="button" className="text-muted-foreground hover:text-foreground underline" onClick={() => setPreorderApplied(false)}>Remove</button>
+                        </div>
+                      )}
                       {appliedDiscountCode && (
                         <div className="flex items-center justify-between gap-3 text-xs rounded-md border border-primary/20 bg-primary/5 px-3 py-2">
                           <span><strong>{appliedDiscountCode}</strong> · {Math.round(discountRate * 100)}% off{promoFreeShipping ? " + free shipping" : ""}</span>
@@ -814,13 +855,13 @@ const Checkout = () => {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">US Shipping</span>
-                    {qualifiesForFreeShipping || promoFreeShipping ? (
+                    {qualifiesForFreeShipping || promoFreeShipping || preorderFreeShipping ? (
                       <span className="text-primary font-medium">FREE</span>
                     ) : (
                       <span className="text-foreground font-medium">{formatPrice(FLAT_RATE_SHIPPING)}</span>
                     )}
                   </div>
-                  {!qualifiesForFreeShipping && !promoFreeShipping && <p className="text-xs text-muted-foreground">Free shipping on orders over ${FREE_SHIPPING_THRESHOLD}</p>}
+                  {!qualifiesForFreeShipping && !promoFreeShipping && !preorderFreeShipping && <p className="text-xs text-muted-foreground">Free shipping on orders over ${FREE_SHIPPING_THRESHOLD}</p>}
 
                   {discountAmount > 0 && (
                     <div className="flex justify-between text-sm">

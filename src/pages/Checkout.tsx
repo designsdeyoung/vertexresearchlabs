@@ -520,6 +520,97 @@ const Checkout = () => {
               )}
 
               <form onSubmit={MANUAL_INVOICE_MODE ? handleSubmitOrderRequest : handleContinueToPayment} className="space-y-6">
+                {/* Discount Code — prominent, optional, and shown before required checkout fields */}
+                <div className="rounded-xl border-2 border-primary/60 bg-primary/[0.08] p-5 shadow-lg shadow-primary/5 sm:p-6">
+                  <div className="mb-4 flex items-start justify-between gap-4">
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                        <Sparkles size={20} />
+                      </div>
+                      <div>
+                        <h2 className="text-xl font-semibold text-foreground">Have a discount code?</h2>
+                        <p className="mt-1 text-sm text-muted-foreground">Enter it here before completing your order.</p>
+                      </div>
+                    </div>
+                    <span className="shrink-0 rounded-full border border-primary/30 bg-background/70 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
+                      Optional
+                    </span>
+                  </div>
+                  <div className="flex flex-col gap-3 sm:flex-row">
+                    <Label htmlFor="discountCode" className="sr-only">Discount code (optional)</Label>
+                    <Input
+                      id="discountCode"
+                      name="discountCode"
+                      autoComplete="off"
+                      autoCapitalize="characters"
+                      aria-describedby="discount-code-help"
+                      placeholder="ENTER DISCOUNT CODE"
+                      value={discountCode}
+                      onChange={(e) => {
+                        setDiscountCode(e.target.value.toUpperCase());
+                        if (discountValid !== null) {
+                          setDiscountValid(null);
+                          setDiscountMessage(null);
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          if (discountCode.trim() && !discountLoading) void handleApplyDiscount();
+                        }
+                      }}
+                      className="h-12 flex-1 border-primary/30 bg-background/80 text-base font-semibold uppercase tracking-wide placeholder:font-normal placeholder:tracking-normal"
+                      maxLength={30}
+                    />
+                    <Button
+                      type="button"
+                      variant="hero"
+                      className="h-12 min-w-28"
+                      onClick={handleApplyDiscount}
+                      disabled={discountLoading || !discountCode.trim()}
+                    >
+                      {discountLoading ? "Applying…" : "Apply Code"}
+                    </Button>
+                  </div>
+                  <p id="discount-code-help" className="mt-2 text-xs text-muted-foreground">
+                    Don&apos;t have one? No problem—this field is not required.
+                  </p>
+                  {discountValid === true && (
+                    <p className="mt-2 flex items-center gap-1 text-sm font-medium text-primary" role="status">
+                      <Sparkles size={12} /> {discountMessage || "Coupon applied."}
+                    </p>
+                  )}
+                  {discountValid === false && (
+                    <p className="mt-2 text-sm font-medium text-destructive" role="alert">{discountMessage || "Invalid or expired code. Please try again."}</p>
+                  )}
+                  {appliedDiscountCodes.length > 0 && (
+                    <div className="mt-3 space-y-2">
+                      {nadTreatApplied && (
+                        <div className="flex items-center justify-between gap-3 rounded-md border border-primary/20 bg-background/60 px-3 py-2 text-xs">
+                          <span><strong>{NAD_TREAT_CODE}</strong> · NAD+ 1000mg is ${NAD_TREAT_UNIT_PRICE}</span>
+                          <button type="button" className="text-muted-foreground underline hover:text-foreground" onClick={() => setNadTreatApplied(false)}>Remove</button>
+                        </div>
+                      )}
+                      {preorderApplied && (
+                        <div className="flex items-center justify-between gap-3 rounded-md border border-primary/20 bg-background/60 px-3 py-2 text-xs">
+                          <span><strong>{PREORDER_CODE}</strong> · ${PREORDER_UNIT_DISCOUNT} off each KLOW 80mg + free shipping</span>
+                          <button type="button" className="text-muted-foreground underline hover:text-foreground" onClick={() => setPreorderApplied(false)}>Remove</button>
+                        </div>
+                      )}
+                      {appliedDiscountCode && (
+                        <div className="flex items-center justify-between gap-3 rounded-md border border-primary/20 bg-background/60 px-3 py-2 text-xs">
+                          <span><strong>{appliedDiscountCode}</strong> · {Math.round(discountRate * 100)}% off{promoFreeShipping ? " + free shipping" : ""}</span>
+                          <button type="button" className="text-muted-foreground underline hover:text-foreground" onClick={() => {
+                            setAppliedDiscountCode(null);
+                            setDiscountReferrerId(null);
+                            setPromoFreeShipping(false);
+                          }}>Remove</button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
                 {/* Contact Information */}
                 <div className="glass-card rounded-lg p-6">
                   <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
@@ -610,71 +701,6 @@ const Checkout = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-
-                {/* Discount Code */}
-                <div className="glass-card rounded-lg p-6">
-                  <h2 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
-                    <Sparkles size={20} className="text-primary" />
-                    Discount Code
-                  </h2>
-                  <div className="flex gap-2">
-                    <Input
-                      placeholder=""
-                      value={discountCode}
-                      onChange={(e) => {
-                        setDiscountCode(e.target.value.toUpperCase());
-                        if (discountValid !== null) {
-                          setDiscountValid(null);
-                          setDiscountMessage(null);
-                        }
-                      }}
-                      className="bg-secondary/50 uppercase"
-                      maxLength={30}
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={handleApplyDiscount}
-                      disabled={discountLoading || !discountCode.trim()}
-                    >
-                      {discountLoading ? "..." : "Apply"}
-                    </Button>
-                  </div>
-                  {discountValid === true && (
-                    <p className="text-xs text-primary mt-2 flex items-center gap-1">
-                      <Sparkles size={10} /> {discountMessage || "Coupon applied."}
-                    </p>
-                  )}
-                  {discountValid === false && (
-                    <p className="text-xs text-destructive mt-2">{discountMessage || "Invalid or expired code. Please try again."}</p>
-                  )}
-                  {appliedDiscountCodes.length > 0 && (
-                    <div className="mt-3 space-y-2">
-                      {nadTreatApplied && (
-                        <div className="flex items-center justify-between gap-3 text-xs rounded-md border border-primary/20 bg-primary/5 px-3 py-2">
-                          <span><strong>{NAD_TREAT_CODE}</strong> · NAD+ 1000mg is ${NAD_TREAT_UNIT_PRICE}</span>
-                          <button type="button" className="text-muted-foreground hover:text-foreground underline" onClick={() => setNadTreatApplied(false)}>Remove</button>
-                        </div>
-                      )}
-                      {preorderApplied && (
-                        <div className="flex items-center justify-between gap-3 text-xs rounded-md border border-primary/20 bg-primary/5 px-3 py-2">
-                          <span><strong>{PREORDER_CODE}</strong> · ${PREORDER_UNIT_DISCOUNT} off each KLOW 80mg + free shipping</span>
-                          <button type="button" className="text-muted-foreground hover:text-foreground underline" onClick={() => setPreorderApplied(false)}>Remove</button>
-                        </div>
-                      )}
-                      {appliedDiscountCode && (
-                        <div className="flex items-center justify-between gap-3 text-xs rounded-md border border-primary/20 bg-primary/5 px-3 py-2">
-                          <span><strong>{appliedDiscountCode}</strong> · {Math.round(discountRate * 100)}% off{promoFreeShipping ? " + free shipping" : ""}</span>
-                          <button type="button" className="text-muted-foreground hover:text-foreground underline" onClick={() => {
-                            setAppliedDiscountCode(null);
-                            setDiscountReferrerId(null);
-                            setPromoFreeShipping(false);
-                          }}>Remove</button>
-                        </div>
-                      )}
-                    </div>
-                  )}
                 </div>
 
                 {/* Credit Redemption — works for logged-in users AND guests via email lookup */}

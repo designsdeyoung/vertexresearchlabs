@@ -131,7 +131,10 @@ const Checkout = () => {
   // the Vertex Credit comes off whatever is left, capped at max_percent of the
   // already-discounted total so a 100%-cap credit can't overshoot it.
   const discountedTotal = Math.max(0, effectiveTotal - discountAmount);
-  const creditDiscount = selectedCredit
+  // Manual-invoice orders can't consume a Vertex Credit (submit-order-request
+  // reconciles totals without credits and never marks a credit used), so
+  // credits only apply to card checkout.
+  const creditDiscount = selectedCredit && !MANUAL_INVOICE_MODE
     ? Math.min(selectedCredit.amount, discountedTotal * (selectedCredit.max_percent / 100))
     : 0;
   const finalTotal = Math.max(0, discountedTotal - creditDiscount);
@@ -704,15 +707,24 @@ const Checkout = () => {
                 </div>
 
                 {/* Credit Redemption — works for logged-in users AND guests via email lookup */}
-                <CreditRedemption
-                  profileId={profile?.id}
-                  email={formData.email}
-                  cartTotal={total}
-                  pointsBalance={profile?.points_balance ?? 0}
-                  isAuthenticated={!!profile?.id}
-                  selectedCredit={selectedCredit}
-                  onSelectCredit={handleSelectCredit}
-                />
+                {MANUAL_INVOICE_MODE ? (
+                  <div className="glass-card rounded-lg p-6">
+                    <p className="text-sm text-muted-foreground">
+                      Vertex Credits can&apos;t be applied to invoice orders while card checkout is paused.
+                      Your points and credits are saved for a future order.
+                    </p>
+                  </div>
+                ) : (
+                  <CreditRedemption
+                    profileId={profile?.id}
+                    email={formData.email}
+                    cartTotal={total}
+                    pointsBalance={profile?.points_balance ?? 0}
+                    isAuthenticated={!!profile?.id}
+                    selectedCredit={selectedCredit}
+                    onSelectCredit={handleSelectCredit}
+                  />
+                )}
 
                 {/* Additional Notes */}
                 <div className="glass-card rounded-lg p-6">
